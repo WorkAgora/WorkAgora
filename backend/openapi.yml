@@ -1,0 +1,272 @@
+openapi: 3.0.0
+info:
+  title: WorkAurora API
+  version: 1.0.0
+servers:
+  - url: https://api.aurora.xyz
+paths:
+  /api/register:
+    post:
+      summary: Register a new user with wallet signature (SIWE) and email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                walletSignature:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Registration successful
+        '400':
+            description: Invalid email address or wallet signature
+        '500':
+            description: Internal server error
+
+  /api/login:
+    post:
+      summary: Authenticate the user using their wallet signature (SIWE)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                walletSignature:
+                  type: string
+      responses:
+        '200':
+          description: Wallet-based authentication successful
+        '400':
+            description: Invalid wallet signature
+        '401':
+            description: User not registered
+
+
+  /api/rating/worker:
+    post:
+      summary: Rate a worker based on their performance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workerAddress:
+                  type: string
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+      responses:
+        '200':
+          description: Worker rating submitted
+
+  /api/rating/recruiter:
+    post:
+      summary: Rate a recruiter based on their performance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recruiterAddress:
+                  type: string
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+      responses:
+        '200':
+          description: Recruiter rating submitted
+
+  /api/rating/worker/{workerAddress}:
+    get:
+      summary: Retrieve the rating of a specific worker
+      parameters:
+        - name: workerAddress
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Worker rating retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rating:
+                    type: integer
+
+  /api/rating/recruiter/{recruiterAddress}:
+    get:
+      summary: Retrieve the rating of a specific recruiter
+      parameters:
+        - name: recruiterAddress
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recruiter rating retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rating:
+                    type: integer
+
+  /api/message/send:
+    post:
+      summary: Send a message from one user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderAddress:
+                  type: string
+                recipientAddress:
+                  type: string
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Message sent successfully
+  /api/message/{convId}:
+    get:
+      summary: Retrieve the conversation between two users
+      parameters:
+        - name: senderAddress
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recipientAddress
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Conversation retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        senderAddress:
+                          type: string
+                        recipientAddress:
+                          type: string
+                        message:
+                          type: string
+                        timestamp:
+                          type: string
+                          format: date-time
+  /api/deals:
+    post:
+      summary: Create a new deal between worker and recruiter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workerAddress:
+                  type: string
+                recruiterAddress:
+                  type: string
+                objectives:
+                  type: string
+                remuneration:
+                  type: number
+                currency:
+                  type: string
+                  enum: [ USDC, USDT, ETH ]
+                depositPercentage:
+                  type: number
+                attachments:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Deal created successfully
+  /api/deals/{dealId}:
+    get:
+      summary: Get the details of a specific deal
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deal details retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  workerAddress:
+                    type: string
+                  recruiterAddress:
+                    type: string
+                  objectives:
+                    type: string
+                  remuneration:
+                    type: number
+                  currency:
+                    type: string
+                  depositPercentage:
+                    type: number
+                  attachments:
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    type: string
+  /api/deals/{dealId}/status:
+    put:
+      summary: Update the status of a specific deal
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [ pending, in_progress, completed, canceled ]
+      responses:
+        '200':
+          description: Deal status updated successfully
