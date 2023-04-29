@@ -9,11 +9,16 @@ This repo use :
 
 First you will need to install the package :
 
+**_If you don't have yarn install it :)_**
+
 ```bash
 $ yarn
 ```
 
-if you don't have yarn install it :)
+In a second time you must copy `.env.example` to `.env` and fill the different API key used :
+
+- `COINMARKETCAP_API_KEY` -> get one on [coinmarketcap](https://coinmarketcap.com/api/)
+- `SNOWTRACE_API_KEY` -> get one on [snowtrace](https://snowtrace.io/)
 
 ## How to deploy a contract
 

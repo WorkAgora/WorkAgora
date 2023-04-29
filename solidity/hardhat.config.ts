@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+import '@primitivefi/hardhat-dodoc';
 dotenv.config();
 
 const config: HardhatUserConfig = {
@@ -37,6 +38,25 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+  },
+  gasReporter: {
+    enabled: process.env.REPORT_GAS !== undefined,
+    currency: 'USD',
+    token: 'AVAX',
+    showTimeSpent: true,
+    showMethodSig: true,
+    coinmarketcap: process.env.COINMARKETCAP_API_KEY ?? '',
+  },
+  etherscan: {
+    apiKey: {
+      testnet: process.env.SNOWTRACE_API_KEY ?? '',
+      mainnet: process.env.SNOWTRACE_API_KEY ?? '',
+    },
+  },
+  dodoc: {
+    runOnCompile: true,
+    exclude: [],
+    outputDir: 'docs',
   },
 };
 
