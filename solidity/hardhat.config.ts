@@ -6,6 +6,8 @@ import * as tdly from '@tenderly/hardhat-tenderly';
 tdly.setup();
 dotenv.config();
 
+// @TODO: Add foundry for solidity test
+
 const config: HardhatUserConfig = {
   solidity: {
     version: '0.8.19',
