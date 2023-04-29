@@ -4,7 +4,7 @@ import '@nomicfoundation/hardhat-toolbox';
 import '@primitivefi/hardhat-dodoc';
 import * as tdly from '@tenderly/hardhat-tenderly';
 tdly.setup();
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 // @TODO: Add foundry for solidity test
 
@@ -14,9 +14,9 @@ const config: HardhatUserConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200,
-      },
-    },
+        runs: 200
+      }
+    }
   },
   networks: {
     hardhat: {
@@ -27,26 +27,23 @@ const config: HardhatUserConfig = {
         path: "m/44'/60'/0'/0",
         initialIndex: 0,
         count: 50,
-        passphrase: '',
-      },
+        passphrase: ''
+      }
     },
     tenderlyFork: {
       url: process.env.TENDERLY_FORK ?? '',
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : []
     },
     testnet: {
-      url: process.env.TESTNET_RPC_URL,
+      url: process.env.NEXT_PUBLIC_TESTNET_RPC_URL,
       chainId: 43113,
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : []
     },
     mainnet: {
-      url: process.env.MAINNET_RPC_URL,
+      url: process.env.NEXT_PUBLIC_MAINNET_RPC_URL,
       chainId: 43114,
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-    },
+      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : []
+    }
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
@@ -54,24 +51,24 @@ const config: HardhatUserConfig = {
     token: 'AVAX',
     showTimeSpent: true,
     showMethodSig: true,
-    coinmarketcap: process.env.COINMARKETCAP_API_KEY ?? '',
+    coinmarketcap: process.env.COINMARKETCAP_API_KEY ?? ''
   },
   etherscan: {
     apiKey: {
       testnet: process.env.SNOWTRACE_API_KEY ?? '',
-      mainnet: process.env.SNOWTRACE_API_KEY ?? '',
-    },
+      mainnet: process.env.SNOWTRACE_API_KEY ?? ''
+    }
   },
   tenderly: {
     username: process.env.TENDERLY_USERNAME ?? '',
     project: process.env.TENDERLY_PROJECT ?? '',
-    privateVerification: false,
+    privateVerification: false
   },
   dodoc: {
     runOnCompile: true,
     exclude: [],
-    outputDir: 'docs',
-  },
+    outputDir: 'docs'
+  }
 };
 
 export default config;

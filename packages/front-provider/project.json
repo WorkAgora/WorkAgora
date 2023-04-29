@@ -1,0 +1,16 @@
+{
+  "name": "front-provider",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/front-provider/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/front-provider/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}
