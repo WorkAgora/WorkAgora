@@ -2,6 +2,8 @@ import * as dotenv from 'dotenv';
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 import '@primitivefi/hardhat-dodoc';
+import * as tdly from '@tenderly/hardhat-tenderly';
+tdly.setup();
 dotenv.config();
 
 const config: HardhatUserConfig = {
@@ -25,6 +27,11 @@ const config: HardhatUserConfig = {
         count: 50,
         passphrase: '',
       },
+    },
+    tenderlyFork: {
+      url: process.env.TENDERLY_FORK ?? '',
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     testnet: {
       url: process.env.TESTNET_RPC_URL,
@@ -52,6 +59,11 @@ const config: HardhatUserConfig = {
       testnet: process.env.SNOWTRACE_API_KEY ?? '',
       mainnet: process.env.SNOWTRACE_API_KEY ?? '',
     },
+  },
+  tenderly: {
+    username: process.env.TENDERLY_USERNAME ?? '',
+    project: process.env.TENDERLY_PROJECT ?? '',
+    privateVerification: false,
   },
   dodoc: {
     runOnCompile: true,

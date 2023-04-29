@@ -19,6 +19,7 @@ In a second time you must copy `.env.example` to `.env` and fill the different A
 
 - `COINMARKETCAP_API_KEY` -> get one on [coinmarketcap](https://coinmarketcap.com/api/)
 - `SNOWTRACE_API_KEY` -> get one on [snowtrace](https://snowtrace.io/)
+- `Tenderly` -> you must create an account [here](https://tenderly.co/)
 
 ## How to deploy a contract
 
