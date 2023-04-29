@@ -2,7 +2,7 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { ethers } from 'hardhat';
 import { KeyValueLog, TitleLog } from './logger';
 
-const getOwner = async (log = false): Promise<SignerWithAddress> => {
+const getOwner = async (log: boolean = false): Promise<SignerWithAddress> => {
   const [owner] = await ethers.getSigners();
   log &&
     console.log(
