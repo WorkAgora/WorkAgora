@@ -1,13 +1,24 @@
-# Sample Hardhat Project
+# WorkAurora - Solidity
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This repo use :
 
-Try running some of the following tasks:
+- Hardhat
+- Chai/Jest
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+## How to start with
+
+First you will need to install the package :
+
+```bash
+$ yarn
 ```
+
+if you don't have yarn install it :)
+
+## How to deploy a contract
+
+There is three configured network :
+
+- hardhat : Local network
+- testnet : [Avalanche Fuji Testnet](https://chainlist.org/chain/43113)
+- mainnet : [Avalanche C-Chain](https://chainlist.org/chain/43114)

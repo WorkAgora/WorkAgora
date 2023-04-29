@@ -1,5 +1,7 @@
+import * as dotenv from 'dotenv';
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -22,6 +24,18 @@ const config: HardhatUserConfig = {
         count: 50,
         passphrase: '',
       },
+    },
+    testnet: {
+      url: process.env.TESTNET_RPC_URL,
+      chainId: 43113,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    mainnet: {
+      url: process.env.MAINNET_RPC_URL,
+      chainId: 43114,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
   },
 };
