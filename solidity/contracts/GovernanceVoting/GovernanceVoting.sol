@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import './IWorkContract.sol';
+import './IGovernanceVoting.sol';
 
-contract WorkContract is IWorkContract {
+contract GovernanceVoting is IGovernanceVoting {
   constructor () {
     
   }
