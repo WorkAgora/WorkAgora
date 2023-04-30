@@ -1,25 +1,16 @@
 import { Schema } from 'dynamoose';
-import { v4 as uuidv4 } from 'uuid';
 
 export const AuthSchema = new Schema({
-  id: {
+  wallet: {
     type: String,
-    hashKey: true,
-    default: uuidv4
+    required: true,
+    hashKey: true
   },
   nonce: {
     type: String
   },
   nonceTimeout: {
     type: Date,
-    default: Date.now() + 'interval 30min'
-  },
-  wallet: {
-    type: String,
-    required: true,
-    index: {
-      type: 'global',
-      name: 'walletIndex'
-    }
+    default: Date.now() + 'interval 5min'
   }
 });

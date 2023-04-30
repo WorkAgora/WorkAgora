@@ -21,29 +21,29 @@ function App({ Component, pageProps }: AppProps) {
         <title>WorkAurora</title>
       </Head>
       <ChakraProvider resetCSS theme={darkTheme}>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <WagmiProvider>
-            <Container
-              maxW="100vw"
-              minW="100vw"
-              minH="100vh"
-              w="100vw"
-              h="100vh"
-              p="0"
-              display="flex"
-              flexDir="column"
-              overflow="hidden"
-              position="relative"
-              bgColor="background"
-              color="white"
-            >
-              <HeaderMenu />
-              <Suspense fallback={'LOADING'}>
-                <Component {...pageProps} />
-              </Suspense>
-            </Container>
-          </WagmiProvider>
-        </SessionProvider>
+        {/* <SessionProvider session={pageProps.session} refetchInterval={0}>*/}
+        <WagmiProvider>
+          <Container
+            maxW="100vw"
+            minW="100vw"
+            minH="100vh"
+            w="100vw"
+            h="100vh"
+            p="0"
+            display="flex"
+            flexDir="column"
+            overflow="hidden"
+            position="relative"
+            bgColor="background"
+            color="white"
+          >
+            <HeaderMenu />
+            <Suspense fallback={'LOADING'}>
+              <Component {...pageProps} />
+            </Suspense>
+          </Container>
+        </WagmiProvider>
+        {/* </SessionProvider> */}
       </ChakraProvider>
     </>
   );

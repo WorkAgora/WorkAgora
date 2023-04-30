@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
         name: 'Auth',
         schema: AuthSchema,
         options: {
-          tableName: 'auth'
+          tableName: '-auth'
         }
       }
     ])

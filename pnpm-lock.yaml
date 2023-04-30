@@ -1,314 +1,220 @@
 lockfileVersion: '6.0'
 
+specifiers:
+  '@babel/preset-react': ^7.14.5
+  '@chakra-ui/react': ^2.6.0
+  '@ethersproject/abi': ^5.7.0
+  '@ethersproject/providers': ^5.7.2
+  '@fontsource/comfortaa': ^4.5.11
+  '@nestjs/common': ^9.0.0
+  '@nestjs/config': ^2.3.1
+  '@nestjs/core': ^9.0.0
+  '@nestjs/passport': ^9.0.3
+  '@nestjs/platform-express': ^9.0.0
+  '@nestjs/schematics': ^9.0.0
+  '@nestjs/swagger': ^6.3.0
+  '@nestjs/testing': ^9.0.0
+  '@nomicfoundation/hardhat-chai-matchers': ^1.0.6
+  '@nomicfoundation/hardhat-network-helpers': ^1.0.8
+  '@nomicfoundation/hardhat-toolbox': ^2.0.2
+  '@nomiclabs/hardhat-ethers': ^2.2.3
+  '@nomiclabs/hardhat-etherscan': ^3.1.7
+  '@nx/cypress': ^16.0.1
+  '@nx/esbuild': 16.0.1
+  '@nx/eslint-plugin': 16.0.1
+  '@nx/jest': 16.0.1
+  '@nx/js': 16.0.1
+  '@nx/linter': 16.0.1
+  '@nx/nest': ^16.0.1
+  '@nx/next': ^16.0.1
+  '@nx/node': 16.0.1
+  '@nx/react': 16.0.1
+  '@nx/webpack': 16.0.1
+  '@nx/workspace': 16.0.1
+  '@primitivefi/hardhat-dodoc': ^0.2.3
+  '@rainbow-me/rainbowkit': ^0.12.12
+  '@tenderly/hardhat-tenderly': ^1.7.2
+  '@testing-library/react': 14.0.0
+  '@typechain/ethers-v5': ^10.2.0
+  '@typechain/hardhat': ^6.1.5
+  '@types/aws-lambda': ^8.10.114
+  '@types/aws-serverless-express': ^3.3.5
+  '@types/jest': ^29.4.0
+  '@types/js-yaml': ^4.0.5
+  '@types/node': 18.14.2
+  '@types/react': 18.0.28
+  '@types/react-dom': 18.0.11
+  '@types/uuid': ^9.0.1
+  '@typescript-eslint/eslint-plugin': ^5.58.0
+  '@typescript-eslint/parser': ^5.58.0
+  aws-lambda: ^1.0.7
+  aws-serverless-express: ^3.4.0
+  axios: ^1.4.0
+  babel-jest: ^29.4.1
+  chai: ^4.3.7
+  chalk: ^5.2.0
+  change-case: ^4.1.2
+  class-validator: ^0.14.0
+  cypress: ^12.2.0
+  dotenv: ^16.0.3
+  dynamodb-localhost: ^0.0.9
+  dynamoose: ^3.2.0
+  esbuild: ^0.17.17
+  eslint: ~8.15.0
+  eslint-config-next: 13.3.0
+  eslint-config-prettier: 8.1.0
+  eslint-plugin-cypress: ^2.10.3
+  eslint-plugin-import: 2.27.5
+  eslint-plugin-jsx-a11y: 6.7.1
+  eslint-plugin-react: 7.32.2
+  eslint-plugin-react-hooks: 4.6.0
+  ethers: ^5.7.2
+  express: ^4.18.2
+  glob-promise: ^6.0.2
+  hardhat: ^2.14.0
+  hardhat-gas-reporter: ^1.0.9
+  i18next: ^22.4.15
+  jest: ^29.4.1
+  jest-environment-jsdom: ^29.4.1
+  jest-environment-node: ^29.4.1
+  joi: ^17.9.2
+  js-yaml: ^4.1.0
+  nestjs-dynamoose: ^0.5.4
+  next: 13.3.0
+  next-auth: ^4.22.1
+  next-i18next: ^13.2.2
+  nx: 16.0.1
+  nx-cloud: latest
+  passport-local: ^1.0.0
+  prettier: ^2.6.2
+  react: 18.2.0
+  react-dom: 18.2.0
+  react-i18next: ^12.2.2
+  react-test-renderer: 18.2.0
+  reflect-metadata: ^0.1.13
+  rxjs: ^7.0.0
+  serverless-dynamodb-local: ^0.2.40
+  serverless-offline: ^12.0.4
+  serverless-plugin-optimize: 4.2.1-rc.1
+  serverless-plugin-typescript: ^2.1.4
+  siwe: ^2.1.4
+  solidity-coverage: ^0.8.2
+  ts-jest: ^29.1.0
+  ts-node: 10.9.1
+  tslib: ^2.3.0
+  typechain: ^8.1.1
+  typescript: ~4.9.5
+  uuid: ^9.0.0
+  wagmi: ^0.12.12
+
 dependencies:
-  '@chakra-ui/react':
-    specifier: ^2.6.0
-    version: 2.6.0(@emotion/react@11.10.8)(@emotion/styled@11.10.8)(@types/react@18.0.28)(framer-motion@10.12.4)(react-dom@18.2.0)(react@18.2.0)
-  '@fontsource/comfortaa':
-    specifier: ^4.5.11
-    version: 4.5.11
-  '@nestjs/common':
-    specifier: ^9.0.0
-    version: 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
-  '@nestjs/config':
-    specifier: ^2.3.1
-    version: 2.3.1(@nestjs/common@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-  '@nestjs/core':
-    specifier: ^9.0.0
-    version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-  '@nestjs/platform-express':
-    specifier: ^9.0.0
-    version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)
-  '@nestjs/swagger':
-    specifier: ^6.3.0
-    version: 6.3.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)
-  '@rainbow-me/rainbowkit':
-    specifier: ^0.12.12
-    version: 0.12.12(@types/react@18.0.28)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@0.12.12)
-  axios:
-    specifier: ^1.0.0
-    version: 1.4.0
-  dynamoose:
-    specifier: ^3.2.0
-    version: 3.2.0
-  express:
-    specifier: ^4.18.2
-    version: 4.18.2
-  i18next:
-    specifier: ^22.4.15
-    version: 22.4.15
-  nestjs-dynamoose:
-    specifier: ^0.5.4
-    version: 0.5.4(@aws-sdk/client-dynamodb@3.321.1)(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(dynamoose@3.2.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-  next:
-    specifier: 13.3.0
-    version: 13.3.0(@babel/core@7.21.5)(react-dom@18.2.0)(react@18.2.0)
-  next-auth:
-    specifier: ^4.22.1
-    version: 4.22.1(next@13.3.0)(react-dom@18.2.0)(react@18.2.0)
-  next-i18next:
-    specifier: ^13.2.2
-    version: 13.2.2(i18next@22.4.15)(next@13.3.0)(react-i18next@12.2.2)(react@18.2.0)
-  react:
-    specifier: 18.2.0
-    version: 18.2.0
-  react-dom:
-    specifier: 18.2.0
-    version: 18.2.0(react@18.2.0)
-  react-i18next:
-    specifier: ^12.2.2
-    version: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
-  reflect-metadata:
-    specifier: ^0.1.13
-    version: 0.1.13
-  rxjs:
-    specifier: ^7.0.0
-    version: 7.8.1
-  tslib:
-    specifier: ^2.3.0
-    version: 2.5.0
-  uuid:
-    specifier: ^9.0.0
-    version: 9.0.0
-  wagmi:
-    specifier: ^0.12.12
-    version: 0.12.12(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
+  '@chakra-ui/react': 2.6.0_ut5q6jbxaki4u45aiaex4ib52m
+  '@fontsource/comfortaa': 4.5.11
+  '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+  '@nestjs/config': 2.3.1_4k3epc74gc2u2qkv5yznawsx6m
+  '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
+  '@nestjs/passport': 9.0.3_xygznos57mh4mi6h22se6rwjhq
+  '@nestjs/platform-express': 9.4.0_gqkob5jndcfeb3wjw72wbdwyne
+  '@nestjs/swagger': 6.3.0_qui5axutg6aiwv6kbo5oaoxhw4
+  '@rainbow-me/rainbowkit': 0.12.12_fui6nrvqrs6y2kvaf4mxklcj5e
+  axios: 1.4.0
+  class-validator: 0.14.0
+  dynamoose: 3.2.0
+  express: 4.18.2
+  i18next: 22.4.15
+  joi: 17.9.2
+  nestjs-dynamoose: 0.5.4_lyii6plmn7hfpg7yblqc5theme
+  next: 13.3.0_5lnmxaau2bs7vcvowl2iwadrxa
+  next-auth: 4.22.1_yucv4tfv7v7nrkw2uguegj6e7e
+  next-i18next: 13.2.2_63fj7pk43k2xxakozdnuncctiy
+  passport-local: 1.0.0
+  react: 18.2.0
+  react-dom: 18.2.0_react@18.2.0
+  react-i18next: 12.2.2_qeiswpmww5mojeeisizknycqfq
+  reflect-metadata: 0.1.13
+  rxjs: 7.8.1
+  siwe: 2.1.4_ethers@5.7.2
+  tslib: 2.5.0
+  uuid: 9.0.0
+  wagmi: 0.12.12_6niq2jm3j2wfrjwac2th7yh3n4
 
 devDependencies:
-  '@babel/preset-react':
-    specifier: ^7.14.5
-    version: 7.18.6(@babel/core@7.21.5)
-  '@ethersproject/abi':
-    specifier: ^5.7.0
-    version: 5.7.0
-  '@ethersproject/providers':
-    specifier: ^5.7.2
-    version: 5.7.2
-  '@nestjs/schematics':
-    specifier: ^9.0.0
-    version: 9.1.0(typescript@4.9.5)
-  '@nestjs/testing':
-    specifier: ^9.0.0
-    version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(@nestjs/platform-express@9.4.0)
-  '@nomicfoundation/hardhat-chai-matchers':
-    specifier: ^1.0.6
-    version: 1.0.6(@nomiclabs/hardhat-ethers@2.2.3)(chai@4.3.7)(ethers@5.7.2)(hardhat@2.14.0)
-  '@nomicfoundation/hardhat-foundry':
-    specifier: ^1.0.1
-    version: 1.0.1(hardhat@2.14.0)
-  '@nomicfoundation/hardhat-network-helpers':
-    specifier: ^1.0.8
-    version: 1.0.8(hardhat@2.14.0)
-  '@nomicfoundation/hardhat-toolbox':
-    specifier: ^2.0.2
-    version: 2.0.2(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@nomicfoundation/hardhat-chai-matchers@1.0.6)(@nomicfoundation/hardhat-network-helpers@1.0.8)(@nomiclabs/hardhat-ethers@2.2.3)(@nomiclabs/hardhat-etherscan@3.1.7)(@typechain/ethers-v5@10.2.0)(@typechain/hardhat@6.1.5)(@types/chai@4.3.5)(@types/mocha@10.0.1)(@types/node@18.14.2)(chai@4.3.7)(ethers@5.7.2)(hardhat-gas-reporter@1.0.9)(hardhat@2.14.0)(solidity-coverage@0.8.2)(ts-node@10.9.1)(typechain@8.1.1)(typescript@4.9.5)
-  '@nomiclabs/hardhat-ethers':
-    specifier: ^2.2.3
-    version: 2.2.3(ethers@5.7.2)(hardhat@2.14.0)
-  '@nomiclabs/hardhat-etherscan':
-    specifier: ^3.1.7
-    version: 3.1.7(hardhat@2.14.0)
-  '@nx/cypress':
-    specifier: ^16.0.1
-    version: 16.0.1(cypress@12.11.0)(eslint@8.15.0)(nx@16.0.1)(typescript@4.9.5)
-  '@nx/esbuild':
-    specifier: 16.0.1
-    version: 16.0.1(esbuild@0.17.18)(nx@16.0.1)(typescript@4.9.5)
-  '@nx/eslint-plugin':
-    specifier: 16.0.1
-    version: 16.0.1(@typescript-eslint/parser@5.59.1)(eslint-config-prettier@8.1.0)(eslint@8.15.0)(nx@16.0.1)(typescript@4.9.5)
-  '@nx/jest':
-    specifier: 16.0.1
-    version: 16.0.1(@types/node@18.14.2)(nx@16.0.1)(ts-node@10.9.1)(typescript@4.9.5)
-  '@nx/js':
-    specifier: 16.0.1
-    version: 16.0.1(nx@16.0.1)(typescript@4.9.5)
-  '@nx/linter':
-    specifier: 16.0.1
-    version: 16.0.1(eslint@8.15.0)(nx@16.0.1)(typescript@4.9.5)
-  '@nx/nest':
-    specifier: ^16.0.1
-    version: 16.0.1(@types/node@18.14.2)(eslint@8.15.0)(nx@16.0.1)(ts-node@10.9.1)(typescript@4.9.5)
-  '@nx/next':
-    specifier: ^16.0.1
-    version: 16.0.1(@babel/core@7.21.5)(@types/node@18.14.2)(eslint@8.15.0)(next@13.3.0)(nx@16.0.1)(typescript@4.9.5)(webpack@5.81.0)
-  '@nx/node':
-    specifier: 16.0.1
-    version: 16.0.1(@types/node@18.14.2)(eslint@8.15.0)(nx@16.0.1)(ts-node@10.9.1)(typescript@4.9.5)
-  '@nx/react':
-    specifier: 16.0.1
-    version: 16.0.1(eslint@8.15.0)(nx@16.0.1)(typescript@4.9.5)(webpack@5.81.0)
-  '@nx/webpack':
-    specifier: 16.0.1
-    version: 16.0.1(@types/node@18.14.2)(esbuild@0.17.18)(nx@16.0.1)(typescript@4.9.5)
-  '@nx/workspace':
-    specifier: 16.0.1
-    version: 16.0.1
-  '@openzeppelin/hardhat-upgrades':
-    specifier: ^1.23.1
-    version: 1.23.1(@nomiclabs/hardhat-ethers@2.2.3)(@nomiclabs/hardhat-etherscan@3.1.7)(ethers@5.7.2)(hardhat@2.14.0)
-  '@primitivefi/hardhat-dodoc':
-    specifier: ^0.2.3
-    version: 0.2.3(hardhat@2.14.0)(squirrelly@8.0.8)
-  '@tenderly/hardhat-tenderly':
-    specifier: ^1.7.2
-    version: 1.7.2(hardhat@2.14.0)(ts-node@10.9.1)(typescript@4.9.5)
-  '@testing-library/react':
-    specifier: 14.0.0
-    version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
-  '@typechain/ethers-v5':
-    specifier: ^10.2.0
-    version: 10.2.0(@ethersproject/abi@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/providers@5.7.2)(ethers@5.7.2)(typechain@8.1.1)(typescript@4.9.5)
-  '@typechain/hardhat':
-    specifier: ^6.1.5
-    version: 6.1.5(@ethersproject/abi@5.7.0)(@ethersproject/providers@5.7.2)(@typechain/ethers-v5@10.2.0)(ethers@5.7.2)(hardhat@2.14.0)(typechain@8.1.1)
-  '@types/aws-lambda':
-    specifier: ^8.10.114
-    version: 8.10.114
-  '@types/aws-serverless-express':
-    specifier: ^3.3.5
-    version: 3.3.5
-  '@types/jest':
-    specifier: ^29.4.0
-    version: 29.5.1
-  '@types/js-yaml':
-    specifier: ^4.0.5
-    version: 4.0.5
-  '@types/node':
-    specifier: 18.14.2
-    version: 18.14.2
-  '@types/react':
-    specifier: 18.0.28
-    version: 18.0.28
-  '@types/react-dom':
-    specifier: 18.0.11
-    version: 18.0.11
-  '@types/uuid':
-    specifier: ^9.0.1
-    version: 9.0.1
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^5.58.0
-    version: 5.59.1(@typescript-eslint/parser@5.59.1)(eslint@8.15.0)(typescript@4.9.5)
-  '@typescript-eslint/parser':
-    specifier: ^5.58.0
-    version: 5.59.1(eslint@8.15.0)(typescript@4.9.5)
-  aws-lambda:
-    specifier: ^1.0.7
-    version: 1.0.7
-  aws-serverless-express:
-    specifier: ^3.4.0
-    version: 3.4.0
-  babel-jest:
-    specifier: ^29.4.1
-    version: 29.5.0(@babel/core@7.21.5)
-  chai:
-    specifier: ^4.3.7
-    version: 4.3.7
-  chalk:
-    specifier: ^4.1.2
-    version: 4.1.2
-  change-case:
-    specifier: ^4.1.2
-    version: 4.1.2
-  cypress:
-    specifier: ^12.2.0
-    version: 12.11.0
-  dotenv:
-    specifier: ^16.0.3
-    version: 16.0.3
-  dynamodb-localhost:
-    specifier: ^0.0.9
-    version: 0.0.9
-  esbuild:
-    specifier: ^0.17.17
-    version: 0.17.18
-  eslint:
-    specifier: ~8.15.0
-    version: 8.15.0
-  eslint-config-next:
-    specifier: 13.3.0
-    version: 13.3.0(eslint@8.15.0)(typescript@4.9.5)
-  eslint-config-prettier:
-    specifier: 8.1.0
-    version: 8.1.0(eslint@8.15.0)
-  eslint-plugin-cypress:
-    specifier: ^2.10.3
-    version: 2.13.3(eslint@8.15.0)
-  eslint-plugin-import:
-    specifier: 2.27.5
-    version: 2.27.5(@typescript-eslint/parser@5.59.1)(eslint-import-resolver-typescript@3.5.5)(eslint@8.15.0)
-  eslint-plugin-jsx-a11y:
-    specifier: 6.7.1
-    version: 6.7.1(eslint@8.15.0)
-  eslint-plugin-react:
-    specifier: 7.32.2
-    version: 7.32.2(eslint@8.15.0)
-  eslint-plugin-react-hooks:
-    specifier: 4.6.0
-    version: 4.6.0(eslint@8.15.0)
-  ethers:
-    specifier: ^5.7.2
-    version: 5.7.2
-  glob-promise:
-    specifier: ^6.0.2
-    version: 6.0.2(glob@8.1.0)
-  hardhat:
-    specifier: ^2.14.0
-    version: 2.14.0(ts-node@10.9.1)(typescript@4.9.5)
-  hardhat-gas-reporter:
-    specifier: ^1.0.9
-    version: 1.0.9(hardhat@2.14.0)
-  jest:
-    specifier: ^29.4.1
-    version: 29.5.0(@types/node@18.14.2)(ts-node@10.9.1)
-  jest-environment-jsdom:
-    specifier: ^29.4.1
-    version: 29.5.0
-  jest-environment-node:
-    specifier: ^29.4.1
-    version: 29.5.0
-  js-yaml:
-    specifier: ^4.1.0
-    version: 4.1.0
-  nx:
-    specifier: 16.0.1
-    version: 16.0.1
-  nx-cloud:
-    specifier: latest
-    version: 16.0.5
-  prettier:
-    specifier: ^2.6.2
-    version: 2.8.8
-  react-test-renderer:
-    specifier: 18.2.0
-    version: 18.2.0(react@18.2.0)
-  serverless-dynamodb-local:
-    specifier: ^0.2.40
-    version: 0.2.40
-  serverless-offline:
-    specifier: ^12.0.4
-    version: 12.0.4(serverless@3.30.1)
-  serverless-plugin-optimize:
-    specifier: 4.2.1-rc.1
-    version: 4.2.1-rc.1
-  serverless-plugin-typescript:
-    specifier: ^2.1.4
-    version: 2.1.4(serverless@3.30.1)(typescript@4.9.5)
-  solidity-coverage:
-    specifier: ^0.8.2
-    version: 0.8.2(hardhat@2.14.0)
-  ts-jest:
-    specifier: ^29.1.0
-    version: 29.1.0(@babel/core@7.21.5)(babel-jest@29.5.0)(esbuild@0.17.18)(jest@29.5.0)(typescript@4.9.5)
-  ts-node:
-    specifier: 10.9.1
-    version: 10.9.1(@types/node@18.14.2)(typescript@4.9.5)
-  typechain:
-    specifier: ^8.1.1
-    version: 8.1.1(jest@29.5.0)(typescript@4.9.5)
-  typescript:
-    specifier: ~4.9.5
-    version: 4.9.5
+  '@babel/preset-react': 7.18.6_@babel+core@7.21.5
+  '@ethersproject/abi': 5.7.0
+  '@ethersproject/providers': 5.7.2
+  '@nestjs/schematics': 9.1.0_typescript@4.9.5
+  '@nestjs/testing': 9.4.0_adbpomi7iuzlxxwntv6inkfmju
+  '@nomicfoundation/hardhat-chai-matchers': 1.0.6_phjilu6d2mtxsmwsoqizdr5tlu
+  '@nomicfoundation/hardhat-network-helpers': 1.0.8_hardhat@2.14.0
+  '@nomicfoundation/hardhat-toolbox': 2.0.2_o3sbm5f6dtche6uvbzbdlpmaey
+  '@nomiclabs/hardhat-ethers': 2.2.3_kftl4jxdh4nrzvmw72kgr5bdrq
+  '@nomiclabs/hardhat-etherscan': 3.1.7_hardhat@2.14.0
+  '@nx/cypress': 16.0.1_7qawebmw5oimtcykkhmaacmzcy
+  '@nx/esbuild': 16.0.1_erdqe7sqgknkmbjogjxhdoaw5y
+  '@nx/eslint-plugin': 16.0.1_p4kl7hd5q4nqlv4eilrlimywsq
+  '@nx/jest': 16.0.1_xpnxuozn3eb2xkfit63oqt3dnq
+  '@nx/js': 16.0.1_nx@16.0.1+typescript@4.9.5
+  '@nx/linter': 16.0.1_l7ja7bkwml5bizqob4pun3gaya
+  '@nx/nest': 16.0.1_iic6ww5ibt2qfebxmp4avvfif4
+  '@nx/next': 16.0.1_qg66jw4mboziawc7hqmonejco4
+  '@nx/node': 16.0.1_iic6ww5ibt2qfebxmp4avvfif4
+  '@nx/react': 16.0.1_x3fhje4qpoap7sz5vpcughnxem
+  '@nx/webpack': 16.0.1_i5rrsk4jwdkwryxffixis27nsa
+  '@nx/workspace': 16.0.1
+  '@primitivefi/hardhat-dodoc': 0.2.3_xfzslz45efe34z72nrlce3mupu
+  '@tenderly/hardhat-tenderly': 1.7.2_5bbabzsxggj2topacr7bead2ze
+  '@testing-library/react': 14.0.0_biqbaboplfbrettd7655fr4n2y
+  '@typechain/ethers-v5': 10.2.0_kuvqdvnhbslgxdpi2awxjzdvhe
+  '@typechain/hardhat': 6.1.5_hwsxsgqbrixxy2o23xiaewetfm
+  '@types/aws-lambda': 8.10.114
+  '@types/aws-serverless-express': 3.3.5
+  '@types/jest': 29.5.1
+  '@types/js-yaml': 4.0.5
+  '@types/node': 18.14.2
+  '@types/react': 18.0.28
+  '@types/react-dom': 18.0.11
+  '@types/uuid': 9.0.1
+  '@typescript-eslint/eslint-plugin': 5.59.1_lz6jfi5mrp3enhydoxxa56rs2m
+  '@typescript-eslint/parser': 5.59.1_hx5tgzcbd2ycqgjduqhliuc3jm
+  aws-lambda: 1.0.7
+  aws-serverless-express: 3.4.0
+  babel-jest: 29.5.0_@babel+core@7.21.5
+  chai: 4.3.7
+  chalk: 5.2.0
+  change-case: 4.1.2
+  cypress: 12.11.0
+  dotenv: 16.0.3
+  dynamodb-localhost: 0.0.9
+  esbuild: 0.17.18
+  eslint: 8.15.0
+  eslint-config-next: 13.3.0_hx5tgzcbd2ycqgjduqhliuc3jm
+  eslint-config-prettier: 8.1.0_eslint@8.15.0
+  eslint-plugin-cypress: 2.13.3_eslint@8.15.0
+  eslint-plugin-import: 2.27.5_wurepl63habt4fzern53un6dua
+  eslint-plugin-jsx-a11y: 6.7.1_eslint@8.15.0
+  eslint-plugin-react: 7.32.2_eslint@8.15.0
+  eslint-plugin-react-hooks: 4.6.0_eslint@8.15.0
+  ethers: 5.7.2
+  glob-promise: 6.0.2_glob@8.1.0
+  hardhat: 2.14.0_6qtx7vkbdhwvdm4crzlegk4mvi
+  hardhat-gas-reporter: 1.0.9_hardhat@2.14.0
+  jest: 29.5.0_jboh4c3iv3wxuja4m36ecyac7e
+  jest-environment-jsdom: 29.5.0
+  jest-environment-node: 29.5.0
+  js-yaml: 4.1.0
+  nx: 16.0.1
+  nx-cloud: 16.0.5
+  prettier: 2.8.8
+  react-test-renderer: 18.2.0_react@18.2.0
+  serverless-dynamodb-local: 0.2.40
+  serverless-offline: 12.0.4_serverless@3.30.1
+  serverless-plugin-optimize: 4.2.1-rc.1
+  serverless-plugin-typescript: 2.1.4_jzgzmse7kkijzu4i7yku3gx6ja
+  solidity-coverage: 0.8.2_hardhat@2.14.0
+  ts-jest: 29.1.0_vozfsahhxzc7cty4gieypunsua
+  ts-node: 10.9.1_ellgaeuoqnti3hful2ny2iugba
+  typechain: 8.1.1_doipufordlnvh5g4adbwayvyvy
+  typescript: 4.9.5
 
 packages:
 
@@ -4396,7 +4302,11 @@ packages:
     resolution: {integrity: sha512-aKmlCO57XFZ26wso4rJsW4oTUnrgTFw2jh3io7CAtO9w4UltBNwRXvXIVzzyfkaaLRo3nluP/19msA8vDUUuKw==}
     dev: true
 
-  /@hapi/iron@7.0.1:
+  /@hapi/hoek/9.3.0:
+    resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
+    dev: false
+
+  /@hapi/iron/7.0.1:
     resolution: {integrity: sha512-tEZnrOujKpS6jLKliyWBl3A9PaE+ppuL/+gkbyPPDb/l2KSKQyH4lhMkVb+sBhwN+qaxxlig01JRqB8dk/mPxQ==}
     dependencies:
       '@hapi/b64': 6.0.1
@@ -4482,7 +4392,13 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /@hapi/topo@6.0.2:
+  /@hapi/topo/5.1.0:
+    resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
+    dependencies:
+      '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@hapi/topo/6.0.2:
     resolution: {integrity: sha512-KR3rD5inZbGMrHmgPxsJ9dbi6zEK+C3ZwUwTa+eMwWLz7oijWUTWD2pMSNNYJAU6Qq+65NkxXjqHr/7LM2Xkqg==}
     dependencies:
       '@hapi/hoek': 11.0.2
@@ -4964,7 +4880,7 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@nestjs/common@9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1):
+  /@nestjs/common/9.4.0_3yehvwuinvxioxgkmz5xpqglqq:
     resolution: {integrity: sha512-RUcVAQsEF4WPrmzFXEOUfZnPwrLTe1UVlzXTlSyfqfqbdWDPKDGlIPVelBLfc5/+RRUQ0I5iE4+CQvpCmkqldw==}
     peerDependencies:
       cache-manager: <=5
@@ -4980,6 +4896,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
+      class-validator: 0.14.0
       iterare: 1.2.1
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
@@ -4993,7 +4910,7 @@ packages:
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
       dotenv: 16.0.3
       dotenv-expand: 10.0.0
       lodash: 4.17.21
@@ -5020,8 +4937,8 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/platform-express': 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      '@nestjs/platform-express': 9.4.0_gqkob5jndcfeb3wjw72wbdwyne
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
@@ -5033,7 +4950,7 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  /@nestjs/mapped-types@1.2.2(@nestjs/common@9.4.0)(reflect-metadata@0.1.13):
+  /@nestjs/mapped-types/1.2.2_owdmc7j33suvzx2n4ppd7pk7vi:
     resolution: {integrity: sha512-3dHxLXs3M0GPiriAcCFFJQHoDFUuzTD5w6JDhE7TyfT89YKpe6tcCCIqOZWdXmt9AZjjK30RkHRSFF+QEnWFQg==}
     peerDependencies:
       '@nestjs/common': ^7.0.8 || ^8.0.0 || ^9.0.0
@@ -5046,18 +4963,29 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      class-validator: 0.14.0
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/platform-express@9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0):
+  /@nestjs/passport/9.0.3_xygznos57mh4mi6h22se6rwjhq:
+    resolution: {integrity: sha512-HplSJaimEAz1IOZEu+pdJHHJhQyBOPAYWXYHfAPQvRqWtw4FJF1VXl1Qtk9dcXQX1eKytDtH+qBzNQc19GWNEg==}
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0
+      passport: ^0.4.0 || ^0.5.0 || ^0.6.0
+    dependencies:
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      passport: 0.6.0
+    dev: false
+
+  /@nestjs/platform-express/9.4.0_gqkob5jndcfeb3wjw72wbdwyne:
     resolution: {integrity: sha512-PpnfghpNq7mwG43z3+pacHulsabUCBMla4nUikntXT525ORpZSDvh/nLi1HLfE4w5+FcINc8/RBOyYTeRVmiRQ==}
     peerDependencies:
       '@nestjs/common': ^9.0.0
       '@nestjs/core': ^9.0.0
     dependencies:
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
       body-parser: 1.20.2
       cors: 2.8.5
       express: 4.18.2
@@ -5080,7 +5008,7 @@ packages:
       - chokidar
     dev: true
 
-  /@nestjs/swagger@6.3.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13):
+  /@nestjs/swagger/6.3.0_qui5axutg6aiwv6kbo5oaoxhw4:
     resolution: {integrity: sha512-Gnig189oa1tD+h0BYIfUwhp/wvvmTn6iO3csR2E4rQrDTgCxSxZDlNdfZo3AC+Rmf8u0KX4ZAX1RZN1qXTtC7A==}
     peerDependencies:
       '@fastify/static': ^6.0.0
@@ -5097,9 +5025,10 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/mapped-types': 1.2.2(@nestjs/common@9.4.0)(reflect-metadata@0.1.13)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
+      '@nestjs/mapped-types': 1.2.2_owdmc7j33suvzx2n4ppd7pk7vi
+      class-validator: 0.14.0
       js-yaml: 4.1.0
       lodash: 4.17.21
       path-to-regexp: 3.2.0
@@ -5120,9 +5049,9 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/platform-express': 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
+      '@nestjs/platform-express': 9.4.0_gqkob5jndcfeb3wjw72wbdwyne
       tslib: 2.5.0
     dev: true
 
@@ -6740,7 +6669,21 @@ packages:
       - encoding
     dev: true
 
-  /@sinclair/typebox@0.25.24:
+  /@sideway/address/4.1.4:
+    resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
+    dependencies:
+      '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@sideway/formula/3.0.1:
+    resolution: {integrity: sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==}
+    dev: false
+
+  /@sideway/pinpoint/2.0.0:
+    resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
+    dev: false
+
+  /@sinclair/typebox/0.25.24:
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
     dev: true
 
@@ -6800,7 +6743,16 @@ packages:
       antlr4ts: 0.5.0-alpha.4
     dev: true
 
-  /@stablelib/aead@1.0.1:
+  /@spruceid/siwe-parser/2.0.2:
+    resolution: {integrity: sha512-9WuA0ios2537cWYu39MMeH0O2KdrMKgKlOBUTWRTXQjCYu5B+mHCA0JkCbFaJ/0EjxoVIcYCXIW/DoPEpw+PqA==}
+    dependencies:
+      '@noble/hashes': 1.3.0
+      apg-js: 4.1.3
+      uri-js: 4.4.1
+      valid-url: 1.0.9
+    dev: false
+
+  /@stablelib/aead/1.0.1:
     resolution: {integrity: sha512-q39ik6sxGHewqtO0nP4BuSe3db5G1fEJE8ukvngS2gLkBXyy6E7pLubhbYgnkDFv6V8cWaxcE4Xn0t6LWcJkyg==}
     dev: false
 
@@ -7663,7 +7615,10 @@ packages:
     resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
     dev: true
 
-  /@types/ws@7.4.7:
+  /@types/validator/13.7.15:
+    resolution: {integrity: sha512-yeinDVQunb03AEP8luErFcyf/7Lf7AzKCD0NXfgVoGCCQDNpZET8Jgq74oBgqKld3hafLbfzt/3inUdQvaFeXQ==}
+
+  /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
       '@types/node': 18.16.3
@@ -8760,7 +8715,11 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /append-field@1.0.0:
+  /apg-js/4.1.3:
+    resolution: {integrity: sha512-XYyDcoBho8OpnWPRnedMwyL+76ovCtsESerHZEfY39dO4IrEqN97mdEYkOyHa0XTX5+3+U5FmpqPLttK0f7n6g==}
+    dev: false
+
+  /append-field/1.0.0:
     resolution: {integrity: sha512-klpgFSWLW1ZEs8svjfb7g4qWY0YS5imI82dTg+QahUvJ8YqAY0P10Uk8tTyh9ZGuYEZEMaeJYCF5BFuX552hsw==}
 
   /arch@2.2.0:
@@ -10183,7 +10142,14 @@ packages:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
     dev: true
 
-  /classic-level@1.3.0:
+  /class-validator/0.14.0:
+    resolution: {integrity: sha512-ct3ltplN8I9fOwUd8GrP8UQixwff129BkEtuWDKL5W45cQuLd19xqmTLu5ge78YDm/fdje6FMt0hGOhl0lii3A==}
+    dependencies:
+      '@types/validator': 13.7.15
+      libphonenumber-js: 1.10.28
+      validator: 13.9.0
+
+  /classic-level/1.3.0:
     resolution: {integrity: sha512-iwFAJQYtqRTRM0F6L8h4JCt00ZSGdOyqh7yVrhhjrOpFhmBjNlRUey64MCiyo6UmQHMJ+No3c81nujPv+n9yrg==}
     engines: {node: '>=12'}
     requiresBuild: true
@@ -11079,6 +11045,17 @@ packages:
     dev: true
 
   /debug@3.2.7(supports-color@8.1.1):
+    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+    dev: true
+
+  /debug/3.2.7_supports-color@8.1.1:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
     peerDependencies:
       supports-color: '*'
@@ -14039,7 +14016,7 @@ packages:
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
-  /ignore@5.2.4:
+  /ignore/5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
     dev: true
@@ -15079,7 +15056,17 @@ packages:
     engines: {node: '>= 0.6.0'}
     dev: true
 
-  /jose@4.14.3:
+  /joi/17.9.2:
+    resolution: {integrity: sha512-Itk/r+V4Dx0V3c7RLFdRh12IOjySm2/WGPMubBT92cQvRfYZhPM2W0hZlctjj72iES8jsRCwp7S/cRmWBnJ4nw==}
+    dependencies:
+      '@hapi/hoek': 9.3.0
+      '@hapi/topo': 5.1.0
+      '@sideway/address': 4.1.4
+      '@sideway/formula': 3.0.1
+      '@sideway/pinpoint': 2.0.0
+    dev: false
+
+  /jose/4.14.3:
     resolution: {integrity: sha512-YPM9Q+dmsna4CGWNn5+oHFsuXJdxvKAOVoNjpe2nje3odSoX5Xz4s71rP50vM8uUKJyQtMnEGPmbVCVR+G4W5g==}
 
   /js-object-utilities@2.1.0:
@@ -15503,7 +15490,10 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /license-webpack-plugin@4.0.2(webpack@5.81.0):
+  /libphonenumber-js/1.10.28:
+    resolution: {integrity: sha512-1eAgjLrZA0+2Wgw4hs+4Q/kEBycxQo8ZLYnmOvZ3AlM8ImAVAJgDPlZtISLEzD1vunc2q8s2Pn7XwB7I8U3Kzw==}
+
+  /license-webpack-plugin/4.0.2_webpack@5.81.0:
     resolution: {integrity: sha512-771TFWFD70G1wLTC4oU2Cw4qvtmNrIw+wRvBtn+okgHl7slJVi7zfNcdmqDL72BojM30VNJ2UHylr1o77U37Jw==}
     peerDependencies:
       webpack: '*'
@@ -16366,8 +16356,8 @@ packages:
       rxjs: ^6.0.0 || ^7.0.0
     dependencies:
       '@aws-sdk/client-dynamodb': 3.321.1
-      '@nestjs/common': 9.4.0(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/common': 9.4.0_3yehvwuinvxioxgkmz5xpqglqq
+      '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
       dynamoose: 3.2.0
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
@@ -16580,12 +16570,12 @@ packages:
       sorted-array-functions: 1.3.0
     dev: true
 
-  /nofilter@3.1.0:
+  /nofilter/3.1.0:
     resolution: {integrity: sha512-l2NNj07e9afPnhAhvgVrCD/oy2Ai1yfLpuo3EpiO1jFTsB4sFz6oIfAfSZyQzVpkZQ9xS8ZS5g1jCBgq4Hwo0g==}
     engines: {node: '>=12.19'}
     dev: true
 
-  /nopt@3.0.6:
+  /nopt/3.0.6:
     resolution: {integrity: sha512-4GUt3kSEYmk4ITxzB/b9vaIDfUVWN/Ml1Fwl11IlnIG2iaJ9O6WXZ9SrYM9NLI8OCBieN2Y8SWC2oJV0RQ7qYg==}
     hasBin: true
     dependencies:
@@ -17161,7 +17151,28 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /path-browserify@0.0.1:
+  /passport-local/1.0.0:
+    resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
+      passport-strategy: 1.0.0
+    dev: false
+
+  /passport-strategy/1.0.0:
+    resolution: {integrity: sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==}
+    engines: {node: '>= 0.4.0'}
+    dev: false
+
+  /passport/0.6.0:
+    resolution: {integrity: sha512-0fe+p3ZnrWRW74fe8+SvCyf4a3Pb2/h7gFkQ8yTJpAO50gDzlfjZUZTO1k5Eg9kUct22OxHLqDZoKUWRHOh9ug==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
+      passport-strategy: 1.0.0
+      pause: 0.0.1
+      utils-merge: 1.0.1
+    dev: false
+
+  /path-browserify/0.0.1:
     resolution: {integrity: sha512-BapA40NHICOS+USX9SN4tyhq+A2RrN/Ws5F0Z5aMHDp98Fl86lX8Oti8B7uN93L4Ifv4fHOEA+pQw87gmMO/lQ==}
     dev: true
 
@@ -17236,7 +17247,11 @@ packages:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
     dev: true
 
-  /pbkdf2@3.1.2:
+  /pause/0.0.1:
+    resolution: {integrity: sha512-KG8UEiEVkR3wGEb4m5yZkVCzigAD+cVEJck2CzYZO37ZGJfctvVptVO192MwrtPhzONn6go8ylnOdMhKqi4nfg==}
+    dev: false
+
+  /pbkdf2/3.1.2:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==}
     engines: {node: '>=0.12'}
     dependencies:
@@ -17882,7 +17897,7 @@ packages:
     resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
     dev: true
 
-  /public-encrypt@4.0.3:
+  /public-encrypt/4.0.3:
     resolution: {integrity: sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q==}
     dependencies:
       bn.js: 4.12.0
@@ -17907,7 +17922,6 @@ packages:
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
-    dev: true
 
   /pure-rand@6.0.2:
     resolution: {integrity: sha512-6Yg0ekpKICSjPswYOuC5sku/TSWaRYlA0qsXqJgM/d/4pLPHPuTxK7Nbf7jFKzAeedUhR8C7K9Uv63FBsSo8xQ==}
@@ -18786,7 +18800,7 @@ packages:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
     hasBin: true
 
-  /semver@7.3.4:
+  /semver/7.3.4:
     resolution: {integrity: sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==}
     engines: {node: '>=10'}
     hasBin: true
@@ -19132,11 +19146,23 @@ packages:
       - supports-color
     dev: true
 
-  /sisteransi@1.0.5:
+  /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
     dev: true
 
-  /slash@3.0.0:
+  /siwe/2.1.4_ethers@5.7.2:
+    resolution: {integrity: sha512-Dke1Qqa3mgiLm3vjqw/+SQ7dl8WV/Pfk3AlQBF94cBFydTYhztngqYrikzE3X5UTsJ6565dfVbQptszsuYZNYg==}
+    peerDependencies:
+      ethers: ^5.6.8 || ^6.0.8
+    dependencies:
+      '@spruceid/siwe-parser': 2.0.2
+      '@stablelib/random': 1.0.2
+      ethers: 5.7.2
+      uri-js: 4.4.1
+      valid-url: 1.0.9
+    dev: false
+
+  /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
     dev: true
@@ -20182,7 +20208,7 @@ packages:
       ieee754: 1.2.1
     dev: true
 
-  /tough-cookie@2.5.0:
+  /tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
     engines: {node: '>=0.8'}
     dependencies:
@@ -20579,7 +20605,7 @@ packages:
       xtend: 4.0.2
     dev: true
 
-  /undici@5.22.0:
+  /undici/5.22.0:
     resolution: {integrity: sha512-fR9RXCc+6Dxav4P9VV/sp5w3eFiSdOjJYsbtWfd4s5L5C4ogyuVpdKIVHeW0vV1MloM65/f7W45nR9ZxwVdyiA==}
     engines: {node: '>=14.0'}
     dependencies:
@@ -20672,7 +20698,6 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.3.0
-    dev: true
 
   /url-join@4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
@@ -20839,13 +20864,21 @@ packages:
       convert-source-map: 1.9.0
     dev: true
 
-  /validate-npm-package-name@3.0.0:
+  /valid-url/1.0.9:
+    resolution: {integrity: sha512-QQDsV8OnSf5Uc30CKSwG9lnhMPe6exHtTXLRYX8uMwKENy640pU+2BgBL0LRbDh/eYRahNCS7aewCx0wf3NYVA==}
+    dev: false
+
+  /validate-npm-package-name/3.0.0:
     resolution: {integrity: sha512-M6w37eVCMMouJ9V/sdPGnC5H4uDr73/+xdq0FBLO3TFFX1+7wiUY6Es328NN+y43tmY+doUdN9g9J21vqB7iLw==}
     dependencies:
       builtins: 1.0.3
     dev: true
 
-  /valtio@1.10.4(react@18.2.0):
+  /validator/13.9.0:
+    resolution: {integrity: sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA==}
+    engines: {node: '>= 0.10'}
+
+  /valtio/1.10.4_react@18.2.0:
     resolution: {integrity: sha512-gqGWh0DjtDMAy8Jaui8ufFoxlQB1k1NiA/QHrpKoTUk9EeY331WKeYhvtGn1u703RcefrDCez7PT+qeCu9lWEw==}
     engines: {node: '>=12.20.0'}
     peerDependencies:

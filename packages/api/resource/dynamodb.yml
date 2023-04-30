@@ -6,20 +6,11 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-auth-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-        - AttributeName: userId
+        - AttributeName: wallet
           AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: wallet
           KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: userIdIndex
-          KeySchema:
-            - AttributeName: userId
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
   UserTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
