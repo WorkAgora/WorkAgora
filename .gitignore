@@ -50,3 +50,6 @@ coverage
 coverage.json
 typechain
 typechain-types
+
+.dynamodb
+.build

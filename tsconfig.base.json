@@ -15,10 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@work-aurora/solidity": ["packages/solidity/src/index.ts"],
       "@workaurora/front-provider": ["packages/front-provider/src/index.ts"],
       "@workaurora/front/*": ["packages/front/*"],
-      "@workaurora/prisma": ["packages/prisma/src/index.ts"],
       "@workaurora/themes": ["packages/themes/src/index.ts"],
       "@workaurora/utils": ["packages/utils/src/index.ts"]
     }
