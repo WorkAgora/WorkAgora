@@ -1,4 +1,4 @@
-import HeaderMenu from '@workaurora/front/components/menu/HeaderMenu';
+import HeaderMenu from '../components/menu/HeaderMenu';
 import { WagmiProvider } from '@workaurora/front-provider';
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import { SessionProvider } from 'next-auth/react';
