@@ -1,35 +1,38 @@
-# WorkAurora - Solidity
-
-This repo uses :
-
-- Hardhat
-- Chai/Jest
+# Solidity
 
 ## Installation
 
-**_If you don't have yarn install it :)_**
-
-Then run:
-```bash
-$ yarn
-```
-
-In a second time you must copy `.env.example` to `.env` and fill the different API key used :
+Install the monorepo dependencies then copy `.env.example` to `.env` and fill the different API key used :
 
 - `COINMARKETCAP_API_KEY` -> get one on [coinmarketcap](https://coinmarketcap.com/api/)
 - `SNOWTRACE_API_KEY` -> get one on [snowtrace](https://snowtrace.io/)
 - `Tenderly` -> you must create an account [here](https://tenderly.co/)
+- `HARDHAT_PRIVATE_KEYS` -> accounts used to deploy and test in format: `"OxOO,OxOO"`
 
 ## Compile contracts
 ```sh
-npx hardhat compile
+npx nx build solidity
+```
+
+## Lint
+```sh
+npx nx lint solidity
+```
+
+## Run tests
+```sh
+npx nx test solidity
 ```
 
 ## Deploy contracts
+```sh
+npx nx run solidity:deploy --network <network> scripts/deploy/<script>.ts
+```
 
+# Networks
 There are three configured networks :
 
-- hardhat : Local network
+- hardhat : Local network (default)
 - testnet : [Avalanche Fuji Testnet](https://chainlist.org/chain/43113)
 - mainnet : [Avalanche C-Chain](https://chainlist.org/chain/43114)
 

@@ -5,7 +5,7 @@ import '@nomicfoundation/hardhat-toolbox';
 import '@primitivefi/hardhat-dodoc';
 import * as tdly from '@tenderly/hardhat-tenderly';
 tdly.setup();
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: '../../.env' });
 
 // @TODO: Add foundry for solidity test
 
