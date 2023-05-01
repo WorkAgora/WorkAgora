@@ -39,12 +39,12 @@ const config: HardhatUserConfig = {
       accounts,
     },
     testnet: {
-      url: process.env.AVAX_PUBLIC_TESTNET_RPC_URL,
+      url: process.env.NEXT_PUBLIC_TESTNET_RPC_URL,
       chainId: 43113,
       accounts,
     },
     mainnet: {
-      url: process.env.AVAX_PUBLIC_MAINNET_RPC_URL,
+      url: process.env.NEXT_PUBLIC_MAINNET_RPC_URL,
       chainId: 43114,
       accounts,
     }
