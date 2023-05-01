@@ -101,4 +101,8 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     },
   },
+  createdAt: {
+    type: Date,
+    required: false,
+  },
 });
