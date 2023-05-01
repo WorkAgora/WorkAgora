@@ -19,9 +19,14 @@ npx nx build solidity
 npx nx lint solidity
 ```
 
-## Run tests
+## Run hardhat ts tests
 ```sh
-npx nx test solidity
+npx nx test-hardhat solidity
+```
+
+## Run foundry sol tests
+```sh
+npx nx test-foundry solidity
 ```
 
 ## Deploy contracts

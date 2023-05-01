@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{projectRoot}/artifacts", "{projectRoot}/typechain-types"],
+      "outputs": ["{projectRoot}/artifacts", "{projectRoot}/typechain-types", "{projectRoot}/out"],
       "options": {
         "command": "npx hardhat compile",
         "cwd": "packages/solidity"
@@ -19,10 +19,17 @@
         "lintFilePatterns": ["packages/solidity/**/*.ts"]
       }
     },
-    "test": {
+    "test-hardhat": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx hardhat test",
+        "cwd": "packages/solidity"
+      }
+    },
+    "test-foundry": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "forge test",
         "cwd": "packages/solidity"
       }
     },

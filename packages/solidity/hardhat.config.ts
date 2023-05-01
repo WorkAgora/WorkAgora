@@ -3,6 +3,7 @@ import { HardhatUserConfig } from 'hardhat/config';
 import '@openzeppelin/hardhat-upgrades';
 import '@nomicfoundation/hardhat-toolbox';
 import '@primitivefi/hardhat-dodoc';
+import "@nomicfoundation/hardhat-foundry";
 import * as tdly from '@tenderly/hardhat-tenderly';
 tdly.setup();
 dotenv.config({ path: '../../.env' });
