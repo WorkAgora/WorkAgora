@@ -11,6 +11,8 @@
     }
   ],
   "compilerOptions": {
+    "target": "ESnext",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "incremental": false

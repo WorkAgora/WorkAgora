@@ -11,6 +11,6 @@ export const AuthSchema = new Schema({
   },
   nonceTimeout: {
     type: Date,
-    default: Date.now() + 'interval 5min'
+    default: () => new Date(Date.now() + 5 * 60 * 1000) // 5 minutes from now
   }
 });

@@ -3,6 +3,6 @@ export interface AuthKey {
 }
 
 export interface Auth extends AuthKey {
-  nonce: string;
+  nonce?: string;
   nonceTimeout: Date;
 }

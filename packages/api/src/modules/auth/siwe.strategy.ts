@@ -18,9 +18,9 @@ export class SiweStrategy extends PassportStrategy(Strategy, 'SIWE') {
   }
 
   async validate(req: Request, message: string, signature: string) {
-    const { wallet, userId } = await this.authService.validateSiweMessage(req, message, signature);
-    if (wallet && userId) {
-      return { wallet, userId };
+    const wallet = await this.authService.validateSiweMessage(req, message, signature);
+    if (wallet) {
+      return wallet;
     }
     throw new UnauthorizedException();
   }

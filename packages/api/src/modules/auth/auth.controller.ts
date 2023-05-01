@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Req,
+  UseGuards,
   UsePipes,
   ValidationPipe
 } from '@nestjs/common';
@@ -16,6 +17,8 @@ import { NonceDTO } from '../../dtos/auth/nonce.dto';
 import { LoginDTO } from '../../dtos/auth/login.dto';
 import { JwtDTO } from '../../dtos/auth/jwt.dto';
 import { Request } from 'express';
+import { RegisterDTO } from '../../dtos/auth/register.dto';
+import { SiweAuthGuard } from './siwe.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -39,11 +42,7 @@ export class AuthController {
   })
   @ApiResponse({
     status: 500,
-    description: 'Can not provide nonce'
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Other unknown errors'
+    description: 'Can not provide nonce or other unknown errors'
   })
   async getNonce(@Param('wallet') wallet: string): Promise<NonceDTO> {
     try {
@@ -53,23 +52,36 @@ export class AuthController {
     }
   }
 
+  @UseGuards(SiweAuthGuard)
+  @Post('register')
+  @ApiOperation({ summary: 'Register with a SIWE message' })
+  @ApiBody({ type: RegisterDTO })
+  @ApiResponse({ status: 201, description: 'Return true', type: Boolean })
+  @ApiResponse({ status: 401, description: 'SiweMessage Error or Unauthorized authentication' })
+  @ApiResponse({
+    status: 500,
+    description: 'Unexpected Error while register'
+  })
+  async register(@Body() payload: RegisterDTO, @Req() req: Request): Promise<boolean> {
+    const guardWallet = (req as any).user as string;
+    if (!guardWallet) {
+      throw new HttpException(`Error while registering`, 500);
+    }
+    const { wallet, ...restPayload } = payload;
+    if (wallet.toLowerCase() !== guardWallet)
+      throw new HttpException(
+        `Address for registering is different than address from signature`,
+        401
+      );
+
+    return this.authService.register({ wallet: wallet.toLowerCase(), ...restPayload });
+  }
+
   /*@Post('login')
   @ApiOperation({ summary: 'Login with a SIWE message' })
   @ApiBody({ type: LoginDTO })
   @ApiResponse({ status: 201, description: 'Return JWT tokens', type: JwtDTO })
-  @ApiResponse({ status: 401, description: 'Unauthorized authentication' })
-  @ApiResponse({
-    status: 401,
-    description: 'SiweMessage Error: Message is expired'
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'SiweMessage Error: Nonce not valid'
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'SiweMessage Error: Bad address for signature'
-  })
+  @ApiResponse({ status: 401, description: 'SiweMessage Error or Unauthorized authentication' })
   @ApiResponse({
     status: 500,
     description: 'Unexpected Error while login'

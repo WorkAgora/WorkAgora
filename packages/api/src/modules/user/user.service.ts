@@ -25,7 +25,7 @@ export class UserService {
         throw new UnprocessableEntityException('User not found');
       }
     } catch (error) {
-      throw new UnprocessableEntityException('Error while querying the user');
+      throw new UnprocessableEntityException('Error while querying the user', { cause: error });
     }
   }
 }

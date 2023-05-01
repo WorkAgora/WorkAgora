@@ -1,29 +1,42 @@
 import { useDisconnect, useSignMessage } from 'wagmi';
 import { API_URL } from '../services/api';
 import { SiweMessage } from 'siwe';
-import { getNonceApi, signInWithEthereumApi } from '../services/auth';
+import { getNonceApi, signUpWithEthereumApi } from '../services/auth';
 import { useCallback } from 'react';
 
-interface LoginProps {
+interface SigupProps {
   address: `0x${string}`;
   chain: { id: number; unsupported?: boolean };
+  email: string;
+  firstname: string;
+  lastname: string;
+  userType: string;
+  agreeTOS: boolean;
+  agreeDataTreatment: boolean;
 }
 
-export function useConnect() {
+export function useSignUp() {
   const { disconnect } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
 
-  const signIn = useCallback(
-    async ({ address, chain }: LoginProps) => {
-      //@TODO: check authtoken
-      if (chain.unsupported) return;
+  const signUp = useCallback(
+    async ({
+      address,
+      chain,
+      email,
+      firstname,
+      lastname,
+      userType,
+      agreeTOS,
+      agreeDataTreatment
+    }: SigupProps) => {
       if (address && chain) {
         try {
           const nonce = await getNonceApi(address);
           const message = new SiweMessage({
             domain: window.location.host,
             address,
-            statement: 'Sign in WorkAurora',
+            statement: 'Sign Up in WorkAurora',
             uri: API_URL,
             version: '1',
             chainId: chain.id,
@@ -31,10 +44,18 @@ export function useConnect() {
             nonce
           }).prepareMessage();
           const signature = await signMessageAsync({ message });
-          const tokens = await signInWithEthereumApi({ message, signature });
-          //@TODO create a store or context to keep tokens;
+          return await signUpWithEthereumApi({
+            message,
+            signature,
+            wallet: address,
+            email,
+            firstname,
+            lastname,
+            userType,
+            agreeTOS,
+            agreeDataTreatment
+          });
         } catch (error) {
-          //@TODO change for logout from all auth not only wallet
           disconnect();
         }
       }
@@ -42,5 +63,5 @@ export function useConnect() {
     [disconnect, signMessageAsync]
   );
 
-  return { signIn };
+  return { signUp };
 }

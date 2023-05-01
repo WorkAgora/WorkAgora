@@ -43,6 +43,8 @@ custom:
       seed: false
   optimize:
     external: ['swagger-ui-dist']
+  serverlessPluginTypescript:
+    tsConfigFileLocation: 'packages/api/tsconfig.json'
 
 functions:
   main: # The name of the lambda function
