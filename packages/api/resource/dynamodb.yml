@@ -18,25 +18,12 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-user-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
         - AttributeName: wallet
           AttributeType: S
         - AttributeName: email
           AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: wallet
           KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: walletIndex
-          KeySchema:
-            - AttributeName: wallet
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-        - IndexName: emailIndex
-          KeySchema:
-            - AttributeName: email
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
+        - AttributeName: email
+          KeyType: RANGE
