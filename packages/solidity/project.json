@@ -1,0 +1,45 @@
+{
+  "name": "solidity",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/solidity/",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/artifacts", "{projectRoot}/typechain-types", "{projectRoot}/out"],
+      "options": {
+        "command": "npx hardhat compile",
+        "cwd": "packages/solidity"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/solidity/**/*.ts"]
+      }
+    },
+    "test-hardhat": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx hardhat test",
+        "cwd": "packages/solidity"
+      }
+    },
+    "test-foundry": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "forge test",
+        "cwd": "packages/solidity"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx hardhat run",
+        "cwd": "packages/solidity"
+      }
+    }
+  },
+  "tags": []
+}

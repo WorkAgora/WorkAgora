@@ -1,15 +1,15 @@
 import chalk from 'chalk';
 
 class Logger {
-  logInfo(...args: any[]) {
+  logInfo(...args: unknown[]) {
     console.log(...args);
   }
 
-  logWarn(...args: any[]) {
+  logWarn(...args: unknown[]) {
     console.warn(...args);
   }
 
-  logError(...args: any[]) {
+  logError(...args: unknown[]) {
     console.error(...args);
   }
 

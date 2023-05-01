@@ -3,9 +3,10 @@ import { HardhatUserConfig } from 'hardhat/config';
 import '@openzeppelin/hardhat-upgrades';
 import '@nomicfoundation/hardhat-toolbox';
 import '@primitivefi/hardhat-dodoc';
+import "@nomicfoundation/hardhat-foundry";
 import * as tdly from '@tenderly/hardhat-tenderly';
 tdly.setup();
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: '../../.env' });
 
 // @TODO: Add foundry for solidity test
 
@@ -38,12 +39,12 @@ const config: HardhatUserConfig = {
       accounts,
     },
     testnet: {
-      url: process.env.AVAX_PUBLIC_TESTNET_RPC_URL,
+      url: process.env.NEXT_PUBLIC_TESTNET_RPC_URL,
       chainId: 43113,
       accounts,
     },
     mainnet: {
-      url: process.env.AVAX_PUBLIC_MAINNET_RPC_URL,
+      url: process.env.NEXT_PUBLIC_MAINNET_RPC_URL,
       chainId: 43114,
       accounts,
     }

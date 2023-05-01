@@ -3,10 +3,12 @@ import { ethers, upgrades } from 'hardhat';
 
 describe('Proxy Test', function () {
   it('Should deploy and upgrade the UserProfile contract using a proxy', async () => {
-    const [_ /* governance */, user] = await ethers.getSigners();
+    const user = (await ethers.getSigners())[1];
+
     // deploy
     const v1Factory = await ethers.getContractFactory('TestUserProfileV1');
     const proxy = await upgrades.deployProxy(v1Factory, [], { initializer: 'setGovernance' });
+    expect(await proxy.governance()).not.to.equal(user.address);
 
     // register user
     await proxy.connect(user).registerUser();
