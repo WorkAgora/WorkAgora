@@ -17,23 +17,31 @@ export const UserSchema = new Schema({
     type: String,
     required: true,
     hashKey: true,
-    validate: (v: string) => v.length === 42 && v.startsWith('0x'),
+    validate(value) {
+      return value.toString().length === 42 && value.toString().startsWith('0x');
+    },
   },
   email: {
     type: String,
     required: true,
     rangeKey: true,
-    validate: (v: string) => v.match(emailRegex).length > 0,
+    validate: emailRegex,
   },
   description: {
     type: String,
     required: false,
-    validate: (v: string) => v.length <= 500,
+    validate(value) {
+      return value.toString().length <= 500;
+    }
   },
   phone: {
     type: String,
     required: false,
-    validate: (v: string) => v.match(phoneRegex).length > 0,
+    validate(value) {
+      if (!value) return true;
+      const match = value.toString().match(phoneRegex);
+      return match !== null && match.length > 0;
+    },
   },
   language: {
     type: Array,
@@ -58,7 +66,11 @@ export const UserSchema = new Schema({
   location: {
     type: String,
     required: false,
-    validate: (v: string) => v.match(locationRegex).length > 0,
+    validate(value) {
+      if (!value) return true;
+      const match = value.toString().match(locationRegex);
+      return match !== null && match.length > 0;
+    },
   },
   remuneration: {
     type: String,
@@ -83,6 +95,10 @@ export const UserSchema = new Schema({
   profilePicture: {
     type: String,
     required: false,
-    validate: (v: string) => v.match(urlRegex).length > 0,
+    validate(value) {
+      if (!value) return true;
+      const match = value.toString().match(urlRegex);
+      return match !== null && match.length > 0;
+    },
   },
 });
