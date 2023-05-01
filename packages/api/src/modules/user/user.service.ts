@@ -11,12 +11,21 @@ export class UserService {
   ) {}
 
   public async findUserByWallet(wallet: string): Promise<UserDTO> {
-    //@TODO query model.kekchose et return UserDTO
     try {
+      // DynamoDB query to find the user with the given wallet address
       const response = await this.model.query('wallet').eq(wallet).exec();
-      return { wallet: wallet, email: 'test@test.fr' };
+
+      // Check if a user was found
+      if (response.count > 0) {
+        const user: User = response[0];
+
+        // Return the found user as a UserDTO
+        return { wallet: user.wallet, email: user.email };
+      } else {
+        throw new UnprocessableEntityException('User not found');
+      }
     } catch (error) {
-      throw new UnprocessableEntityException('Error while');
+      throw new UnprocessableEntityException('Error while querying the user');
     }
   }
 }
