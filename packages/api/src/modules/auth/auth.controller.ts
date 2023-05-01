@@ -1,15 +1,25 @@
-import { Body, Controller, Get, HttpException, Inject, Param, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Inject,
+  Param,
+  Post,
+  Req,
+  UsePipes,
+  ValidationPipe
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NonceDTO } from '../../dtos/auth/nonce.dto';
 import { LoginDTO } from '../../dtos/auth/login.dto';
 import { JwtDTO } from '../../dtos/auth/jwt.dto';
-import { Validate } from '../../decorators/validate.decorator';
-import { LoginSchema } from '../../schemas/auth/login.schema';
 import { Request } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
+@UsePipes(ValidationPipe)
 export class AuthController {
   @Inject(AuthService)
   private readonly authService: AuthService;
@@ -43,10 +53,9 @@ export class AuthController {
     }
   }
 
-  @Post('login')
+  /*@Post('login')
   @ApiOperation({ summary: 'Login with a SIWE message' })
   @ApiBody({ type: LoginDTO })
-  @Validate(LoginSchema)
   @ApiResponse({ status: 201, description: 'Return JWT tokens', type: JwtDTO })
   @ApiResponse({ status: 401, description: 'Unauthorized authentication' })
   @ApiResponse({
@@ -68,5 +77,5 @@ export class AuthController {
   async login(@Body() payload: LoginDTO, @Req() req: Request): Promise<JwtDTO> {
     const {};
     //return this.authService.login(wallet.toLowerCase())
-  }
+  }*/
 }
