@@ -10,13 +10,16 @@ export const AuthSchema = new Schema({
   nonce: {
     type: String
   },
-  nonceTimeOut: {
+  nonceTimeout: {
     type: Date,
     default: Date.now() + 'interval 30min'
   },
-  userId: {
+  wallet: {
     type: String,
-    rangeKey: true,
-    required: true
+    required: true,
+    index: {
+      type: 'global',
+      name: 'walletIndex'
+    }
   }
 });

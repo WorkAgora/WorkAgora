@@ -1,18 +1,26 @@
-import { Schema } from 'dynamoose';
 import { v4 as uuidv4 } from 'uuid';
+import { Schema } from 'dynamoose';
 
 export const UserSchema = new Schema({
   id: {
-    type: String,
     hashKey: true,
-    default: uuidv4
+    type: String,
+    default: () => uuidv4()
   },
   wallet: {
     type: String,
-    required: true
+    required: true,
+    index: {
+      type: 'global',
+      name: 'walletIndex'
+    }
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    index: {
+      type: 'global',
+      name: 'emailIndex'
+    }
   }
 });

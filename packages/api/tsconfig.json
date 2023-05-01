@@ -12,6 +12,7 @@
   ],
   "compilerOptions": {
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "incremental": false
   }
 }

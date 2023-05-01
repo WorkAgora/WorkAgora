@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DynamooseModule } from 'nestjs-dynamoose';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -13,7 +15,9 @@ import { ConfigModule } from '@nestjs/config';
         prefix: `${process.env.AWS_SERVICE}-${process.env.AWS_STAGE}`,
         suffix: '-table'
       }
-    })
+    }),
+    UserModule,
+    AuthModule
   ],
   controllers: [],
   providers: []

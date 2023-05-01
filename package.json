@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ddb:gen": "ts-node gen-ddb-resource.ts -- \"packages/api/src/**/*.schema.ts\" \"packages/api/resource/dynamodb.yml\""
+    "ddb:gen": "ts-node gen-ddb-resource.ts -- \"packages/api/src/**/*.schema.ts\" \"packages/api/resource/dynamodb.yml\"",
+    "sls:dev": "serverless offline start --noPrependStageInUrl"
   },
   "private": true,
   "devDependencies": {
@@ -91,6 +92,7 @@
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.3.0",
     "@rainbow-me/rainbowkit": "^0.12.12",
     "axios": "^1.0.0",
     "dynamoose": "^3.2.0",

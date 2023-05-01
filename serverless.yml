@@ -41,6 +41,8 @@ custom:
       inMemory: true
       migrate: true
       seed: false
+  optimize:
+    external: ['swagger-ui-dist']
 
 functions:
   main: # The name of the lambda function
