@@ -1,16 +1,15 @@
 # WorkAurora - Solidity
 
-This repo use :
+This repo uses :
 
 - Hardhat
 - Chai/Jest
 
-## How to start with
-
-First you will need to install the package :
+## Installation
 
 **_If you don't have yarn install it :)_**
 
+Then run:
 ```bash
 $ yarn
 ```
@@ -21,9 +20,14 @@ In a second time you must copy `.env.example` to `.env` and fill the different A
 - `SNOWTRACE_API_KEY` -> get one on [snowtrace](https://snowtrace.io/)
 - `Tenderly` -> you must create an account [here](https://tenderly.co/)
 
-## How to deploy a contract
+## Compile contracts
+```sh
+npx hardhat compile
+```
 
-There is three configured network :
+## Deploy contracts
+
+There are three configured networks :
 
 - hardhat : Local network
 - testnet : [Avalanche Fuji Testnet](https://chainlist.org/chain/43113)

@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.18;
 
 /**
- * @dev Interface for the Rating System
+ * @dev Interface for the User Profile
  *
  * This contract is use to handle the eReputation of worker or contractor
  * Rating requirements :
@@ -15,6 +15,6 @@ pragma solidity ^0.8.19;
  * - wallet address
  *
  */
-interface IRatingSystem {
+interface IUserProfile {
 
 }
