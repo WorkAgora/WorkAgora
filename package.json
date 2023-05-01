@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ddb:gen": "ts-node gen-ddb-resource.ts -- \"packages/api/src/**/*.schema.ts\" \"packages/api/resource/dynamodb.yml\"",
+    "ddb:dev": "serverless dynamodb start",
     "sls:dev": "serverless offline start --noPrependStageInUrl"
   },
   "private": true,
