@@ -37,7 +37,7 @@ custom:
     stages:
       - ${self:provider.stage}
     start:
-      port: 8000
+      port: 8001
       inMemory: true
       migrate: true
       seed: false
