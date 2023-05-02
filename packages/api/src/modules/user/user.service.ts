@@ -30,10 +30,9 @@ export class UserService {
     }
   }
 
-  public async create(user: CreateUserDTO): Promise<User> {
+  public async create(user: CreateUserDTO): Promise<void> {
     try {
       const newUser = await this.model.create(user);
-      return newUser;
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
     }
