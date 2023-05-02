@@ -15,7 +15,6 @@ export function useConnect() {
 
   const signIn = useCallback(
     async ({ address, chain }: LoginProps) => {
-      //@TODO: check authtoken
       if (chain.unsupported) return;
       if (address && chain) {
         try {
