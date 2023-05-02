@@ -7,9 +7,6 @@ import {
 } from '../../../../utils/src/index';
 import { Schema } from 'dynamoose';
 
-//@TODO add Schema for FreelancerProfile / EmployerProfile
-// Also fix this schema looking at user.interface.ts
-
 export const UserSchema = new Schema({
   wallet: {
     type: String,
@@ -42,10 +39,6 @@ export const UserSchema = new Schema({
     }
   },
   language: Array,
-  skills: Array,
-  situation: String,
-  availability: String,
-  hoursPerWeek: Number,
   location: {
     type: String,
     required: false,
@@ -55,10 +48,6 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     }
   },
-  remuneration: String,
-  links: Array,
-  yearsOfExperience: String,
-  certification: Array,
   profilePicture: {
     type: String,
     required: false,
@@ -68,12 +57,27 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     }
   },
-  createdAt: {
-    type: Date,
-    required: false
+  links: Array,
+  createdAt: Date,
+  updatedAt: Date,
+  tosAcceptedOn: Date,
+  currentUserType: String,
+  workProfile: {
+    type: Object,
+    schema: {
+      skills: Array,
+      situation: String,
+      availability: String,
+      hoursPerWeek: Number,
+      yearsOfExperience: String,
+      certificates: Array,
+      remuneration: String,
+    },
   },
-  updatedAt: {
-    type: Date,
-    required: false
-  }
+  clientProfile: {
+    type: Object,
+    schema: {
+      companyId: String,
+    },
+  },
 });

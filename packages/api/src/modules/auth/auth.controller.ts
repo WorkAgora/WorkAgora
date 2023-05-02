@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   HttpException,
   Inject,
   Param,
@@ -14,8 +13,6 @@ import {
 import { AuthService } from './auth.service';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NonceDTO } from '../../dtos/auth/nonce.dto';
-import { LoginDTO } from '../../dtos/auth/login.dto';
-import { JwtDTO } from '../../dtos/auth/jwt.dto';
 import { Request } from 'express';
 import { RegisterDTO } from '../../dtos/auth/register.dto';
 import { SiweAuthGuard } from './siwe.guard';
