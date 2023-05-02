@@ -1,5 +1,6 @@
 // dtos/user/create-user.dto.ts
-import { IsEmail, IsEthereumAddress, IsIn, IsString } from 'class-validator';
+import { IsEmail, IsEthereumAddress, IsIn, IsString, IsDate } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateUserDTO {
   @IsEthereumAddress()
@@ -16,5 +17,9 @@ export class CreateUserDTO {
 
   @IsString()
   @IsIn(['Freelancer', 'Employer'])
-  userType: string;
+  currentUserType: string;
+
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  toAcceptTerms: Date;
 }

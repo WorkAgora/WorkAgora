@@ -23,7 +23,7 @@ export class RegisterDTO extends LoginDTO {
   @ApiProperty({ type: String, required: true })
   @IsString()
   @IsIn(['Freelancer', 'Employer'])
-  userType: string;
+  currentUserType: string;
 
   @ApiProperty({ type: Boolean, required: true })
   @IsBoolean()

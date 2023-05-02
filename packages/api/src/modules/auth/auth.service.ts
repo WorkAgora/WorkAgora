@@ -89,12 +89,14 @@ export class AuthService {
 
   public async register(payload: RegisterDTO): Promise<boolean> {
     try {
+      const { wallet, email, firstname, lastname, currentUserType } = payload;
       const newUser: CreateUserDTO = {
-        wallet: payload.wallet,
-        email: payload.email,
-        firstname: payload.firstname,
-        lastname: payload.lastname,
-        userType: payload.userType
+        wallet,
+        email,
+        firstname,
+        lastname,
+        currentUserType,
+        toAcceptTerms: new Date(Date.now())
       };
 
       await this.userService.create(newUser);

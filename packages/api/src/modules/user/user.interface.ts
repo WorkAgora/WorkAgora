@@ -2,7 +2,7 @@ export interface UserKey {
   wallet: string;
 }
 
-export interface WorkerProfile {
+export interface FreelancerProfile {
   skills?: string[];
   situation?: string;
   availability?: string;
@@ -12,7 +12,7 @@ export interface WorkerProfile {
   remuneration?: string;
 }
 
-export interface ClientProfile {
+export interface EmployerProfile {
   companyId?: string;
 }
 
@@ -26,6 +26,6 @@ export interface User extends UserKey {
   links?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  workProfile?: WorkerProfile;
-  clientProfile?: ClientProfile;
+  workProfile?: FreelancerProfile;
+  clientProfile?: EmployerProfile;
 }
