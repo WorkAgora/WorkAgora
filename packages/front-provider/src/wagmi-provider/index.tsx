@@ -11,7 +11,6 @@ import {
 import { PropsWithChildren } from 'react';
 import {
   connectorsForWallets,
-  createAuthenticationAdapter,
   DisclaimerComponent,
   lightTheme,
   RainbowKitProvider

@@ -1,25 +1,18 @@
+import { walletRegex } from '../../../../utils/src/index';
 import { Schema } from 'dynamoose';
-import { v4 as uuidv4 } from 'uuid';
 
 export const AuthSchema = new Schema({
-  id: {
+  wallet: {
     type: String,
+    required: true,
     hashKey: true,
-    default: uuidv4
+    validate: walletRegex
   },
   nonce: {
     type: String
   },
   nonceTimeout: {
     type: Date,
-    default: Date.now() + 'interval 30min'
-  },
-  wallet: {
-    type: String,
-    required: true,
-    index: {
-      type: 'global',
-      name: 'walletIndex'
-    }
+    default: () => new Date(Date.now() + 5 * 60 * 1000) // 5 minutes from now
   }
 });

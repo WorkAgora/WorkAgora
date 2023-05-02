@@ -3,7 +3,8 @@ import Button from './button';
 
 export const darkTheme: ThemeOverride = extendTheme({
   colors: {
-    background: '#07131E'
+    brand: {},
+    gradient: {}
   },
   fonts: {},
   components: {

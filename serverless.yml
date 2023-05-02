@@ -27,7 +27,7 @@ provider:
           Resource: arn:aws:dynamodb:${self:provider.region}:*:*
 
 plugins:
-  - 'serverless-plugin-typescript'
+  - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-plugin-optimize
   - serverless-offline
@@ -43,6 +43,8 @@ custom:
       seed: false
   optimize:
     external: ['swagger-ui-dist']
+  serverlessPluginTypescript:
+    tsConfigFileLocation: 'packages/api/tsconfig.app.json'
 
 functions:
   main: # The name of the lambda function
@@ -53,3 +55,6 @@ functions:
           cors: true
           path: '{proxy+}'
           method: any
+
+resources:
+  - ${file(packages/api/resource/dynamodb.yml)}
