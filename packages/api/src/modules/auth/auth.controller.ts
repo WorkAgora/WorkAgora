@@ -63,7 +63,7 @@ export class AuthController {
     description: 'Unexpected Error while register'
   })
   async register(@Body() payload: RegisterDTO, @Req() req: Request): Promise<boolean> {
-    const guardWallet = (req as any).user as string;
+    const guardWallet = req.user as string;
     if (!guardWallet) {
       throw new HttpException(`Error while registering`, 500);
     }
