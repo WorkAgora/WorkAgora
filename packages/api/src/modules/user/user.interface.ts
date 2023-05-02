@@ -18,4 +18,5 @@ export interface User extends UserKey {
   profilePicture?: string;
   links?: string[];
   createdAt?: Date;
+  updatedAt?: Date;
 }

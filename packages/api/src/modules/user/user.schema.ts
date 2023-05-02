@@ -105,4 +105,8 @@ export const UserSchema = new Schema({
     type: Date,
     required: false,
   },
+  updatedAt: {
+    type: Date,
+    required: false,
+  },
 });
