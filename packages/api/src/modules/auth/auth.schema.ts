@@ -1,10 +1,12 @@
+import { walletRegex } from '@workaurora/utils';
 import { Schema } from 'dynamoose';
 
 export const AuthSchema = new Schema({
   wallet: {
     type: String,
     required: true,
-    hashKey: true
+    hashKey: true,
+    validate: walletRegex
   },
   nonce: {
     type: String
