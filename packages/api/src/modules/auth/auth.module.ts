@@ -5,10 +5,17 @@ import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthSchema } from './auth.schema';
 import { AuthService } from './auth.service';
+import { JwtStrategy } from './jwt.strategy';
 import { SiweStrategy } from './siwe.strategy';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule.registerAsync({
+      useFactory: async () => ({
+        secret: process.env.JWT_SECRET_KEY
+      })
+    }),
     DynamooseModule.forFeature([
       {
         name: 'Auth',
@@ -22,7 +29,7 @@ import { SiweStrategy } from './siwe.strategy';
     UserModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, SiweStrategy],
+  providers: [AuthService, SiweStrategy, JwtStrategy],
   exports: []
 })
 export class AuthModule {}

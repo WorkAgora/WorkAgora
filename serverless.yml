@@ -40,7 +40,8 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
-      seed: false
+      seed: true
+    seed: ${file(packages/api/resource/seed.yml)}
   optimize:
     external: ['swagger-ui-dist']
   serverlessPluginTypescript:

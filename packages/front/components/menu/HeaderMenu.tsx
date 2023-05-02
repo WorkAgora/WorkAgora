@@ -1,15 +1,17 @@
 import { FC } from 'react';
-import { Box, Flex, Button, Spacer, Image, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Button, Spacer, Image, useDisclosure, Text } from '@chakra-ui/react';
 import FullScreenModal from '../modal/SignupModal';
 import SignupForm from '../form/SignupForm';
 import LoginButton from '../button/LoginButton';
 import { useAccount, useDisconnect } from 'wagmi';
+import { useCurrentUser } from '@workaurora/front/hooks/useCurrentUser';
+import { shortHash } from '@workaurora/utils';
 
 const HeaderMenu: FC = () => {
-  const authenticated = false;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
+  const { user, logout } = useCurrentUser();
   return (
     <>
       <Box width="100%" height="60px">
@@ -19,7 +21,7 @@ const HeaderMenu: FC = () => {
             <Image src="/logo.png" alt="Logo" height="40px" />
           </Box>
           <Spacer />
-          {!authenticated && (
+          {!user && (
             <>
               <LoginButton signupModalOpen={isOpen} mr={4}>
                 Login
@@ -32,6 +34,14 @@ const HeaderMenu: FC = () => {
                 onClick={onOpen}
               >
                 Sign Up
+              </Button>
+            </>
+          )}
+          {user && (
+            <>
+              <Text mr={4}>Connected with {shortHash(user.wallet)}</Text>
+              <Button variant="primary" onClick={logout}>
+                Disconnect
               </Button>
             </>
           )}

@@ -1,6 +1,10 @@
-import Head from 'next/head';
 import { Box } from '@chakra-ui/react';
+import { NextPage } from 'next';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
-export default function Home() {
-  return <Box>TEST</Box>;
-}
+const Home: NextPage = () => {
+  const { user } = useCurrentUser();
+  return <Box>{user ? 'logged' : 'not logged'}</Box>;
+};
+
+export default Home;

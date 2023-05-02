@@ -1,11 +1,12 @@
 import { publicApi } from './api';
 
-export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
+export interface User {
+  wallet: string;
+  email: string;
 }
 
 export interface SignInWithEthereumProps {
+  wallet: string;
   message: string;
   signature: string;
 }
@@ -20,7 +21,7 @@ export interface SignUpWithEthereumProps extends SignInWithEthereumProps {
   agreeDataTreatment: boolean;
 }
 
-export type SignInWithEthereum = (props: SignInWithEthereumProps) => Promise<AuthTokens>;
+export type SignInWithEthereum = (props: SignInWithEthereumProps) => Promise<User>;
 
 export type SignUpWithEthereum = (props: SignUpWithEthereumProps) => Promise<boolean>;
 
@@ -32,7 +33,7 @@ export const getNonceApi: GetNonceApi = async (address) => {
 };
 
 export const signInWithEthereumApi: SignInWithEthereum = async (payload) => {
-  const response = await publicApi.post(`/auth/login`, payload);
+  const response = await publicApi.post(`/auth/login`, payload, { withCredentials: true });
   return response.data;
 };
 

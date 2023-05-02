@@ -1,6 +1,7 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
+import { Button, ButtonProps, useToast, Text } from '@chakra-ui/react';
+import { useLogin } from '@workaurora/front/hooks/useLogin';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { Chain, useAccount, useNetwork } from 'wagmi';
 import { useConnect } from '../../hooks/useConnect';
 import ConnectButton from './ConnectButton';
 
@@ -13,21 +14,11 @@ const LoginButton: FC<LoginButtonProps> = ({
   signupModalOpen,
   ...props
 }: LoginButtonProps) => {
-  const { signIn } = useConnect();
-  const { isConnected, address } = useAccount();
-  const { chain } = useNetwork();
-
-  useEffect(() => {
-    if (!signupModalOpen) {
-      if (isConnected && address && chain) {
-        signIn({ address, chain });
-      }
-    }
-  }, [address, chain, isConnected, signIn, signupModalOpen]);
+  const { isLoading } = useLogin(signupModalOpen);
 
   return (
     <ConnectButton>
-      <Button variant="primary" size="md" {...props}>
+      <Button variant="primary" size="md" {...props} isLoading={isLoading}>
         {children}
       </Button>
     </ConnectButton>

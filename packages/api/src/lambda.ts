@@ -46,6 +46,10 @@ async function bootstrapServer(): Promise<Server> {
       logger: ['error', 'warn', 'log']
     });
     nestApp.use(eventContext());
+    nestApp.enableCors({
+      origin: `${process.env.FRONT_PROTOCOL}${process.env.FRONT_URL}`,
+      credentials: true
+    });
     nestApp.useGlobalPipes(
       new ValidationPipe({
         transform: true,

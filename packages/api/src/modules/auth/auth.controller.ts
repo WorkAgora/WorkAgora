@@ -3,9 +3,11 @@ import {
   Controller,
   HttpException,
   Inject,
+  Logger,
   Param,
   Post,
   Req,
+  Res,
   UseGuards,
   UsePipes,
   ValidationPipe
@@ -13,9 +15,12 @@ import {
 import { AuthService } from './auth.service';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NonceDTO } from '../../dtos/auth/nonce.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { RegisterDTO } from '../../dtos/auth/register.dto';
 import { SiweAuthGuard } from './siwe.guard';
+import { LoginDTO } from '../../dtos/auth/login.dto';
+import { UserDTO } from '../../dtos/user/user.dto';
+import { UserService } from '../user/user.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -23,6 +28,9 @@ import { SiweAuthGuard } from './siwe.guard';
 export class AuthController {
   @Inject(AuthService)
   private readonly authService: AuthService;
+
+  @Inject(UserService)
+  private readonly userService: UserService;
 
   @Post('getNonce/:wallet')
   @ApiOperation({ summary: 'Generate nonce for a wallet' })
@@ -74,17 +82,82 @@ export class AuthController {
     return this.authService.register({ wallet: wallet.toLowerCase(), ...restPayload });
   }
 
-  /*@Post('login')
+  @UseGuards(SiweAuthGuard)
+  @Post('login')
   @ApiOperation({ summary: 'Login with a SIWE message' })
   @ApiBody({ type: LoginDTO })
-  @ApiResponse({ status: 201, description: 'Return JWT tokens', type: JwtDTO })
+  @ApiResponse({
+    status: 200,
+    description: 'Return JWT tokens',
+    type: UserDTO
+  })
   @ApiResponse({ status: 401, description: 'SiweMessage Error or Unauthorized authentication' })
   @ApiResponse({
     status: 500,
     description: 'Unexpected Error while login'
   })
-  async login(@Body() payload: LoginDTO, @Req() req: Request): Promise<JwtDTO> {
-    const {};
-    //return this.authService.login(wallet.toLowerCase())
-  }*/
+  async login(@Body() payload: LoginDTO, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const guardWallet = req.user as string;
+
+    if (!guardWallet) {
+      throw new HttpException(`Error while registering`, 500);
+    }
+    const { wallet } = payload;
+
+    if (wallet.toLowerCase() !== guardWallet)
+      throw new HttpException(`Address for login is different than address from signature`, 401);
+    const user = await this.userService.findUserByWallet(wallet.toLowerCase());
+    if (!user) {
+      throw new HttpException(`User doesn't exist`, 401);
+    }
+    const jwt = await this.authService.login(wallet.toLowerCase());
+    res.cookie('authToken', jwt.accessToken, {
+      maxAge: 60 * 60 * 24 * 7 * 1000, // 1 week
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/'
+    });
+    res.cookie('refreshToken', jwt.refreshToken, {
+      maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/auth/refresh'
+    });
+    Logger.log('WILL RETURN', user);
+    res.status(200).json(user);
+  }
+
+  @Post('refresh')
+  @ApiOperation({ summary: 'Refresh JWT Token' })
+  @ApiResponse({ status: 200, description: 'Token refreshed' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async refresh(@Req() req: Request, @Res() res: Response) {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      throw new HttpException('Unauthorized', 401);
+    }
+
+    try {
+      const newTokens = await this.authService.refreshTokens(refreshToken);
+      res.cookie('authToken', newTokens.accessToken, {
+        maxAge: 60 * 60 * 24 * 7 * 1000, // 1 week
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/'
+      });
+      res.cookie('refreshToken', newTokens.refreshToken, {
+        maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/auth/refresh'
+      });
+      res.status(200).send('Token refreshed');
+    } catch (error) {
+      throw new HttpException('Unauthorized', 401);
+    }
+  }
 }

@@ -2,7 +2,7 @@ import { useDisconnect, useSignMessage } from 'wagmi';
 import { API_URL } from '../services/api';
 import { SiweMessage } from 'siwe';
 import { getNonceApi, signInWithEthereumApi } from '../services/auth';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 interface LoginProps {
   address: `0x${string}`;
@@ -31,11 +31,16 @@ export function useConnect() {
             nonce
           }).prepareMessage();
           const signature = await signMessageAsync({ message });
-          const tokens = await signInWithEthereumApi({ message, signature });
-          //@TODO create a store or context to keep tokens;
-        } catch (error) {
-          //@TODO change for logout from all auth not only wallet
+          const user = await signInWithEthereumApi({ wallet: address, message, signature });
+          return user;
+        } catch (error: any) {
           disconnect();
+          if (error.response) {
+            return error.response.data.message;
+          }
+          if (error.message) {
+            return error.message;
+          }
         }
       }
     },
