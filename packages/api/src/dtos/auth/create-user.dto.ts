@@ -21,5 +21,5 @@ export class CreateUserDTO {
 
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  toAcceptTerms: Date;
+  tosAcceptedOn: Date;
 }

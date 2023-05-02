@@ -89,15 +89,9 @@ export class AuthService {
 
   public async register(payload: RegisterDTO): Promise<boolean> {
     try {
-      const { wallet, email, firstname, lastname, currentUserType } = payload;
-      const newUser: CreateUserDTO = {
-        wallet,
-        email,
-        firstname,
-        lastname,
-        currentUserType,
-        toAcceptTerms: new Date(Date.now())
-      };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { agreeTOS, agreeDataTreatment, ...restPayload } = payload;
+      const newUser: CreateUserDTO = { ...restPayload, tosAcceptedOn: new Date(Date.now())} ;
 
       await this.userService.create(newUser);
       return true;
