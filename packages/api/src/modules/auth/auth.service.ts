@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   UnprocessableEntityException
 } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
@@ -11,6 +10,8 @@ import { generateNonce, SiweMessage } from 'siwe';
 import { NonceDTO } from '../../dtos/auth/nonce.dto';
 import { UserService } from '../user/user.service';
 import { RegisterDTO } from '../../dtos/auth/register.dto';
+import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
+import { omit } from 'lodash';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
   constructor(
     @InjectModel('Auth')
     private readonly model: Model<Auth, AuthKey>
-  ) {}
+  ) { }
 
   public async getNonce(wallet: string): Promise<NonceDTO> {
     try {
@@ -87,7 +88,13 @@ export class AuthService {
   }
 
   public async register(payload: RegisterDTO): Promise<boolean> {
-    //@TODO register the user in dynamoDB if success return true else return false
-    return true;
+    try {
+      const newUser: CreateUserDTO = { ...omit(payload, ['agreeTOS', 'agreeDataTreatment']), tosAcceptedOn: new Date(Date.now()) }
+
+      await this.userService.create(newUser);
+      return true;
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
   }
 }
