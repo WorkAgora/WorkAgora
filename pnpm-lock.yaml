@@ -55,6 +55,9 @@ dependencies:
   joi:
     specifier: ^17.9.2
     version: 17.9.2
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   nestjs-dynamoose:
     specifier: ^0.5.4
     version: 0.5.4(@aws-sdk/client-dynamodb@3.321.1)(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(dynamoose@3.2.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)

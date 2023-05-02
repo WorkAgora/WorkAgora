@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   UnprocessableEntityException
 } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
@@ -12,6 +11,7 @@ import { NonceDTO } from '../../dtos/auth/nonce.dto';
 import { UserService } from '../user/user.service';
 import { RegisterDTO } from '../../dtos/auth/register.dto';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
+import { omit } from 'lodash';
 
 @Injectable()
 export class AuthService {
@@ -89,9 +89,7 @@ export class AuthService {
 
   public async register(payload: RegisterDTO): Promise<boolean> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { agreeTOS, agreeDataTreatment, ...restPayload } = payload;
-      const newUser: CreateUserDTO = { ...restPayload, tosAcceptedOn: new Date(Date.now())} ;
+      const newUser: CreateUserDTO = { ...omit(payload, ['agreeTOS', 'agreeDataTreatment']), tosAcceptedOn: new Date(Date.now()) }
 
       await this.userService.create(newUser);
       return true;
