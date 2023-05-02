@@ -10,7 +10,8 @@ import {
   FormLabel,
   Heading,
   Input,
-  Flex
+  Flex,
+  useToast
 } from '@chakra-ui/react';
 import ConnectButton from '../button/ConnectButton';
 import RadioCard from '../radio/RadioCard';
@@ -56,19 +57,35 @@ const validationSchema = Yup.object().shape({
   agreeDataTreatment: Yup.bool().oneOf([true], 'Must agree to data treatment policy')
 });
 
-const SignupForm: FC = () => {
+interface SignupFormProps {
+  onSubmitSuccess: () => void;
+}
+
+const SignupForm: FC<SignupFormProps> = ({ onSubmitSuccess }) => {
   const { isConnected, address } = useAccount();
   const { chain } = useNetwork();
   const { signUp } = useSignUp();
+  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const onSubmit = async (values: FormData) => {
     if (address && chain && !loading) {
       setLoading(true);
       const res = await signUp({ address, chain, ...values });
       if (res) {
-        //@TODO display success
+        toast({
+          title: <Text mt={-0.5}>Account registered</Text>,
+          status: 'success',
+          isClosable: true,
+          position: 'top-right'
+        });
+        onSubmitSuccess();
       } else {
-        //@TODO display error
+        toast({
+          title: <Text mt={-0.5}>Error while registering</Text>,
+          status: 'error',
+          isClosable: true,
+          position: 'top-right'
+        });
       }
       setLoading(false);
     }

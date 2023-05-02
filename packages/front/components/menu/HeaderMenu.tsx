@@ -1,13 +1,11 @@
 import { FC } from 'react';
 import { Box, Flex, Button, Spacer, Image, useDisclosure } from '@chakra-ui/react';
-import ConnectButton from '../button/ConnectButton';
-import { useConnect } from '../../hooks/useConnect';
 import FullScreenModal from '../modal/SignupModal';
 import SignupForm from '../form/SignupForm';
+import LoginButton from '../button/LoginButton';
 
 const HeaderMenu: FC = () => {
   const authenticated = false;
-  useConnect();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -20,11 +18,9 @@ const HeaderMenu: FC = () => {
           <Spacer />
           {!authenticated && (
             <>
-              <ConnectButton>
-                <Button variant="primary" size="md" mr={4}>
-                  Login
-                </Button>
-              </ConnectButton>
+              <LoginButton signupModalOpen={isOpen} mr={4}>
+                Login
+              </LoginButton>
               <Button
                 variant="link"
                 color="green.300"
@@ -39,7 +35,7 @@ const HeaderMenu: FC = () => {
         </Flex>
       </Box>
       <FullScreenModal isOpen={isOpen} onClose={onClose}>
-        <SignupForm />
+        <SignupForm onSubmitSuccess={onClose} />
       </FullScreenModal>
     </>
   );
