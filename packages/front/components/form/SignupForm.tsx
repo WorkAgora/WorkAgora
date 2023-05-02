@@ -71,7 +71,7 @@ const SignupForm: FC<SignupFormProps> = ({ onSubmitSuccess }) => {
     if (address && chain && !loading) {
       setLoading(true);
       const res = await signUp({ address, chain, ...values });
-      if (res) {
+      if (res === true) {
         toast({
           title: <Text mt={-0.5}>Account registered</Text>,
           status: 'success',
@@ -82,6 +82,7 @@ const SignupForm: FC<SignupFormProps> = ({ onSubmitSuccess }) => {
       } else {
         toast({
           title: <Text mt={-0.5}>Error while registering</Text>,
+          description: typeof res === 'string' ? res : null,
           status: 'error',
           isClosable: true,
           position: 'top-right'

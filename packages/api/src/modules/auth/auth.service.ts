@@ -93,7 +93,6 @@ export class AuthService {
         ...omit(payload, ['agreeTOS', 'agreeDataTreatment', 'message', 'signature']),
         tosAcceptedOn: new Date(Date.now())
       };
-      Logger.log(newUser);
       await this.userService.create(newUser);
       return true;
     } catch (error) {

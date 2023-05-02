@@ -23,7 +23,7 @@ export class UserService {
         // Return the found user as a UserDTO
         return { wallet: user.wallet, email: user.email };
       } else {
-        throw new UnprocessableEntityException('User not found');
+        return null;
       }
     } catch (error) {
       throw new UnprocessableEntityException('Error while querying the user', { cause: error });
@@ -32,9 +32,11 @@ export class UserService {
 
   public async create(user: CreateUserDTO): Promise<void> {
     try {
-      Logger.log('WILL CREATE', user);
-      const createdUser = await this.model.create(user);
-      Logger.log('USER CREATED', JSON.stringify(createdUser));
+      const userExist = await this.findUserByWallet(user.wallet);
+      if (userExist) {
+        throw new UnprocessableEntityException('User with this address already exist');
+      }
+      await this.model.create(user);
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
     }

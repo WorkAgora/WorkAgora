@@ -3,10 +3,13 @@ import { Box, Flex, Button, Spacer, Image, useDisclosure } from '@chakra-ui/reac
 import FullScreenModal from '../modal/SignupModal';
 import SignupForm from '../form/SignupForm';
 import LoginButton from '../button/LoginButton';
+import { useAccount, useDisconnect } from 'wagmi';
 
 const HeaderMenu: FC = () => {
   const authenticated = false;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isConnected, address } = useAccount();
+  const { disconnect } = useDisconnect();
   return (
     <>
       <Box width="100%" height="60px">
@@ -34,7 +37,15 @@ const HeaderMenu: FC = () => {
           )}
         </Flex>
       </Box>
-      <FullScreenModal isOpen={isOpen} onClose={onClose}>
+      <FullScreenModal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          if (isConnected && address) {
+            disconnect();
+          }
+        }}
+      >
         <SignupForm onSubmitSuccess={onClose} />
       </FullScreenModal>
     </>

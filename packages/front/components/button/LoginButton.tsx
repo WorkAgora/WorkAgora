@@ -18,11 +18,11 @@ const LoginButton: FC<LoginButtonProps> = ({
   const { chain } = useNetwork();
 
   useEffect(() => {
-    /*if (!signupModalOpen) {
+    if (!signupModalOpen) {
       if (isConnected && address && chain) {
         signIn({ address, chain });
       }
-    }*/
+    }
   }, [address, chain, isConnected, signIn, signupModalOpen]);
 
   return (
