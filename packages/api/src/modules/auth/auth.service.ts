@@ -11,6 +11,7 @@ import { generateNonce, SiweMessage } from 'siwe';
 import { NonceDTO } from '../../dtos/auth/nonce.dto';
 import { UserService } from '../user/user.service';
 import { RegisterDTO } from '../../dtos/auth/register.dto';
+import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
   constructor(
     @InjectModel('Auth')
     private readonly model: Model<Auth, AuthKey>
-  ) {}
+  ) { }
 
   public async getNonce(wallet: string): Promise<NonceDTO> {
     try {
@@ -87,7 +88,19 @@ export class AuthService {
   }
 
   public async register(payload: RegisterDTO): Promise<boolean> {
-    //@TODO register the user in dynamoDB if success return true else return false
-    return true;
+    try {
+      const newUser: CreateUserDTO = {
+        wallet: payload.wallet,
+        email: payload.email,
+        firstname: payload.firstname,
+        lastname: payload.lastname,
+        userType: payload.userType
+      };
+
+      await this.userService.create(newUser);
+      return true;
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
   }
 }

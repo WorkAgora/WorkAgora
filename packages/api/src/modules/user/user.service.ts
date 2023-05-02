@@ -2,13 +2,14 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from './user.interface';
+import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel('User')
     private readonly model: Model<User, UserKey>
-  ) {}
+  ) { }
 
   public async findUserByWallet(wallet: string): Promise<UserDTO> {
     try {
@@ -26,6 +27,15 @@ export class UserService {
       }
     } catch (error) {
       throw new UnprocessableEntityException('Error while querying the user', { cause: error });
+    }
+  }
+
+  public async create(user: CreateUserDTO): Promise<User> {
+    try {
+      const newUser = await this.model.create(user);
+      return newUser;
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
     }
   }
 }
