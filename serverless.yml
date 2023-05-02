@@ -27,7 +27,7 @@ provider:
           Resource: arn:aws:dynamodb:${self:provider.region}:*:*
 
 plugins:
-  - 'serverless-plugin-typescript'
+  - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-plugin-optimize
   - serverless-offline
@@ -37,14 +37,14 @@ custom:
     stages:
       - ${self:provider.stage}
     start:
-      port: 8001
+      port: 8000
       inMemory: true
       migrate: true
       seed: false
   optimize:
     external: ['swagger-ui-dist']
   serverlessPluginTypescript:
-    tsConfigFileLocation: 'packages/api/tsconfig.json'
+    tsConfigFileLocation: 'packages/api/tsconfig.app.json'
 
 functions:
   main: # The name of the lambda function

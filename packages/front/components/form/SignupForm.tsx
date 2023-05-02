@@ -129,12 +129,12 @@ const SignupForm: FC = () => {
                 {(msg) => <Text color="red.300">{msg}</Text>}
               </ErrorMessage>
             </FormControl>
-            <RadioCardGroup name="userType" display="flex" columnGap={2} mb={4}>
+            <RadioCardGroup name="currentUserType" display="flex" columnGap={2} mb={4}>
               {RadioGroupUserType.map((v, k) => {
                 return (
                   <RadioCard
                     key={k}
-                    groupName="userType"
+                    groupName="currentUserType"
                     label={v.label}
                     description={v.description}
                     value={v.value}

@@ -2,6 +2,7 @@ import {
   HttpException,
   Inject,
   Injectable,
+  Logger,
   UnprocessableEntityException
 } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
@@ -21,7 +22,7 @@ export class AuthService {
   constructor(
     @InjectModel('Auth')
     private readonly model: Model<Auth, AuthKey>
-  ) { }
+  ) {}
 
   public async getNonce(wallet: string): Promise<NonceDTO> {
     try {
@@ -46,8 +47,7 @@ export class AuthService {
     if (res[0].nonce !== siweMessage.nonce) throw new HttpException('Nonce not valid', 401);
     await this.model.create(
       {
-        wallet: siweMessage.address.toLowerCase(),
-        nonceTimeout: new Date()
+        wallet: siweMessage.address.toLowerCase()
       },
       { overwrite: true, return: 'item' }
     );
@@ -89,8 +89,11 @@ export class AuthService {
 
   public async register(payload: RegisterDTO): Promise<boolean> {
     try {
-      const newUser: CreateUserDTO = { ...omit(payload, ['agreeTOS', 'agreeDataTreatment']), tosAcceptedOn: new Date(Date.now()) }
-
+      const newUser: CreateUserDTO = {
+        ...omit(payload, ['agreeTOS', 'agreeDataTreatment', 'message', 'signature']),
+        tosAcceptedOn: new Date(Date.now())
+      };
+      Logger.log(newUser);
       await this.userService.create(newUser);
       return true;
     } catch (error) {

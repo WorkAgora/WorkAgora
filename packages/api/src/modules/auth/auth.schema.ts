@@ -1,4 +1,4 @@
-import { walletRegex } from '@workaurora/utils';
+import { walletRegex } from '../../../../utils/src/index';
 import { Schema } from 'dynamoose';
 
 export const AuthSchema = new Schema({

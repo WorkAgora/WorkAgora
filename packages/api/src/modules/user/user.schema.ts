@@ -1,5 +1,14 @@
-import { emailRegex, locationRegex, phoneRegex, urlRegex, walletRegex } from '@workaurora/utils';
+import {
+  emailRegex,
+  locationRegex,
+  phoneRegex,
+  urlRegex,
+  walletRegex
+} from '../../../../utils/src/index';
 import { Schema } from 'dynamoose';
+
+//@TODO add Schema for FreelancerProfile / EmployerProfile
+// Also fix this schema looking at user.interface.ts
 
 export const UserSchema = new Schema({
   wallet: {
@@ -14,6 +23,8 @@ export const UserSchema = new Schema({
     rangeKey: true,
     validate: emailRegex
   },
+  firstname: String,
+  lastname: String,
   description: {
     type: String,
     required: false,
@@ -30,26 +41,11 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     }
   },
-  language: {
-    type: Array,
-    required: false
-  },
-  skills: {
-    type: Array,
-    required: false
-  },
-  situation: {
-    type: String,
-    required: false
-  },
-  availability: {
-    type: String,
-    required: false
-  },
-  hoursPerWeek: {
-    type: Number,
-    required: false
-  },
+  language: Array,
+  skills: Array,
+  situation: String,
+  availability: String,
+  hoursPerWeek: Number,
   location: {
     type: String,
     required: false,
@@ -59,26 +55,10 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     }
   },
-  remuneration: {
-    type: String,
-    required: false
-  },
-  links: {
-    type: Array,
-    required: false
-  },
-  yearsOfExperience: {
-    type: String,
-    required: false
-  },
-  fullName: {
-    type: String,
-    required: false
-  },
-  certification: {
-    type: Array,
-    required: false
-  },
+  remuneration: String,
+  links: Array,
+  yearsOfExperience: String,
+  certification: Array,
   profilePicture: {
     type: String,
     required: false,

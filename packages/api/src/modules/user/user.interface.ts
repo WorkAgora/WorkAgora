@@ -18,6 +18,8 @@ export interface EmployerProfile {
 
 export interface User extends UserKey {
   email: string;
+  firstname?: string;
+  lastname?: string;
   description?: string;
   phone?: string;
   language?: string[];
@@ -28,4 +30,6 @@ export interface User extends UserKey {
   updatedAt?: Date;
   workProfile?: FreelancerProfile;
   clientProfile?: EmployerProfile;
+  currentUserType?: string;
+  tosAcceptedOn?: Date;
 }

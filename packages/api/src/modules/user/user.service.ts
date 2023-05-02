@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from './user.interface';
@@ -9,7 +9,7 @@ export class UserService {
   constructor(
     @InjectModel('User')
     private readonly model: Model<User, UserKey>
-  ) { }
+  ) {}
 
   public async findUserByWallet(wallet: string): Promise<UserDTO> {
     try {
@@ -32,7 +32,9 @@ export class UserService {
 
   public async create(user: CreateUserDTO): Promise<void> {
     try {
-      const newUser = await this.model.create(user);
+      Logger.log('WILL CREATE', user);
+      const createdUser = await this.model.create(user);
+      Logger.log('USER CREATED', JSON.stringify(createdUser));
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
     }
