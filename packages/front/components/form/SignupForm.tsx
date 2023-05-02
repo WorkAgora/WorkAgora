@@ -42,7 +42,7 @@ interface FormData {
   email: string;
   firstname: string;
   lastname: string;
-  userType: string;
+  currentUserType: string;
   agreeTOS: boolean;
   agreeDataTreatment: boolean;
 }
@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required(' '),
   firstname: Yup.string().min(2).required(' '),
   lastname: Yup.string().min(2).required(' '),
-  userType: Yup.string().required(' '),
+  currentUserType: Yup.string().oneOf(['Freelancer', 'Employer']).required(' '),
   agreeTOS: Yup.bool().oneOf([true], 'Must agree to Terms of Service'),
   agreeDataTreatment: Yup.bool().oneOf([true], 'Must agree to data treatment policy')
 });
@@ -79,7 +79,7 @@ const SignupForm: FC = () => {
         email: '',
         firstname: '',
         lastname: '',
-        userType: RadioGroupUserType[0].value,
+        currentUserType: RadioGroupUserType[0].value,
         agreeTOS: false,
         agreeDataTreatment: false
       }}

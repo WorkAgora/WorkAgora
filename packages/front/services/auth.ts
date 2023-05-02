@@ -15,7 +15,7 @@ export interface SignUpWithEthereumProps extends SignInWithEthereumProps {
   email: string;
   firstname: string;
   lastname: string;
-  userType: string;
+  currentUserType: string;
   agreeTOS: boolean;
   agreeDataTreatment: boolean;
 }

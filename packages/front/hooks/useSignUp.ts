@@ -10,7 +10,7 @@ interface SigupProps {
   email: string;
   firstname: string;
   lastname: string;
-  userType: string;
+  currentUserType: string;
   agreeTOS: boolean;
   agreeDataTreatment: boolean;
 }
@@ -26,7 +26,7 @@ export function useSignUp() {
       email,
       firstname,
       lastname,
-      userType,
+      currentUserType,
       agreeTOS,
       agreeDataTreatment
     }: SigupProps) => {
@@ -51,7 +51,7 @@ export function useSignUp() {
             email,
             firstname,
             lastname,
-            userType,
+            currentUserType,
             agreeTOS,
             agreeDataTreatment
           });
