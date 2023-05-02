@@ -1,6 +1,7 @@
 # Compiler files
 cache_forge/
 contracts-out/
+docs/lib/
 
 # Ignores development broadcast logs
 !/broadcast
