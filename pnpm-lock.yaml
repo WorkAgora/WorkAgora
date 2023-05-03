@@ -2,11 +2,15 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/preset-react': ^7.14.5
+  '@chakra-ui/anatomy': ^2.1.1
   '@chakra-ui/icons': ^2.0.19
   '@chakra-ui/react': ^2.6.0
+  '@chakra-ui/styled-system': ^2.9.0
+  '@emotion/react': ^11.10.8
   '@ethersproject/abi': ^5.7.0
   '@ethersproject/providers': ^5.7.2
   '@fontsource/comfortaa': ^4.5.11
+  '@fontsource/montserrat': ^4.5.14
   '@nestjs/common': ^9.0.0
   '@nestjs/config': ^2.3.1
   '@nestjs/core': ^9.0.0
@@ -44,7 +48,6 @@ specifiers:
   '@types/aws-lambda': ^8.10.114
   '@types/aws-serverless-express': ^3.3.5
   '@types/jest': ^29.4.0
-  '@types/js-cookie': ^3.0.3
   '@types/js-yaml': ^4.0.5
   '@types/node': 18.14.2
   '@types/react': 18.0.28
@@ -86,7 +89,6 @@ specifiers:
   jest-environment-jsdom: ^29.4.1
   jest-environment-node: ^29.4.1
   joi: ^17.9.2
-  js-cookie: ^3.0.5
   js-yaml: ^4.1.0
   lodash: ^4.17.21
   nestjs-dynamoose: ^0.5.4
@@ -120,9 +122,13 @@ specifiers:
   yup: ^1.1.1
 
 dependencies:
+  '@chakra-ui/anatomy': 2.1.1
   '@chakra-ui/icons': 2.0.19_crp6l7zx4z63365ii5nihtnfgi
   '@chakra-ui/react': 2.6.0_ut5q6jbxaki4u45aiaex4ib52m
+  '@chakra-ui/styled-system': 2.9.0
+  '@emotion/react': 11.10.8_pmekkgnqduwlme35zpnqhenc34
   '@fontsource/comfortaa': 4.5.11
+  '@fontsource/montserrat': 4.5.14
   '@nestjs/common': 9.4.0_j3td4gnlgk75ora6o6suo62byy
   '@nestjs/config': 2.3.1_4k3epc74gc2u2qkv5yznawsx6m
   '@nestjs/core': 9.4.0_s52inwjga72fw7w7ilq4rk5hru
@@ -140,7 +146,6 @@ dependencies:
   formik: 2.2.9_react@18.2.0
   i18next: 22.4.15
   joi: 17.9.2
-  js-cookie: 3.0.5
   lodash: 4.17.21
   nestjs-dynamoose: 0.5.4_lyii6plmn7hfpg7yblqc5theme
   next: 13.3.0_5lnmxaau2bs7vcvowl2iwadrxa
@@ -192,7 +197,6 @@ devDependencies:
   '@types/aws-lambda': 8.10.114
   '@types/aws-serverless-express': 3.3.5
   '@types/jest': 29.5.1
-  '@types/js-cookie': 3.0.3
   '@types/js-yaml': 4.0.5
   '@types/node': 18.14.2
   '@types/react': 18.0.28
@@ -2435,6 +2439,10 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@chakra-ui/anatomy/2.1.1:
+    resolution: {integrity: sha512-LUHAoqJAgxAqmyckG5bUpBrfEo1FleEyY+1A8hkWciy58gZ+h3GoY9oBpHcdo7XdHPpy3G+3hieK/7i9NLwxAw==}
+    dev: false
+
   /@chakra-ui/anatomy/2.1.2:
     resolution: {integrity: sha512-pKfOS/mztc4sUXHNc8ypJ1gPWSolWT770jrgVRfolVbYlki8y5Y+As996zMF6k5lewTu6j9DQequ7Cc9a69IVQ==}
     dev: false
@@ -4213,6 +4221,10 @@ packages:
 
   /@fontsource/comfortaa/4.5.11:
     resolution: {integrity: sha512-KKC2C6KbF9BD6m9+wMf5hK0wFjIi3p3J/6C4JZW6OF9G6K4qZJFp2dBZzsEBepKh4s9/Q5G1SWsUUZY3ZeZNDA==}
+    dev: false
+
+  /@fontsource/montserrat/4.5.14:
+    resolution: {integrity: sha512-fTvrteVzuFUePhr4QYBGoK8G/YHLJ3IhF1HhKg0AxcFvZajJT7rM7ULdmKLSd2PkX44R3aaFZq1zDbmjbGGI+w==}
     dev: false
 
   /@hapi/accept/6.0.1:
@@ -7434,10 +7446,6 @@ packages:
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
-    dev: true
-
-  /@types/js-cookie/3.0.3:
-    resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==}
     dev: true
 
   /@types/js-yaml/4.0.5:
@@ -15259,11 +15267,6 @@ packages:
 
   /jose/4.14.3:
     resolution: {integrity: sha512-YPM9Q+dmsna4CGWNn5+oHFsuXJdxvKAOVoNjpe2nje3odSoX5Xz4s71rP50vM8uUKJyQtMnEGPmbVCVR+G4W5g==}
-
-  /js-cookie/3.0.5:
-    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
-    engines: {node: '>=14'}
-    dev: false
 
   /js-object-utilities/2.1.0:
     resolution: {integrity: sha512-X62npvVTfyNELV4gPU4jJSzFZbdxk3zH/FxlBrZ6n+AGKpGyhMpsPs00tjtqTLy582zG4bvaG5fuKMm/zA1gng==}

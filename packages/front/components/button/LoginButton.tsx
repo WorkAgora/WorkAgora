@@ -18,7 +18,7 @@ const LoginButton: FC<LoginButtonProps> = ({
 
   return (
     <ConnectButton>
-      <Button variant="primary" size="md" {...props} isLoading={isLoading}>
+      <Button variant="link" size="md" {...props} isLoading={isLoading}>
         {children}
       </Button>
     </ConnectButton>

@@ -17,7 +17,6 @@ export const useLogin = (signupModalOpen: boolean) => {
       setIsLoading(true);
       const res = await signIn({ address, chain });
       if (typeof res !== 'string') {
-        console.log(res);
         setUser(res);
       } else {
         toast({
@@ -30,7 +29,7 @@ export const useLogin = (signupModalOpen: boolean) => {
       }
       setIsLoading(false);
     },
-    [signIn, toast]
+    [setUser, signIn, toast]
   );
 
   useEffect(() => {

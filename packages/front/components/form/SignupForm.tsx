@@ -2,16 +2,16 @@ import { FC, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import {
-  Box,
   Button,
   Checkbox,
   Text,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   Flex,
-  useToast
+  useToast,
+  FormHelperText,
+  Box
 } from '@chakra-ui/react';
 import ConnectButton from '../button/ConnectButton';
 import RadioCard from '../radio/RadioCard';
@@ -22,19 +22,16 @@ import { useSignUp } from '../../hooks/useSignUp';
 
 interface RadioUserType {
   label: string;
-  description: string;
   value: string;
 }
 
 const RadioGroupUserType: RadioUserType[] = [
   {
     label: 'Freelancer',
-    description: 'You are looking for a job',
     value: 'Freelancer'
   },
   {
     label: 'Employer',
-    description: 'You are looking for freelancers',
     value: 'Employer'
   }
 ];
@@ -49,9 +46,9 @@ interface FormData {
 }
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required(' '),
-  firstname: Yup.string().min(2).required(' '),
-  lastname: Yup.string().min(2).required(' '),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  firstname: Yup.string().min(2).required('Firstname required'),
+  lastname: Yup.string().min(2).required('Lastname required'),
   currentUserType: Yup.string().oneOf(['Freelancer', 'Employer']).required(' '),
   agreeTOS: Yup.bool().oneOf([true], 'Must agree to Terms of Service'),
   agreeDataTreatment: Yup.bool().oneOf([true], 'Must agree to data treatment policy')
@@ -66,6 +63,7 @@ const SignupForm: FC<SignupFormProps> = ({ onSubmitSuccess }) => {
   const { chain } = useNetwork();
   const { signUp } = useSignUp();
   const toast = useToast();
+
   const [loading, setLoading] = useState(false);
   const onSubmit = async (values: FormData) => {
     if (address && chain && !loading) {
@@ -104,124 +102,141 @@ const SignupForm: FC<SignupFormProps> = ({ onSubmitSuccess }) => {
       validationSchema={validationSchema}
       isInitialValid={false}
       onSubmit={onSubmit}
+      validateOnChange={false}
+      validateOnBlur={true}
     >
       {({ isValid, errors, touched }) => (
         <Form>
-          <Heading as="h2" size="xl" mb={4}>
-            Sign Up
-          </Heading>
-          <Box width="100%" px={5} py={3} mx="auto">
-            <FormControl id="email" mb={4} display="flex" flexDir="column" isRequired>
-              <FormLabel>Email</FormLabel>
-              <Field
-                name="email"
-                as={Input}
-                type="email"
-                isInvalid={errors.email && touched.email}
-              />
-              <ErrorMessage name="email">
-                {(msg) => <Text color="red.300">{msg}</Text>}
-              </ErrorMessage>
-            </FormControl>
-            <FormControl id="firstname" mb={4} display="flex" flexDir="column" isRequired>
-              <FormLabel>Firstname</FormLabel>
-              <Field
-                name="firstname"
-                as={Input}
-                type="text"
-                isInvalid={errors.firstname && touched.firstname}
-              />
-              <ErrorMessage name="firstname">
-                {(msg) => <Text color="red.300">{msg}</Text>}
-              </ErrorMessage>
-            </FormControl>
-            <FormControl id="lastname" mb={6} display="flex" flexDir="column" isRequired>
-              <FormLabel>Lastname</FormLabel>
-              <Field
-                name="lastname"
-                as={Input}
-                type="text"
-                isInvalid={errors.lastname && touched.lastname}
-              />
-              <ErrorMessage name="lastname">
-                {(msg) => <Text color="red.300">{msg}</Text>}
-              </ErrorMessage>
-            </FormControl>
-            <RadioCardGroup name="currentUserType" display="flex" columnGap={2} mb={4}>
+          <FormControl id="email" isRequired mb={6}>
+            <FormLabel>Your mail</FormLabel>
+            <Field
+              name="email"
+              placeholder="Enter your mail"
+              as={Input}
+              type="email"
+              isInvalid={errors.email && touched.email}
+            />
+            <ErrorMessage name="email">
+              {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+            </ErrorMessage>
+          </FormControl>
+          <FormControl id="firstname" isRequired mb={6}>
+            <FormLabel>Your firstname</FormLabel>
+            <Field
+              name="firstname"
+              placeholder="Enter your firstname"
+              as={Input}
+              type="text"
+              isInvalid={errors.firstname && touched.firstname}
+            />
+            <ErrorMessage name="firstname">
+              {(msg) => (
+                <Text mt={1} textStyle="errorMessage">
+                  {msg}
+                </Text>
+              )}
+            </ErrorMessage>
+          </FormControl>
+          <FormControl id="lastname" isRequired mb={6}>
+            <FormLabel>Your lastname</FormLabel>
+            <Field
+              name="lastname"
+              placeholder="Enter your lastname"
+              as={Input}
+              type="text"
+              isInvalid={errors.lastname && touched.lastname}
+            />
+            <ErrorMessage name="lastname">
+              {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+            </ErrorMessage>
+          </FormControl>
+          <FormControl id="currentUserType" mb={6}>
+            <FormLabel>Your are a</FormLabel>
+            <RadioCardGroup name="currentUserType" display="flex" columnGap={2}>
               {RadioGroupUserType.map((v, k) => {
                 return (
-                  <RadioCard
-                    key={k}
-                    groupName="currentUserType"
-                    label={v.label}
-                    description={v.description}
-                    value={v.value}
-                  />
+                  <RadioCard key={k} groupName="currentUserType" label={v.label} value={v.value} />
                 );
               })}
             </RadioCardGroup>
-            <Flex flexDirection="column" mb={4}>
-              <FormControl id="agreeTOS" isRequired>
-                <Field name="agreeTOS" type="checkbox">
-                  {({ field }: FieldProps<string>) => (
-                    <Checkbox
-                      {...field}
-                      isChecked={field.checked}
-                      isInvalid={errors.agreeTOS !== undefined && touched.agreeTOS}
-                    >
-                      I agree to the Terms of Service
-                    </Checkbox>
-                  )}
-                </Field>
-              </FormControl>
-              <ErrorMessage name="agreeTOS">
-                {(msg) => <Text color="red.300">{msg}</Text>}
-              </ErrorMessage>
-            </Flex>
-            <Flex flexDirection="column" mb={4}>
-              <FormControl id="agreeDataTreatment" isRequired>
-                <Field name="agreeDataTreatment" type="checkbox">
-                  {({ field }: FieldProps<string>) => (
-                    <Checkbox
-                      {...field}
-                      isChecked={field.checked}
-                      isInvalid={
-                        errors.agreeDataTreatment !== undefined && touched.agreeDataTreatment
-                      }
-                    >
-                      I agree to the data treatment policy
-                    </Checkbox>
-                  )}
-                </Field>
-              </FormControl>
-              <ErrorMessage name="agreeDataTreatment">
-                {(msg) => <Text color="red.300">{msg}</Text>}
-              </ErrorMessage>
-            </Flex>
+            <FormHelperText>You’ll be able to switch at any moment *</FormHelperText>
+          </FormControl>
+          <Flex flexDirection="column" mb={4}>
+            <FormControl id="agreeTOS" isRequired>
+              <Field name="agreeTOS" type="checkbox">
+                {({ field }: FieldProps<string>) => (
+                  <Checkbox
+                    {...field}
+                    isChecked={field.checked}
+                    isInvalid={errors.agreeTOS !== undefined && touched.agreeTOS}
+                  >
+                    I agree to the Terms of Service
+                  </Checkbox>
+                )}
+              </Field>
+            </FormControl>
+            <ErrorMessage name="agreeTOS">
+              {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+            </ErrorMessage>
+          </Flex>
+          <Flex flexDirection="column" mb={6}>
+            <FormControl id="agreeDataTreatment" isRequired>
+              <Field name="agreeDataTreatment" type="checkbox">
+                {({ field }: FieldProps<string>) => (
+                  <Checkbox
+                    {...field}
+                    isChecked={field.checked}
+                    isInvalid={
+                      errors.agreeDataTreatment !== undefined && touched.agreeDataTreatment
+                    }
+                  >
+                    I agree to the data treatment policy
+                  </Checkbox>
+                )}
+              </Field>
+            </FormControl>
+            <ErrorMessage name="agreeDataTreatment">
+              {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+            </ErrorMessage>
+          </Flex>
+          <FormControl mb={4}>
             {!isConnected && (
-              <ConnectButton width="100%" mb={4}>
+              <ConnectButton width="100%">
                 <Button variant="primary" size="md" width="100%">
-                  Link Wallet
+                  Connect Wallet
                 </Button>
               </ConnectButton>
             )}
-            {isConnected && address && (
-              <Text mb={4}>
+            {isConnected && (
+              <Box
+                borderWidth="1px"
+                borderColor="green.300"
+                color="green.300"
+                borderRadius="32px"
+                fontWeight="600"
+                textAlign="center"
+                px={6}
+                py={2.5}
+                cursor="default"
+              >
                 Connected with {shortHash(address, { padLeft: 6, padRight: 6, separator: '...' })}
-              </Text>
+              </Box>
             )}
-            <Button
-              variant="primary"
-              type="submit"
-              width="100%"
-              isDisabled={!isValid || !address}
-              isLoading={loading}
-              loadingText="Waiting for wallet signature"
-              spinnerPlacement="end"
-            >
-              Submit
-            </Button>
-          </Box>
+            <FormHelperText>
+              Once connected, you can change address with your wallet provider *
+            </FormHelperText>
+          </FormControl>
+          <Button
+            variant={!isValid || !address ? 'outline' : 'primary'}
+            type="submit"
+            width="100%"
+            isDisabled={!isValid || !address}
+            isLoading={loading}
+            loadingText="Waiting for wallet signature"
+            spinnerPlacement="end"
+          >
+            Register
+          </Button>
         </Form>
       )}
     </Formik>

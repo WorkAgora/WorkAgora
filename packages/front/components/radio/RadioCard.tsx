@@ -5,11 +5,10 @@ import React from 'react';
 interface RadioCardProps extends UseRadioProps {
   groupName: string;
   label: string;
-  description: string;
 }
 
 const RadioCard = React.forwardRef((props: RadioCardProps, ref) => {
-  const { label, description, groupName, ...radioProps } = props;
+  const { label, groupName, ...radioProps } = props;
   const group = useRadioGroupContext();
 
   const isChecked = group.value.toString() === radioProps.value?.toString();
@@ -31,19 +30,19 @@ const RadioCard = React.forwardRef((props: RadioCardProps, ref) => {
       <input {...getInputProps({}, ref)} hidden />
       <Box
         {...getRadioProps()}
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="md"
-        _checked={{ bg: 'purple.900', color: 'white', borderColor: 'purple.700' }}
-        _hover={{ bg: 'purple.900', color: 'white', borderColor: 'purple.700' }}
-        bg="white"
-        borderColor="purple.900"
-        px={3}
-        py={3}
+        borderWidth="3px"
+        borderRadius="16px"
+        _checked={{ bgColor: 'brand.primary', borderColor: 'brand.primary' }}
+        _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
+        borderColor="brand.primary"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        px={6}
+        py={2}
       >
-        <Text fontWeight="bold">{label}</Text>
-        <Text mx={2} mb={2}>
-          {description}
+        <Text fontWeight="700" fontFamily="Comfortaa" color="neutral.black">
+          {label}
         </Text>
       </Box>
     </Box>

@@ -1,4 +1,4 @@
-import HeaderMenu from '../components/menu/HeaderMenu';
+import Header from '../components/header/Header';
 import { WagmiProvider } from '@workaurora/front-provider';
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
@@ -34,10 +34,10 @@ function App({ Component, pageProps }: AppProps) {
               flexDir="column"
               overflow="hidden"
               position="relative"
-              bgColor="background"
-              color="white"
+              bgColor="neutral.lightGray"
+              color="neutral.black"
             >
-              <HeaderMenu />
+              <Header />
               <Suspense fallback={'LOADING'}>
                 <Component {...pageProps} />
               </Suspense>
