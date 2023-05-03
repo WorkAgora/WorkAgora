@@ -34,6 +34,17 @@ npx nx test-foundry solidity
 npx nx run solidity:deploy --network <network> scripts/deploy/<script>.ts
 ```
 
+## Install new libs
+From the root directory:
+```sh
+git submodule add --force --name lib/openzeppelin-contracts https://github.com/OpenZeppelin/openzeppelin-contracts packages/solidity/lib/openzeppelin-contracts
+```
+
+Then from packages/solidity
+```sh
+forge remappings > remappings.txt
+```
+
 # Networks
 There are three configured networks :
 

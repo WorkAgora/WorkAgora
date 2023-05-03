@@ -8,12 +8,8 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
   },
-  "files": [],
-  "include": [],
+  "files": ["./hardhat.config.ts"],
+  "include": ["./scripts", "./test", "./typechain-types"],
   "references": []
 }

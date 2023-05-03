@@ -5,10 +5,10 @@ import '@nomicfoundation/hardhat-toolbox';
 import '@primitivefi/hardhat-dodoc';
 import "@nomicfoundation/hardhat-foundry";
 import * as tdly from '@tenderly/hardhat-tenderly';
+import { HardhatNetworkAccountUserConfig } from 'hardhat/types';
+import { BigNumber, ethers } from 'ethers';
 tdly.setup();
 dotenv.config({ path: '../../.env' });
-
-// @TODO: Add foundry for solidity test
 
 const accounts = process.env.HARDHAT_PRIVATE_KEYS ? process.env.HARDHAT_PRIVATE_KEYS.split(',') : [];
 const config: HardhatUserConfig = {
@@ -26,13 +26,13 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
       allowUnlimitedContractSize: false,
-      accounts: {
-        mnemonic: 'test test test test test test test test test test test junk',
-        path: "m/44'/60'/0'/0",
-        initialIndex: 0,
-        count: 50,
-        passphrase: ''
-      }
+      accounts: accounts.map(account => {
+        const config: HardhatNetworkAccountUserConfig = {
+          privateKey: account,
+          balance: ethers.utils.parseUnits("10000","ether").toString(),
+        }
+        return config;
+      })
     },
     tenderlyFork: {
       url: process.env.TENDERLY_FORK ?? '',
