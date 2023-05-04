@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from './user.interface';
@@ -40,5 +40,47 @@ export class UserService {
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
     }
+  }
+
+  async updateFreelancerProfile(updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
+    const user = await this.findUserByWallet(updatedProfile.wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      ...updatedProfile,
+      workProfile: {
+        ...(user.workProfile || {}),
+        ...(updatedProfile.workProfile || {})
+      }
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
+  }
+
+  async updateEmployerProfile(updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
+    const user = await this.findUserByWallet(updatedProfile.wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      ...updatedProfile,
+      employerProfile: {
+        ...(user.employerProfile || {}),
+        ...(updatedProfile.employerProfile || {})
+      }
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
   }
 }

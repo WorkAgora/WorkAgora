@@ -81,4 +81,40 @@ export class UserController {
       }
     }
   }
+
+  @Put('updateProfileDto')
+  @ApiOperation({ summary: 'Update user profile' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile updated successfully',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  @ApiBody({
+    description: 'The updated profile',
+    type: UserDTO
+  })
+  async updateProfileDto(@Body() updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
+    try {
+      // Update the profile based on the currentUserType
+      if (updatedProfile.currentUserType === 'freelancer') {
+        // Update FreelancerProfile
+        return await this.userService.updateFreelancerProfile(updatedProfile);
+      } else if (updatedProfile.currentUserType === 'company') {
+        // Update EmployerProfile
+        return await this.userService.updateEmployerProfile(updatedProfile);
+      } else {
+        throw new HttpException('Bad Request', 400);
+      }
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred', 500);
+    }
+  }
 }

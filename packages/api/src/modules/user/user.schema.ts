@@ -74,7 +74,7 @@ export const UserSchema = new Schema({
       remuneration: String,
     },
   },
-  clientProfile: {
+  employerProfile: {
     type: Object,
     schema: {
       companyId: String,
