@@ -6,9 +6,11 @@ import {
   HttpException,
   Req,
   UseGuards,
+   Put,
+  Body,
   Logger
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.interface';
 import { UserDTO } from '../../dtos/user/user.dto';
@@ -46,6 +48,7 @@ export class UserController {
   }
 
   @Get(':wallet')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
     name: 'wallet',
