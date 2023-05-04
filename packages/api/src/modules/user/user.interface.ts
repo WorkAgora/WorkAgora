@@ -29,7 +29,7 @@ export interface User extends UserKey {
   createdAt?: Date;
   updatedAt?: Date;
   workProfile?: FreelancerProfile;
-  clientProfile?: EmployerProfile;
+  employerProfile?: EmployerProfile;
   currentUserType?: string;
   tosAcceptedOn?: Date;
 }

@@ -48,6 +48,7 @@ specifiers:
   '@types/aws-lambda': ^8.10.114
   '@types/aws-serverless-express': ^3.3.5
   '@types/jest': ^29.4.0
+  '@types/js-cookie': ^3.0.3
   '@types/js-yaml': ^4.0.5
   '@types/node': 18.14.2
   '@types/react': 18.0.28
@@ -89,6 +90,7 @@ specifiers:
   jest-environment-jsdom: ^29.4.1
   jest-environment-node: ^29.4.1
   joi: ^17.9.2
+  js-cookie: ^3.0.5
   js-yaml: ^4.1.0
   lodash: ^4.17.21
   nestjs-dynamoose: ^0.5.4
@@ -146,6 +148,7 @@ dependencies:
   formik: 2.2.9_react@18.2.0
   i18next: 22.4.15
   joi: 17.9.2
+  js-cookie: 3.0.5
   lodash: 4.17.21
   nestjs-dynamoose: 0.5.4_lyii6plmn7hfpg7yblqc5theme
   next: 13.3.0_5lnmxaau2bs7vcvowl2iwadrxa
@@ -197,6 +200,7 @@ devDependencies:
   '@types/aws-lambda': 8.10.114
   '@types/aws-serverless-express': 3.3.5
   '@types/jest': 29.5.1
+  '@types/js-cookie': 3.0.3
   '@types/js-yaml': 4.0.5
   '@types/node': 18.14.2
   '@types/react': 18.0.28
@@ -7446,6 +7450,10 @@ packages:
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
+    dev: true
+
+  /@types/js-cookie/3.0.3:
+    resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==}
     dev: true
 
   /@types/js-yaml/4.0.5:
@@ -15267,6 +15275,11 @@ packages:
 
   /jose/4.14.3:
     resolution: {integrity: sha512-YPM9Q+dmsna4CGWNn5+oHFsuXJdxvKAOVoNjpe2nje3odSoX5Xz4s71rP50vM8uUKJyQtMnEGPmbVCVR+G4W5g==}
+
+  /js-cookie/3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
+    dev: false
 
   /js-object-utilities/2.1.0:
     resolution: {integrity: sha512-X62npvVTfyNELV4gPU4jJSzFZbdxk3zH/FxlBrZ6n+AGKpGyhMpsPs00tjtqTLy582zG4bvaG5fuKMm/zA1gng==}
