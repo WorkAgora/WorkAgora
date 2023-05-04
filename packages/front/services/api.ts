@@ -39,7 +39,7 @@ let subscribers: Array<any> = [];
 async function refreshTokenAndReattemptRequest(error: any) {
   try {
     const { response: errorResponse } = error;
-    const refreshToken = getRefreshToken();
+    const refreshToken = await getRefreshToken();
     console.log(refreshToken);
     if (!refreshToken) {
       return Promise.reject(error);
@@ -53,7 +53,7 @@ async function refreshTokenAndReattemptRequest(error: any) {
 
     if (!isAlreadyFetchingAccessToken) {
       isAlreadyFetchingAccessToken = true;
-      await privateApiWithCred.get('/auth/refreshToken');
+      await getRefreshToken();
       isAlreadyFetchingAccessToken = false;
       onAccessTokenFetched();
     }

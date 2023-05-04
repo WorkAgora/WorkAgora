@@ -126,7 +126,6 @@ export class AuthController {
       sameSite: 'lax',
       path: '/auth/refresh'
     });
-    Logger.log('WILL RETURN', user);
     res.status(200).json(user);
   }
 
@@ -136,6 +135,7 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async refresh(@Req() req: Request, @Res() res: Response) {
     const refreshToken = req.cookies.refreshToken;
+    Logger.log(req);
     if (!refreshToken) {
       throw new HttpException('Unauthorized', 401);
     }

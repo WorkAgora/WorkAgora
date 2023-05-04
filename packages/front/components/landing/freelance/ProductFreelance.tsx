@@ -1,10 +1,13 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
+import { useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
 import ArrowRightIcon from '../../icons/ArrowRightIcon';
 import ProductIllustration from '../../illustration/ProductIllustration';
 import LightBrandLogo from '../../logo/LightBrandLogo';
 
 const ProductFreelance: FC = () => {
+  const { setSignupModalOpen } = useLanding();
+
   return (
     <Flex w="100%" justifyContent="space-between">
       <Flex flexDir="column" justifyContent="center" alignItems="start">
@@ -20,7 +23,11 @@ const ProductFreelance: FC = () => {
           The future is bright
         </Box>
         <Box mt={4}>
-          <Button variant="primary" rightIcon={<ArrowRightIcon />}>
+          <Button
+            variant="primary"
+            rightIcon={<ArrowRightIcon />}
+            onClick={() => setSignupModalOpen(true)}
+          >
             Try for free
           </Button>
         </Box>

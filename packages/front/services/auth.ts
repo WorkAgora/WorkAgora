@@ -23,7 +23,7 @@ export type SignUpWithEthereum = (props: SignUpWithEthereumProps) => Promise<boo
 
 export type GetNonceApi = (address: string) => Promise<string>;
 
-export type GetRefreshToken = () => Promise<void>;
+export type GetRefreshToken = () => Promise<any>;
 
 export const getNonceApi: GetNonceApi = async (address) => {
   const response = await publicApi.post(`/auth/getNonce/${address}`);

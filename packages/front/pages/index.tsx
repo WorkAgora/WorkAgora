@@ -6,11 +6,17 @@ import Product from '../components/landing/Product';
 const Home: NextPage = () => {
   const { user } = useCurrentUser();
 
-  return (
-    <Flex flexDir="column">
+  let content = (
+    <>
       <Product />
-    </Flex>
+    </>
   );
+
+  if (user) {
+    content = <>{JSON.stringify(user)}</>;
+  }
+
+  return <Flex flexDir="column">{content}</Flex>;
 };
 
 export default Home;

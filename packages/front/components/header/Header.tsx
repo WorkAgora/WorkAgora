@@ -10,8 +10,7 @@ import HeaderButton from './HeaderButton';
 import HeaderMenu from './HeaderMenu';
 
 const Header: FC = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { disconnect } = useDisconnect();
+  const { signupModalOpen, setSignupModalOpen } = useLanding();
   const { user } = useCurrentUser();
   const { setType } = useLanding();
 
@@ -35,28 +34,9 @@ const Header: FC = () => {
           </Flex>
         )}
         <Flex direction="row" alignItems="center" justifyContent="end">
-          <HeaderButton onOpen={onOpen} signupModalOpen={isOpen} />
+          <HeaderButton onOpen={() => setSignupModalOpen(true)} signupModalOpen={signupModalOpen} />
         </Flex>
       </Flex>
-      <SignupModal
-        isOpen={isOpen}
-        onClose={() => {
-          disconnect();
-          setTimeout(() => {
-            onClose();
-          }, 200);
-        }}
-        title="Sign up"
-      >
-        <SignupForm
-          onSubmitSuccess={() => {
-            disconnect();
-            setTimeout(() => {
-              onClose();
-            }, 200);
-          }}
-        />
-      </SignupModal>
     </>
   );
 };
