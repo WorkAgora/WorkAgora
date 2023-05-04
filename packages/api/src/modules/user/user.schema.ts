@@ -62,7 +62,7 @@ export const UserSchema = new Schema({
   updatedAt: Date,
   tosAcceptedOn: Date,
   currentUserType: String,
-  workProfile: {
+  freelanceProfile: {
     type: Object,
     schema: {
       skills: Array,
@@ -71,13 +71,13 @@ export const UserSchema = new Schema({
       hoursPerWeek: Number,
       yearsOfExperience: String,
       certificates: Array,
-      remuneration: String,
-    },
+      remuneration: String
+    }
   },
   employerProfile: {
     type: Object,
     schema: {
-      companyId: String,
-    },
-  },
+      companyId: String
+    }
+  }
 });

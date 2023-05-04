@@ -28,7 +28,7 @@ export interface User extends UserKey {
   links?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  workProfile?: FreelancerProfile;
+  freelanceProfile?: FreelancerProfile;
   employerProfile?: EmployerProfile;
   currentUserType?: string;
   tosAcceptedOn?: Date;

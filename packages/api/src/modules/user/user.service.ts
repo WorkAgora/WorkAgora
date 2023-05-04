@@ -3,8 +3,8 @@ import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from './user.interface';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
-import { UpdateFreelanceProfileDTO } from "../../dtos/user/update-freelance.dto";
-import { UpdateEmployerProfileDTO } from "../../dtos/user/update-employer.dto";
+import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
+import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 
 @Injectable()
 export class UserService {
@@ -44,7 +44,10 @@ export class UserService {
     }
   }
 
-  async updateFreelancerProfile(wallet: string, updatedProfile: UpdateFreelanceProfileDTO): Promise<UserDTO> {
+  async updateFreelancerProfile(
+    wallet: string,
+    updatedProfile: UpdateFreelanceProfileDTO
+  ): Promise<UserDTO> {
     const user = await this.findUserByWallet(wallet);
     if (!user) {
       throw new Error('User not found');
@@ -53,8 +56,8 @@ export class UserService {
     const updatedUser: User = {
       ...user,
       ...updatedProfile,
-      workProfile: {
-        ...(user.workProfile || {}),
+      freelanceProfile: {
+        ...(user.freelanceProfile || {}),
         ...(updatedProfile || {})
       }
     };
@@ -65,7 +68,10 @@ export class UserService {
     return updatedUser;
   }
 
-  async updateEmployerProfile(wallet: string, updatedProfile: UpdateEmployerProfileDTO): Promise<UserDTO> {
+  async updateEmployerProfile(
+    wallet: string,
+    updatedProfile: UpdateEmployerProfileDTO
+  ): Promise<UserDTO> {
     const user = await this.findUserByWallet(wallet);
     if (!user) {
       throw new Error('User not found');

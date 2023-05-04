@@ -77,7 +77,7 @@ export class UserDTO {
   @IsObject()
   @ValidateNested()
   @Type(() => UpdateFreelanceProfileDTO)
-  workProfile?: UpdateFreelanceProfileDTO;
+  freelanceProfile?: UpdateFreelanceProfileDTO;
 
   @IsOptional()
   @IsObject()
