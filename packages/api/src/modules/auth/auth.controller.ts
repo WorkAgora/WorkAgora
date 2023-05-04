@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   Inject,
   Logger,
@@ -112,7 +113,7 @@ export class AuthController {
     }
     const jwt = await this.authService.login(wallet.toLowerCase());
     res.cookie('authToken', jwt.accessToken, {
-      maxAge: 60 * 60 * 24 * 7 * 1000, // 1 week
+      maxAge: 300 * 1000, // 300scd
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -129,7 +130,7 @@ export class AuthController {
     res.status(200).json(user);
   }
 
-  @Post('refresh')
+  @Get('refresh')
   @ApiOperation({ summary: 'Refresh JWT Token' })
   @ApiResponse({ status: 200, description: 'Token refreshed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -142,18 +143,11 @@ export class AuthController {
     try {
       const newTokens = await this.authService.refreshTokens(refreshToken);
       res.cookie('authToken', newTokens.accessToken, {
-        maxAge: 60 * 60 * 24 * 7 * 1000, // 1 week
+        maxAge: 300 * 1000, // 300scd
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/'
-      });
-      res.cookie('refreshToken', newTokens.refreshToken, {
-        maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/auth/refresh'
       });
       res.status(200).send('Token refreshed');
     } catch (error) {

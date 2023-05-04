@@ -1,4 +1,4 @@
-import { Box, BoxProps, ChakraProps } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import { ConnectButton as RainbowButton } from '@rainbow-me/rainbowkit';
 import { FC, ReactNode } from 'react';
 

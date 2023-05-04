@@ -1,11 +1,19 @@
 import { FC } from 'react';
 import { Box, Text, Flex } from '@chakra-ui/react';
 
-const BrandLogo: FC = () => {
+interface BrandLogoProps {
+  width?: string;
+  height?: string;
+  textSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+}
+
+const BrandLogo: FC<BrandLogoProps> = ({ width, height, textSize }: BrandLogoProps) => {
+  const w = width ? width : 36;
+  const h = height ? height : 28;
   return (
     <Flex>
       <Box display="flex" flexDir="column" alignItems="center">
-        <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
+        <svg width={w} height={h} viewBox="0 0 36 28" fill="none">
           <path
             d="M7.97835 26.482L0.5 1.5542H6.19297L9.46054 12.3675C9.68511 13.1086 9.89846 13.8946 10.1006 14.7255C10.3027 15.534 10.5048 16.5558 10.7069 17.791C10.5048 18.5994 10.909 16.5558 10.7069 17.791C10.4824 18.5545 10.909 16.9825 10.7069 17.791L14.6393 14.7255H20.7365L25.2931 17.791C25.091 16.96 25.4952 18.5545 25.2931 17.791C25.0685 16.6007 25.4952 18.6219 25.2931 17.791C25.5401 16.5333 25.7647 15.5115 25.9668 14.7255C26.1689 13.917 26.3823 13.1535 26.6068 12.4349L29.9418 1.5542H35.5L27.8869 26.482H22.5645L17.9753 18.409L13.3345 26.482H7.97835Z"
             fill="#FDB81E"
@@ -33,7 +41,7 @@ const BrandLogo: FC = () => {
             strokeLinecap="round"
           />
         </svg>
-        <Text as="span" fontSize="sm" fontFamily="Comfortaa" mt={0.25}>
+        <Text as="span" fontSize={textSize ? textSize : 'sm'} fontFamily="Comfortaa" mt={0.25}>
           The future is bright
         </Text>
       </Box>

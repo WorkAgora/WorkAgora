@@ -47,6 +47,8 @@ specifiers:
   '@typechain/hardhat': ^6.1.5
   '@types/aws-lambda': ^8.10.114
   '@types/aws-serverless-express': ^3.3.5
+  '@types/cookie-parser': ^1.4.3
+  '@types/cookie-signature': ^1.1.0
   '@types/jest': ^29.4.0
   '@types/js-cookie': ^3.0.3
   '@types/js-yaml': ^4.0.5
@@ -66,6 +68,7 @@ specifiers:
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
   cookie-parser: ^1.4.6
+  cookie-signature: ^1.2.1
   cypress: ^12.2.0
   dotenv: ^16.0.3
   dynamodb-localhost: ^0.0.9
@@ -143,6 +146,7 @@ dependencies:
   class-transformer: 0.5.1
   class-validator: 0.14.0
   cookie-parser: 1.4.6
+  cookie-signature: 1.2.1
   dynamoose: 3.2.0
   express: 4.18.2
   formik: 2.2.9_react@18.2.0
@@ -199,6 +203,8 @@ devDependencies:
   '@typechain/hardhat': 6.1.5_hwsxsgqbrixxy2o23xiaewetfm
   '@types/aws-lambda': 8.10.114
   '@types/aws-serverless-express': 3.3.5
+  '@types/cookie-parser': 1.4.3
+  '@types/cookie-signature': 1.1.0
   '@types/jest': 29.5.1
   '@types/js-cookie': 3.0.3
   '@types/js-yaml': 4.0.5
@@ -7344,6 +7350,18 @@ packages:
     dependencies:
       '@types/node': 18.16.3
 
+  /@types/cookie-parser/1.4.3:
+    resolution: {integrity: sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==}
+    dependencies:
+      '@types/express': 4.17.17
+    dev: true
+
+  /@types/cookie-signature/1.1.0:
+    resolution: {integrity: sha512-6/OwJHoeGW5taC2vWq1sz8X7/T2rAPVXj3zQds+rM4b5VrW8lgpYjpDVjTJmkRB1IODBCAiuPXNk092CjYlryQ==}
+    dependencies:
+      '@types/node': 18.16.3
+    dev: true
+
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -10617,6 +10635,11 @@ packages:
 
   /cookie-signature/1.0.6:
     resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+
+  /cookie-signature/1.2.1:
+    resolution: {integrity: sha512-78KWk9T26NhzXtuL26cIJ8/qNHANyJ/ZYrmEXFzUmhZdjpBv+DlWlOANRTGBt48YcyslsLrj0bMLFTmXvLRCOw==}
+    engines: {node: '>=6.6.0'}
+    dev: false
 
   /cookie/0.4.1:
     resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==}

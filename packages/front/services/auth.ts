@@ -1,9 +1,5 @@
-import { publicApi } from './api';
-
-export interface User {
-  wallet: string;
-  email: string;
-}
+import { User } from '@workaurora/front-provider';
+import { privateApi, publicApi } from './api';
 
 export interface SignInWithEthereumProps {
   wallet: string;
@@ -27,6 +23,8 @@ export type SignUpWithEthereum = (props: SignUpWithEthereumProps) => Promise<boo
 
 export type GetNonceApi = (address: string) => Promise<string>;
 
+export type GetRefreshToken = () => Promise<void>;
+
 export const getNonceApi: GetNonceApi = async (address) => {
   const response = await publicApi.post(`/auth/getNonce/${address}`);
   return response.data.nonce;
@@ -40,4 +38,8 @@ export const signInWithEthereumApi: SignInWithEthereum = async (payload) => {
 export const signUpWithEthereumApi: SignUpWithEthereum = async (payload) => {
   const response = await publicApi.post(`/auth/register`, payload);
   return response.data;
+};
+
+export const getRefreshToken: GetRefreshToken = async () => {
+  return await privateApi.get('/auth/refresh');
 };

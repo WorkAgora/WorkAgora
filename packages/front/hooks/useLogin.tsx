@@ -1,8 +1,8 @@
 import { useToast, Text } from '@chakra-ui/react';
+import { CurrentUserContext } from '@workaurora/front-provider';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Chain, useAccount, useNetwork } from 'wagmi';
 import { useConnect } from './useConnect';
-import { CurrentUserContext } from './useCurrentUser';
 
 export const useLogin = (signupModalOpen: boolean) => {
   const { user, setUser } = useContext(CurrentUserContext);

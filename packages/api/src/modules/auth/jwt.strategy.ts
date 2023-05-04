@@ -1,11 +1,14 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
-import { ConfigService } from '@nestjs/config';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  @Inject(UserService)
+  private readonly userService: UserService;
+
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
@@ -24,12 +27,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate = async (req: Request, payload: { wallet: string }) => {
-    if ('wallet' in req.params) {
-      if (payload.wallet.toLowerCase() !== req.params.wallet.toLowerCase()) {
-        throw new HttpException('Address and payload address missmatch', 403);
-      }
+  validate = async (req: Request) => {
+    if (!('wallet' in req)) {
+      throw new HttpException('Not authenticated', 403);
     }
-    return payload;
+    const user = await this.userService.findUserByWallet(req.wallet);
+    if (!user) {
+      throw new HttpException(`User not found`, 403);
+    }
+    return user;
   };
 }

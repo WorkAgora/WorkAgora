@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
+import { useAccount } from 'wagmi';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 
 const Home: NextPage = () => {
