@@ -36,7 +36,7 @@ export class UserService {
     try {
       const userExist = await this.findUserByWallet(user.wallet);
       if (userExist) {
-        throw new UnprocessableEntityException('User with this address already exists');
+        throw new UnprocessableEntityException('User with this address already exist');
       }
       await this.model.create(user);
     } catch (error) {

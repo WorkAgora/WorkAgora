@@ -128,4 +128,28 @@ export class AuthService {
       throw new HttpException(`Error refreshing token ${e.message}`, 500);
     }
   }
+
+  public async login(wallet: string): Promise<JwtDTO> {
+    return {
+      accessToken: this.jwtService.sign({ wallet }, { expiresIn: '300s' }),
+      refreshToken: this.jwtService.sign({ wallet }, { expiresIn: '604800s' })
+    };
+  }
+
+  public async refreshTokens(refreshToken: string): Promise<JwtDTO> {
+    try {
+      const payload = omit(this.jwtService.verify(refreshToken), ['iat', 'exp']);
+      return {
+        accessToken: this.jwtService.sign(payload, {
+          expiresIn: '300s'
+        }),
+        refreshToken
+      };
+    } catch (e) {
+      if (e.message === 'jwt expired') {
+        throw new HttpException('Refresh token expired', 401);
+      }
+      throw new HttpException(`Error refreshing token ${e.message}`, 500);
+    }
+  }
 }

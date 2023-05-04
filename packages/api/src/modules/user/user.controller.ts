@@ -47,8 +47,8 @@ export class UserController {
     return req.user;
   }
 
-  @Put('updateProfile')
   @UseGuards(JwtAuthGuard)
+  @Get(':wallet')
   @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
     name: 'wallet',
@@ -85,7 +85,7 @@ export class UserController {
     }
   }
 
-  @Put('updateProfileDto')
+  @Put('updateProfile')
   @ApiOperation({ summary: 'Update user profile' })
   @ApiResponse({
     status: 200,
