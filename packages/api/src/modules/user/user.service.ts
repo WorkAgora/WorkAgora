@@ -23,7 +23,7 @@ export class UserService {
         const user: User = response[0];
 
         // Return the found user as a UserDTO
-        return { wallet: user.wallet, email: user.email };
+        return user;
       } else {
         return null;
       }
