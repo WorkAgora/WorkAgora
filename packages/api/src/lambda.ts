@@ -7,6 +7,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const express = require('express');
@@ -46,6 +47,7 @@ async function bootstrapServer(): Promise<Server> {
       logger: ['error', 'warn', 'log']
     });
     nestApp.use(eventContext());
+    nestApp.use(cookieParser());
     nestApp.enableCors({
       origin: `${process.env.FRONT_PROTOCOL}${process.env.FRONT_URL}`,
       credentials: true

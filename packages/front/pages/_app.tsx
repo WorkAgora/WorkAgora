@@ -1,10 +1,9 @@
 import Header from '../components/header/Header';
-import { WagmiProvider } from '@workaurora/front-provider';
+import { CurrentUserProvider, WagmiProvider } from '@workaurora/front-provider';
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Suspense } from 'react';
 
 //Import styles
 import { darkTheme } from '@workaurora/themes';
@@ -12,7 +11,8 @@ import '@rainbow-me/rainbowkit/styles.css';
 
 //Import font
 import '@fontsource/comfortaa';
-import { CurrentUserProvider } from '../hooks/useCurrentUser';
+import '@fontsource/montserrat';
+import Layout from '../components/layout';
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -37,10 +37,10 @@ function App({ Component, pageProps }: AppProps) {
               bgColor="neutral.lightGray"
               color="neutral.black"
             >
-              <Header />
-              <Suspense fallback={'LOADING'}>
+              <Layout>
+                <Header />
                 <Component {...pageProps} />
-              </Suspense>
+              </Layout>
             </Container>
           </CurrentUserProvider>
         </WagmiProvider>
