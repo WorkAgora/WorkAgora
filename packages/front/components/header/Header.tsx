@@ -1,9 +1,9 @@
 import { Flex, useDisclosure } from '@chakra-ui/react';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useDisconnect } from 'wagmi';
 import SignupForm from '../form/SignupForm';
-import BrandLogo from '../icons/BrandLogo';
+import BrandLogo from '../logo/BrandLogo';
 import SignupModal from '../modal/SignupModal';
 import UserTypeSwitch from '../switch/UserTypeSwitch';
 import HeaderButton from './HeaderButton';
@@ -13,6 +13,7 @@ const Header: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { disconnect } = useDisconnect();
   const { user } = useCurrentUser();
+  const { setType } = useLanding();
 
   return (
     <>
@@ -26,7 +27,7 @@ const Header: FC = () => {
       >
         <Flex direction="row" alignItems="center">
           <BrandLogo />
-          <UserTypeSwitch userType="Freelance" ml={12} />
+          <UserTypeSwitch userType="Freelance" ml={12} onTypeChange={setType} />
         </Flex>
         {!user && (
           <Flex direction="row" alignItems="center" justifyContent="center">

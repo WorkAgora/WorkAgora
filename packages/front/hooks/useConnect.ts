@@ -22,7 +22,7 @@ export function useConnect() {
           const message = new SiweMessage({
             domain: window.location.host,
             address,
-            statement: 'Sign in WorkAurora',
+            statement: 'Sign in WorkAgora',
             uri: API_URL,
             version: '1',
             chainId: chain.id,

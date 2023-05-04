@@ -1,5 +1,5 @@
 import { useToast, Text } from '@chakra-ui/react';
-import { CurrentUserContext } from '@workaurora/front-provider';
+import { CurrentUserContext } from '@workagora/front-provider';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Chain, useAccount, useNetwork } from 'wagmi';
 import { useConnect } from './useConnect';

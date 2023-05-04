@@ -45,7 +45,7 @@ const connectors = connectorsForWallets([
     wallets: [
       metaMaskWallet({ chains, shimDisconnect: true }),
       walletConnectWallet({ chains }),
-      coinbaseWallet({ appName: 'WorkAurora', chains }),
+      coinbaseWallet({ appName: 'WorkAgora', chains }),
       trustWallet({ chains, shimDisconnect: true })
     ]
   }
@@ -73,7 +73,7 @@ const rainbowDisclaimer: DisclaimerComponent = ({ Text, Link }) => (
 );
 
 const rainbowAppInfo = {
-  appName: 'WorkAurora',
+  appName: 'WorkAgora',
   disclaimer: rainbowDisclaimer
 };
 

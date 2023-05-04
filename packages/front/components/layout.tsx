@@ -1,9 +1,8 @@
-import { Box, Flex, Spinner } from '@chakra-ui/react';
+import { Flex, Spinner } from '@chakra-ui/react';
+import { useCurrentUser } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
-import { FC, PropsWithChildren, Suspense, useCallback, useEffect, useState } from 'react';
-import { useCurrentUser } from '../hooks/useCurrentUser';
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { checkUserLogged } from '../services/user';
-import BrandLogo from './icons/BrandLogo';
 
 export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const { user, setUser } = useCurrentUser();
@@ -11,6 +10,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
 
   const isUserLogged = useCallback(async () => {
     const res = await checkUserLogged();
+    console.log(res);
     if (res) {
       if (!user) {
         setUser(res);
@@ -41,7 +41,6 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
         zIndex="9999"
         transition="all ease-in-out 200ms"
       >
-        <BrandLogo width="100%" height="100%" textSize="xl" />
         <Spinner size="xl" color="brand.primary" mt={8} />
       </Flex>
       {children}

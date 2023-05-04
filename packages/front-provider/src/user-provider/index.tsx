@@ -1,6 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 import Cookies from 'js-cookie';
-
+import { useContext } from 'react';
+import { useDisconnect } from 'wagmi';
 export interface User {
   wallet: string;
   email: string;
@@ -36,3 +37,19 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
     <CurrentUserContext.Provider value={{ user, setUser }}>{children}</CurrentUserContext.Provider>
   );
 };
+
+export function useCurrentUser() {
+  const { user, setUser } = useContext(CurrentUserContext);
+  const { disconnect } = useDisconnect();
+
+  const logout = () => {
+    disconnect();
+    //Timeout to prevent wallet asking for nonce again
+    setTimeout(() => {
+      Cookies.remove('authenticated');
+      setUser(null);
+    }, 200);
+  };
+
+  return { user, setUser, logout };
+}

@@ -1,4 +1,4 @@
-import { User } from '@workaurora/front-provider';
+import { User } from '@workagora/front-provider';
 import { privateApi, publicApi } from './api';
 
 export interface SignInWithEthereumProps {
