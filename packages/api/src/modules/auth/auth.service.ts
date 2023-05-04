@@ -13,11 +13,16 @@ import { UserService } from '../user/user.service';
 import { RegisterDTO } from '../../dtos/auth/register.dto';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { omit } from 'lodash';
+import { JwtDTO } from '../../dtos/auth/jwt.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   @Inject(UserService)
   private readonly userService: UserService;
+
+  @Inject(JwtService)
+  private readonly jwtService: JwtService;
 
   constructor(
     @InjectModel('Auth')
@@ -93,11 +98,34 @@ export class AuthService {
         ...omit(payload, ['agreeTOS', 'agreeDataTreatment', 'message', 'signature']),
         tosAcceptedOn: new Date(Date.now())
       };
-      Logger.log(newUser);
       await this.userService.create(newUser);
       return true;
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
+    }
+  }
+
+  public async login(wallet: string): Promise<JwtDTO> {
+    return {
+      accessToken: this.jwtService.sign({ wallet }, { expiresIn: '300s' }),
+      refreshToken: this.jwtService.sign({ wallet }, { expiresIn: '604800s' })
+    };
+  }
+
+  public async refreshTokens(refreshToken: string): Promise<JwtDTO> {
+    try {
+      const payload = omit(this.jwtService.verify(refreshToken), ['iat', 'exp']);
+      return {
+        accessToken: this.jwtService.sign(payload, {
+          expiresIn: '300s'
+        }),
+        refreshToken
+      };
+    } catch (e) {
+      if (e.message === 'jwt expired') {
+        throw new HttpException('Refresh token expired', 401);
+      }
+      throw new HttpException(`Error refreshing token ${e.message}`, 500);
     }
   }
 }

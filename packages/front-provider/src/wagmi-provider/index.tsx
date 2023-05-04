@@ -59,8 +59,8 @@ const WagmiClient = createClient({
 
 //@TODO: change rainbow theme colors
 const rainbowTheme = lightTheme({
-  accentColor: '',
-  accentColorForeground: '',
+  accentColor: '#005061',
+  accentColorForeground: '#E39E02',
   borderRadius: 'medium',
   fontStack: 'rounded'
 });

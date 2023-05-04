@@ -18,7 +18,7 @@
       "@work-aurora/solidity": ["packages/solidity/"],
       "@workaurora/front-provider": ["packages/front-provider/src/index.ts"],
       "@workaurora/front/*": ["packages/front/*"],
-      "@workaurora/themes": ["packages/themes/src/index.ts"],
+      "@workaurora/themes": ["packages/themes/src/index.tsx"],
       "@workaurora/utils": ["packages/utils/src/index.ts"]
     }
   },

@@ -1,38 +1,31 @@
-import { Box, IconButton, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay
+} from '@chakra-ui/react';
 import { FC, ReactNode } from 'react';
-import { CloseIcon } from '@chakra-ui/icons';
 
-interface FullScreenModalProps {
+interface SignupModalProps {
   isOpen: boolean;
+  title: string;
   onClose: () => void;
   children: ReactNode;
 }
 
-const FullScreenModal: FC<FullScreenModalProps> = ({ isOpen, onClose, children }) => {
+const SignupModal: FC<SignupModalProps> = ({ isOpen, onClose, title, children }) => {
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      isCentered
-      size={{ base: 'full', md: '2xl' }}
-      closeOnOverlayClick={false}
-    >
+    <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <Box position="absolute" top={2} right={2}>
-          <IconButton
-            aria-label="Close modal"
-            bg="none"
-            icon={<CloseIcon />}
-            size="sm"
-            onClick={onClose}
-            borderRadius="full"
-          />
-        </Box>
+        <ModalHeader>{title}</ModalHeader>
+        <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
       </ModalContent>
     </Modal>
   );
 };
 
-export default FullScreenModal;
+export default SignupModal;

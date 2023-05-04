@@ -29,7 +29,7 @@ export function useSignUp() {
       currentUserType,
       agreeTOS,
       agreeDataTreatment
-    }: SigupProps) => {
+    }: SigupProps): Promise<boolean | string> => {
       if (address && chain) {
         try {
           const nonce = await getNonceApi(address);
@@ -44,7 +44,7 @@ export function useSignUp() {
             nonce
           }).prepareMessage();
           const signature = await signMessageAsync({ message });
-          return await signUpWithEthereumApi({
+          const res = await signUpWithEthereumApi({
             message,
             signature,
             wallet: address,
@@ -55,10 +55,13 @@ export function useSignUp() {
             agreeTOS,
             agreeDataTreatment
           });
-        } catch (error) {
           disconnect();
+          return res;
+        } catch (error: any) {
+          return error.response.data.message;
         }
       }
+      return 'Please link your wallet';
     },
     [disconnect, signMessageAsync]
   );

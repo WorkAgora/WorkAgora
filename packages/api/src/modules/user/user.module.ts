@@ -6,7 +6,6 @@ import { UserService } from './user.service';
 
 @Module({
   imports: [
-    //@TODO don't forget to import schema of FreelancerProfile and EmployerProfile if needed here
     DynamooseModule.forFeature([
       {
         name: 'User',
