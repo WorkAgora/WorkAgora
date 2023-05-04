@@ -28,8 +28,8 @@ export interface User extends UserKey {
   links?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  workProfile?: FreelancerProfile;
-  clientProfile?: EmployerProfile;
+  freelanceProfile?: FreelancerProfile;
+  employerProfile?: EmployerProfile;
   currentUserType?: string;
   tosAcceptedOn?: Date;
 }

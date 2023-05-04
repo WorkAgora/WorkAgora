@@ -1,8 +1,10 @@
-import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from './user.interface';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
+import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
+import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 
 @Injectable()
 export class UserService {
@@ -21,12 +23,12 @@ export class UserService {
         const user: User = response[0];
 
         // Return the found user as a UserDTO
-        return { wallet: user.wallet, email: user.email };
+        return user;
       } else {
         return null;
       }
     } catch (error) {
-      throw new UnprocessableEntityException('Error while querying the user', { cause: error });
+      throw new UnprocessableEntityException('Error while querying the user', error.message);
     }
   }
 
@@ -38,7 +40,55 @@ export class UserService {
       }
       await this.model.create(user);
     } catch (error) {
-      throw new UnprocessableEntityException(error.message);
+      throw new UnprocessableEntityException(error, error.message);
     }
+  }
+
+  async updateFreelancerProfile(
+    wallet: string,
+    updatedProfile: UpdateFreelanceProfileDTO
+  ): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      ...updatedProfile,
+      freelanceProfile: {
+        ...(user.freelanceProfile || {}),
+        ...(updatedProfile || {})
+      }
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
+  }
+
+  async updateEmployerProfile(
+    wallet: string,
+    updatedProfile: UpdateEmployerProfileDTO
+  ): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      ...updatedProfile,
+      employerProfile: {
+        ...(user.employerProfile || {}),
+        ...(updatedProfile || {})
+      }
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
   }
 }
