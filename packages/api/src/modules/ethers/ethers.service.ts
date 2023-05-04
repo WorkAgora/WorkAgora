@@ -7,10 +7,15 @@ export class EthersService {
   @Inject(ConfigService)
   private readonly configService: ConfigService;
 
-  async signMessage(message: string): Promise<string> {
+  async signMessage(messages: { type: string; value: string }[]): Promise<string> {
     const privateKey = this.configService.get<string>('WALLET_PRIVATE_KEY');
     const wallet = new ethers.Wallet(privateKey);
-    const signedMessage = await wallet.signMessage(message);
+
+    const types = messages.map((message) => message.type);
+    const values = messages.map((message) => message.value);
+
+    const messageHash = ethers.utils.solidityKeccak256(types, values);
+    const signedMessage = await wallet.signMessage(ethers.utils.arrayify(messageHash));
 
     return signedMessage;
   }
