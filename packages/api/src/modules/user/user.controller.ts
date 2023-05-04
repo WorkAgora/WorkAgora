@@ -1,5 +1,5 @@
-import { Controller, Inject, Get, Param, HttpException, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { Controller, Inject, Get, Param, HttpException } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.interface';
 import { UserDTO } from '../../dtos/user/user.dto';
@@ -7,7 +7,6 @@ import {
   Put,
   Body,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('User')
 @Controller('user')
@@ -15,7 +14,6 @@ export class UserController {
   @Inject(UserService)
   private readonly userService: UserService;
 
-  @UseGuards(AuthGuard('jwt'))
   @Get(':wallet')
   @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
@@ -53,8 +51,7 @@ export class UserController {
     }
   }
 
-  // @UseGuards(JwtAuthGuard)
-  @Put('updateProfile')
+  @Put('updateProfileDto')
   @ApiOperation({ summary: 'Update user profile' })
   @ApiResponse({
     status: 200,
@@ -69,7 +66,11 @@ export class UserController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async updateProfile(@Body() updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
+  @ApiBody({
+    description: 'The updated profile',
+    type: UserDTO
+  })
+  async updateProfileDto(@Body() updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
     try {
       // Update the profile based on the currentUserType
       if (updatedProfile.currentUserType === 'freelancer') {
