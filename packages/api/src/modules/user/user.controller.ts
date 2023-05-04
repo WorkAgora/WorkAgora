@@ -6,9 +6,8 @@ import {
   HttpException,
   Req,
   UseGuards,
-   Put,
+  Put,
   Body,
-  Logger
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UserService } from './user.service';
