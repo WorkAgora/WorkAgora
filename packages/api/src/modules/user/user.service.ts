@@ -3,6 +3,8 @@ import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from './user.interface';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
+import { UpdateFreelanceProfileDTO } from "../../dtos/user/update-freelance.dto";
+import { UpdateEmployerProfileDTO } from "../../dtos/user/update-employer.dto";
 
 @Injectable()
 export class UserService {
@@ -26,7 +28,7 @@ export class UserService {
         return null;
       }
     } catch (error) {
-      throw new UnprocessableEntityException('Error while querying the user', { cause: error });
+      throw new UnprocessableEntityException('Error while querying the user', error.message);
     }
   }
 
@@ -34,16 +36,16 @@ export class UserService {
     try {
       const userExist = await this.findUserByWallet(user.wallet);
       if (userExist) {
-        throw new UnprocessableEntityException('User with this address already exist');
+        throw new UnprocessableEntityException('User with this address already exists', 409);
       }
       await this.model.create(user);
     } catch (error) {
-      throw new UnprocessableEntityException(error.message);
+      throw new UnprocessableEntityException(error.message, error);
     }
   }
 
-  async updateFreelancerProfile(updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
-    const user = await this.findUserByWallet(updatedProfile.wallet);
+  async updateFreelancerProfile(wallet: string, updatedProfile: UpdateFreelanceProfileDTO): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
     if (!user) {
       throw new Error('User not found');
     }
@@ -53,7 +55,7 @@ export class UserService {
       ...updatedProfile,
       workProfile: {
         ...(user.workProfile || {}),
-        ...(updatedProfile.workProfile || {})
+        ...(updatedProfile || {})
       }
     };
 
@@ -63,8 +65,8 @@ export class UserService {
     return updatedUser;
   }
 
-  async updateEmployerProfile(updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
-    const user = await this.findUserByWallet(updatedProfile.wallet);
+  async updateEmployerProfile(wallet: string, updatedProfile: UpdateEmployerProfileDTO): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
     if (!user) {
       throw new Error('User not found');
     }
@@ -74,7 +76,7 @@ export class UserService {
       ...updatedProfile,
       employerProfile: {
         ...(user.employerProfile || {}),
-        ...(updatedProfile.employerProfile || {})
+        ...(updatedProfile || {})
       }
     };
 

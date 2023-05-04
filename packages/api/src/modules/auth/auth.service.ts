@@ -41,7 +41,7 @@ export class AuthService {
       );
       return { nonce: createdAuth.nonce };
     } catch (error) {
-      throw new UnprocessableEntityException(error.message);
+      throw new UnprocessableEntityException(error.message, 502);
     }
   }
 
@@ -101,7 +101,7 @@ export class AuthService {
       await this.userService.create(newUser);
       return true;
     } catch (error) {
-      throw new UnprocessableEntityException(error.message);
+      throw new UnprocessableEntityException(error.message, 502);
     }
   }
 

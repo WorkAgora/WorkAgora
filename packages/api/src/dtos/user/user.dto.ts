@@ -1,9 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEmail, IsArray, IsDate, IsObject, ValidateNested } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsEmail,
+  IsArray,
+  IsDate,
+  IsObject,
+  ValidateNested
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { FreelancerProfile, EmployerProfile } from '../../modules/user/user.interface';
-import { FreelanceDTO } from './freelance';
-import { EmployerDTO } from './employer';
+import { UpdateFreelanceProfileDTO } from './update-freelance.dto';
+import { UpdateEmployerProfileDTO } from './update-employer.dto';
 
 export class UserDTO {
   @ApiProperty({
@@ -64,20 +72,20 @@ export class UserDTO {
   @IsDate()
   updatedAt?: Date;
 
-  @ApiProperty({ type: FreelanceDTO })
+  @ApiProperty({ type: UpdateFreelanceProfileDTO })
   @IsOptional()
   @IsObject()
   @ValidateNested()
-  @Type(() => FreelanceDTO)
-  workProfile?: Partial<FreelancerProfile>;
+  @Type(() => UpdateFreelanceProfileDTO)
+  workProfile?: UpdateFreelanceProfileDTO;
 
   @IsOptional()
   @IsObject()
-  @ApiProperty({ type: EmployerDTO })
+  @ApiProperty({ type: UpdateEmployerProfileDTO })
   @IsObject()
   @ValidateNested()
-  @Type(() => EmployerDTO)
-  employerProfile?: Partial<EmployerProfile>;
+  @Type(() => UpdateEmployerProfileDTO)
+  employerProfile?: UpdateEmployerProfileDTO;
 
   @IsOptional()
   @IsString()

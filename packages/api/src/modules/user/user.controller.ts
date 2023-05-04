@@ -7,7 +7,7 @@ import {
   Req,
   UseGuards,
   Put,
-  Body,
+  Body
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -15,6 +15,7 @@ import { User } from './user.interface';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt.guard';
+import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -46,7 +47,7 @@ export class UserController {
     return req.user;
   }
 
-  @Get(':wallet')
+  @Put('updateProfile')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
@@ -101,17 +102,17 @@ export class UserController {
   })
   @ApiBody({
     description: 'The updated profile',
-    type: UserDTO
+    type: UpdateProfileDTO
   })
-  async updateProfileDto(@Body() updatedProfile: Partial<UserDTO>): Promise<UserDTO> {
+  async updateProfile(@Body() updatedProfile: UpdateProfileDTO): Promise<UserDTO> {
     try {
       // Update the profile based on the currentUserType
-      if (updatedProfile.currentUserType === 'freelancer') {
+      if (updatedProfile.currentUserType === 'freelance') {
         // Update FreelancerProfile
-        return await this.userService.updateFreelancerProfile(updatedProfile);
+        return await this.userService.updateFreelancerProfile(updatedProfile.wallet, updatedProfile.freelanceProfile);
       } else if (updatedProfile.currentUserType === 'company') {
         // Update EmployerProfile
-        return await this.userService.updateEmployerProfile(updatedProfile);
+        return await this.userService.updateEmployerProfile(updatedProfile.wallet, updatedProfile.employerProfile);
       } else {
         throw new HttpException('Bad Request', 400);
       }

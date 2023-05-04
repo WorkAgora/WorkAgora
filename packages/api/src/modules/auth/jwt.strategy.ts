@@ -31,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!('wallet' in req)) {
       throw new HttpException('Not authenticated', 403);
     }
-    const user = await this.userService.findUserByWallet(req.wallet);
+    const user = await this.userService.findUserByWallet(req.wallet as string);
     if (!user) {
       throw new HttpException(`User not found`, 403);
     }
