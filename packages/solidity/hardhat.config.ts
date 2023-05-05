@@ -6,7 +6,7 @@ import '@primitivefi/hardhat-dodoc';
 import "@nomicfoundation/hardhat-foundry";
 import * as tdly from '@tenderly/hardhat-tenderly';
 import { HardhatNetworkAccountUserConfig } from 'hardhat/types';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 tdly.setup();
 dotenv.config({ path: '../../.env' });
 

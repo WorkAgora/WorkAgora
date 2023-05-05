@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-export async function expectThrowsAsync(asyncFunc: () => Promise<any>, errorMessage: string) {
+export async function expectThrowsAsync<T>(asyncFunc: () => Promise<T>, errorMessage: string) {
     let error = null;
     try {
         await asyncFunc();

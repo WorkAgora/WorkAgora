@@ -10,6 +10,7 @@
   "private": true,
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
+    "@chainlink/hardhat-chainlink": "^0.0.2",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@nestjs/schematics": "^9.0.0",
@@ -32,6 +33,7 @@
     "@nx/react": "16.0.1",
     "@nx/webpack": "16.0.1",
     "@nx/workspace": "16.0.1",
+    "@openzeppelin/contracts": "^4.8.3",
     "@openzeppelin/hardhat-upgrades": "^1.23.1",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
     "@tenderly/hardhat-tenderly": "^1.7.2",

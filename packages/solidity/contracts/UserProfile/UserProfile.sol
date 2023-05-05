@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 import './IUserProfile.sol';
-import 'openzeppelin-contracts/utils/cryptography/ECDSA.sol';
+import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
 
 contract UserProfile is IUserProfile {
     using ECDSA for bytes32;
