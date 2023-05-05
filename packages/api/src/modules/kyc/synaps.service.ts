@@ -1,11 +1,23 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
+import { Model } from 'nestjs-dynamoose';
+import { InjectModel } from '@nestjs/dynamoose';
+
+export interface Session {
+  sessionId: string;
+  alias: string;
+  sandbox: boolean;
+}
 
 @Injectable()
 export class SynapsService {
   private readonly baseUrl = 'https://individual-api.synaps.io/v3';
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    @InjectModel('Session') private readonly sessionModel: Model<Session>
+  ) {}
 
   async initSession(alias: string, clientId: string, apiKey: string): Promise<AxiosResponse> {
     const response = await this.httpService
@@ -15,52 +27,60 @@ export class SynapsService {
         { headers: { 'Client-Id': clientId, 'Api-Key': apiKey } }
       )
       .toPromise();
+
+    // Store the session in DynamoDB
+    const sessionData: Session = {
+      sessionId: response.data.session_id,
+      sandbox: response.data.sandbox,
+      alias
+    };
+
+    await this.sessionModel.create(sessionData);
     return response;
   }
 
   async getSessionInfo(
-    clientId: string,
     sessionId: string,
+    clientId: string,
     apiKey: string
   ): Promise<AxiosResponse> {
-    const response = await this.httpService
+    return await this.httpService
       .get(`${this.baseUrl}/session/info`, {
-        headers: { 'Client-Id': clientId, 'Session-Id': sessionId, 'Api-Key': apiKey }
+        headers: { 'Client-Id': clientId, 'Api-Key': apiKey, 'Session-Id': sessionId }
       })
       .toPromise();
-    return response;
   }
 
   async listSessionsWithAlias(alias: string, apiKey: string): Promise<AxiosResponse> {
-    const response = await this.httpService
-      .get(`${this.baseUrl}/session/alias`, { params: { alias }, headers: { 'Api-Key': apiKey } })
+    return await this.httpService
+      .get(`${this.baseUrl}/session/alias`, { headers: { 'Api-Key': apiKey }, params: { alias } })
       .toPromise();
-    return response;
   }
 
   async listSessions(state: string, alias: string, apiKey: string): Promise<AxiosResponse> {
-    const response = await this.httpService
+    return await this.httpService
       .get(`${this.baseUrl}/session/list/${state}`, {
-        params: { alias },
-        headers: { 'Api-Key': apiKey }
+        headers: { 'Api-Key': apiKey },
+        params: { alias }
       })
       .toPromise();
-    return response;
   }
 
-  async getOverview(sessionId: string): Promise<AxiosResponse> {
-    const response = await this.httpService
+  async getOnboardingOverview(sessionId: string): Promise<AxiosResponse> {
+    return await this.httpService
       .get(`${this.baseUrl}/onboarding/overview`, { headers: { 'Session-Id': sessionId } })
       .toPromise();
-    return response;
   }
 
-  async getDetails(sessionId: string, clientId: string, apiKey: string): Promise<AxiosResponse> {
-    const response = await this.httpService
+  async getOnboardingDetails(
+    sessionId: string,
+    clientId: string,
+    apiKey: string
+  ): Promise<AxiosResponse> {
+    return await this.httpService
       .get(`${this.baseUrl}/onboarding/details`, {
-        headers: { 'Session-Id': sessionId, 'Client-Id': clientId, 'Api-Key': apiKey }
+        headers: { 'Client-Id': clientId, 'Api-Key': apiKey, 'Session-Id': sessionId }
       })
       .toPromise();
-    return response;
   }
 }
