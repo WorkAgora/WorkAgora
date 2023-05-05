@@ -1,8 +1,10 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { DynamooseModule } from 'nestjs-dynamoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { KycModule } from './modules/kyc/kyc.module';
+import { SynapsModule } from './modules/synaps/synaps.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { UserModule } from './modules/user/user.module';
       }
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    KycModule,
+    SynapsModule
   ],
   controllers: [],
   providers: []
