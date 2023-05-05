@@ -63,7 +63,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Register with a SIWE message' })
   @ApiBody({ type: RegisterDTO })
   @ApiResponse({ status: 201, description: 'Return true', type: Boolean })
-  @ApiResponse({ status: 401, description: 'SiweMessage Error or Unauthorized authentication' })
+  @ApiResponse({ status: 403, description: 'SiweMessage Error or Unauthorized authentication' })
   @ApiResponse({
     status: 500,
     description: 'Unexpected Error while register'
@@ -77,7 +77,7 @@ export class AuthController {
     if (wallet.toLowerCase() !== guardWallet)
       throw new HttpException(
         `Address for registering is different than address from signature`,
-        401
+        403
       );
 
     return this.authService.register({ wallet: wallet.toLowerCase(), ...restPayload });
@@ -126,7 +126,6 @@ export class AuthController {
       sameSite: 'lax',
       path: '/auth/refresh'
     });
-    Logger.log('WILL RETURN', user);
     res.status(200).json(user);
   }
 
@@ -137,21 +136,38 @@ export class AuthController {
   async refresh(@Req() req: Request, @Res() res: Response) {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
-      throw new HttpException('Unauthorized', 401);
+      throw new HttpException('No refresh token', 403);
     }
 
-    try {
-      const newTokens = await this.authService.refreshTokens(refreshToken);
-      res.cookie('authToken', newTokens.accessToken, {
-        maxAge: 300 * 1000, // 300scd
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/'
-      });
-      res.status(200).send('Token refreshed');
-    } catch (error) {
-      throw new HttpException('Unauthorized', 401);
-    }
+    const newTokens = await this.authService.refreshTokens(refreshToken);
+    res.cookie('authToken', newTokens.accessToken, {
+      maxAge: 300 * 1000, // 300scd
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/'
+    });
+    res.status(200).send('TOKEN_REFRESHED');
+  }
+
+  @Get('logout')
+  @ApiOperation({ summary: 'Logout from API' })
+  @ApiResponse({ status: 200, description: 'Logout success' })
+  async logout(@Res() res: Response) {
+    res.cookie('authToken', '', {
+      maxAge: -1,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/'
+    });
+    res.cookie('refreshToken', '', {
+      maxAge: -1,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/auth/refresh'
+    });
+    res.status(200).send('LOGOUT_SUCCESS');
   }
 }

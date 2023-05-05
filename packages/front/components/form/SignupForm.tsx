@@ -17,7 +17,7 @@ import ConnectButton from '../button/ConnectButton';
 import RadioCard from '../radio/RadioCard';
 import RadioCardGroup from '../radio/RadioCardGroup';
 import { useAccount, useNetwork } from 'wagmi';
-import { shortHash } from '@workaurora/utils';
+import { shortHash } from '@workagora/utils';
 import { useSignUp } from '../../hooks/useSignUp';
 
 interface RadioUserType {

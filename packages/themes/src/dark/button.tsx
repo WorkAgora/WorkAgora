@@ -17,6 +17,24 @@ const primary = defineStyle({
   }
 });
 
+const secondary = defineStyle({
+  bgColor: 'brand.secondary',
+  paddingLeft: '24px !important',
+  paddingRight: '24px !important',
+  paddingTop: '10px',
+  paddingBottom: '10px',
+  color: 'neutral.white',
+  _loading: {
+    bgColor: 'brand.secondaryHover',
+    _hover: {
+      bgColor: 'brand.secondaryHover'
+    }
+  },
+  _hover: {
+    bgColor: 'brand.secondaryHover'
+  }
+});
+
 const outline = defineStyle({
   borderColor: 'brand.primary',
   paddingLeft: '24px !important',
@@ -57,6 +75,7 @@ const buttonTheme: ComponentStyleConfig = defineStyleConfig({
   baseStyle,
   variants: {
     primary,
+    secondary,
     link,
     outline,
     icon

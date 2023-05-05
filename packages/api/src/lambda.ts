@@ -30,8 +30,8 @@ process.on('uncaughtException', (reason) => {
 
 function setupSwagger(app: INestApplication) {
   const options = new DocumentBuilder()
-    .setTitle('WorkAurora API')
-    .setDescription('WorkAurora API')
+    .setTitle('WorkAgora API')
+    .setDescription('WorkAgora API')
     .setVersion('0.0.1')
     .addBearerAuth()
     .build();

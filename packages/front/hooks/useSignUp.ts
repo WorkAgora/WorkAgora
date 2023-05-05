@@ -1,5 +1,5 @@
 import { useDisconnect, useSignMessage } from 'wagmi';
-import { API_URL } from '../services/api';
+import { API_URL } from '../../front-provider/src/api';
 import { SiweMessage } from 'siwe';
 import { getNonceApi, signUpWithEthereumApi } from '../services/auth';
 import { useCallback } from 'react';
@@ -36,7 +36,7 @@ export function useSignUp() {
           const message = new SiweMessage({
             domain: window.location.host,
             address,
-            statement: 'Sign Up in WorkAurora',
+            statement: 'Sign Up in WorkAgora',
             uri: API_URL,
             version: '1',
             chainId: chain.id,

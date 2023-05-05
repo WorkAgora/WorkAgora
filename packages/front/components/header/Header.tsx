@@ -1,17 +1,13 @@
-import { Flex, useDisclosure } from '@chakra-ui/react';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { Flex } from '@chakra-ui/react';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
-import SignupForm from '../form/SignupForm';
-import BrandLogo from '../icons/BrandLogo';
-import SignupModal from '../modal/SignupModal';
+import BrandLogo from '../logo/BrandLogo';
 import UserTypeSwitch from '../switch/UserTypeSwitch';
 import HeaderButton from './HeaderButton';
 import HeaderMenu from './HeaderMenu';
 
 const Header: FC = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { disconnect } = useDisconnect();
+  const { signupModalOpen, setSignupModalOpen, setType } = useLanding();
   const { user } = useCurrentUser();
 
   return (
@@ -26,7 +22,7 @@ const Header: FC = () => {
       >
         <Flex direction="row" alignItems="center">
           <BrandLogo />
-          <UserTypeSwitch userType="Freelance" ml={12} />
+          <UserTypeSwitch userType="Freelance" ml={12} onTypeChange={setType} />
         </Flex>
         {!user && (
           <Flex direction="row" alignItems="center" justifyContent="center">
@@ -34,28 +30,9 @@ const Header: FC = () => {
           </Flex>
         )}
         <Flex direction="row" alignItems="center" justifyContent="end">
-          <HeaderButton onOpen={onOpen} signupModalOpen={isOpen} />
+          <HeaderButton onOpen={() => setSignupModalOpen(true)} signupModalOpen={signupModalOpen} />
         </Flex>
       </Flex>
-      <SignupModal
-        isOpen={isOpen}
-        onClose={() => {
-          disconnect();
-          setTimeout(() => {
-            onClose();
-          }, 200);
-        }}
-        title="Sign up"
-      >
-        <SignupForm
-          onSubmitSuccess={() => {
-            disconnect();
-            setTimeout(() => {
-              onClose();
-            }, 200);
-          }}
-        />
-      </SignupModal>
     </>
   );
 };

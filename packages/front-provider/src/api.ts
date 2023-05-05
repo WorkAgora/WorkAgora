@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { getRefreshToken } from './auth';
+import Cookies from 'js-cookie';
+import { getRefreshToken } from '../../front/services/auth';
 
 export const API_URL = `${
   process.env.NEXT_PUBLIC_BC_ENV !== 'production' ? 'http://' : 'https://'
@@ -18,7 +19,21 @@ const privateApiWithCred = publicApi;
 privateApiWithCred.defaults.withCredentials = true;
 
 function isTokenExpiredError(errorResponse: any): boolean {
-  return errorResponse ? errorResponse.status === 401 : false;
+  return errorResponse
+    ? errorResponse.status === 401 && errorResponse.data.message === 'ACCESS_TOKEN_EXPIRED'
+    : false;
+}
+
+function isRefreshTokenExpiredError(errorResponse: any): boolean {
+  return errorResponse
+    ? errorResponse.status === 401 && errorResponse.data.message === 'REFRESH_TOKEN_EXPIRED'
+    : false;
+}
+
+function isNoTokenError(errorResponse: any): boolean {
+  return errorResponse
+    ? errorResponse.status === 401 && errorResponse.data.message === 'NO_TOKEN_PROVIDED'
+    : false;
 }
 
 function onAccessTokenFetched() {
@@ -39,21 +54,19 @@ let subscribers: Array<any> = [];
 async function refreshTokenAndReattemptRequest(error: any) {
   try {
     const { response: errorResponse } = error;
-    const refreshToken = getRefreshToken();
-    console.log(refreshToken);
-    if (!refreshToken) {
-      return Promise.reject(error);
-    }
 
     const retryOriginalRequest = new Promise((resolve) => {
-      addSubscriber((accessToken: string) => {
+      addSubscriber(() => {
         resolve(privateApiWithCred(errorResponse.config));
       });
     });
 
     if (!isAlreadyFetchingAccessToken) {
       isAlreadyFetchingAccessToken = true;
-      await privateApiWithCred.get('/auth/refreshToken');
+      const refreshToken = await getRefreshToken();
+      if (!refreshToken) {
+        return Promise.reject(error);
+      }
       isAlreadyFetchingAccessToken = false;
       onAccessTokenFetched();
     }
@@ -70,7 +83,12 @@ privateApiWithCred.interceptors.response.use(
     if (isTokenExpiredError(errorResponse)) {
       return refreshTokenAndReattemptRequest(error);
     }
-    console.log(errorResponse);
+    if (isRefreshTokenExpiredError(errorResponse) || isNoTokenError(errorResponse)) {
+      Cookies.remove('authenticated');
+      privateApiWithCred.get('/auth/logout');
+      return Promise.reject(error);
+    }
+    return Promise.reject(error);
   }
 );
 

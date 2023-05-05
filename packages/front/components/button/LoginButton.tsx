@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
-import { useLogin } from '@workaurora/front/hooks/useLogin';
+import { useLogin } from '@workagora/front/hooks/useLogin';
 import { FC } from 'react';
 import ConnectButton from './ConnectButton';
 

@@ -1,10 +1,10 @@
 import { Button, Flex, IconButton, Text } from '@chakra-ui/react';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { useCurrentUser } from '@workagora/front-provider';
 import { FC } from 'react';
 import LoginButton from '../button/LoginButton';
 import NotificationIcon from '../icons/NotificationIcon';
 import MessageIcon from '../icons/MessageIcon';
-import { shortHash } from '@workaurora/utils';
+import { shortHash } from '@workagora/utils';
 
 interface HeaderButtonProps {
   onOpen: () => void;

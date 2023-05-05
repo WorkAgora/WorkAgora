@@ -17,7 +17,7 @@ interface SignupModalProps {
 
 const SignupModal: FC<SignupModalProps> = ({ isOpen, onClose, title, children }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false} size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>
