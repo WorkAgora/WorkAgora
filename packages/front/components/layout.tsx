@@ -12,6 +12,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
   const { disconnect } = useDisconnect();
   const { signupModalOpen, setSignupModalOpen } = useLanding();
   const [isFetching, setIsFetching] = useState(true);
+  const authenticatedCookie = Cookies.get('authenticated');
 
   const isUserLogged = useCallback(async () => {
     const res = await checkUserLogged();
@@ -25,13 +26,13 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
   }, [setUser, user]);
 
   useEffect(() => {
-    if (Cookies.get('authenticated') === 'true' && !user) {
+    if (authenticatedCookie === 'true' && !user) {
       setIsFetching(true);
       isUserLogged();
     } else {
       setIsFetching(false);
     }
-  }, [isUserLogged, user]);
+  }, [isUserLogged, user, authenticatedCookie]);
 
   return (
     <Container
