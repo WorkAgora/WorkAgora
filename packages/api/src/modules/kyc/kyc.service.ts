@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { KycSession, KycStep } from './kyc.schema';
+import { KycStepSchema } from './kyc.schema';
 import { KycService as KycServiceEnum, KycServiceState } from './kyc.enum';
 import { v4 as uuidv4 } from 'uuid';
 import { KycStatus } from './kyc.enum';
+import { KycSession } from './kyc.interface';
 
 @Injectable()
 export class KycService {
   private kycSessions: KycSession[] = [];
-  private kycSteps: KycStep[] = [];
+  private kycSteps: KycStepSchema[] = [];
 
-  createOrGetSession(userId: string): Promise<KycSession> {
-    const existingSession = this.kycSessions.find((session) => session.userWallet === userId);
+  createOrGetSession(userWallet: string): Promise<KycSession> {
+    const existingSession = this.kycSessions.find((session) => session.userWallet === userWallet);
 
     if (existingSession) {
       return Promise.resolve(existingSession);
@@ -19,13 +20,12 @@ export class KycService {
     const sessionId = uuidv4();
     const newSession: KycSession = {
       sessionId: sessionId,
-      userWallet: userId,
-      session: sessionId,
+      userWallet: userWallet,
       status: KycStatus.PENDING,
       steps: [
-        { id: uuidv4(), service: KycServiceEnum.LIVENESS, state: KycServiceState.NOT_STARTED },
-        { id: uuidv4(), service: KycServiceEnum.IDENTITY, state: KycServiceState.NOT_STARTED },
-        { id: uuidv4(), service: KycServiceEnum.RESIDENCY, state: KycServiceState.NOT_STARTED }
+        { sessionId, userWallet, serviceName: KycServiceEnum.LIVENESS, state: KycServiceState.NOT_STARTED },
+        { sessionId, userWallet, serviceName: KycServiceEnum.IDENTITY, state: KycServiceState.NOT_STARTED },
+        { sessionId, userWallet, serviceName: KycServiceEnum.RESIDENCY, state: KycServiceState.NOT_STARTED }
       ]
     };
 
@@ -38,9 +38,9 @@ export class KycService {
   findStepBySessionIdAndService(
     sessionId: string,
     service: KycServiceEnum
-  ): Promise<KycStep | null> {
+  ): Promise<KycStepSchema | null> {
     const step = this.kycSteps.find(
-      (kycStep) => kycStep.id === sessionId && kycStep.service === service
+      (kycStep) => kycStep.sessionId === sessionId && kycStep.serviceName === service
     );
 
     return Promise.resolve(step || null);
@@ -52,7 +52,7 @@ export class KycService {
     data: { state: KycServiceState; rejectionReason?: string }
   ): Promise<void> {
     const stepIndex = this.kycSteps.findIndex(
-      (kycStep) => kycStep.kycSessionId === sessionId && kycStep.service === service
+      (kycStep) => kycStep.sessionId === sessionId && kycStep.serviceName === service
     );
 
     if (stepIndex !== -1) {

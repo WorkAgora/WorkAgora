@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { KycModule } from './modules/kyc/kyc.module';
+import { SynapsModule } from './modules/synaps/synaps.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { KycModule } from './modules/kyc/kyc.module';
     }),
     UserModule,
     AuthModule,
-    KycModule
+    KycModule,
+    SynapsModule
   ],
   controllers: [],
   providers: []

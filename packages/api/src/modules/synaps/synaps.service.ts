@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { Model } from 'nestjs-dynamoose';
-import { InjectModel } from '@nestjs/dynamoose';
+import { Model} from 'nestjs-dynamoose';
+import { InjectModel } from 'nestjs-dynamoose';
+import { SynapseSessionInterface } from './synaps.interface';
 
-export interface Session {
-  sessionId: string;
-  alias: string;
-  sandbox: boolean;
-}
+export type SessionKey = Pick<SynapseSessionInterface, 'sessionId'>;
 
 @Injectable()
 export class SynapsService {
@@ -16,7 +13,7 @@ export class SynapsService {
 
   constructor(
     private httpService: HttpService,
-    @InjectModel('Session') private readonly sessionModel: Model<Session>
+    @InjectModel('Session') private readonly sessionModel: Model<SynapseSessionInterface, SessionKey>,
   ) {}
 
   async initSession(alias: string, clientId: string, apiKey: string): Promise<AxiosResponse> {
@@ -29,7 +26,7 @@ export class SynapsService {
       .toPromise();
 
     // Store the session in DynamoDB
-    const sessionData: Session = {
+    const sessionData: SynapseSessionInterface = {
       sessionId: response.data.session_id,
       sandbox: response.data.sandbox,
       alias
