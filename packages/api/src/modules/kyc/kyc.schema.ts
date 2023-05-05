@@ -1,6 +1,6 @@
 import { KycStatus, KycService, KycServiceState } from './kyc.enum';
 import { Schema } from 'dynamoose';
-import { walletRegex } from '@workaurora/utils';
+import { walletRegex } from '../../../../utils/src/index';
 import { ValueType } from 'dynamoose/dist/Schema';
 
 export const KycSessionSchema = new Schema({
