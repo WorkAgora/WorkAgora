@@ -21,7 +21,7 @@ const Product: FC = () => {
   return (
     <InView as="div" id="product" onChange={handleViewChange}>
       <Flex id="product" flexDir="column" pt={16}>
-        <Flex mx="auto" width="80%">
+        <Flex mx="auto" width="80%" maxW="1280px">
           {content}
         </Flex>
       </Flex>

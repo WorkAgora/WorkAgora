@@ -1,9 +1,9 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
-import ArrowRightIcon from '../../icons/ArrowRightIcon';
-import ProductIllustration from '../../illustration/ProductIllustration';
-import LightBrandLogo from '../../logo/LightBrandLogo';
+import ArrowRightIcon from '../../../icons/ArrowRightIcon';
+import ProductIllustration from '../../../illustration/ProductIllustration';
+import LightBrandLogo from '../../../logo/LightBrandLogo';
 
 const ProductFreelance: FC = () => {
   const { setSignupModalOpen } = useLanding();

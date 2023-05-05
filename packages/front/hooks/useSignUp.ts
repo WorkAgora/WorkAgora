@@ -1,5 +1,5 @@
 import { useDisconnect, useSignMessage } from 'wagmi';
-import { API_URL } from '../services/api';
+import { API_URL } from '../../front-provider/src/api';
 import { SiweMessage } from 'siwe';
 import { getNonceApi, signUpWithEthereumApi } from '../services/auth';
 import { useCallback } from 'react';

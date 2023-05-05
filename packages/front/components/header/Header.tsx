@@ -1,18 +1,14 @@
-import { Flex, useDisclosure } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
-import { useDisconnect } from 'wagmi';
-import SignupForm from '../form/SignupForm';
 import BrandLogo from '../logo/BrandLogo';
-import SignupModal from '../modal/SignupModal';
 import UserTypeSwitch from '../switch/UserTypeSwitch';
 import HeaderButton from './HeaderButton';
 import HeaderMenu from './HeaderMenu';
 
 const Header: FC = () => {
-  const { signupModalOpen, setSignupModalOpen } = useLanding();
+  const { signupModalOpen, setSignupModalOpen, setType } = useLanding();
   const { user } = useCurrentUser();
-  const { setType } = useLanding();
 
   return (
     <>

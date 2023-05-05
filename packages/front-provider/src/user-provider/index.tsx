@@ -2,6 +2,8 @@ import { createContext, ReactNode, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
+import axios from 'axios';
+import { privateApi } from '../api';
 export interface User {
   wallet: string;
   email: string;
@@ -42,8 +44,9 @@ export function useCurrentUser() {
   const { user, setUser } = useContext(CurrentUserContext);
   const { disconnect } = useDisconnect();
 
-  const logout = () => {
+  const logout = async () => {
     disconnect();
+    await privateApi.get('/auth/logout');
     //Timeout to prevent wallet asking for nonce again
     setTimeout(() => {
       Cookies.remove('authenticated');

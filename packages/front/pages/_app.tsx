@@ -1,6 +1,6 @@
 import Header from '../components/header/Header';
 import { CurrentUserProvider, LandingProvider, WagmiProvider } from '@workagora/front-provider';
-import { ChakraProvider, Container } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -24,25 +24,10 @@ function App({ Component, pageProps }: AppProps) {
         <WagmiProvider>
           <CurrentUserProvider>
             <LandingProvider>
-              <Container
-                maxW="100vw"
-                minW="100vw"
-                minH="100vh"
-                w="100vw"
-                h="100vh"
-                p="0"
-                display="flex"
-                flexDir="column"
-                overflow="hidden"
-                position="relative"
-                bgColor="neutral.lightGray"
-                color="neutral.black"
-              >
-                <Layout>
-                  <Header />
-                  <Component {...pageProps} />
-                </Layout>
-              </Container>
+              <Layout>
+                <Header />
+                <Component {...pageProps} />
+              </Layout>
             </LandingProvider>
           </CurrentUserProvider>
         </WagmiProvider>
