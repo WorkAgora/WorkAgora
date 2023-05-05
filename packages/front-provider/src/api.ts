@@ -54,10 +54,6 @@ let subscribers: Array<any> = [];
 async function refreshTokenAndReattemptRequest(error: any) {
   try {
     const { response: errorResponse } = error;
-    const refreshToken = await getRefreshToken();
-    if (!refreshToken) {
-      return Promise.reject(error);
-    }
 
     const retryOriginalRequest = new Promise((resolve) => {
       addSubscriber(() => {
@@ -67,7 +63,10 @@ async function refreshTokenAndReattemptRequest(error: any) {
 
     if (!isAlreadyFetchingAccessToken) {
       isAlreadyFetchingAccessToken = true;
-      await getRefreshToken();
+      const refreshToken = await getRefreshToken();
+      if (!refreshToken) {
+        return Promise.reject(error);
+      }
       isAlreadyFetchingAccessToken = false;
       onAccessTokenFetched();
     }
