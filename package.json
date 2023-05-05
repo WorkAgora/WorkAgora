@@ -102,6 +102,7 @@
     "@emotion/react": "^11.10.8",
     "@fontsource/comfortaa": "^4.5.11",
     "@fontsource/montserrat": "^4.5.14",
+    "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
