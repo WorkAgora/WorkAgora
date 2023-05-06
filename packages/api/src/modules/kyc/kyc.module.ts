@@ -12,7 +12,7 @@ import {HttpModule} from "@nestjs/axios";
         name: 'KycSession',
         schema: KycSessionSchema,
         options: {
-          tableName: '-kyc-session'
+          tableName: '-kyc'
         }
       },
       ]),

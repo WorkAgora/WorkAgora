@@ -114,17 +114,17 @@ export class KycService {
 
   /**
    * Checks the status of a KYC session by its ID.
-   * @param {string} sessionId The ID of the KYC session.
+   * @param {string} wallet The user's wallet address.
    * @return {Promise<KycStatus>} A promise that resolves to the status of the KYC session.
    */
-  async checkSessionStatus(sessionId: string): Promise<KycStatus> {
+  async checkSessionStatus(wallet: string): Promise<KycStatus> {
     try {
-      const session = await this.model.query('sessionId').eq(sessionId).exec();
+      const session = await this.model.query('wallet').eq(wallet).exec();
       return session[0].status;
     } catch (e) {
       if (e.message == "Index can't be found for query.")
-        return null;
-      throw e;
+        throw new HttpException(`KYC-Session not found for ${sessionId}`, 404)
+      throw new HttpException(`Error checking KYC-Session status for ${sessionId}: ${e.message}`, 500);
     }
   }
   async findStepBySessionIdAndService(sessionId: string, service: string): Promise<KycStep> {
