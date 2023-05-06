@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { SynapsService } from './synaps.service';
 import { HttpModule } from '@nestjs/axios';
 import { DynamooseModule } from 'nestjs-dynamoose';
+import { SynapsSessionSchema } from './synaps.schema';
 
 @Module({
   imports: [
@@ -9,7 +10,7 @@ import { DynamooseModule } from 'nestjs-dynamoose';
     DynamooseModule.forFeature([
       {
         name: 'Session',
-        schema: { sessionId: String, alias: String, sandbox: Boolean },
+        schema: SynapsSessionSchema,
         options: {
           tableName: '-synaps-session'
         }
