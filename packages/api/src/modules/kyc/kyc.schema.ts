@@ -32,9 +32,31 @@ export const KycSessionSchema = new Schema({
   }
 });
 
-export class KycStepSchema {
-  wallet: string;
-  serviceName: KycService;
-  state: KycServiceState;
-  sessionId: string;
-}
+export const KycStepSchema = new Schema({
+  wallet: {
+    type: String,
+    required: true,
+    hashKey: true,
+    validate: walletRegex
+  },
+  serviceName: {
+    type: String,
+    required: true,
+    validate(value: ValueType) {
+      return Object.values(KycService).includes(value as KycService);
+    }
+  },
+  state: {
+    type: String,
+    required: true,
+    default: KycServiceState.NOT_STARTED,
+    validate(value: ValueType) {
+      return Object.values(KycServiceState).includes(value as KycServiceState);
+    }
+  },
+  sessionId: {
+    type: String,
+    required: true,
+    rangeKey: true
+  }
+});

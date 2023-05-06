@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { KycController } from './kyc.controller';
 import { KycService } from './kyc.service';
-import { SynapsService } from '../synaps/synaps.service';
 import {DynamooseModule} from "nestjs-dynamoose";
 import {KycSessionSchema} from "./kyc.schema";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
   imports: [
@@ -15,9 +15,11 @@ import {KycSessionSchema} from "./kyc.schema";
           tableName: '-kyc-session'
         }
       },
-      ])
+      ]),
+    HttpModule
   ],
   controllers: [KycController],
-  providers: [KycService, SynapsService],
+  providers: [KycService],
+  // exports: [KycService]
 })
 export class KycModule {}

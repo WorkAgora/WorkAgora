@@ -1,84 +1,197 @@
-import { Injectable } from '@nestjs/common';
-import { KycStepSchema } from './kyc.schema';
-import { KycService as KycServiceEnum, KycServiceState } from './kyc.enum';
-import { v4 as uuidv4 } from 'uuid';
-import { KycStatus } from './kyc.enum';
-import { KycSession } from './kyc.interface';
+import { HttpException, Injectable } from '@nestjs/common';
+import { KycService as KycServiceEnum, KycServiceState, KycStatus } from './kyc.enum';
+import { KycSession, KycSessionKey, KycStep, KycWebhookPayload } from './kyc.interface';
+import { InjectModel, Model } from 'nestjs-dynamoose';
+import { HttpService } from '@nestjs/axios';
+import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class KycService {
-  private kycSessions: KycSession[] = [];
-  private kycSteps: KycStepSchema[] = [];
+  constructor(
+    @InjectModel('KycSession')
+    private readonly model: Model<KycSession, KycSessionKey>,
+    private httpService: HttpService
+  ) {}
 
-  createOrGetSession(wallet: string): Promise<KycSession> {
-    const existingSession = this.kycSessions.find((session) => session.wallet === wallet);
+  /**
+   * Initiate a KYC session.
+   * @param wallet
+   * @param alias
+   * @return {Promise<KycSession>}
+   */
+  async initSynapsSession(wallet: string, alias: string): Promise<KycSession> {
+    console.log("URL: " + `${process.env.SYNAPS_API_BASE_URL}/session/init`);
+    const response = await this.httpService
+      .post(
+        `${process.env.SYNAPS_API_BASE_URL}/session/init`,
+        { alias },
+        {
+          headers: {
+            'Client-Id': process.env.SYNAPS_CLIENT_ID,
+            'Api-Key': process.env.SYNAPS_API_KEY
+          }
+        }
+      )
+      .toPromise();
 
-    if (existingSession) {
-      return Promise.resolve(existingSession);
-    }
-
-    const sessionId = uuidv4();
-    const newSession: KycSession = {
-      sessionId: sessionId,
-      wallet: wallet,
+    return {
+      sessionId: response.data.session_id,
       status: KycStatus.PENDING,
+      sandbox: response.data.sandbox,
       steps: [
         {
-          sessionId,
-          wallet,
-          serviceName: KycServiceEnum.LIVENESS,
-          state: KycServiceState.NOT_STARTED
-        },
-        {
-          sessionId,
-          wallet,
           serviceName: KycServiceEnum.IDENTITY,
           state: KycServiceState.NOT_STARTED
         },
         {
-          sessionId,
-          wallet,
+          serviceName: KycServiceEnum.LIVENESS,
+          state: KycServiceState.NOT_STARTED
+        },
+        {
           serviceName: KycServiceEnum.RESIDENCY,
           state: KycServiceState.NOT_STARTED
         }
-      ]
+      ],
+      alias,
+      wallet
     };
-
-    this.kycSessions.push(newSession);
-    this.kycSteps.push(...newSession.steps);
-
-    return Promise.resolve(newSession);
   }
 
-  findStepBySessionIdAndService(
-    sessionId: string,
-    service: KycServiceEnum
-  ): Promise<KycStepSchema | null> {
-    const step = this.kycSteps.find(
-      (kycStep) => kycStep.sessionId === sessionId && kycStep.serviceName === service
-    );
-
-    return Promise.resolve(step || null);
+  /**
+   * Get the Synaps session info.
+   * @param sessionId
+   * @return {Promise<AxiosResponse>} A promise that resolves to the session info.
+   */
+  async getSessionInfo(sessionId: string): Promise<AxiosResponse> {
+    return await this.httpService
+      .get(`${process.env.SYNAPS_API_BASE_URL}/session/info`, {
+        headers: {
+          'Client-Id': process.env.SYNAPS_CLIENT_ID,
+          'Api-Key': process.env.SYNAPS_API_KEY,
+          'Session-Id': sessionId
+        }
+      })
+      .toPromise();
   }
 
-  updateStepById(
-    sessionId: string,
-    service: KycServiceEnum,
-    data: { state: KycServiceState; rejectionReason?: string }
-  ): Promise<void> {
-    const stepIndex = this.kycSteps.findIndex(
-      (kycStep) => kycStep.sessionId === sessionId && kycStep.serviceName === service
-    );
+  /**
+   * Lists all KYC sessions for a given wallet address (alias).
+   * @param alias
+   * @return {Promise<AxiosResponse>} A promise that resolves to the list of KYC sessions.
+   */
+  async listSessionsWithAlias(alias: string): Promise<AxiosResponse> {
+    return await this.httpService
+      .get(`${process.env.SYNAPS_API_BASE_URL}/session/alias`, {
+        headers: { 'Api-Key': process.env.SYNAPS_API_KEY },
+        params: { alias }
+      })
+      .toPromise();
+  }
 
-    if (stepIndex !== -1) {
-      this.kycSteps[stepIndex] = { ...this.kycSteps[stepIndex], ...data };
+  /**
+   * Initiates a new KYC process for a given wallet address or returns the existing one.
+   * @param {string} wallet The user's wallet address.
+   * @return {Promise<KycSession>} A promise that resolves to the new or existing KYC session.
+   */
+  async initiateKycProcess(wallet: string): Promise<KycSession> {
+    // If there is an existing session, return it
+    try {
+      const existingSession = await this.model.query('wallet').eq(wallet).exec();
+      if (existingSession.count > 0) {
+        return existingSession[0];
+      }
+    } catch (e) {
+      if (e.message != "Index can't be found for query.") {
+        throw e;
+      }
     }
 
-    return Promise.resolve();
+    // Otherwise, create a new session
+    const newSession = await this.initSynapsSession(wallet, wallet);
+    await this.model.create(newSession);
+    return newSession;
   }
 
-  checkForFinalValidation(sessionId: string): Promise<void> {
-    // TODO update the session status based on the steps' states
-    return Promise.resolve();
+  /**
+   * Checks the status of a KYC session by its ID.
+   * @param {string} sessionId The ID of the KYC session.
+   * @return {Promise<KycStatus>} A promise that resolves to the status of the KYC session.
+   */
+  async checkSessionStatus(sessionId: string): Promise<KycStatus> {
+    try {
+      const session = await this.model.query('sessionId').eq(sessionId).exec();
+      return session[0].status;
+    } catch (e) {
+      if (e.message == "Index can't be found for query.")
+        return null;
+      throw e;
+    }
+  }
+  async findStepBySessionIdAndService(sessionId: string, service: string): Promise<KycStep> {
+    const session = await this.model.query('sessionId').eq(sessionId).exec();
+    if (session.count === 0) {
+      throw new HttpException(`KYC-Session not found for ${sessionId}`, 500);
+    }
+    return session[0].steps.find((step) => step.serviceName === service);
+  }
+
+  /**
+   * Updates the status of a KYC session by its ID.
+   * @param {string} sessionId The ID of the KYC session.
+   * @param {string} service The new status of the KYC session.
+   * @param {KycWebhookPayload} updateData The new status of the KYC session.
+   * @return {Promise<void>} A promise that resolves when the status has been updated.
+   */
+  async updateStepById(sessionId: string, service: string, updateData: KycWebhookPayload): Promise<void> {
+    try {
+      const session = await this.model.query('sessionId').eq(sessionId).exec();
+
+      if (session.count === 0) {
+        throw new HttpException(`KYC-Session not found for ${sessionId}`, 500);
+      }
+
+      const sessionItem = session[0];
+      const stepIndex = sessionItem.steps.findIndex((step) => step.serviceName === service);
+
+      if (stepIndex !== -1) {
+        sessionItem.steps[stepIndex] = {
+          ...sessionItem.steps[stepIndex],
+          ...updateData
+        };
+        await this.model.update(sessionItem);
+      } else {
+        throw new HttpException(`KYC-Step not found for ${service}`, 500);
+      }
+    } catch (e) {
+      if (e.message != "Index can't be found for query.")
+        throw e;
+    }
+  }
+
+  /**
+    * Checks if all KYC steps have been validated.
+   * @param sessionId
+   * @returns {Promise<boolean>}
+   */
+  async checkForFinalValidation(sessionId: string): Promise<boolean> {
+    try {
+      const session = await this.model.query('sessionId').eq(sessionId).exec();
+
+      const isAllValidated = session[0].steps.every(
+        (step) => step.state === KycServiceState.VALIDATED
+      );
+
+      if (isAllValidated) {
+        session[0].status = KycStatus.VALIDATED;
+        await this.model.update(session[0]);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      if (e.message != "Index can't be found for query.")
+        throw e;
+      else
+        throw new HttpException(`KYC-Session not found for ${sessionId}`, 500);
+    }
   }
 }

@@ -9,7 +9,6 @@ import {
   ValidateNested
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FreelancerProfile, EmployerProfile } from '../../modules/user/user.interface';
 import { UpdateFreelanceProfileDTO } from './update-freelance.dto';
 import { UpdateEmployerProfileDTO } from './update-employer.dto';
 
