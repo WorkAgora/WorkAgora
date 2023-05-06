@@ -39,7 +39,7 @@ export class KycController {
     res.status(200).send();
   }
   @Post('initiate/:wallet')
-  @ApiOperation({ summary: 'Initiate a KYC process' })
+  @ApiOperation({ summary: 'Initiate a KYC process (get existing one if already initiated)' })
   @ApiParam({
     name: 'wallet',
     description: 'The wallet address of the user',

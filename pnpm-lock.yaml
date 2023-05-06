@@ -109,6 +109,9 @@ dependencies:
   react-i18next:
     specifier: ^12.2.2
     version: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
+  react-intersection-observer:
+    specifier: ^9.4.3
+    version: 9.4.3(react@18.2.0)
   reflect-metadata:
     specifier: ^0.1.13
     version: 0.1.13
@@ -135,6 +138,9 @@ devDependencies:
   '@babel/preset-react':
     specifier: ^7.14.5
     version: 7.18.6(@babel/core@7.21.5)
+  '@chainlink/hardhat-chainlink':
+    specifier: ^0.0.2
+    version: 0.0.2(hardhat@2.14.0)
   '@ethersproject/abi':
     specifier: ^5.7.0
     version: 5.7.0
@@ -201,6 +207,9 @@ devDependencies:
   '@nx/workspace':
     specifier: 16.0.1
     version: 16.0.1
+  '@openzeppelin/contracts':
+    specifier: ^4.8.3
+    version: 4.8.3
   '@openzeppelin/hardhat-upgrades':
     specifier: ^1.23.1
     version: 1.23.1(@nomiclabs/hardhat-ethers@2.2.3)(@nomiclabs/hardhat-etherscan@3.1.7)(ethers@5.7.2)(hardhat@2.14.0)
@@ -2502,6 +2511,19 @@ packages:
 
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+    dev: true
+
+  /@chainlink/hardhat-chainlink@0.0.2(hardhat@2.14.0):
+    resolution: {integrity: sha512-M8ca4fiPKSU73M9tY0N2ZSRx5wXiLxnY3iT6eA6jsR9vzuEzWKZsH8Oc77J14EI10KZ6Sw8QYzSYh5j59d81hw==}
+    requiresBuild: true
+    peerDependencies:
+      hardhat: ^2.0.0
+    dependencies:
+      axios: 1.4.0
+      docker-compose: 0.23.19
+      hardhat: 2.14.0(ts-node@10.9.1)(typescript@4.9.5)
+    transitivePeerDependencies:
+      - debug
     dev: true
 
   /@chainsafe/as-sha256@0.3.1:
@@ -6516,6 +6538,10 @@ packages:
       - '@swc-node/register'
       - '@swc/core'
       - debug
+    dev: true
+
+  /@openzeppelin/contracts@4.8.3:
+    resolution: {integrity: sha512-bQHV8R9Me8IaJoJ2vPG4rXcL7seB7YVuskr4f+f5RyOStSZetwzkWtoqDMl5erkBJy0lDRUnIR2WIkPiC0GJlg==}
     dev: true
 
   /@openzeppelin/hardhat-upgrades@1.23.1(@nomiclabs/hardhat-ethers@2.2.3)(@nomiclabs/hardhat-etherscan@3.1.7)(ethers@5.7.2)(hardhat@2.14.0):
@@ -11626,6 +11652,13 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       '@leichtgewicht/ip-codec': 2.0.4
+    dev: true
+
+  /docker-compose@0.23.19:
+    resolution: {integrity: sha512-v5vNLIdUqwj4my80wxFDkNH+4S85zsRuH29SO7dCWVWPCMt/ohZBsGN6g6KXWifT0pzQ7uOxqEKCYCDPJ8Vz4g==}
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      yaml: 1.10.2
     dev: true
 
   /doctrine@2.1.0:
@@ -18423,6 +18456,14 @@ packages:
       i18next: 22.4.15
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-intersection-observer@9.4.3(react@18.2.0):
+    resolution: {integrity: sha512-WNRqMQvKpupr6MzecAQI0Pj0+JQong307knLP4g/nBex7kYfIaZsPpXaIhKHR+oV8z+goUbH9e10j6lGRnTzlQ==}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:
