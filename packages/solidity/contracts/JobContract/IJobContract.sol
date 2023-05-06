@@ -7,6 +7,6 @@ pragma solidity ^0.8.18;
  * This contract is use to handle the work contract and keep tracability
  *
  */
-interface IWorkContract {
+interface IJobContract {
 
 }

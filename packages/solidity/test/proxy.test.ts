@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { ethers, upgrades } from 'hardhat';
 
 describe('Proxy Test', function () {
-  it('Should deploy and upgrade the UserProfile contract using a proxy', async () => {
+  it('Should deploy and upgrade the User contract using a proxy', async () => {
     const user = (await ethers.getSigners())[1];
 
     // deploy
-    const v1Factory = await ethers.getContractFactory('TestUserProfileV1');
+    const v1Factory = await ethers.getContractFactory('TestUserV1');
     const proxy = await upgrades.deployProxy(v1Factory, [], { initializer: 'setGovernance' });
     expect(await proxy.governance()).not.to.equal(user.address);
 
@@ -15,7 +15,7 @@ describe('Proxy Test', function () {
     expect(await proxy.isUserRegistered(user.address)).to.equal(true);
 
     // upgrade
-    const v2Factory = await ethers.getContractFactory('TestUserProfileV2');
+    const v2Factory = await ethers.getContractFactory('TestUserV2');
     const upgradedProxy = await upgrades.upgradeProxy(proxy.address, v2Factory);
     expect(proxy.address).to.equal(upgradedProxy.address);
 

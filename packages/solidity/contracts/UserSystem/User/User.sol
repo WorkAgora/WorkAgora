@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import './IUserProfile.sol';
+import './IUser.sol';
+import '../Contractor/Contractor.sol';
+import '../Employer/Employer.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
 
-contract UserProfile is IUserProfile {
+contract User is IUser {
     using ECDSA for bytes32;
 
     address public kycSystem;
     mapping(address => string) public verifiedUsers;
-
-    event UserVerified(address indexed walletAddress);
+    mapping(address => address) public Employers;
+    mapping(address => address) public Contractors;
 
     function initialize(address _kycSystem) public {
         require(kycSystem == address(0), 'Already initialized');
@@ -21,6 +23,12 @@ contract UserProfile is IUserProfile {
         require(!isUserVerified(_address), 'Already verified');
         bytes32 messagehash = keccak256(bytes(abi.encodePacked(_address, _kycId)));
         require(messagehash.toEthSignedMessageHash().recover(_signature) == kycSystem, 'invalid signature');
+
+        Employer employer = new Employer();
+        Employers[_address] = address(employer);
+        Contractor contractor = new Contractor();
+        Contractors[_address] = address(contractor);
+
         verifiedUsers[_address] = _kycId;
     }
 

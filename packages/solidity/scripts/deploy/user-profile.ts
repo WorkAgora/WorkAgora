@@ -3,10 +3,10 @@ import { upgrades } from 'hardhat';
 import { logger } from '../utils/logger';
 
 async function main() {
-    const factory = await ethers.getContractFactory('UserProfile');
-    logger.logInfo('Deploying UserProfile');
+    const factory = await ethers.getContractFactory('User');
+    logger.logInfo('Deploying User');
     const proxy = await upgrades.deployProxy(factory, [], { initializer: undefined });
-    logger.logInfoTitle('UserProfile', [
+    logger.logInfoTitle('User', [
         'Proxy address', proxy.address
     ], [
         'Proxy Admin address', await upgrades.erc1967.getAdminAddress(proxy.address)

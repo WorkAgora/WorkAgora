@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract TestUserProfileV2 {
+contract TestUserV2 {
     address public governance;
     mapping(address => bool) public registeredUsers;
     mapping(address => bool) public verifiedUsers;

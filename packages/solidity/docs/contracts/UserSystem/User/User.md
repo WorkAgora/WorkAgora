@@ -1,4 +1,4 @@
-# UserProfile
+# User
 
 
 
@@ -9,6 +9,50 @@
 
 
 ## Methods
+
+### Contractors
+
+```solidity
+function Contractors(address) external view returns (address)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
+### Employers
+
+```solidity
+function Employers(address) external view returns (address)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
 
 ### initialize
 
