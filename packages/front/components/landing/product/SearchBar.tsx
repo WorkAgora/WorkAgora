@@ -12,7 +12,7 @@ import { useLanding } from '@workagora/front-provider';
 import { FC, useEffect, useState } from 'react';
 import AddIcon from '../../icons/AddIcon';
 
-interface SearchBarFilter {
+export interface SearchBarFilter {
   label: string;
   bgColor: string;
   color: string;
@@ -35,6 +35,7 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
   useEffect(() => {
     if (type === possibleType[0]) {
       setTitle('Find the perfect offer');
+      setCurFilters([]);
       setFilters([
         {
           label: 'Badge1',
@@ -61,6 +62,7 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
 
     if (type === possibleType[1]) {
       setTitle('Find the perfect freelancer');
+      setCurFilters([]);
       setFilters([
         {
           label: 'Product',
@@ -88,7 +90,9 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
 
   return (
     <Flex flexDir="column" {...props}>
-      <Box textStyle="h2">{title}</Box>
+      <Box textStyle="h2" cursor="default">
+        {title}
+      </Box>
       <InputGroup variant="searchBar" mt={2}>
         <Input placeholder="Add a filter to improve your research" />
         <InputRightElement width="auto">

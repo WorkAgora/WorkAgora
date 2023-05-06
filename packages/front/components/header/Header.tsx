@@ -7,14 +7,26 @@ import HeaderButton from './HeaderButton';
 import HeaderMenu from './HeaderMenu';
 
 const Header: FC = () => {
-  const { signupModalOpen, setSignupModalOpen, setType } = useLanding();
   const { user } = useCurrentUser();
+  const { hasScroll } = useLanding();
 
   return (
-    <Flex direction="row" px={8} py={4} h="80px" alignItems="center" justifyContent="space-between">
+    <Flex
+      direction="row"
+      px={8}
+      py={4}
+      alignItems="center"
+      justifyContent="space-between"
+      position="fixed"
+      zIndex="999"
+      width="100%"
+      bgColor="neutral.lightGray"
+      transition="all ease-in-out 250ms"
+      boxShadow={hasScroll ? 'xl' : 'none'}
+    >
       <Flex direction="row" alignItems="center">
         <BrandLogo />
-        <UserTypeSwitch userType="Freelance" ml={12} onTypeChange={setType} />
+        <UserTypeSwitch ml={12} />
       </Flex>
       {!user && (
         <Flex direction="row" alignItems="center" justifyContent="center">
@@ -22,7 +34,7 @@ const Header: FC = () => {
         </Flex>
       )}
       <Flex direction="row" alignItems="center" justifyContent="end">
-        <HeaderButton onOpen={() => setSignupModalOpen(true)} signupModalOpen={signupModalOpen} />
+        <HeaderButton />
       </Flex>
     </Flex>
   );

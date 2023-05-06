@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react';
-import { useCurrentUser } from '@workagora/front-provider';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { checkUserLogged } from '../services/user';
@@ -9,6 +9,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 
 export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const { user, setUser } = useCurrentUser();
+  const { handleScroll } = useLanding();
   const [isFetching, setIsFetching] = useState(true);
   const authenticatedCookie = Cookies.get('authenticated');
 
@@ -48,7 +49,10 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
       color="neutral.black"
     >
       {!user && !isFetching && <SignupModal />}
-      <PerfectScrollbar options={{ suppressScrollX: true, maxScrollbarLength: 160 }}>
+      <PerfectScrollbar
+        options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
+        onScrollY={handleScroll}
+      >
         <Header />
         {children}
       </PerfectScrollbar>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 const possibleType: string[] = ['Freelance', 'Company'];
@@ -8,31 +9,42 @@ type LandingContextInterface = {
   type: ViewType;
   currentView: string;
   signupModalOpen: boolean;
+  hasScroll: boolean;
   setType: (user: ViewType) => void;
   setCurrentView: (view: string) => void;
   setSignupModalOpen: (open: boolean) => void;
+  setHasScroll: (hasScroll: boolean) => void;
 };
 
 export const LandingContext = createContext<LandingContextInterface>({
   type: possibleType[0],
   currentView: '',
   signupModalOpen: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  hasScroll: false,
   setType: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCurrentView: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setSignupModalOpen: () => {}
+  setSignupModalOpen: () => {},
+  setHasScroll: () => {}
 });
 
 export const LandingProvider = ({ children }: { children: ReactNode }) => {
   const [type, setType] = useState<ViewType>(possibleType[0]);
   const [currentView, setCurrentView] = useState<string>('');
   const [signupModalOpen, setSignupModalOpen] = useState(false);
+  const [hasScroll, setHasScroll] = useState(false);
 
   return (
     <LandingContext.Provider
-      value={{ type, setType, currentView, setCurrentView, signupModalOpen, setSignupModalOpen }}
+      value={{
+        type,
+        currentView,
+        signupModalOpen,
+        hasScroll,
+        setType,
+        setCurrentView,
+        setSignupModalOpen,
+        setHasScroll
+      }}
     >
       {children}
     </LandingContext.Provider>
@@ -40,8 +52,16 @@ export const LandingProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export function useLanding() {
-  const { type, setType, currentView, setCurrentView, signupModalOpen, setSignupModalOpen } =
-    useContext(LandingContext);
+  const {
+    type,
+    currentView,
+    signupModalOpen,
+    hasScroll,
+    setType,
+    setCurrentView,
+    setSignupModalOpen,
+    setHasScroll
+  } = useContext(LandingContext);
 
   const handleViewChange = (inView: boolean, entry: IntersectionObserverEntry) => {
     if (inView) {
@@ -49,13 +69,23 @@ export function useLanding() {
     }
   };
 
+  const handleScroll = (el: HTMLElement) => {
+    if (el.scrollTop === 0) {
+      setHasScroll(false);
+    } else {
+      setHasScroll(true);
+    }
+  };
+
   return {
     type,
-    setType,
     possibleType,
     currentView,
-    handleViewChange,
     signupModalOpen,
-    setSignupModalOpen
+    hasScroll,
+    setType,
+    handleViewChange,
+    setSignupModalOpen,
+    handleScroll
   };
 }

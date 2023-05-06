@@ -26,7 +26,7 @@ const Product: FC = () => {
         <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
           {topContent}
           <SearchBar />
-          <Gallery my={8} />
+          <Gallery mt={8} />
         </Flex>
       </Flex>
     </InView>

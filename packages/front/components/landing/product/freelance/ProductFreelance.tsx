@@ -15,11 +15,18 @@ const ProductFreelance: FC = () => {
           <Box maxW="100px" maxH="100px" w="100%" h="100%" mr={6}>
             <LightBrandLogo />
           </Box>
-          <Box textStyle="h1" as="h1" display="inline" whiteSpace="pre-wrap" textAlign="left">
+          <Box
+            textStyle="h1"
+            as="h1"
+            display="inline"
+            whiteSpace="pre-wrap"
+            textAlign="left"
+            cursor="default"
+          >
             {`Find a mission has\nnever been easier`}
           </Box>
         </Flex>
-        <Box textStyle="text" as="span" display="inline" textAlign="right" mt={6}>
+        <Box textStyle="text" as="span" display="inline" textAlign="right" mt={6} cursor="default">
           The future is bright
         </Box>
         <Box mt={4}>
