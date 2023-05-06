@@ -4,25 +4,29 @@ import { FC } from 'react';
 import ProductCompany from './company/ProductCompany';
 import ProductFreelance from './freelance/ProductFreelance';
 import { InView } from 'react-intersection-observer';
+import SearchBar from './SearchBar';
+import Gallery from './Gallery';
 
 const Product: FC = () => {
   const { type, possibleType, handleViewChange } = useLanding();
 
-  let content = <></>;
+  let topContent = <></>;
 
   if (type == possibleType[0]) {
-    content = <ProductFreelance />;
+    topContent = <ProductFreelance />;
   }
 
   if (type == possibleType[1]) {
-    content = <ProductCompany />;
+    topContent = <ProductCompany />;
   }
 
   return (
     <InView as="div" id="product" onChange={handleViewChange}>
       <Flex id="product" flexDir="column" pt={16}>
-        <Flex mx="auto" width="80%" maxW="1280px">
-          {content}
+        <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
+          {topContent}
+          <SearchBar />
+          <Gallery my={8} />
         </Flex>
       </Flex>
     </InView>

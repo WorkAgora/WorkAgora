@@ -4,6 +4,7 @@ import Modal from './modal';
 import Form from './form';
 import Input from './input';
 import Checkbox from './checkbox';
+import Badge from './badge';
 import textStyles from './textStyle';
 
 export const darkTheme: ThemeOverride = extendTheme({
@@ -12,7 +13,7 @@ export const darkTheme: ThemeOverride = extendTheme({
       primary: '#FDB81E',
       primaryHover: '#E39E02',
       secondary: '#002C39',
-      secondaryAlpha: 'rgba(0, 44 ,57 , .4)',
+      secondaryAlpha: '#002C3966', // 66 -> 40%
       secondaryHover: '#005061'
     },
     neutral: {
@@ -22,6 +23,12 @@ export const darkTheme: ThemeOverride = extendTheme({
       gray: '#E2E8F0',
       lightGray: '#EDF2F7',
       white: '#FFF'
+    },
+    badge: {
+      yellow: '#FDB81E',
+      purple: '#9E38C0',
+      red: '#E53E3E',
+      blue: '#3182CE'
     }
   },
   fonts: {
@@ -34,6 +41,7 @@ export const darkTheme: ThemeOverride = extendTheme({
     Modal,
     Form,
     Input,
-    Checkbox
+    Checkbox,
+    Badge
   }
 });

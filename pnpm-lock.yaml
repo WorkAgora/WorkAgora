@@ -7,6 +7,7 @@ specifiers:
   '@chakra-ui/icons': ^2.0.19
   '@chakra-ui/react': ^2.6.0
   '@chakra-ui/styled-system': ^2.9.0
+  '@chakra-ui/theme-tools': ^2.0.16
   '@emotion/react': ^11.10.8
   '@ethersproject/abi': ^5.7.0
   '@ethersproject/providers': ^5.7.2
@@ -104,11 +105,13 @@ specifiers:
   nx-cloud: latest
   passport-jwt: ^4.0.1
   passport-local: ^1.0.0
+  perfect-scrollbar: ^1.5.5
   prettier: ^2.6.2
   react: 18.2.0
   react-dom: 18.2.0
   react-i18next: ^12.2.2
   react-intersection-observer: ^9.4.3
+  react-perfect-scrollbar: ^1.5.8
   react-test-renderer: 18.2.0
   reflect-metadata: ^0.1.13
   rxjs: ^7.0.0
@@ -132,6 +135,7 @@ dependencies:
   '@chakra-ui/icons': 2.0.19_crp6l7zx4z63365ii5nihtnfgi
   '@chakra-ui/react': 2.6.0_ut5q6jbxaki4u45aiaex4ib52m
   '@chakra-ui/styled-system': 2.9.0
+  '@chakra-ui/theme-tools': 2.0.16_krunc5eq5ukmju52vvh62v6wai
   '@emotion/react': 11.10.8_pmekkgnqduwlme35zpnqhenc34
   '@fontsource/comfortaa': 4.5.11
   '@fontsource/montserrat': 4.5.14
@@ -160,10 +164,12 @@ dependencies:
   next-i18next: 13.2.2_63fj7pk43k2xxakozdnuncctiy
   passport-jwt: 4.0.1
   passport-local: 1.0.0
+  perfect-scrollbar: 1.5.5
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-i18next: 12.2.2_qeiswpmww5mojeeisizknycqfq
   react-intersection-observer: 9.4.3_react@18.2.0
+  react-perfect-scrollbar: 1.5.8_biqbaboplfbrettd7655fr4n2y
   reflect-metadata: 0.1.13
   rxjs: 7.8.1
   siwe: 2.1.4_ethers@5.7.2
@@ -3246,6 +3252,10 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@chakra-ui/shared-utils/2.0.4:
+    resolution: {integrity: sha512-JGWr+BBj3PXGZQ2gxbKSD1wYjESbYsZjkCeE2nevyVk4rN3amV1wQzCnBAhsuJktMaZD6KC/lteo9ou9QUDzpA==}
+    dev: false
+
   /@chakra-ui/shared-utils/2.0.5:
     resolution: {integrity: sha512-4/Wur0FqDov7Y0nCXl7HbHzCg4aq86h+SXdoUeuCMD3dSj7dpsVnStLYhng1vxvlbUnLpdF4oz5Myt3i/a7N3Q==}
     dev: false
@@ -3414,6 +3424,17 @@ packages:
       '@chakra-ui/shared-utils': 2.0.5
       '@chakra-ui/system': 2.5.6_tj5xqfhgn4upfusgwehoxygow4
       react: 18.2.0
+    dev: false
+
+  /@chakra-ui/theme-tools/2.0.16_krunc5eq5ukmju52vvh62v6wai:
+    resolution: {integrity: sha512-B/LD+2LNDeHYd/LVCHIJqckVZfhrycTUpNbhRVAiDRaS0AAcsPxKas7liTFkkMkM076YjiHlcla3KpVX+E9tzg==}
+    peerDependencies:
+      '@chakra-ui/styled-system': '>=2.0.0'
+    dependencies:
+      '@chakra-ui/anatomy': 2.1.1
+      '@chakra-ui/shared-utils': 2.0.4
+      '@chakra-ui/styled-system': 2.9.0
+      color2k: 2.0.2
     dev: false
 
   /@chakra-ui/theme-tools/2.0.17_krunc5eq5ukmju52vvh62v6wai:
@@ -17557,6 +17578,10 @@ packages:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: true
 
+  /perfect-scrollbar/1.5.5:
+    resolution: {integrity: sha512-dzalfutyP3e/FOpdlhVryN4AJ5XDVauVWxybSkLZmakFE2sS3y3pc4JnSprw8tGmHvkaG5Edr5T7LBTZ+WWU2g==}
+    dev: false
+
   /performance-now/2.1.0:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
     dev: true
@@ -18434,6 +18459,18 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
+
+  /react-perfect-scrollbar/1.5.8_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-bQ46m70gp/HJtiBOF3gRzBISSZn8FFGNxznTdmTG8AAwpxG1bJCyn7shrgjEvGSQ5FJEafVEiosY+ccER11OSA==}
+    peerDependencies:
+      react: '>=16.3.3'
+      react-dom: '>=16.3.3'
+    dependencies:
+      perfect-scrollbar: 1.5.5
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-remove-scroll-bar/2.3.4_pmekkgnqduwlme35zpnqhenc34:
     resolution: {integrity: sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==}

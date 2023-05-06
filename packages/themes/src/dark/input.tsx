@@ -14,6 +14,21 @@ const baseStyle = definePartsStyle({
   }
 });
 
-const inputTheme = defineMultiStyleConfig({ baseStyle });
+const searchBar = definePartsStyle({
+  field: {
+    py: '10px',
+    px: '16px',
+    borderRadius: '32px',
+    borderWidth: '1px',
+    borderColor: 'brand.primary'
+  }
+});
+
+const inputTheme = defineMultiStyleConfig({
+  baseStyle,
+  variants: {
+    searchBar
+  }
+});
 
 export default inputTheme;

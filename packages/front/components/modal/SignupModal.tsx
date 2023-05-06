@@ -6,23 +6,38 @@ import {
   ModalHeader,
   ModalOverlay
 } from '@chakra-ui/react';
-import { FC, ReactNode } from 'react';
+import { useLanding } from '@workagora/front-provider';
+import { FC } from 'react';
+import { useDisconnect } from 'wagmi';
+import SignupForm from '../form/SignupForm';
 
-interface SignupModalProps {
-  isOpen: boolean;
-  title: string;
-  onClose: () => void;
-  children: ReactNode;
-}
+const SignupModal: FC = () => {
+  const { disconnect } = useDisconnect();
+  const { signupModalOpen, setSignupModalOpen } = useLanding();
 
-const SignupModal: FC<SignupModalProps> = ({ isOpen, onClose, title, children }) => {
+  const close = () => {
+    disconnect();
+    setTimeout(() => {
+      setSignupModalOpen(false);
+    }, 200);
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+    <Modal isOpen={signupModalOpen} onClose={close} isCentered size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader>Sign up</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>{children}</ModalBody>
+        <ModalBody>
+          <SignupForm
+            onSubmitSuccess={() => {
+              disconnect();
+              setTimeout(() => {
+                setSignupModalOpen(false);
+              }, 200);
+            }}
+          />
+        </ModalBody>
       </ModalContent>
     </Modal>
   );

@@ -11,29 +11,20 @@ const Header: FC = () => {
   const { user } = useCurrentUser();
 
   return (
-    <>
-      <Flex
-        direction="row"
-        px={8}
-        py={4}
-        h="80px"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Flex direction="row" alignItems="center">
-          <BrandLogo />
-          <UserTypeSwitch userType="Freelance" ml={12} onTypeChange={setType} />
-        </Flex>
-        {!user && (
-          <Flex direction="row" alignItems="center" justifyContent="center">
-            <HeaderMenu />
-          </Flex>
-        )}
-        <Flex direction="row" alignItems="center" justifyContent="end">
-          <HeaderButton onOpen={() => setSignupModalOpen(true)} signupModalOpen={signupModalOpen} />
-        </Flex>
+    <Flex direction="row" px={8} py={4} h="80px" alignItems="center" justifyContent="space-between">
+      <Flex direction="row" alignItems="center">
+        <BrandLogo />
+        <UserTypeSwitch userType="Freelance" ml={12} onTypeChange={setType} />
       </Flex>
-    </>
+      {!user && (
+        <Flex direction="row" alignItems="center" justifyContent="center">
+          <HeaderMenu />
+        </Flex>
+      )}
+      <Flex direction="row" alignItems="center" justifyContent="end">
+        <HeaderButton onOpen={() => setSignupModalOpen(true)} signupModalOpen={signupModalOpen} />
+      </Flex>
+    </Flex>
   );
 };
 

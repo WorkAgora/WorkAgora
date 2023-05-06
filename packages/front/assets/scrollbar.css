@@ -1,0 +1,14 @@
+.ps__thumb-y {
+  background-color: #1a202c !important;
+  border-radius: 4px !important;
+  opacity: 0.9 !important;
+  z-index: 9999 !important;
+  width: 8px;
+  cursor: pointer;
+}
+
+.ps__rail-y {
+  background-color: transparent !important;
+  width: 8px !important;
+  z-index: 9999 !important;
+}
