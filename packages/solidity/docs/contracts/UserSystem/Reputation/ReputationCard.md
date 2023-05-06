@@ -13,7 +13,7 @@
 ### addReview
 
 ```solidity
-function addReview(contract User reviewer, uint256 rating, bytes32 messageHash, contract JobContract jobContract) external nonpayable
+function addReview(uint256 rating, string message, contract JobContract jobContract) external nonpayable
 ```
 
 
@@ -24,9 +24,8 @@ function addReview(contract User reviewer, uint256 rating, bytes32 messageHash, 
 
 | Name | Type | Description |
 |---|---|---|
-| reviewer | contract User | undefined |
 | rating | uint256 | undefined |
-| messageHash | bytes32 | undefined |
+| message | string | undefined |
 | jobContract | contract JobContract | undefined |
 
 ### getReputation

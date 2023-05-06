@@ -2,7 +2,10 @@
 pragma solidity ^0.8.18;
 
 import "./ReputationCard.sol";
-import "./IReputationCardHolder.sol";
+
+interface IReputationCardHolder {
+    function getReputationCard() external view returns (IReputationCard);
+}
 
 contract ReputationCardHolder is IReputationCardHolder {
     IReputationCard private reputationCard;
