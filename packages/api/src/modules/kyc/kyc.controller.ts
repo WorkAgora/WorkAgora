@@ -3,9 +3,9 @@ import {ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {KycService} from './kyc.service';
 import { KycWebhookPayload } from './kyc.interface';
 import { walletRegex } from '../../../../utils/src/index';
-import {KycSessionSchema} from "./kyc.schema";
-import {CreateKycStepDto} from "../../dtos/kyc/create-kyc-step.dto";
 import {CreateKycSessionDto} from "../../dtos/kyc/create-kyc-session.dto";
+import * as console from "console";
+import {KycStatus} from "./kyc.enum";
 
 @ApiTags('kyc')
 @Controller('kyc')
@@ -66,22 +66,22 @@ export class KycController {
     try {
       return await this.kycService.initiateKycProcess(wallet);
     } catch (e) {
-      throw new HttpException(`An unexpected error occurred: ${e.message}`, 500);
+      throw new HttpException(e.message, 500);
     }
   }
 
-  @Get('status/:sessionId')
+  @Get('status/:wallet')
   @ApiOperation({ summary: 'Check the status of a KYC session' })
   @ApiParam({
-    name: 'sessionId',
-    description: 'The session ID of the KYC process',
+    name: 'wallet',
+    description: 'The wallet address of the user',
     required: true,
-    schema: { type: 'string', default: 'sample-session-id' },
+    schema: { type: 'string', default: '0x0' },
   })
   @ApiResponse({
     status: 200,
     description: 'KYC session status retrieved successfully',
-    type: CreateKycSessionDto,
+    type: String,
   })
   @ApiResponse({
     status: 404,
@@ -91,18 +91,10 @@ export class KycController {
     status: 500,
     description: 'An unexpected error occurred',
   })
-  async checkSessionStatus(@Param('sessionId') sessionId: string) {
-    try {
-      const sessionStatus = await this.kycService.checkSessionStatus(sessionId);
+  async checkSessionStatus(@Param('wallet') wallet: string): Promise<string> {
+      const sessionStatus: KycStatus = await this.kycService.checkSessionStatus(wallet);
+      if (!sessionStatus)
+        throw new HttpException(`Session ${wallet} not found`, 404);
       return sessionStatus;
-    } catch (e) {
-      if (e.message === "Index can't be found for query.") {
-        console.log("ONE");
-        throw new HttpException(`Session ${sessionId} not found`, 404);
-      } else {
-        console.log("TWO");
-        throw new HttpException(`An unexpected error occurred: ${e.message}`, 500);
-      }
-    }
   }
 }
