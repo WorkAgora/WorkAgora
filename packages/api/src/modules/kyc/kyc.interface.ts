@@ -1,14 +1,14 @@
 import { KycService, KycServiceState, KycStatus } from './kyc.enum';
 
 export interface KycSession {
-  userWallet: string;
+  wallet: string;
   sessionId: string;
   status: KycStatus;
   steps: KycStep[];
 }
 
 export interface KycStep {
-  userWallet: string;
+  wallet: string;
   serviceName: KycService;
   state: KycServiceState;
   sessionId: string;

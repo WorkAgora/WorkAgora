@@ -4,7 +4,7 @@ import { walletRegex } from '../../../../utils/src/index';
 import { ValueType } from 'dynamoose/dist/Schema';
 
 export const KycSessionSchema = new Schema({
-  userWallet: {
+  wallet: {
     type: String,
     required: true,
     hashKey: true,
@@ -33,7 +33,7 @@ export const KycSessionSchema = new Schema({
 });
 
 export class KycStepSchema {
-  userWallet: string;
+  wallet: string;
   serviceName: KycService;
   state: KycServiceState;
   sessionId: string;

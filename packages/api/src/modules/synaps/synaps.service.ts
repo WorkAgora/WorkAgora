@@ -1,32 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { Model} from 'nestjs-dynamoose';
+import { Model } from 'nestjs-dynamoose';
 import { InjectModel } from 'nestjs-dynamoose';
-import { SynapseSessionInterface } from './synaps.interface';
+import { SynapsSessionInterface } from './synaps.interface';
 
-export type SessionKey = Pick<SynapseSessionInterface, 'sessionId'>;
+export type SessionKey = Pick<SynapsSessionInterface, 'sessionId'>;
 
 @Injectable()
 export class SynapsService {
-  private readonly baseUrl = 'https://individual-api.synaps.io/v3';
-
   constructor(
     private httpService: HttpService,
-    @InjectModel('Session') private readonly sessionModel: Model<SynapseSessionInterface, SessionKey>,
+    @InjectModel('Session') private readonly sessionModel: Model<SynapsSessionInterface, SessionKey>
   ) {}
 
-  async initSession(alias: string, clientId: string, apiKey: string): Promise<AxiosResponse> {
+  async initSession(alias: string): Promise<AxiosResponse> {
     const response = await this.httpService
       .post(
-        `${this.baseUrl}/session/init`,
+        `${process.env.SYNAPS_API_BASE_URL}/session/init`,
         { alias },
-        { headers: { 'Client-Id': clientId, 'Api-Key': apiKey } }
+        { headers: { 'Client-Id': process.env.SYNAPS_CLIENT_ID, 'Api-Key': process.env.SYNAPS_API_KEY } }
       )
       .toPromise();
 
     // Store the session in DynamoDB
-    const sessionData: SynapseSessionInterface = {
+    const sessionData: SynapsSessionInterface = {
       sessionId: response.data.session_id,
       sandbox: response.data.sandbox,
       alias
@@ -38,45 +36,25 @@ export class SynapsService {
 
   async getSessionInfo(
     sessionId: string,
-    clientId: string,
-    apiKey: string
   ): Promise<AxiosResponse> {
     return await this.httpService
-      .get(`${this.baseUrl}/session/info`, {
-        headers: { 'Client-Id': clientId, 'Api-Key': apiKey, 'Session-Id': sessionId }
+      .get(`${process.env.SYNAPS_API_BASE_URL}/session/info`, {
+        headers: { 'Client-Id': process.env.SYNAPS_CLIENT_ID, 'Api-Key': process.env.SYNAPS_API_KEY, 'Session-Id': sessionId }
       })
       .toPromise();
   }
 
-  async listSessionsWithAlias(alias: string, apiKey: string): Promise<AxiosResponse> {
+  async listSessionsWithAlias(alias: string): Promise<AxiosResponse> {
     return await this.httpService
-      .get(`${this.baseUrl}/session/alias`, { headers: { 'Api-Key': apiKey }, params: { alias } })
+      .get(`${process.env.SYNAPS_API_BASE_URL}/session/alias`, { headers: { 'Api-Key': process.env.SYNAPS_API_KEY }, params: { alias } })
       .toPromise();
   }
 
-  async listSessions(state: string, alias: string, apiKey: string): Promise<AxiosResponse> {
+  async listSessions(state: string, alias: string): Promise<AxiosResponse> {
     return await this.httpService
-      .get(`${this.baseUrl}/session/list/${state}`, {
-        headers: { 'Api-Key': apiKey },
+      .get(`${process.env.SYNAPS_API_BASE_URL}/session/list/${state}`, {
+        headers: { 'Api-Key': process.env.SYNAPS_API_KEY },
         params: { alias }
-      })
-      .toPromise();
-  }
-
-  async getOnboardingOverview(sessionId: string): Promise<AxiosResponse> {
-    return await this.httpService
-      .get(`${this.baseUrl}/onboarding/overview`, { headers: { 'Session-Id': sessionId } })
-      .toPromise();
-  }
-
-  async getOnboardingDetails(
-    sessionId: string,
-    clientId: string,
-    apiKey: string
-  ): Promise<AxiosResponse> {
-    return await this.httpService
-      .get(`${this.baseUrl}/onboarding/details`, {
-        headers: { 'Client-Id': clientId, 'Api-Key': apiKey, 'Session-Id': sessionId }
       })
       .toPromise();
   }

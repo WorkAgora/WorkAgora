@@ -10,8 +10,8 @@ export class KycService {
   private kycSessions: KycSession[] = [];
   private kycSteps: KycStepSchema[] = [];
 
-  createOrGetSession(userWallet: string): Promise<KycSession> {
-    const existingSession = this.kycSessions.find((session) => session.userWallet === userWallet);
+  createOrGetSession(wallet: string): Promise<KycSession> {
+    const existingSession = this.kycSessions.find((session) => session.wallet === wallet);
 
     if (existingSession) {
       return Promise.resolve(existingSession);
@@ -20,12 +20,27 @@ export class KycService {
     const sessionId = uuidv4();
     const newSession: KycSession = {
       sessionId: sessionId,
-      userWallet: userWallet,
+      wallet: wallet,
       status: KycStatus.PENDING,
       steps: [
-        { sessionId, userWallet, serviceName: KycServiceEnum.LIVENESS, state: KycServiceState.NOT_STARTED },
-        { sessionId, userWallet, serviceName: KycServiceEnum.IDENTITY, state: KycServiceState.NOT_STARTED },
-        { sessionId, userWallet, serviceName: KycServiceEnum.RESIDENCY, state: KycServiceState.NOT_STARTED }
+        {
+          sessionId,
+          wallet,
+          serviceName: KycServiceEnum.LIVENESS,
+          state: KycServiceState.NOT_STARTED
+        },
+        {
+          sessionId,
+          wallet,
+          serviceName: KycServiceEnum.IDENTITY,
+          state: KycServiceState.NOT_STARTED
+        },
+        {
+          sessionId,
+          wallet,
+          serviceName: KycServiceEnum.RESIDENCY,
+          state: KycServiceState.NOT_STARTED
+        }
       ]
     };
 
