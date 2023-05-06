@@ -25,15 +25,10 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const [curFilters, setCurFilters] = useState<string[]>([]);
 
   const selectFilter = (filter: SearchBarFilter) => {
-    const index = curFilters.findIndex((v) => v === filter.label);
-    if (index === -1) {
+    if (!curFilters.includes(filter.label)) {
       setCurFilters([...curFilters, filter.label]);
     } else {
-      if (curFilters.length === 1) {
-        setCurFilters([]);
-      } else {
-        setCurFilters([...curFilters.splice(index, 1)]);
-      }
+      setCurFilters([...curFilters.filter((v) => v !== filter.label)]);
     }
   };
 
