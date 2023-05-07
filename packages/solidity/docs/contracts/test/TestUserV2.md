@@ -1,4 +1,4 @@
-# TestUserProfileV1
+# TestUserV2
 
 
 
@@ -31,6 +31,28 @@ function governance() external view returns (address)
 
 ```solidity
 function isUserRegistered(address _walletAddress) external view returns (bool)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _walletAddress | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bool | undefined |
+
+### isUserVerified
+
+```solidity
+function isUserVerified(address _walletAddress) external view returns (bool)
 ```
 
 
@@ -82,16 +104,43 @@ function registeredUsers(address) external view returns (bool)
 |---|---|---|
 | _0 | bool | undefined |
 
-### setGovernance
+### verifiedUsers
 
 ```solidity
-function setGovernance() external nonpayable
+function verifiedUsers(address) external view returns (bool)
 ```
 
 
 
 
 
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bool | undefined |
+
+### verifyUser
+
+```solidity
+function verifyUser(address _walletAddress) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _walletAddress | address | undefined |
 
 
 
@@ -101,6 +150,22 @@ function setGovernance() external nonpayable
 
 ```solidity
 event UserRegistered(address indexed walletAddress)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| walletAddress `indexed` | address | undefined |
+
+### UserVerified
+
+```solidity
+event UserVerified(address indexed walletAddress)
 ```
 
 
