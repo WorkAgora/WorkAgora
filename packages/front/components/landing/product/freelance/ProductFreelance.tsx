@@ -16,6 +16,7 @@ const ProductFreelance: FC = () => {
             <LightBrandLogo />
           </Box>
           <Box
+            mt={1}
             textStyle="h1"
             as="h1"
             display="inline"

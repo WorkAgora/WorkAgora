@@ -72,7 +72,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         zIndex="2"
         bottom="0"
       >
-        <Box textStyle="h2" as="h3" w="100%" textAlign="center" cursor="default">
+        <Box textStyle="h3" as="h3" w="100%" textAlign="center" cursor="default">
           {caption}
         </Box>
         <Box mt={4}>

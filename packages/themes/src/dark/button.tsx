@@ -64,6 +64,25 @@ const icon = defineStyle({
   }
 });
 
+const select = defineStyle({
+  fontFamily: 'Comfortaa',
+  fontWeight: '700',
+  color: 'neutral.black',
+  borderRadius: '6px',
+  borderColor: 'brand.primary',
+  borderWidth: '1px',
+  bgColor: 'neutral.white',
+  textAlign: 'left',
+  cursor: 'pointer',
+  px: '16px',
+  py: '10px',
+  '&:focus': {
+    borderWidth: '1px',
+    borderColor: 'brand.primaryHover',
+    boxShadow: '0 0 0 1px var(--chakra-colors-brand-primaryHover)'
+  }
+});
+
 const baseStyle = {
   fontWeight: '700',
   fontFamily: 'Comfortaa',
@@ -78,7 +97,8 @@ const buttonTheme: ComponentStyleConfig = defineStyleConfig({
     secondary,
     link,
     outline,
-    icon
+    icon,
+    select
   }
 });
 

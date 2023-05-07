@@ -28,10 +28,15 @@ const Technology: FC = () => {
   ];
 
   return (
-    <InView as="div" id="technology" onChange={handleViewChange}>
+    <InView
+      as="div"
+      id="technology"
+      onChange={handleViewChange}
+      threshold={[0.5, 0.6, 0.7, 0.8, 0.9, 1]}
+    >
       <Flex flexDir="column" py={16}>
         <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
-          <Box textStyle="h2" textAlign="center" whiteSpace="pre-wrap">
+          <Box textStyle="h2" textAlign="center" whiteSpace="pre-wrap" cursor="default">
             {`Here is why you need\nWorkAgora`}
           </Box>
           <Flex columnGap={8} mt={12}>

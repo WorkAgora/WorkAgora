@@ -13,7 +13,7 @@ const textStyles = {
   },
   h2: {
     fontFamily: 'Comfortaa',
-    fontSize: '30px',
+    fontSize: '36px',
     lineHeight: '133%',
     fontWeight: '700'
   },

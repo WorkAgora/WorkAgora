@@ -16,6 +16,7 @@ const ProductCompany: FC = () => {
       <Flex flexDir="column" justifyContent="center" alignItems="end">
         <Flex alignItems="center">
           <Box
+            mt={1}
             textStyle="h1"
             as="h1"
             display="inline"

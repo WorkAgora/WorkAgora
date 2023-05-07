@@ -20,11 +20,12 @@ const TechnologyCard: FC<TechnologyCardProps> = ({ Icon, title, desc }: Technolo
       <Flex color="brand.primary" justifyContent="center">
         <Icon />
       </Flex>
-      <Flex textStyle="h3" as="h3" justifyContent="center" mt={8} mb={4}>
+      <Flex textStyle="h3" as="h3" justifyContent="center" mt={8} mb={4} cursor="default">
         {title}
       </Flex>
       <Flex my="auto">
         <Box
+          cursor="default"
           as="p"
           px={2}
           textAlign="center"

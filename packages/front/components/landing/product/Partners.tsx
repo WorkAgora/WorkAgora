@@ -9,7 +9,7 @@ const Partners: FC<FlexProps> = ({ ...props }: FlexProps) => {
 
   return (
     <Flex flexDir="column" alignItems="center" {...props}>
-      <Box maxW="1280px" w="100%" textStyle="h2">
+      <Box maxW="1280px" w="100%" textStyle="h2" cursor="default">
         Partners who trusted us
       </Box>
       <Box

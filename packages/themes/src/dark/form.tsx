@@ -22,6 +22,42 @@ const baseStyle = definePartsStyle({
         borderColor: 'brand.primaryHover',
         boxShadow: '0 0 0 1px var(--chakra-colors-brand-primaryHover)'
       }
+    },
+    textarea: {
+      fontFamily: 'Comfortaa',
+      fontWeight: '700',
+      borderRadius: '6px',
+      borderColor: 'brand.primary',
+      borderWidth: '1px',
+      bgColor: 'neutral.white',
+      px: '16px',
+      py: '10px',
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'brand.primaryHover',
+        boxShadow: '0 0 0 1px var(--chakra-colors-brand-primaryHover)'
+      }
+    },
+    select: {
+      fontFamily: 'Comfortaa',
+      borderRadius: '6px',
+      borderColor: 'brand.primary',
+      borderWidth: '1px',
+      bgColor: 'neutral.white',
+      cursor: 'pointer',
+      px: '16px',
+      py: '10px',
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'brand.primaryHover',
+        boxShadow: '0 0 0 1px var(--chakra-colors-brand-primaryHover)'
+      },
+      option: {
+        px: '16px',
+        py: '10px',
+        bgColor: 'neutral.white',
+        color: 'neutral.black'
+      }
     }
   },
   requiredIndicator: {
