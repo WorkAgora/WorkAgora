@@ -5,7 +5,7 @@ import {walletRegex} from '../../../../utils/src/index';
 import {KycService, KycServiceState} from "../../modules/kyc/kyc.enum";
 import {ApiProperty} from "@nestjs/swagger";
 
-export class CreateKycStepDto {
+export class KycStepDto {
   @ApiProperty({
     description: 'The wallet address of the user',
     type: String,

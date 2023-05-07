@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { KycService } from './kyc.service';
 import { KycWebhookPayload } from './kyc.interface';
 import { walletRegex } from '../../../../utils/src/index';
-import { CreateKycSessionDto } from '../../dtos/kyc/create-kyc-session.dto';
+import { KycSessionDto} from "../../dtos/kyc/kyc-session.dto";
 import { KycStatus } from './kyc.enum';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { Request } from 'express';
@@ -47,7 +47,7 @@ export class KycController {
   @ApiResponse({
     status: 200,
     description: 'KYC process initiated successfully',
-    type: CreateKycSessionDto
+    type: KycSessionDto
   })
   @ApiResponse({
     status: 400,
