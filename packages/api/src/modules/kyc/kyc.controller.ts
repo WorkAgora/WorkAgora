@@ -4,7 +4,6 @@ import { KycService } from './kyc.service';
 import { KycWebhookPayload } from './kyc.interface';
 import { walletRegex } from '../../../../utils/src/index';
 import { KycSessionDto} from "../../dtos/kyc/kyc-session.dto";
-import { KycStatus } from './kyc.enum';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { Request } from 'express';
 

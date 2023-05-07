@@ -48,9 +48,7 @@ export class UserController {
     return req.user;
   }
 
-  //@TODO fix this one to prevent user from querying another user without his consent check the data passed
-
-  /*@Get(':wallet')
+  @Get(':wallet')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
@@ -72,9 +70,16 @@ export class UserController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getUser(@Param('wallet') wallet: string): Promise<User> {
+  async getUser(@Param('wallet') wallet: string, @Req() req: Request): Promise<User> {
+    const authenticatedUserWallet = req.user.toLowerCase();
+    const requestedUserWallet = wallet.toLowerCase();
+
+    if (authenticatedUserWallet !== requestedUserWallet) {
+      throw new HttpException('Forbidden: You cannot query another user\'s information without their consent.', 403);
+    }
+
     try {
-      const user = await this.userService.findUserByWallet(wallet.toLowerCase());
+      const user = await this.userService.findUserByWallet(requestedUserWallet);
       if (!user) {
         throw new Error('User not found');
       }
@@ -86,7 +91,7 @@ export class UserController {
         throw new HttpException('An unexpected error occurred', 500);
       }
     }
-  }*/
+  }
 
   @Put('updateProfile')
   @UseGuards(JwtAuthGuard)
