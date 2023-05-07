@@ -57,6 +57,7 @@ specifiers:
   '@types/node': 18.14.2
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
+  '@types/swiper': ^6.0.0
   '@types/uuid': ^9.0.1
   '@typescript-eslint/eslint-plugin': ^5.58.0
   '@typescript-eslint/parser': ^5.58.0
@@ -121,6 +122,7 @@ specifiers:
   serverless-plugin-typescript: ^2.1.4
   siwe: ^2.1.4
   solidity-coverage: ^0.8.2
+  swiper: ^9.2.4
   ts-jest: ^29.1.0
   ts-node: 10.9.1
   tslib: ^2.3.0
@@ -173,6 +175,7 @@ dependencies:
   reflect-metadata: 0.1.13
   rxjs: 7.8.1
   siwe: 2.1.4_ethers@5.7.2
+  swiper: 9.2.4
   tslib: 2.5.0
   uuid: 9.0.0
   wagmi: 0.12.12_6niq2jm3j2wfrjwac2th7yh3n4
@@ -219,6 +222,7 @@ devDependencies:
   '@types/node': 18.14.2
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
+  '@types/swiper': 6.0.0
   '@types/uuid': 9.0.1
   '@typescript-eslint/eslint-plugin': 5.59.1_lz6jfi5mrp3enhydoxxa56rs2m
   '@typescript-eslint/parser': 5.59.1_hx5tgzcbd2ycqgjduqhliuc3jm
@@ -7703,6 +7707,13 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+    dev: true
+
+  /@types/swiper/6.0.0:
+    resolution: {integrity: sha512-QPZRgxZ+ivXXtzV43B3LxpXUIC7FE/EoKM+rtxngmgt2M7eeUYypZhyqZD8UxJtlBcUDw/ATGoVeSNpvBBrz2w==}
+    deprecated: This is a stub types definition. swiper provides its own type definitions, so you do not need this installed.
+    dependencies:
+      swiper: 9.2.4
     dev: true
 
   /@types/tough-cookie/4.0.2:
@@ -19762,6 +19773,9 @@ packages:
       tweetnacl: 0.14.5
     dev: true
 
+  /ssr-window/4.0.2:
+    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
+
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
     deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
@@ -20228,6 +20242,12 @@ packages:
   /swagger-ui-dist/4.18.2:
     resolution: {integrity: sha512-oVBoBl9Dg+VJw8uRWDxlyUyHoNEDC0c1ysT6+Boy6CTgr2rUcLcfPon4RvxgS2/taNW6O0+US+Z/dlAsWFjOAQ==}
     dev: false
+
+  /swiper/9.2.4:
+    resolution: {integrity: sha512-L7y3K/iiMXNYQ94FbfcJn7jex4QPnS4+voXGupTdC+UHW4XrR40QDdm4c9hXJ+Br0Il7PP0vP1W3goM9/Ly6Sg==}
+    engines: {node: '>= 4.7.0'}
+    dependencies:
+      ssr-window: 4.0.2
 
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
