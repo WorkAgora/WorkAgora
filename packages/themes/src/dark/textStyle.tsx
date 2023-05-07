@@ -11,6 +11,18 @@ const textStyles = {
     fontSize: '48px',
     lineHeight: '100%'
   },
+  h2: {
+    fontFamily: 'Comfortaa',
+    fontSize: '30px',
+    lineHeight: '133%',
+    fontWeight: '700'
+  },
+  h3: {
+    fontFamily: 'Comfortaa',
+    fontSize: '30px',
+    lineHeight: '120%',
+    fontWeight: '700'
+  },
   text: {
     fontFamily: 'Montserrat',
     fontWeight: '400',

@@ -15,14 +15,21 @@ const ProductCompany: FC = () => {
       </Box>
       <Flex flexDir="column" justifyContent="center" alignItems="end">
         <Flex alignItems="center">
-          <Box textStyle="h1" as="h1" display="inline" whiteSpace="pre-wrap" textAlign="right">
+          <Box
+            textStyle="h1"
+            as="h1"
+            display="inline"
+            whiteSpace="pre-wrap"
+            textAlign="right"
+            cursor="default"
+          >
             {`Welcome to the\nkingdom of talents`}
           </Box>
           <Box maxW="100px" maxH="100px" w="100%" h="100%" ml={6}>
             <DarkBrandLogo />
           </Box>
         </Flex>
-        <Box textStyle="text" as="span" display="inline" textAlign="right" mt={6}>
+        <Box textStyle="text" as="span" display="inline" textAlign="right" mt={6} cursor="default">
           The future is bright
         </Box>
         <Box mt={4}>

@@ -1,14 +1,15 @@
-import Header from '../components/header/Header';
 import { CurrentUserProvider, LandingProvider, WagmiProvider } from '@workagora/front-provider';
 import { ChakraProvider } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 
 //Import styles
 import { darkTheme } from '@workagora/themes';
 import '@rainbow-me/rainbowkit/styles.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import '../assets/scrollbar.css';
 
 //Import font
 import '@fontsource/comfortaa';
@@ -25,7 +26,6 @@ function App({ Component, pageProps }: AppProps) {
           <CurrentUserProvider>
             <LandingProvider>
               <Layout>
-                <Header />
                 <Component {...pageProps} />
               </Layout>
             </LandingProvider>

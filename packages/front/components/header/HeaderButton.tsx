@@ -1,18 +1,14 @@
 import { Button, Flex, IconButton, Text } from '@chakra-ui/react';
-import { useCurrentUser } from '@workagora/front-provider';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
 import LoginButton from '../button/LoginButton';
 import NotificationIcon from '../icons/NotificationIcon';
 import MessageIcon from '../icons/MessageIcon';
 import { shortHash } from '@workagora/utils';
 
-interface HeaderButtonProps {
-  onOpen: () => void;
-  signupModalOpen: boolean;
-}
-
-const HeaderButton: FC<HeaderButtonProps> = ({ onOpen, signupModalOpen }: HeaderButtonProps) => {
+const HeaderButton: FC = () => {
   const { user, logout } = useCurrentUser();
+  const { signupModalOpen, setSignupModalOpen } = useLanding();
 
   return (
     <Flex>
@@ -21,7 +17,7 @@ const HeaderButton: FC<HeaderButtonProps> = ({ onOpen, signupModalOpen }: Header
           <LoginButton signupModalOpen={signupModalOpen} mr={8}>
             Login
           </LoginButton>
-          <Button variant="primary" size="md" onClick={onOpen}>
+          <Button variant="primary" size="md" onClick={() => setSignupModalOpen(true)}>
             Sign up
           </Button>
         </>
