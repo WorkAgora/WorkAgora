@@ -6,9 +6,9 @@ pragma solidity ^0.8.18;
 import "../Reputation/ReputationCardHolder.sol";
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
 
-interface IUser {
+interface IUserManager {
     // Event emitted when a user is successfully verified
-    event UserVerified(address indexed walletAddress);
+    event UserVerified(address indexed _address);
 
     // Initializes the User contract with the given kycSystem address
     function initialize(address _kycSystem) external;
@@ -18,7 +18,7 @@ interface IUser {
     function verifyUser(address _address, string calldata _kycId, bytes calldata _signature) external;
 
     // Checks if a user is verified by checking if their wallet address has an associated KYC ID
-    function isUserVerified(address _walletAddress) external view returns (bool);
+    function isUserVerified(address _address) external view returns (bool);
 }
 
 interface IEmployer {
@@ -29,7 +29,7 @@ interface IContractor {
     // Add other functions specific to the Contractor
 }
 
-contract User is IUser {
+contract UserManager is IUserManager {
     using ECDSA for bytes32;
 
     address public kycSystem;
@@ -38,12 +38,12 @@ contract User is IUser {
     mapping(address => address) public Contractors;
 
     function initialize(address _kycSystem) public {
-        require(kycSystem == address(0), 'Already initialized');
+        require(kycSystem == address(0), 'already initialized');
         kycSystem = _kycSystem;
     }
 
     function verifyUser(address _address, string calldata _kycId, bytes calldata _signature) public {
-        require(!isUserVerified(_address), 'Already verified');
+        require(!isUserVerified(_address), 'already verified');
         bytes32 messagehash = keccak256(abi.encodePacked(_address, _kycId));
         require(messagehash.toEthSignedMessageHash().recover(_signature) == kycSystem, 'invalid signature');
 
@@ -53,10 +53,11 @@ contract User is IUser {
         Contractors[_address] = address(contractor);
 
         verifiedUsers[_address] = _kycId;
+        emit UserVerified(_address);
     }
 
-    function isUserVerified(address _walletAddress) public view returns (bool) {
-        return bytes(verifiedUsers[_walletAddress]).length > 0;
+    function isUserVerified(address _address) public view returns (bool) {
+        return bytes(verifiedUsers[_address]).length > 0;
     }
 }
 

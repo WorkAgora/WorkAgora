@@ -8,7 +8,7 @@ export async function expectThrowsAsync<T>(asyncFunc: () => Promise<T>, errorMes
     catch (err: any) {
         error = err;
     }
-    expect(error).to.be.an('Error')
+    expect(error).to.be.an('Error');
     if (errorMessage) {
         expect(error.message).to.include(errorMessage);
     }

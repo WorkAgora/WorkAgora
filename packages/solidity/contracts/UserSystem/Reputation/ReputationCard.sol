@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "../User/User.sol";
+import "../UserManager/UserManager.sol";
 import "../../JobContract/JobContract.sol";
 
 interface IReputationCard {
@@ -14,13 +14,13 @@ interface IReputationCard {
     // Add a review with the given rating, message, and associated JobContract
     // Ensures that the user has not reviewed the JobContract before
     function addReview(
-        uint256 rating,
-        string calldata message,
-        JobContract jobContract
+        uint256 _rating,
+        string calldata _message,
+        JobContract _jobContract
     ) external;
 
     // Get the review at the specified index
-    function getReview(uint256 index) external view returns (User reviewer, uint256 rating, bytes32 messageHash, JobContract jobContract);
+    function getReview(uint256 _index) external view returns (uint256 rating, bytes32 messageHash, JobContract jobContract);
 
     // Get the total number of reviews
     function getReviewsCount() external view returns (uint256);
@@ -28,7 +28,6 @@ interface IReputationCard {
 
 contract ReputationCard is IReputationCard {
     struct Review {
-        User reviewer;
         uint256 rating;
         bytes32 messageHash;
         JobContract jobContract;
@@ -60,21 +59,20 @@ contract ReputationCard is IReputationCard {
     }
 
     function addReview(
-        uint256 rating,
-        string calldata message,
-        JobContract jobContract
+        uint256 _rating,
+        string calldata _message,
+        JobContract _jobContract
     ) external {
-        require(rating >= 0 && rating <= 5, "Rating must be between 0 and 5");
-        require(!reviewedContracts[jobContract], "JobContract already reviewed");
-        User reviewer = User(msg.sender);
-        bytes32 messageHash = keccak256(abi.encodePacked(message));
-        reviews.push(Review(reviewer, rating, messageHash, jobContract));
+        require(_rating >= 0 && _rating <= 5, "rating must be between 0 and 5");
+        require(!reviewedContracts[_jobContract], "jobContract already reviewed");
+        bytes32 messageHash = keccak256(abi.encodePacked(_message));
+        reviews.push(Review(_rating, messageHash, _jobContract));
     }
 
-    function getReview(uint256 index) public view returns (User reviewer, uint256 rating, bytes32 messageHash, JobContract jobContract) {
-        require(index < reviews.length, "Index out of bounds");
-        Review storage review = reviews[index];
-        return (review.reviewer, review.rating, review.messageHash, review.jobContract);
+    function getReview(uint256 _index) public view returns (uint256 rating, bytes32 messageHash, JobContract jobContract) {
+        require(_index < reviews.length, "index out of bounds");
+        Review storage review = reviews[_index];
+        return (review.rating, review.messageHash, review.jobContract);
     }
 
     function getReviewsCount() public view returns (uint256) {

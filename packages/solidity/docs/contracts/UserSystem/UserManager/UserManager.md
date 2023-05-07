@@ -1,4 +1,4 @@
-# User
+# UserManager
 
 
 
@@ -73,7 +73,7 @@ function initialize(address _kycSystem) external nonpayable
 ### isUserVerified
 
 ```solidity
-function isUserVerified(address _walletAddress) external view returns (bool)
+function isUserVerified(address _address) external view returns (bool)
 ```
 
 
@@ -84,7 +84,7 @@ function isUserVerified(address _walletAddress) external view returns (bool)
 
 | Name | Type | Description |
 |---|---|---|
-| _walletAddress | address | undefined |
+| _address | address | undefined |
 
 #### Returns
 
@@ -156,7 +156,7 @@ function verifyUser(address _address, string _kycId, bytes _signature) external 
 ### UserVerified
 
 ```solidity
-event UserVerified(address indexed walletAddress)
+event UserVerified(address indexed _address)
 ```
 
 
@@ -167,7 +167,7 @@ event UserVerified(address indexed walletAddress)
 
 | Name | Type | Description |
 |---|---|---|
-| walletAddress `indexed` | address | undefined |
+| _address `indexed` | address | undefined |
 
 
 
