@@ -4,18 +4,19 @@ import {
   Get,
   Param,
   HttpException,
-  Req,
   UseGuards,
   Put,
-  Body
+  Body,
+  Req
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './user.interface';
 import { UserDTO } from '../../dtos/user/user.dto';
-import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
+import { Request } from 'express';
+import { Logger } from 'ethers/lib/utils';
 
 @ApiTags('User')
 @Controller('user')
@@ -47,8 +48,10 @@ export class UserController {
     return req.user;
   }
 
+  //@TODO fix this one to prevent user from querying another user without his consent check the data passed
+
+  /*@Get(':wallet')
   @UseGuards(JwtAuthGuard)
-  @Get(':wallet')
   @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
     name: 'wallet',
@@ -83,9 +86,10 @@ export class UserController {
         throw new HttpException('An unexpected error occurred', 500);
       }
     }
-  }
+  }*/
 
   @Put('updateProfile')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Update user profile' })
   @ApiResponse({
     status: 200,
@@ -104,15 +108,27 @@ export class UserController {
     description: 'The updated profile',
     type: UpdateProfileDTO
   })
-  async updateProfile(@Body() updatedProfile: UpdateProfileDTO): Promise<UserDTO> {
+  async updateProfile(
+    @Req() req: Request,
+    @Body() updatedProfile: UpdateProfileDTO
+  ): Promise<UserDTO> {
+    if (updatedProfile.wallet.toLowerCase() !== req.user.wallet.toLowerCase()) {
+      throw new HttpException('Invalid wallet address', 403);
+    }
     try {
       // Update the profile based on the currentUserType
       if (updatedProfile.currentUserType === 'freelance') {
         // Update FreelancerProfile
-        return await this.userService.updateFreelancerProfile(updatedProfile.wallet, updatedProfile.freelanceProfile);
+        return await this.userService.updateFreelancerProfile(
+          updatedProfile.wallet.toLowerCase(),
+          updatedProfile.freelanceProfile
+        );
       } else if (updatedProfile.currentUserType === 'company') {
         // Update EmployerProfile
-        return await this.userService.updateEmployerProfile(updatedProfile.wallet, updatedProfile.employerProfile);
+        return await this.userService.updateEmployerProfile(
+          updatedProfile.wallet.toLowerCase(),
+          updatedProfile.employerProfile
+        );
       } else {
         throw new HttpException('Bad Request', 400);
       }

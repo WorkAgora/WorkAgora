@@ -1,30 +1,32 @@
-import {Controller, Get, HttpException, Inject, Param, Post, Req, Res} from '@nestjs/common';
-import {ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
-import {KycService} from './kyc.service';
+import { Controller, Get, HttpException, Inject, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { KycService } from './kyc.service';
 import { KycWebhookPayload } from './kyc.interface';
 import { walletRegex } from '../../../../utils/src/index';
-import {CreateKycSessionDto} from "../../dtos/kyc/create-kyc-session.dto";
-import * as console from "console";
-import {KycStatus} from "./kyc.enum";
+import { CreateKycSessionDto } from '../../dtos/kyc/create-kyc-session.dto';
+import { KycStatus } from './kyc.enum';
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { Request } from 'express';
 
 @ApiTags('kyc')
 @Controller('kyc')
 export class KycController {
-  constructor(@Inject(KycService) private readonly kycService: KycService) {}
+  @Inject(KycService)
+  private readonly kycService: KycService;
 
   @Post('webhook')
   @ApiOperation({ summary: 'Handle Synaps webhook' })
   @ApiResponse({
     status: 200,
-    description: 'Webhook processed successfully',
+    description: 'Webhook processed successfully'
   })
   @ApiResponse({
     status: 400,
-    description: 'Bad Request',
+    description: 'Bad Request'
   })
   @ApiResponse({
     status: 500,
-    description: 'An unexpected error occurred',
+    description: 'An unexpected error occurred'
   })
   async handleWebhook(@Req() req, @Res() res) {
     const secret = req.query.secret;
@@ -38,30 +40,27 @@ export class KycController {
     }
     res.status(200).send();
   }
-  @Post('initiate/:wallet')
+
+  @Get('initiate')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Initiate a KYC process (get existing one if already initiated)' })
-  @ApiParam({
-    name: 'wallet',
-    description: 'The wallet address of the user',
-    required: true,
-    schema: { type: 'string', default: '0x0' },
-  })
   @ApiResponse({
     status: 200,
     description: 'KYC process initiated successfully',
-    type: CreateKycSessionDto,
+    type: CreateKycSessionDto
   })
   @ApiResponse({
     status: 400,
-    description: 'Bad Request',
+    description: 'Bad Request'
   })
   @ApiResponse({
     status: 500,
-    description: 'An unexpected error occurred',
+    description: 'An unexpected error occurred'
   })
-  async initiateKycProcess(@Param('wallet') wallet: string) {
+  async initiateKycProcess(@Req() req: Request) {
+    const { wallet } = req.user;
     if (!wallet || wallet === '0x0' || !walletRegex.test(wallet)) {
-      throw new HttpException('Invalid wallet address', 400);
+      throw new HttpException('Invalid wallet address', 403);
     }
     try {
       return await this.kycService.initiateKycProcess(wallet);
@@ -70,31 +69,27 @@ export class KycController {
     }
   }
 
-  @Get('status/:wallet')
+  @Get('status')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Check the status of a KYC session' })
-  @ApiParam({
-    name: 'wallet',
-    description: 'The wallet address of the user',
-    required: true,
-    schema: { type: 'string', default: '0x0' },
-  })
   @ApiResponse({
     status: 200,
     description: 'KYC session status retrieved successfully',
-    type: String,
+    type: String
   })
   @ApiResponse({
     status: 404,
-    description: 'Session not found',
+    description: 'Session not found'
   })
   @ApiResponse({
     status: 500,
-    description: 'An unexpected error occurred',
+    description: 'An unexpected error occurred'
   })
-  async checkSessionStatus(@Param('wallet') wallet: string): Promise<string> {
-      const sessionStatus: KycStatus = await this.kycService.checkSessionStatus(wallet);
-      if (!sessionStatus)
-        throw new HttpException(`Session ${wallet} not found`, 404);
-      return sessionStatus;
+  async checkSessionStatus(@Req() req: Request) {
+    const { wallet } = req.user;
+    if (!wallet || wallet === '0x0' || !walletRegex.test(wallet)) {
+      throw new HttpException('Invalid wallet address', 403);
+    }
+    return await this.kycService.checkSessionStatus(wallet);
   }
 }

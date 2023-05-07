@@ -2,7 +2,7 @@ import { createContext, ReactNode, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
-import axios from 'axios';
+import { useRouter } from 'next/router';
 import { privateApi } from '../api';
 export interface User {
   wallet: string;
@@ -22,6 +22,7 @@ export const CurrentUserContext = createContext<CurrentUserContextInterface>({
 
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setCurUser] = useState<User | null>(null);
+  const { push } = useRouter();
 
   const setUser = (user: User | null) => {
     if (user) {
@@ -33,6 +34,7 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
       });
     }
     setCurUser(user);
+    push('/dashboard');
   };
 
   return (
