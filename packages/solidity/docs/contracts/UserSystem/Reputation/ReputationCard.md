@@ -13,7 +13,7 @@
 ### addReview
 
 ```solidity
-function addReview(uint256 _rating, string _message, contract JobContract _jobContract) external nonpayable
+function addReview(uint8 _rating, string _message, contract JobContract _jobContract) external nonpayable
 ```
 
 
@@ -24,7 +24,7 @@ function addReview(uint256 _rating, string _message, contract JobContract _jobCo
 
 | Name | Type | Description |
 |---|---|---|
-| _rating | uint256 | undefined |
+| _rating | uint8 | undefined |
 | _message | string | undefined |
 | _jobContract | contract JobContract | undefined |
 
@@ -48,7 +48,7 @@ function getReputation() external view returns (uint256)
 ### getReview
 
 ```solidity
-function getReview(uint256 _index) external view returns (uint256 rating, bytes32 messageHash, contract JobContract jobContract)
+function getReview(uint256 _index) external view returns (uint8 rating, bytes32 messageHash, contract JobContract jobContract)
 ```
 
 
@@ -65,7 +65,7 @@ function getReview(uint256 _index) external view returns (uint256 rating, bytes3
 
 | Name | Type | Description |
 |---|---|---|
-| rating | uint256 | undefined |
+| rating | uint8 | undefined |
 | messageHash | bytes32 | undefined |
 | jobContract | contract JobContract | undefined |
 

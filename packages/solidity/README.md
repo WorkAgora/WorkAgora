@@ -9,6 +9,11 @@ Install the monorepo dependencies then copy `.env.example` to `.env` and fill th
 - `Tenderly` -> you must create an account [here](https://tenderly.co/)
 - `HARDHAT_PRIVATE_KEYS` -> accounts used to deploy and test in format: `"OxOO,OxOO"`
 
+Create the symlink to build with forge
+```
+ln -s "$(pwd)/node_modules" packages/solidity/node_modules
+```
+
 ## Compile contracts
 ```sh
 npx nx build solidity
@@ -19,9 +24,19 @@ npx nx build solidity
 npx nx lint solidity
 ```
 
-## Run hardhat ts tests
+## Run hardhat ts/js tests
 ```sh
 npx nx test-hardhat solidity
+```
+
+Note the following tasks are implemented and can be used from `packages/solidity`:
+Prints the list of accounts:
+```sh
+npx hardhat accounts
+```
+Prints the list of AVAX account balances:
+```sh
+npx hardhat balances
 ```
 
 ## Run foundry sol tests

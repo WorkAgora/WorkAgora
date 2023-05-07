@@ -14,13 +14,13 @@ interface IReputationCard {
     // Add a review with the given rating, message, and associated JobContract
     // Ensures that the user has not reviewed the JobContract before
     function addReview(
-        uint256 _rating,
+        uint8 _rating,
         string calldata _message,
         JobContract _jobContract
     ) external;
 
     // Get the review at the specified index
-    function getReview(uint256 _index) external view returns (uint256 rating, bytes32 messageHash, JobContract jobContract);
+    function getReview(uint256 _index) external view returns (uint8 rating, bytes32 messageHash, JobContract jobContract);
 
     // Get the total number of reviews
     function getReviewsCount() external view returns (uint256);
@@ -28,7 +28,7 @@ interface IReputationCard {
 
 contract ReputationCard is IReputationCard {
     struct Review {
-        uint256 rating;
+        uint8 rating;
         bytes32 messageHash;
         JobContract jobContract;
     }
@@ -59,7 +59,7 @@ contract ReputationCard is IReputationCard {
     }
 
     function addReview(
-        uint256 _rating,
+        uint8 _rating,
         string calldata _message,
         JobContract _jobContract
     ) external {
@@ -69,7 +69,7 @@ contract ReputationCard is IReputationCard {
         reviews.push(Review(_rating, messageHash, _jobContract));
     }
 
-    function getReview(uint256 _index) public view returns (uint256 rating, bytes32 messageHash, JobContract jobContract) {
+    function getReview(uint256 _index) public view returns (uint8 rating, bytes32 messageHash, JobContract jobContract) {
         require(_index < reviews.length, "index out of bounds");
         Review storage review = reviews[_index];
         return (review.rating, review.messageHash, review.jobContract);
