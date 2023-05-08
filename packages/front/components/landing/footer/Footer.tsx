@@ -24,29 +24,6 @@ const Footer: FC = () => {
   ];
   return (
     <Flex w="100%" flexDir="column">
-      <Flex w="100%" py={12}>
-        <Flex
-          mx="auto"
-          width="80%"
-          maxW="1280px"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Flex flexDir="column" alignItems="center">
-            <BrandLogo />
-            <UserTypeSwitch mt={8} />
-          </Flex>
-          <Flex alignItems="center" justifyContent="center" position="relative">
-            <HeaderMenu noActive />
-          </Flex>
-          <Flex flexDir="column" rowGap={4}>
-            <LoginButton signupModalOpen={signupModalOpen}>Login</LoginButton>
-            <Button variant="primary" size="md" onClick={() => setSignupModalOpen(true)}>
-              Sign up
-            </Button>
-          </Flex>
-        </Flex>
-      </Flex>
       <Flex
         height="100px"
         mx="auto"

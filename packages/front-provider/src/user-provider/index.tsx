@@ -2,7 +2,7 @@ import { createContext, ReactNode, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
-import axios from 'axios';
+import { useRouter } from 'next/router';
 import { privateApi } from '../api';
 export interface User {
   wallet: string;
@@ -22,8 +22,10 @@ export const CurrentUserContext = createContext<CurrentUserContextInterface>({
 
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setCurUser] = useState<User | null>(null);
+  const { push } = useRouter();
 
   const setUser = (user: User | null) => {
+    setCurUser(user);
     if (user) {
       Cookies.set('authenticated', 'true', {
         expires: 30,
@@ -31,8 +33,8 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
         path: '/',
         secure: process.env.NODE_ENV === 'production'
       });
+      push('/dashboard');
     }
-    setCurUser(user);
   };
 
   return (
@@ -43,12 +45,14 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
 export function useCurrentUser() {
   const { user, setUser } = useContext(CurrentUserContext);
   const { disconnect } = useDisconnect();
+  const { push } = useRouter();
 
   const logout = async () => {
     disconnect();
     await privateApi.get('/auth/logout');
     //Timeout to prevent wallet asking for nonce again
     setTimeout(() => {
+      push('/');
       Cookies.remove('authenticated');
       setUser(null);
     }, 200);
