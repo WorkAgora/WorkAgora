@@ -16,7 +16,7 @@ import { UserDTO } from '../../dtos/user/user.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
 import { Request } from 'express';
-import { Logger } from 'ethers/lib/utils';
+import {ChangeUserTypeDTO} from "../../dtos/user/change-user-type-dto";
 
 @ApiTags('User')
 @Controller('user')
@@ -139,6 +139,40 @@ export class UserController {
       }
     } catch (e) {
       throw new HttpException('An unexpected error occurred', 500);
+    }
+  }
+
+  @Put('changeUserType')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Change user type' })
+  @ApiResponse({
+    status: 200,
+    description: 'User type changed successfully',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  @ApiBody({
+    description: 'The new user type',
+    type: ChangeUserTypeDTO,
+  })
+  async changeUserType(
+    @Req() req: Request,
+    @Body('userType') userType: string
+  ): Promise<UserDTO> {
+    if (['freelance', 'company'].indexOf(userType) === -1) {
+      throw new HttpException('Invalid user type', 400);
+    }
+    try {
+      return await this.userService.changeUserType(req.user.wallet.toLowerCase(), userType);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
 }

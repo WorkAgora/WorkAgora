@@ -91,4 +91,27 @@ export class UserService {
 
     return updatedUser;
   }
+
+  /**
+   * Change the user type
+   * @param wallet
+   * @param userType The new user type (freelance or company)
+   * @returns The updated user
+   */
+  async changeUserType(wallet: string, userType: string): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      currentUserType: userType
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
+  }
 }
