@@ -1,9 +1,32 @@
 import { Box, Flex, FlexProps, Text } from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
-import { FC } from 'react';
+import { useCurrentUser, useLanding, ViewType } from '@workagora/front-provider';
+import { changeUserType } from '../../services/user';
+import { FC, useCallback, useEffect, useState } from 'react';
 
 const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const { setType, type, possibleType } = useLanding();
+  const { user, setUser } = useCurrentUser();
+  const [isPuting, setIsPuting] = useState(false);
+
+  const setUserType = useCallback(
+    async (newType: ViewType) => {
+      const res = await changeUserType(newType);
+      setUser(res);
+      setIsPuting(false);
+    },
+    [setUser]
+  );
+
+  useEffect(() => {
+    if (user && !isPuting) {
+      console.log(user.currentUserType);
+      console.log(type);
+      if (user.currentUserType.toLowerCase() !== type.toLowerCase()) {
+        setIsPuting(true);
+        setUserType(type);
+      }
+    }
+  }, [isPuting, setUserType, type, user]);
 
   return (
     <Flex {...props}>

@@ -1,21 +1,19 @@
 import { Flex } from '@chakra-ui/react';
 import { DashboardProvider, useDashboard, useLanding } from '@workagora/front-provider';
 import { NextPage } from 'next';
-import DashboardFreelance from '../components/dashboard/main/DashboardFreelance';
+import DashboardMain from '../components/dashboard/main/DashboardMain';
 import DashboardMenu from '../components/dashboard/menu/DashboardMenu';
 
 const Dashboard: NextPage = () => {
-  const { view, setView } = useDashboard();
+  const { view } = useDashboard();
   const { type, possibleType } = useLanding();
 
   let content = <></>;
 
-  if (type === possibleType[0]) {
-    switch (view) {
-      case 'dashboard':
-        content = <DashboardFreelance />;
-        break;
-    }
+  switch (view) {
+    case 'dashboard':
+      content = <DashboardMain />;
+      break;
   }
 
   return (
