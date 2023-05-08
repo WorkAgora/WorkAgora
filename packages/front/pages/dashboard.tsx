@@ -18,7 +18,7 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <Flex flexDir="column">
+    <Flex flexDir="column" w="100%" mt="80px">
       {content}
       <Box>
         <KycButton />

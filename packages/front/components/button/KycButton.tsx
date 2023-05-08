@@ -31,7 +31,7 @@ const KycButton: FC = () => {
 
   const getHasKyc = useCallback(async () => {
     const res = await checkKycStatus();
-    if (res.sessionId) {
+    if (res?.sessionId) {
       setKycSession(res.sessionId);
     }
   }, []);

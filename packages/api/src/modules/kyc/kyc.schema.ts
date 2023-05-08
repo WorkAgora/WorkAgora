@@ -33,12 +33,6 @@ export const KycSessionSchema = new Schema({
 });
 
 export const KycStepSchema = new Schema({
-  wallet: {
-    type: String,
-    required: true,
-    hashKey: true,
-    validate: walletRegex
-  },
   serviceName: {
     type: String,
     required: true,
@@ -54,9 +48,5 @@ export const KycStepSchema = new Schema({
       return Object.values(KycServiceState).includes(value as KycServiceState);
     }
   },
-  sessionId: {
-    type: String,
-    required: true,
-    rangeKey: true
-  }
+  rejectionReason: String
 });

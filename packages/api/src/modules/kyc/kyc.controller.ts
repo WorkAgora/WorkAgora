@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { KycService } from './kyc.service';
 import { KycWebhookPayload } from './kyc.interface';
 import { walletRegex } from '../../../../utils/src/index';
-import { KycSessionDto} from "../../dtos/kyc/kyc-session.dto";
+import { KycSessionDTO } from '../../dtos/kyc/kyc-session.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { Request } from 'express';
 
@@ -27,7 +27,7 @@ export class KycController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async handleWebhook(@Req() req, @Res() res) {
+  async handleWebhook(@Req() req, @Res() res): Promise<void> {
     const secret = req.query.secret;
     if (secret && secret === process.env.SYNAPS_WEBHOOK_SECRET) {
       const { session_id, state, service } = req.body;
@@ -37,6 +37,7 @@ export class KycController {
         await this.kycService.checkForFinalValidation(session_id);
       }
     }
+    //@TODO if wrong secret throw error 403
     res.status(200).send();
   }
 
@@ -46,7 +47,7 @@ export class KycController {
   @ApiResponse({
     status: 200,
     description: 'KYC process initiated successfully',
-    type: KycSessionDto
+    type: KycSessionDTO
   })
   @ApiResponse({
     status: 400,
@@ -56,7 +57,7 @@ export class KycController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async initiateKycProcess(@Req() req: Request) {
+  async initiateKycProcess(@Req() req: Request): Promise<KycSessionDTO> {
     const { wallet } = req.user;
     if (!wallet || wallet === '0x0' || !walletRegex.test(wallet)) {
       throw new HttpException('Invalid wallet address', 403);
@@ -84,7 +85,7 @@ export class KycController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async checkSessionStatus(@Req() req: Request) {
+  async checkSessionStatus(@Req() req: Request): Promise<KycSessionDTO> {
     const { wallet } = req.user;
     if (!wallet || wallet === '0x0' || !walletRegex.test(wallet)) {
       throw new HttpException('Invalid wallet address', 403);

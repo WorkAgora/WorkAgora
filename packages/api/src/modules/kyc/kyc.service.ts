@@ -1,9 +1,12 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { KycService as KycServiceEnum, KycServiceState, KycStatus } from './kyc.enum';
-import { KycSession, KycSessionKey, KycStep, KycWebhookPayload } from './kyc.interface';
+import { KycSession, KycSessionKey, KycWebhookPayload } from './kyc.interface';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
+import { KycSessionDTO } from '../../dtos/kyc/kyc-session.dto';
+import { omit } from 'lodash';
+import { KycStepDTO } from '../../dtos/kyc/kyc-step.dto';
 
 @Injectable()
 export class KycService {
@@ -93,12 +96,14 @@ export class KycService {
    * @param {string} wallet The user's wallet address.
    * @return {Promise<KycSession>} A promise that resolves to the new or existing KYC session.
    */
-  async initiateKycProcess(wallet: string): Promise<KycSession> {
+  async initiateKycProcess(wallet: string): Promise<KycSessionDTO> {
     // If there is an existing session, return it
     try {
       const existingSession = await this.model.query('wallet').eq(wallet).exec();
       if (existingSession.count > 0) {
-        return existingSession[0];
+        return {
+          ...omit(existingSession[0], ['alias', 'sandbox'])
+        };
       }
     } catch (e) {
       if (e.message != "Index can't be found for query.") {
@@ -109,7 +114,9 @@ export class KycService {
     // Otherwise, create a new session
     const newSession = await this.initSynapsSession(wallet, wallet);
     await this.model.create(newSession);
-    return newSession;
+    return {
+      ...omit(newSession, ['alias', 'sandbox'])
+    };
   }
 
   /**
@@ -117,13 +124,15 @@ export class KycService {
    * @param {string} wallet The user's wallet address.
    * @return {Promise<KycSession>} A promise that resolves KYC Session
    */
-  async checkSessionStatus(wallet: string): Promise<KycSession> {
+  async checkSessionStatus(wallet: string): Promise<KycSessionDTO> {
     try {
       const session = await this.model.query('wallet').eq(wallet).exec();
       if (!session[0]) {
         throw new HttpException(`KYC-Session not found for ${wallet}`, 403);
       }
-      return session[0];
+      return {
+        ...omit(session[0], ['alias', 'sandbox'])
+      };
     } catch (e) {
       throw new HttpException(
         `Error checking KYC-Session status for ${wallet}: ${e.message}`,
@@ -131,7 +140,7 @@ export class KycService {
       );
     }
   }
-  async findStepBySessionIdAndService(sessionId: string, service: string): Promise<KycStep> {
+  async findStepBySessionIdAndService(sessionId: string, service: string): Promise<KycStepDTO> {
     const session = await this.model.query('sessionId').eq(sessionId).exec();
     if (session.count === 0) {
       throw new HttpException(`KYC-Session not found for ${sessionId}`, 500);

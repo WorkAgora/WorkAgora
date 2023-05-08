@@ -5,7 +5,7 @@ export const checkKycStatus = async () => {
     const res = await privateApi.get('/kyc/status');
     return res.data;
   } catch (e: any) {
-    if (e.status === 403) {
+    if (e.response.status === 403) {
       return null;
     }
   }
