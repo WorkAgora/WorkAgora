@@ -1,16 +1,8 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Flex,
-  FlexProps,
-  Input,
-  InputGroup,
-  InputRightElement
-} from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
-import { FC, useEffect, useState } from 'react';
+import {Badge, Box, Button, Flex, FlexProps, Input, InputGroup, InputRightElement} from '@chakra-ui/react';
+import {useLanding} from '@workagora/front-provider';
+import {FC, useEffect, useState} from 'react';
 import AddIcon from '../../icons/AddIcon';
+import {UserTypeEnum} from "@workagora/utils";
 
 export interface SearchBarFilter {
   label: string;
@@ -19,7 +11,7 @@ export interface SearchBarFilter {
 }
 
 const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
-  const { type, possibleType } = useLanding();
+  const { type } = useLanding();
   const [title, setTitle] = useState<string>('');
   const [filters, setFilters] = useState<SearchBarFilter[]>([]);
   const [curFilters, setCurFilters] = useState<string[]>([]);
@@ -33,7 +25,7 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
   };
 
   useEffect(() => {
-    if (type === possibleType[0]) {
+    if (type === UserTypeEnum.Freelancer) {
       setTitle('Find the perfect offer');
       setCurFilters([]);
       setFilters([
@@ -60,7 +52,7 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
       ]);
     }
 
-    if (type === possibleType[1]) {
+    if (type === UserTypeEnum.Company) {
       setTitle('Find the perfect freelancer');
       setCurFilters([]);
       setFilters([
@@ -86,7 +78,7 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
         }
       ]);
     }
-  }, [possibleType, type]);
+  }, [type]);
 
   return (
     <Flex flexDir="column" {...props}>

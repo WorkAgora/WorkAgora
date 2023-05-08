@@ -17,7 +17,7 @@ import ConnectButton from '../button/ConnectButton';
 import RadioCard from '../radio/RadioCard';
 import RadioCardGroup from '../radio/RadioCardGroup';
 import { useAccount, useNetwork } from 'wagmi';
-import { shortHash } from '@workagora/utils';
+import {shortHash, UserTypeEnum} from '@workagora/utils';
 import { useSignUp } from '../../hooks/useSignUp';
 
 interface RadioUserType {
@@ -28,11 +28,11 @@ interface RadioUserType {
 const RadioGroupUserType: RadioUserType[] = [
   {
     label: 'Freelancer',
-    value: 'Freelancer'
+    value: UserTypeEnum.Freelancer
   },
   {
     label: 'Employer',
-    value: 'Employer'
+    value: UserTypeEnum.Company
   }
 ];
 
@@ -49,8 +49,9 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
   firstname: Yup.string().min(2).required('Firstname required'),
   lastname: Yup.string().min(2).required('Lastname required'),
-  currentUserType: Yup.string().oneOf(['Freelancer', 'Employer']).required(' '),
-  agreeTOS: Yup.bool().oneOf([true], 'Must agree to Terms of Service'),
+  currentUserType: Yup.string()
+    .oneOf(Object.values(UserTypeEnum), 'Invalid user type')
+    .required('User type is required'),  agreeTOS: Yup.bool().oneOf([true], 'Must agree to Terms of Service'),
   agreeDataTreatment: Yup.bool().oneOf([true], 'Must agree to data treatment policy')
 });
 

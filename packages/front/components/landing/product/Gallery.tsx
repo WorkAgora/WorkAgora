@@ -1,23 +1,24 @@
-import { Box, Button, Flex, SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
-import { FC, useEffect, useState } from 'react';
+import {Box, Button, Flex, SimpleGrid, SimpleGridProps} from '@chakra-ui/react';
+import {useLanding} from '@workagora/front-provider';
+import {FC, useEffect, useState} from 'react';
 import FreelanceCard from '../../card/FreelanceCard';
-import { SearchBarFilter } from './SearchBar';
+import {SearchBarFilter} from './SearchBar';
+import {UserTypeEnum} from "@workagora/utils";
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
-  const { type, possibleType, setSignupModalOpen } = useLanding();
+  const { type, setSignupModalOpen } = useLanding();
   const [caption, setCaption] = useState<string>('');
 
   useEffect(() => {
-    if (type === possibleType[0]) {
+    if (type === UserTypeEnum.Freelancer) {
       setCaption('Join us and find your perfect offer');
     }
-    if (type === possibleType[1]) {
+    if (type === UserTypeEnum.Company) {
       setCaption('Join us and find your perfect freelancer');
     }
-  }, [type, possibleType]);
+  }, [type]);
 
   const badges: SearchBarFilter[] = [
     {
@@ -54,11 +55,11 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         {...props}
       >
         {cards.map((v, k) => {
-          if (type == possibleType[0]) {
-            return <FreelanceCard key={k} badges={badges} blurred={k >= 9 ? true : false} />;
+          if (type == UserTypeEnum.Freelancer) {
+            return <FreelanceCard key={k} badges={badges} blurred={k >= 9} />;
           }
-          if (type == possibleType[1]) {
-            return <FreelanceCard key={k} badges={badges} blurred={k >= 9 ? true : false} />;
+          if (type == UserTypeEnum.Company) {
+            return <FreelanceCard key={k} badges={badges} blurred={k >= 9} />;
           }
         })}
       </SimpleGrid>

@@ -6,13 +6,14 @@ import CompanyOpportunities from './company/CompanyOpportunities';
 import FreelanceInformations from './freelance/FreelanceInformations';
 import FreelanceOffers from './freelance/FreelanceOffers';
 import FreelanceOpportunities from './freelance/FreelanceOpportunities';
+import {UserTypeEnum} from "@workagora/utils";
 import CompanyInformations from './company/CompanyInformations';
 import CompanyOffers from './company/CompanyOffers';
 
 const MotionBox = motion(Box);
 
 const DashboardMain: FC = () => {
-  const { type, possibleType } = useLanding();
+  const { type } = useLanding();
   const { user } = useCurrentUser();
 
   const contentVariants = {
@@ -32,7 +33,7 @@ const DashboardMain: FC = () => {
         borderRadius="64px"
       >
         <AnimatePresence mode="wait">
-          {type === possibleType[0] && (
+          {type === UserTypeEnum.Freelancer && (
             <MotionBox
               key="freelance"
               initial="hidden"
@@ -53,7 +54,7 @@ const DashboardMain: FC = () => {
               </Flex>
             </MotionBox>
           )}
-          {type === possibleType[1] && (
+          {type === UserTypeEnum.Company && (
             <MotionBox
               key="company"
               initial="hidden"
