@@ -6,25 +6,26 @@ import Technology from '../components/landing/technology/Technology';
 import Community from '../components/landing/community/Community';
 import Contact from '../components/landing/contact/Contact';
 import Footer from '../components/landing/footer/Footer';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const { user } = useCurrentUser();
+  const { push } = useRouter();
 
-  let content = (
-    <>
+  if (user) {
+    push('/dashboard');
+  }
+
+  return (
+    <Flex flexDir="column">
+      {' '}
       <Product />
       <Technology />
       <Community />
       <Contact />
       <Footer />
-    </>
+    </Flex>
   );
-
-  if (user) {
-    content = <>{JSON.stringify(user)}</>;
-  }
-
-  return <Flex flexDir="column">{content}</Flex>;
 };
 
 export default Home;

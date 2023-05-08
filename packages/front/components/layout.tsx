@@ -1,4 +1,4 @@
-import { Container, Flex } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
   const [isFetching, setIsFetching] = useState(true);
   const authenticatedCookie = Cookies.get('authenticated');
   const { pathname, push } = useRouter();
+
   const isUserLogged = useCallback(async () => {
     const res = await checkUserLogged();
     if (res) {
@@ -35,7 +36,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
       }
       setIsFetching(false);
     }
-  }, [isUserLogged, user, authenticatedCookie, pathname]);
+  }, [isUserLogged, user, authenticatedCookie, pathname, push]);
 
   return (
     <Container

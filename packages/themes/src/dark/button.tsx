@@ -51,6 +51,10 @@ const outline = defineStyle({
 const link = defineStyle({
   color: 'neutral.black',
   textDecoration: 'none',
+  paddingLeft: '24px !important',
+  paddingRight: '24px !important',
+  paddingTop: '10px',
+  paddingBottom: '10px',
   _hover: {
     color: 'brand.primary',
     textDecoration: 'none'

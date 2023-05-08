@@ -4,9 +4,13 @@ import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
 import { useRouter } from 'next/router';
 import { privateApi } from '../api';
+import { useLanding, ViewType } from '../landing-provider';
 export interface User {
   wallet: string;
   email: string;
+  currentUserType: ViewType;
+  firstname: string;
+  lastname: string;
 }
 
 type CurrentUserContextInterface = {
@@ -23,6 +27,7 @@ export const CurrentUserContext = createContext<CurrentUserContextInterface>({
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setCurUser] = useState<User | null>(null);
   const { push } = useRouter();
+  const { setType } = useLanding();
 
   const setUser = (user: User | null) => {
     setCurUser(user);
@@ -33,6 +38,7 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
         path: '/',
         secure: process.env.NODE_ENV === 'production'
       });
+      setType(user.currentUserType);
       push('/dashboard');
     }
   };
@@ -51,8 +57,8 @@ export function useCurrentUser() {
     disconnect();
     await privateApi.get('/auth/logout');
     //Timeout to prevent wallet asking for nonce again
+    push('/');
     setTimeout(() => {
-      push('/');
       Cookies.remove('authenticated');
       setUser(null);
     }, 200);

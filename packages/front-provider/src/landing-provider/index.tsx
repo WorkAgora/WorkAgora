@@ -3,7 +3,7 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 
 const possibleType: string[] = ['Freelance', 'Company'];
 
-type ViewType = (typeof possibleType)[number];
+export type ViewType = (typeof possibleType)[number];
 
 type LandingContextInterface = {
   type: ViewType;
