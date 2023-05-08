@@ -21,7 +21,7 @@ export class RatingService {
       walletReceiver: ratingData.walletReceiver.toLowerCase(),
       stars: ratingData.stars,
       comment: ratingData.comment,
-      txHash: txHash,
+      txHash: txHash.toLowerCase(),
     };
 
 
