@@ -18,26 +18,15 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-rating-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: walletReceiver
+        - AttributeName: txHash
           AttributeType: S
         - AttributeName: wallet
           AttributeType: S
-        - AttributeName: txHash
-          AttributeType: S
       KeySchema:
-        - AttributeName: walletReceiver
+        - AttributeName: txHash
           KeyType: HASH
         - AttributeName: wallet
           KeyType: RANGE
-      GlobalSecondaryIndexes:
-        - IndexName: TxHashIndex
-          KeySchema:
-            - AttributeName: txHash
-              KeyType: HASH
-            - AttributeName: walletReceiver
-              KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
   UserTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete

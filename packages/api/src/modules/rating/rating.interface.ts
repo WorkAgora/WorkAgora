@@ -1,10 +1,10 @@
 export interface RatingKey {
-  walletReceiver: string; // PK
-  wallet: string; // SK
+  txHash: string; // PK
 }
 
 export interface Rating extends RatingKey{
   stars: number;
   comment: string;
-  txHash: string; // GSI
+  walletReceiver: string;
+  wallet: string; // SK
 }

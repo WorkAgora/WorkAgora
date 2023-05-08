@@ -1,5 +1,5 @@
-import {Body, Controller, HttpException, Post, Req, UseGuards} from '@nestjs/common';
-import {ApiBody, ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
+import {Body, Controller, Get, HttpException, Param, Post, Req, UseGuards} from '@nestjs/common';
+import {ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {RatingService} from './rating.service';
 import {RatingDTO} from '../../dtos/rating/rating.dto';
 import {JwtAuthGuard} from "../auth/jwt.guard";
@@ -34,7 +34,7 @@ export class RatingController {
     description: 'The rating details',
     type: RatingDTO
   })
-  async rateUser(@Req() req: Request, @Body() createRatingDTO: RatingDTO): Promise<RatingDTO> {
+  async rateUser(@Req() req, @Body() createRatingDTO: RatingDTO): Promise<RatingDTO> {
     try {
       const currentUser = req.user;
       if (currentUser.wallet.toLowerCase() !== createRatingDTO.wallet.toLowerCase()) {
@@ -44,6 +44,39 @@ export class RatingController {
       return await this.ratingService.rateUser(createRatingDTO);
     } catch (e) {
       throw new HttpException(e.message || "An error occurred", e.status || 500);
+    }
+  }
+
+  @Get('rating/:wallet')
+  @ApiOperation({ summary: 'Get ratings for a user by wallet address' })
+  @ApiParam({
+    name: 'wallet',
+    description: 'The wallet address of the user',
+    required: true,
+    schema: { type: 'string', default: '0x0' }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The ratings for the user',
+    type: [RatingDTO]
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Ratings not found'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async getRatings(@Param('wallet') wallet: string): Promise<RatingDTO[]> {
+    try {
+      const ratings = await this.ratingService.getRatingsByWallet(wallet.toLowerCase());
+      if (!ratings) {
+        throw new HttpException('Ratings not found', 404);
+      }
+      return ratings;
+    } catch (e) {
+      throw new HttpException(e.message, e.status || 500);
     }
   }
 }

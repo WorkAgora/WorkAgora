@@ -5,8 +5,6 @@ export const RatingSchema = new Schema({
   walletReceiver: {
     type: String,
     required: true,
-    hashKey: true,
-    validate: walletRegex,
   },
   wallet: {
     type: String,
@@ -32,12 +30,6 @@ export const RatingSchema = new Schema({
   txHash: {
     type: String,
     required: true,
-    index: {
-      type: 'global',
-      rangeKey: 'walletReceiver',
-      name: 'TxHashIndex',
-      project: true,
-      throughput: 'ON_DEMAND',
-    },
+    hashKey: true,
   },
 });
