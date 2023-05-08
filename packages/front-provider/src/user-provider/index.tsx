@@ -27,6 +27,7 @@ export const CurrentUserContext = createContext<CurrentUserContextInterface>({
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setCurUser] = useState<User | null>(null);
   const { push } = useRouter();
+  const { setType } = useLanding();
 
   const setUser = (user: User | null) => {
     setCurUser(user);
@@ -37,6 +38,7 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
         path: '/',
         secure: process.env.NODE_ENV === 'production'
       });
+      setType(user.currentUserType);
       push('/dashboard');
     }
   };
