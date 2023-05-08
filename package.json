@@ -111,6 +111,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.3.0",
     "@rainbow-me/rainbowkit": "^0.12.12",
+    "@synaps-io/react-verify": "^1.0.3",
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

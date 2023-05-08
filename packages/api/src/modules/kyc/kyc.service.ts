@@ -20,7 +20,7 @@ export class KycService {
    * @return {Promise<KycSession>}
    */
   async initSynapsSession(wallet: string, alias: string): Promise<KycSession> {
-    console.log("URL: " + `${process.env.SYNAPS_API_BASE_URL}/session/init`);
+    console.log('URL: ' + `${process.env.SYNAPS_API_BASE_URL}/session/init`);
     const response = await this.httpService
       .post(
         `${process.env.SYNAPS_API_BASE_URL}/session/init`,
@@ -115,16 +115,20 @@ export class KycService {
   /**
    * Checks the status of a KYC session by its ID.
    * @param {string} wallet The user's wallet address.
-   * @return {Promise<KycStatus>} A promise that resolves to the status of the KYC session.
+   * @return {Promise<KycSession>} A promise that resolves KYC Session
    */
-  async checkSessionStatus(wallet: string): Promise<KycStatus> {
+  async checkSessionStatus(wallet: string): Promise<KycSession> {
     try {
       const session = await this.model.query('wallet').eq(wallet).exec();
-      return session[0].status;
+      if (!session[0]) {
+        throw new HttpException(`KYC-Session not found for ${wallet}`, 403);
+      }
+      return session[0];
     } catch (e) {
-      if (e.message == "Index can't be found for query.")
-        throw new HttpException(`KYC-Session not found for ${sessionId}`, 404)
-      throw new HttpException(`Error checking KYC-Session status for ${sessionId}: ${e.message}`, 500);
+      throw new HttpException(
+        `Error checking KYC-Session status for ${wallet}: ${e.message}`,
+        e.status ? e.status : 500
+      );
     }
   }
   async findStepBySessionIdAndService(sessionId: string, service: string): Promise<KycStep> {
@@ -142,7 +146,11 @@ export class KycService {
    * @param {KycWebhookPayload} updateData The new status of the KYC session.
    * @return {Promise<void>} A promise that resolves when the status has been updated.
    */
-  async updateStepById(sessionId: string, service: string, updateData: KycWebhookPayload): Promise<void> {
+  async updateStepById(
+    sessionId: string,
+    service: string,
+    updateData: KycWebhookPayload
+  ): Promise<void> {
     try {
       const session = await this.model.query('sessionId').eq(sessionId).exec();
 
@@ -163,13 +171,12 @@ export class KycService {
         throw new HttpException(`KYC-Step not found for ${service}`, 500);
       }
     } catch (e) {
-      if (e.message != "Index can't be found for query.")
-        throw e;
+      if (e.message != "Index can't be found for query.") throw e;
     }
   }
 
   /**
-    * Checks if all KYC steps have been validated.
+   * Checks if all KYC steps have been validated.
    * @param sessionId
    * @returns {Promise<boolean>}
    */
@@ -188,10 +195,8 @@ export class KycService {
       }
       return false;
     } catch (e) {
-      if (e.message != "Index can't be found for query.")
-        throw e;
-      else
-        throw new HttpException(`KYC-Session not found for ${sessionId}`, 500);
+      if (e.message != "Index can't be found for query.") throw e;
+      else throw new HttpException(`KYC-Session not found for ${sessionId}`, 500);
     }
   }
 }

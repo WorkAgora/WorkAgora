@@ -3,11 +3,10 @@ import {
 } from 'class-validator';
 import {walletRegex} from '../../../../utils/src/index';
 import {KycStatus} from "../../modules/kyc/kyc.enum";
-import {CreateKycStepDto} from "./create-kyc-step.dto";
+import {KycStepDto} from "./kyc-step.dto";
 import {ApiProperty} from "@nestjs/swagger";
 
-
-export class CreateKycSessionDto {
+export class KycSessionDto {
   @ApiProperty({
     description: 'The wallet address of the user',
     type: String,
@@ -40,8 +39,8 @@ export class CreateKycSessionDto {
 
   @ApiProperty({
     description: 'The steps of the KYC session',
-    type: [CreateKycStepDto],
+    type: [KycStepDto],
     required: true,
   })
-  steps: CreateKycStepDto[];
+  steps: KycStepDto[];
 }
