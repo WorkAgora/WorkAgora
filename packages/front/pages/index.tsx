@@ -18,7 +18,6 @@ const Home: NextPage = () => {
 
   return (
     <Flex flexDir="column">
-      {' '}
       <Product />
       <Technology />
       <Community />
