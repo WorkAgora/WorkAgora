@@ -2,7 +2,6 @@ import { Box, Flex, FlexProps, Text } from '@chakra-ui/react';
 import { useCurrentUser, useLanding, ViewType } from '@workagora/front-provider';
 import { changeUserType } from '../../services/user';
 import { FC, useState } from 'react';
-import { cp } from 'fs/promises';
 
 const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const { setType, type, possibleType } = useLanding();
