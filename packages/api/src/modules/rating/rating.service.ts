@@ -2,7 +2,12 @@ import {HttpException, Injectable} from '@nestjs/common';
 import {Rating, RatingKey} from './rating.interface';
 import {RatingDTO} from '../../dtos/rating/rating.dto';
 import {InjectModel, Model} from "nestjs-dynamoose";
+import {NFTStorage} from "nft.storage";
 import * as console from "console";
+import {ethers} from "ethers";
+import * as process from "process";
+import {TokenInput} from "nft.storage/dist/src/lib/interface";
+import {Blob} from "node:buffer";
 
 @Injectable()
 export class RatingService {
@@ -12,8 +17,39 @@ export class RatingService {
   ) {}
 
   async rateUser(ratingData: RatingDTO): Promise<Rating> {
-    // Call smart contract function here and get the transaction hash
-    const txHash = '0x' + Math.random().toString(16).substr(2, 64); // TODO change to real tx hash
+    const ratingFormatted = {
+      wallet: ratingData.wallet.toLowerCase(),
+      walletReceiver: ratingData.walletReceiver.toLowerCase(),
+      stars: ratingData.stars,
+      comment: ratingData.comment,
+    }
+
+    // Initialize the NFTStorage client
+    const client = new NFTStorage({ token: process.env.NFT_STORAGE_API_TOKEN })
+
+    // Sign the rating data with your private key
+    // const wallet = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY);
+    // const signedMessage = await wallet.signMessage(JSON.stringify(ratingFormatted));
+
+
+    try {
+      const token: TokenInput = {
+        name: "JobContract",
+        description: "JobContract NFT",
+        image: new Blob(['hello world'], {type:'text/plain'}),
+        properties: {
+          data: ratingFormatted,
+          signature: "signedMessage",
+        }
+      }
+    } catch (e) {
+      console.error(`Error creating token: ${e.message}`);
+      throw new HttpException("1-"+ e.message, e.status || 500);
+    }
+
+    // Convert the signed message into a Blob and store it
+    // const {cid, car} = await NFTStorage.encodeNFT(token)
+    // const storedCid = await client.storeCar(car);
 
     // Create a new rating object with the transaction hash
     const rating: Rating = {
@@ -21,15 +57,18 @@ export class RatingService {
       walletReceiver: ratingData.walletReceiver.toLowerCase(),
       stars: ratingData.stars,
       comment: ratingData.comment,
-      txHash: txHash.toLowerCase(),
+      cidIPFS: "cid.toString()"
     };
+
+    // console.log("JSON.stringify(rating): ", JSON.stringify(rating));
+    // console.log("CID: ", cid.toString());
 
 
     // Save the rating object to DDB
     try {
       await this.model.create(rating);
     } catch (e) {
-      throw new HttpException(e.message, e.status || 500);
+      throw new HttpException("end-"+ e.message + ":" + JSON.stringify(rating), e.status || 500);
     }
 
     return rating;

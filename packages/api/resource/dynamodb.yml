@@ -11,31 +11,6 @@ Resources:
       KeySchema:
         - AttributeName: wallet
           KeyType: HASH
-  RatingTable:
-    Type: AWS::DynamoDB::Table
-    DeletionPolicy: Delete
-    Properties:
-      TableName: ${self:service}-${self:provider.stage}-rating-table
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: txHash
-          AttributeType: S
-        - AttributeName: wallet
-          AttributeType: S
-      KeySchema:
-        - AttributeName: txHash
-          KeyType: HASH
-        - AttributeName: wallet
-          KeyType: RANGE
-      GlobalSecondaryIndexes:
-        - IndexName: TxHashIndex
-          KeySchema:
-            - AttributeName: txHash
-              KeyType: HASH
-            - AttributeName: walletReceiver
-              KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
   KycTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
@@ -51,6 +26,22 @@ Resources:
         - AttributeName: wallet
           KeyType: HASH
         - AttributeName: sessionId
+          KeyType: RANGE
+  RatingTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    Properties:
+      TableName: ${self:service}-${self:provider.stage}-rating-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: txHash
+          AttributeType: S
+        - AttributeName: wallet
+          AttributeType: S
+      KeySchema:
+        - AttributeName: txHash
+          KeyType: HASH
+        - AttributeName: wallet
           KeyType: RANGE
   UserTable:
     Type: AWS::DynamoDB::Table

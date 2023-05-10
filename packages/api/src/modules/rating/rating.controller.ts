@@ -10,8 +10,8 @@ export class RatingController {
   constructor(private readonly ratingService: RatingService) {}
 
 
-  @Post('rate')
-  @UseGuards(JwtAuthGuard)
+  @Post()
+  // @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Rate another user' })
   @ApiResponse({
     status: 200,
@@ -36,10 +36,10 @@ export class RatingController {
   })
   async rateUser(@Req() req, @Body() createRatingDTO: RatingDTO): Promise<RatingDTO> {
     try {
-      const currentUser = req.user;
-      if (currentUser.wallet.toLowerCase() !== createRatingDTO.wallet.toLowerCase()) {
-        throw new HttpException('Unauthorized', 401);
-      }
+      // const currentUser = req.user;
+      // if (currentUser.wallet.toLowerCase() !== createRatingDTO.wallet.toLowerCase()) {
+      //   throw new HttpException('Unauthorized', 401);
+      // }
 
       return await this.ratingService.rateUser(createRatingDTO);
     } catch (e) {

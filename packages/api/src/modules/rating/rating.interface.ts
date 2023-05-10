@@ -1,5 +1,5 @@
 export interface RatingKey {
-  txHash: string; // PK
+  cidIPFS: string; // PK
 }
 
 export interface Rating extends RatingKey{
