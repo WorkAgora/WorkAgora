@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { DashboardProvider, useDashboard } from '@workagora/front-provider';
+import { DashboardProvider, useDashboard, useLanding } from '@workagora/front-provider';
 import { NextPage } from 'next';
 import DashboardMain from '../components/dashboard/main/DashboardMain';
 import DashboardMenu from '../components/dashboard/menu/DashboardMenu';
@@ -7,7 +7,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 
 const Dashboard: NextPage = () => {
   const { view } = useDashboard();
-  const { type, possibleType, handleScroll } = useLanding();
+  const { type, handleScroll } = useLanding();
 
   let content = <></>;
 

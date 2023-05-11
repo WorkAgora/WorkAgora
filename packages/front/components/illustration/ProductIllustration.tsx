@@ -1,11 +1,12 @@
-import {Box} from '@chakra-ui/react';
-import {useLanding} from '@workagora/front-provider';
-import {FC} from 'react';
+import { Box } from '@chakra-ui/react';
+import { useLanding } from '@workagora/front-provider';
+import { UserTypeEnum } from '@workagora/utils';
+import { FC } from 'react';
 import ProductIllustrationCompany from './company/ProductIllustrationCompany';
 import ProductIllustrationFreelance from './freelance/ProductIllustrationFreelance';
 
 const ProductIllustration: FC = () => {
-  const { type, UserTypeEnum } = useLanding();
+  const { type } = useLanding();
 
   let illustration = <></>;
   if (type == UserTypeEnum.Freelancer) {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {createContext, ReactNode, useContext, useState} from 'react';
-import {UserTypeEnum} from "@workagora/utils";
+import { createContext, ReactNode, useContext, useState } from 'react';
+import { UserTypeEnum } from '@workagora/utils';
 
-export type ViewType = UserTypeEnum
+export type ViewType = UserTypeEnum;
 
 type LandingContextInterface = {
   type: ViewType;
@@ -78,7 +78,6 @@ export function useLanding() {
 
   return {
     type,
-    UserTypeEnum,
     currentView,
     signupModalOpen,
     hasScroll,

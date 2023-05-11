@@ -3,7 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Layout from '../components/Layout';
+import GlobalLayout from '../components/GlobalLayout';
 
 //Import styles
 import { darkTheme } from '@workagora/themes';
@@ -25,9 +25,9 @@ function App({ Component, pageProps }: AppProps) {
         <WagmiProvider>
           <CurrentUserProvider>
             <LandingProvider>
-              <Layout>
+              <GlobalLayout>
                 <Component {...pageProps} />
-              </Layout>
+              </GlobalLayout>
             </LandingProvider>
           </CurrentUserProvider>
         </WagmiProvider>
