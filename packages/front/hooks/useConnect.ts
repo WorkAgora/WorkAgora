@@ -3,6 +3,7 @@ import { API_URL } from '../../front-provider/src/api';
 import { SiweMessage } from 'siwe';
 import { getNonceApi, signInWithEthereumApi } from '../services/auth';
 import { useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
 
 interface LoginProps {
   address: `0x${string}`;
@@ -12,11 +13,12 @@ interface LoginProps {
 export function useConnect() {
   const { disconnect } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
+  const { pathname } = useRouter();
 
   const signIn = useCallback(
     async ({ address, chain }: LoginProps) => {
       if (chain.unsupported) return;
-      if (address && chain) {
+      if (address && chain && pathname === '/') {
         try {
           const nonce = await getNonceApi(address);
           const message = new SiweMessage({

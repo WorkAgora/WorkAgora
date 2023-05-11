@@ -16,7 +16,7 @@ export class CreateUserDTO {
   lastname: string;
 
   @IsString()
-  @IsIn(['Freelancer', 'Employer'])
+  @IsIn(['freelance', 'company'])
   currentUserType: string;
 
   @Transform(({ value }) => new Date(value))

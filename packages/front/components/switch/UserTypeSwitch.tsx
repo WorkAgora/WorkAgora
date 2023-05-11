@@ -1,9 +1,25 @@
 import { Box, Flex, FlexProps, Text } from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
-import { FC } from 'react';
+import { useCurrentUser, useLanding, ViewType } from '@workagora/front-provider';
+import { changeUserType } from '../../services/user';
+import { FC, useState } from 'react';
+import { cp } from 'fs/promises';
 
 const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const { setType, type, possibleType } = useLanding();
+  const { user, setUser } = useCurrentUser();
+  const [isPuting, setIsPuting] = useState(false);
+
+  const setUserType = async (newType: ViewType) => {
+    setType(newType);
+    if (user && !isPuting) {
+      if (user.currentUserType.toLowerCase() !== newType.toLowerCase()) {
+        setIsPuting(true);
+        const res = await changeUserType(newType);
+        setUser(res);
+        setIsPuting(false);
+      }
+    }
+  };
 
   return (
     <Flex {...props}>
@@ -18,7 +34,7 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
         bgColor={type === possibleType[0] ? 'brand.primary' : 'none'}
         cursor="pointer"
         _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
-        onClick={() => setType(possibleType[0])}
+        onClick={() => setUserType(possibleType[0])}
       >
         <Text fontFamily="Comfortaa" fontSize="sm" fontWeight="600">
           Freelance
@@ -35,7 +51,7 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
         cursor="pointer"
         bgColor={type === possibleType[1] ? 'brand.primary' : 'none'}
         _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
-        onClick={() => setType(possibleType[1])}
+        onClick={() => setUserType(possibleType[1])}
       >
         <Text fontFamily="Comfortaa" fontSize="sm" fontWeight="600">
           Company

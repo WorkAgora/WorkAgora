@@ -1,19 +1,13 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import LoginButton from '../../button/LoginButton';
-import HeaderMenu from '../../header/HeaderMenu';
 import DiscordIcon from '../../icons/social/DiscordIcon';
 import GithubIcon from '../../icons/social/GithubIcon';
 import InstagramIcon from '../../icons/social/InstagramIcon';
 import LinkedinIcon from '../../icons/social/LinkedinIcon';
 import TelegramIcon from '../../icons/social/TelegramIcon';
 import TwitterIcon from '../../icons/social/TwitterIcon';
-import BrandLogo from '../../logo/BrandLogo';
-import UserTypeSwitch from '../../switch/UserTypeSwitch';
 
 const Footer: FC = () => {
-  const { signupModalOpen, setSignupModalOpen } = useLanding();
   const socialIcons = [
     { icon: DiscordIcon, href: '#' },
     { icon: TwitterIcon, href: '#' },
@@ -39,7 +33,7 @@ const Footer: FC = () => {
           fontWeight="400"
           color="neutral.dsGray"
         >
-          @AuroraWork 2023, All rights reserved
+          @WorkAgora 2023, All rights reserved
         </Text>
         <Flex columnGap={12}>
           {socialIcons.map((v, k) => (

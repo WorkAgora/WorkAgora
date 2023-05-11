@@ -23,10 +23,28 @@ const textStyles = {
     lineHeight: '120%',
     fontWeight: '700'
   },
+  h4: {
+    fontFamily: 'Comfortaa',
+    fontSize: '20px',
+    lineHeight: '120%',
+    fontWeight: '700'
+  },
+  h5: {
+    fontFamily: 'Montserrat',
+    fontSize: '12px',
+    lineHeight: '150%',
+    fontWeight: '400'
+  },
   text: {
     fontFamily: 'Montserrat',
     fontWeight: '400',
     fontSize: '24px',
+    lineHeight: '150%'
+  },
+  body: {
+    fontFamily: 'Montserrat',
+    fontWeight: '400',
+    fontSize: '20px',
     lineHeight: '150%'
   }
 };
