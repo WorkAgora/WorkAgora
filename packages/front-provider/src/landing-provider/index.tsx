@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
 
-const possibleType: string[] = ['Freelance', 'Company'];
+const possibleType: string[] = ['freelance', 'company'];
 
 export type ViewType = (typeof possibleType)[number];
 

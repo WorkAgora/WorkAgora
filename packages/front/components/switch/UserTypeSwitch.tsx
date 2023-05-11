@@ -1,32 +1,29 @@
 import { Box, Flex, FlexProps, Text } from '@chakra-ui/react';
 import { useCurrentUser, useLanding, ViewType } from '@workagora/front-provider';
 import { changeUserType } from '../../services/user';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
+import { cp } from 'fs/promises';
 
 const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const { setType, type, possibleType } = useLanding();
   const { user, setUser } = useCurrentUser();
   const [isPuting, setIsPuting] = useState(false);
 
-  const setUserType = useCallback(
-    async (newType: ViewType) => {
-      const res = await changeUserType(newType);
-      setUser(res);
-      setIsPuting(false);
-    },
-    [setUser]
-  );
-
-  useEffect(() => {
+  const setUserType = async (newType: ViewType) => {
+    console.log(user);
+    console.log(isPuting);
+    setType(newType);
     if (user && !isPuting) {
-      console.log(user.currentUserType);
-      console.log(type);
-      if (user.currentUserType.toLowerCase() !== type.toLowerCase()) {
+      console.log(user.currentUserType.toLowerCase());
+      console.log(newType);
+      if (user.currentUserType.toLowerCase() !== newType.toLowerCase()) {
         setIsPuting(true);
-        setUserType(type);
+        const res = await changeUserType(newType);
+        setUser(res);
+        setIsPuting(false);
       }
     }
-  }, [isPuting, setUserType, type, user]);
+  };
 
   return (
     <Flex {...props}>
@@ -41,7 +38,7 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
         bgColor={type === possibleType[0] ? 'brand.primary' : 'none'}
         cursor="pointer"
         _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
-        onClick={() => setType(possibleType[0])}
+        onClick={() => setUserType(possibleType[0])}
       >
         <Text fontFamily="Comfortaa" fontSize="sm" fontWeight="600">
           Freelance
@@ -58,7 +55,7 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
         cursor="pointer"
         bgColor={type === possibleType[1] ? 'brand.primary' : 'none'}
         _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
-        onClick={() => setType(possibleType[1])}
+        onClick={() => setUserType(possibleType[1])}
       >
         <Text fontFamily="Comfortaa" fontSize="sm" fontWeight="600">
           Company
