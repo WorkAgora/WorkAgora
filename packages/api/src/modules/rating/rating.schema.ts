@@ -27,7 +27,7 @@ export const RatingSchema = new Schema({
     type: String,
     required: true,
   },
-  txHash: {
+  cidIPFS: {
     type: String,
     required: true,
     hashKey: true,

@@ -6,15 +6,12 @@ import {NFTStorage} from "nft.storage";
 import * as console from "console";
 import {ethers} from "ethers";
 import * as process from "process";
-import {TokenInput} from "nft.storage/dist/src/lib/interface";
-import {Blob} from "node:buffer";
+import {Blob} from "buffer";
 
 @Injectable()
 export class RatingService {
-  constructor(
-    @InjectModel('Rating')
-    private readonly model: Model<Rating, RatingKey>
-  ) {}
+  constructor(@InjectModel('Rating') private readonly model: Model<Rating, RatingKey>) {
+  }
 
   async rateUser(ratingData: RatingDTO): Promise<Rating> {
     const ratingFormatted = {
@@ -24,51 +21,39 @@ export class RatingService {
       comment: ratingData.comment,
     }
 
-    // Initialize the NFTStorage client
-    const client = new NFTStorage({ token: process.env.NFT_STORAGE_API_TOKEN })
-
     // Sign the rating data with your private key
-    // const wallet = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY);
-    // const signedMessage = await wallet.signMessage(JSON.stringify(ratingFormatted));
+    const wallet = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY);
+    const signedMessage = await wallet.signMessage(JSON.stringify(ratingFormatted)).catch((e) => {
+      throw new HttpException(`Error signing the message: ${e.message}`, e.status || 500);
+    });
 
-
+    let blob: Blob;
     try {
-      const token: TokenInput = {
-        name: "JobContract",
-        description: "JobContract NFT",
-        image: new Blob(['hello world'], {type:'text/plain'}),
-        properties: {
-          data: ratingFormatted,
-          signature: "signedMessage",
-        }
-      }
+      blob = new Blob([`{"metadata": "${signedMessage}"`]);
     } catch (e) {
-      console.error(`Error creating token: ${e.message}`);
-      throw new HttpException("1-"+ e.message, e.status || 500);
+      throw new HttpException(`Error creating the blob: ${e.message}`, e.status || 500);
     }
 
     // Convert the signed message into a Blob and store it
-    // const {cid, car} = await NFTStorage.encodeNFT(token)
-    // const storedCid = await client.storeCar(car);
+    const {cid} = await NFTStorage.encodeBlob(blob).catch((e) => {
+      console.error(`Error encoding the blob: ${e.message}`);
+      throw new HttpException("2-" + e.message, e.status || 500);
+    });
 
-    // Create a new rating object with the transaction hash
+    // Create a new rating object with the cidIPFS
     const rating: Rating = {
       wallet: ratingData.wallet.toLowerCase(),
       walletReceiver: ratingData.walletReceiver.toLowerCase(),
       stars: ratingData.stars,
       comment: ratingData.comment,
-      cidIPFS: "cid.toString()"
+      cidIPFS: JSON.stringify(cid)
     };
-
-    // console.log("JSON.stringify(rating): ", JSON.stringify(rating));
-    // console.log("CID: ", cid.toString());
-
 
     // Save the rating object to DDB
     try {
       await this.model.create(rating);
     } catch (e) {
-      throw new HttpException("end-"+ e.message + ":" + JSON.stringify(rating), e.status || 500);
+      throw new HttpException(`Error saving in DB: ${e.message}-${JSON.stringify(rating)}`, e.status || 500);
     }
 
     return rating;
