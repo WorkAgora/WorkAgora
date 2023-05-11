@@ -10,12 +10,8 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const [isPuting, setIsPuting] = useState(false);
 
   const setUserType = async (newType: ViewType) => {
-    console.log(user);
-    console.log(isPuting);
     setType(newType);
     if (user && !isPuting) {
-      console.log(user.currentUserType.toLowerCase());
-      console.log(newType);
       if (user.currentUserType.toLowerCase() !== newType.toLowerCase()) {
         setIsPuting(true);
         const res = await changeUserType(newType);

@@ -3,7 +3,7 @@ import FreelanceInlineCard from '@workagora/front/components/card/FreelanceInlin
 import { SearchBarFilter } from '@workagora/front/components/landing/product/SearchBar';
 import { FC } from 'react';
 
-const offers = [1, 2, 3];
+const offers = [1, 2, 3, 4];
 
 const badges: SearchBarFilter[] = [
   {
@@ -28,7 +28,7 @@ const badges: SearchBarFilter[] = [
   }
 ];
 
-const FreelanceOffers: FC = () => {
+const CompanyOffers: FC = () => {
   return (
     <Flex flexDir="column" gap={4}>
       <Flex justifyContent="space-between" alignItems="center">
@@ -50,4 +50,4 @@ const FreelanceOffers: FC = () => {
   );
 };
 
-export default FreelanceOffers;
+export default CompanyOffers;

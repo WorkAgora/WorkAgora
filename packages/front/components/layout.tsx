@@ -54,13 +54,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
       color="neutral.black"
     >
       {!user && !isFetching && <SignupModal />}
-      <PerfectScrollbar
-        options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
-        onScrollY={handleScroll}
-      >
-        <Header />
-        {children}
-      </PerfectScrollbar>
+      <Header />
+      {children}
     </Container>
   );
 };

@@ -44,7 +44,7 @@ const DashboardMenu: FC = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <MotionFlex flexDir="column" w="245px" h="100%" py={10} px={8} rowGap={6}>
+      <MotionFlex flexDir="column" w="245px" h="100%" py={10} px={8} rowGap={6} position="fixed">
         {menuElement.map((v, k) => (
           <MotionButton
             key={k}

@@ -6,6 +6,8 @@ import CompanyOpportunities from './company/CompanyOpportunities';
 import FreelanceInformations from './freelance/FreelanceInformations';
 import FreelanceOffers from './freelance/FreelanceOffers';
 import FreelanceOpportunities from './freelance/FreelanceOpportunities';
+import CompanyInformations from './company/CompanyInformations';
+import CompanyOffers from './company/CompanyOffers';
 
 const MotionBox = motion(Box);
 
@@ -23,7 +25,6 @@ const DashboardMain: FC = () => {
       <Flex
         flexDir="column"
         w="100%"
-        h="100%"
         bgColor="neutral.white"
         px={8}
         py={6}
@@ -40,13 +41,15 @@ const DashboardMain: FC = () => {
               variants={contentVariants}
               transition={{ ease: 'easeInOut', duration: 0.3 }}
             >
-              <Flex flexDir="column" gap={8}>
-                <Box textStyle="h2" as="h1" w="100%" textAlign="center">
-                  {`Welcome home ${user?.firstname} ${user?.lastname}`}
+              <Flex flexDir="column" gap={4}>
+                <Box textStyle="h2" as="h1" w="100%" textAlign="left">
+                  Dashboard
                 </Box>
-                <FreelanceOpportunities />
-                <FreelanceInformations />
-                <FreelanceOffers />
+                <Flex flexDir="column" gap={6}>
+                  <FreelanceOpportunities />
+                  <FreelanceInformations />
+                  <FreelanceOffers />
+                </Flex>
               </Flex>
             </MotionBox>
           )}
@@ -59,11 +62,15 @@ const DashboardMain: FC = () => {
               variants={contentVariants}
               transition={{ ease: 'easeInOut', duration: 0.3 }}
             >
-              <Flex flexDir="column" gap={8}>
-                <Box textStyle="h2" as="h1" w="100%" textAlign="center">
-                  {`Welcome home ${user?.firstname} ${user?.lastname}`}
+              <Flex flexDir="column" gap={4}>
+                <Box textStyle="h2" as="h1" w="100%" textAlign="left">
+                  Dashboard
                 </Box>
-                <CompanyOpportunities />
+                <Flex flexDir="column" gap={6}>
+                  <CompanyOpportunities />
+                  <CompanyInformations />
+                  <CompanyOffers />
+                </Flex>
               </Flex>
             </MotionBox>
           )}

@@ -3,7 +3,7 @@ import DashboardCard from '../../../card/DashbordCard';
 import { FC } from 'react';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
 
-const FreelanceInformations: FC = () => {
+const CompanyInformations: FC = () => {
   return (
     <Flex flexDir="column" gap={4}>
       <Box textStyle="h4" as="h3" color="neutral.black">
@@ -13,12 +13,12 @@ const FreelanceInformations: FC = () => {
         <DashboardCard
           title="Complete your profile"
           subtitle="You'll be more attractive !"
-          theme="secondary"
+          theme="primary"
           button={
             <Button
               variant="link"
-              color="brand.primary"
-              _hover={{ color: 'brand.primaryHover' }}
+              color="brand.secondary"
+              _hover={{ color: 'brand.secondaryHover' }}
               rightIcon={
                 <Box ml={2}>
                   <ArrowRightIcon />
@@ -30,7 +30,7 @@ const FreelanceInformations: FC = () => {
           }
         />
         <DashboardCard
-          title="Contract realized"
+          title="Jobs done"
           theme="outlined"
           numberData={0}
           button={
@@ -49,7 +49,7 @@ const FreelanceInformations: FC = () => {
           }
         />
         <DashboardCard
-          title="Company that checked your profile !"
+          title="Freelancer that checked your profile !"
           theme="outlined"
           numberData={0}
         />
@@ -58,4 +58,4 @@ const FreelanceInformations: FC = () => {
   );
 };
 
-export default FreelanceInformations;
+export default CompanyInformations;

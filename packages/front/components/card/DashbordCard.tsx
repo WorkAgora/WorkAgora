@@ -32,7 +32,7 @@ const DashboardCard: FC<DashboardCardProps> = ({
     case 'primary':
       bgColor = 'brand.primary';
       titleColor = 'neutral.black';
-      subtitleColor = 'neutral.dsGray';
+      subtitleColor = 'neutral.dsDarkGray';
       borderColor = 'brand.primary';
       break;
     case 'outlined':
