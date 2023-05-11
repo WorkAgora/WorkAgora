@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsIn } from 'class-validator';
+import {UserTypeEnum} from "../../../../utils/src/index";
 
 export class ChangeUserTypeDTO {
   @ApiProperty({
@@ -9,6 +10,6 @@ export class ChangeUserTypeDTO {
     example: 'freelance'
   })
   @IsString()
-  @IsIn(['freelance', 'company'])
+  @IsIn(Object.values(UserTypeEnum))
   userType: string;
 }

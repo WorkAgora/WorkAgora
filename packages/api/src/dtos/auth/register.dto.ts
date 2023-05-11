@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsEmail, IsEthereumAddress, IsIn, IsString } from 'class-validator';
 import { IsTrue } from '../../validators/isTrue';
 import { LoginDTO } from './login.dto';
+import {UserTypeEnum} from "../../../../utils/src/index";
 
 export class RegisterDTO extends LoginDTO {
   @ApiProperty({ type: String, required: true })
@@ -22,7 +23,7 @@ export class RegisterDTO extends LoginDTO {
 
   @ApiProperty({ type: String, required: true })
   @IsString()
-  @IsIn(['freelance', 'company'])
+  @IsIn(Object.values(UserTypeEnum))
   currentUserType: string;
 
   @ApiProperty({ type: Boolean, required: true })

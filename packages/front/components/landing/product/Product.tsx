@@ -1,23 +1,24 @@
-import { Flex } from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
-import { FC } from 'react';
+import {Flex} from '@chakra-ui/react';
+import {useLanding} from '@workagora/front-provider';
+import {FC} from 'react';
 import ProductCompany from './company/ProductCompany';
 import ProductFreelance from './freelance/ProductFreelance';
-import { InView } from 'react-intersection-observer';
+import {InView} from 'react-intersection-observer';
 import SearchBar from './SearchBar';
 import Gallery from './Gallery';
 import Partners from './Partners';
+import {UserTypeEnum} from "@workagora/utils";
 
 const Product: FC = () => {
-  const { type, possibleType, handleViewChange } = useLanding();
+  const { type, handleViewChange } = useLanding();
 
   let topContent = <></>;
 
-  if (type == possibleType[0]) {
+  if (type == UserTypeEnum.Freelancer) {
     topContent = <ProductFreelance />;
   }
 
-  if (type == possibleType[1]) {
+  if (type == UserTypeEnum.Company) {
     topContent = <ProductCompany />;
   }
 

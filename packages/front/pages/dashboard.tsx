@@ -7,7 +7,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 
 const Dashboard: NextPage = () => {
   const { view } = useDashboard();
-  const { type, possibleType, handleScroll } = useLanding();
+  const { type, handleScroll } = useLanding();
 
   let content = <></>;
 

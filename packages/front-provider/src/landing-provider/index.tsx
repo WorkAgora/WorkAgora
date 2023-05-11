@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
+import { UserTypeEnum } from '@workagora/utils';
 
-const possibleType: string[] = ['freelance', 'company'];
-
-export type ViewType = (typeof possibleType)[number];
+export type ViewType = UserTypeEnum;
 
 type LandingContextInterface = {
   type: ViewType;
@@ -17,7 +16,7 @@ type LandingContextInterface = {
 };
 
 export const LandingContext = createContext<LandingContextInterface>({
-  type: possibleType[0],
+  type: UserTypeEnum.Freelancer,
   currentView: '',
   signupModalOpen: false,
   hasScroll: false,
@@ -28,7 +27,7 @@ export const LandingContext = createContext<LandingContextInterface>({
 });
 
 export const LandingProvider = ({ children }: { children: ReactNode }) => {
-  const [type, setType] = useState<ViewType>(possibleType[0]);
+  const [type, setType] = useState<ViewType>(UserTypeEnum.Freelancer);
   const [currentView, setCurrentView] = useState<string>('');
   const [signupModalOpen, setSignupModalOpen] = useState(false);
   const [hasScroll, setHasScroll] = useState(false);
@@ -79,7 +78,6 @@ export function useLanding() {
 
   return {
     type,
-    possibleType,
     currentView,
     signupModalOpen,
     hasScroll,

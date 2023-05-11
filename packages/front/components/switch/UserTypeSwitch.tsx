@@ -1,15 +1,15 @@
 import { Box, Flex, FlexProps, Text } from '@chakra-ui/react';
-import { useCurrentUser, useLanding, ViewType } from '@workagora/front-provider';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { changeUserType } from '../../services/user';
 import { FC, useState } from 'react';
-import { cp } from 'fs/promises';
+import { UserTypeEnum } from '@workagora/utils';
 
 const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
-  const { setType, type, possibleType } = useLanding();
+  const { setType, type } = useLanding();
   const { user, setUser } = useCurrentUser();
   const [isPuting, setIsPuting] = useState(false);
 
-  const setUserType = async (newType: ViewType) => {
+  const setUserType = async (newType: UserTypeEnum) => {
     setType(newType);
     if (user && !isPuting) {
       if (user.currentUserType.toLowerCase() !== newType.toLowerCase()) {
@@ -31,10 +31,10 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
         transition="all ease-in-out 250ms"
         py={1.5}
         px={4}
-        bgColor={type === possibleType[0] ? 'brand.primary' : 'none'}
+        bgColor={type === UserTypeEnum.Freelancer ? 'brand.primary' : 'none'}
         cursor="pointer"
         _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
-        onClick={() => setUserType(possibleType[0])}
+        onClick={() => setUserType(UserTypeEnum.Freelancer)}
       >
         <Text fontFamily="Comfortaa" fontSize="sm" fontWeight="600">
           Freelance
@@ -49,9 +49,9 @@ const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
         py={1.5}
         px={4}
         cursor="pointer"
-        bgColor={type === possibleType[1] ? 'brand.primary' : 'none'}
+        bgColor={type === UserTypeEnum.Company ? 'brand.primary' : 'none'}
         _hover={{ bgColor: 'brand.primaryHover', borderColor: 'brand.primaryHover' }}
-        onClick={() => setUserType(possibleType[1])}
+        onClick={() => setUserType(UserTypeEnum.Company)}
       >
         <Text fontFamily="Comfortaa" fontSize="sm" fontWeight="600">
           Company

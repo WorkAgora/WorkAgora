@@ -1,16 +1,14 @@
 import { Container } from '@chakra-ui/react';
-import { useCurrentUser, useLanding } from '@workagora/front-provider';
+import { useCurrentUser } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { checkUserLogged } from '../services/user';
 import Header from './header/Header';
 import SignupModal from './modal/SignupModal';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useRouter } from 'next/router';
 
-export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
+export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const { user, setUser } = useCurrentUser();
-  const { handleScroll } = useLanding();
   const [isFetching, setIsFetching] = useState(true);
   const authenticatedCookie = Cookies.get('authenticated');
   const { pathname, push } = useRouter();
@@ -60,4 +58,4 @@ export const Layout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) =
   );
 };
 
-export default Layout;
+export default GlobalLayout;

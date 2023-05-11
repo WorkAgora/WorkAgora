@@ -2,6 +2,7 @@ import { Button, Flex } from '@chakra-ui/react';
 import { useDashboard, useLanding } from '@workagora/front-provider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
+import {UserTypeEnum} from "@workagora/utils";
 
 interface MenuElement {
   view: string;
@@ -31,14 +32,14 @@ const menuVariants = {
 };
 
 const DashboardMenu: FC = () => {
-  const { type, possibleType } = useLanding();
+  const { type } = useLanding();
   const { view } = useDashboard();
 
   let menuElement: MenuElement[] = [];
-  if (type === possibleType[0]) {
+  if (type === UserTypeEnum.Freelancer) {
     menuElement = freelanceMenu;
   }
-  if (type === possibleType[1]) {
+  if (type === UserTypeEnum.Company) {
     menuElement = companyMenu;
   }
 

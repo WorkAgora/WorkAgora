@@ -1,22 +1,13 @@
-import {
-  Controller,
-  Inject,
-  Get,
-  Param,
-  HttpException,
-  UseGuards,
-  Put,
-  Body,
-  Req
-} from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { User } from './user.interface';
-import { UserDTO } from '../../dtos/user/user.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
-import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
-import { Request } from 'express';
+import {Body, Controller, Get, HttpException, Inject, Param, Put, Req, UseGuards} from '@nestjs/common';
+import {ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
+import {UserService} from './user.service';
+import {User} from './user.interface';
+import {UserDTO} from '../../dtos/user/user.dto';
+import {JwtAuthGuard} from '../auth/jwt.guard';
+import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
+import {Request} from 'express';
 import {ChangeUserTypeDTO} from "../../dtos/user/change-user-type-dto";
+import {UserTypeEnum} from "../../../../utils/src/index";
 
 @ApiTags('User')
 @Controller('user')
@@ -122,13 +113,13 @@ export class UserController {
     }
     try {
       // Update the profile based on the currentUserType
-      if (updatedProfile.currentUserType === 'freelance') {
+      if (updatedProfile.currentUserType === UserTypeEnum.Freelancer) {
         // Update FreelancerProfile
         return await this.userService.updateFreelancerProfile(
           updatedProfile.wallet.toLowerCase(),
           updatedProfile.freelanceProfile
         );
-      } else if (updatedProfile.currentUserType === 'company') {
+      } else if (updatedProfile.currentUserType === UserTypeEnum.Company) {
         // Update EmployerProfile
         return await this.userService.updateEmployerProfile(
           updatedProfile.wallet.toLowerCase(),
@@ -164,9 +155,9 @@ export class UserController {
   })
   async changeUserType(
     @Req() req: Request,
-    @Body('userType') userType: string
+    @Body('userType') userType: UserTypeEnum
   ): Promise<UserDTO> {
-    if (['freelance', 'company'].indexOf(userType) === -1) {
+    if (!Object.values(UserTypeEnum).includes(userType)) {
       throw new HttpException('Invalid user type', 400);
     }
     try {

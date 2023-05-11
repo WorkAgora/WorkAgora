@@ -1,17 +1,18 @@
 import { Box } from '@chakra-ui/react';
 import { useLanding } from '@workagora/front-provider';
+import { UserTypeEnum } from '@workagora/utils';
 import { FC } from 'react';
 import ProductIllustrationCompany from './company/ProductIllustrationCompany';
 import ProductIllustrationFreelance from './freelance/ProductIllustrationFreelance';
 
 const ProductIllustration: FC = () => {
-  const { type, possibleType } = useLanding();
+  const { type } = useLanding();
 
   let illustration = <></>;
-  if (type == possibleType[0]) {
+  if (type == UserTypeEnum.Freelancer) {
     illustration = <ProductIllustrationFreelance />;
   }
-  if (type === possibleType[1]) {
+  if (type === UserTypeEnum.Company) {
     illustration = <ProductIllustrationCompany />;
   }
 
