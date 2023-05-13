@@ -1,87 +1,64 @@
-import { ethers } from "hardhat";
-import { Wallet } from "ethers";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { ContractsType, expectThrowsAsync, getContractAt } from "./utils";
-import { Employer, UserManager } from "../typechain-types/UserSystem/UserManager/UserManager.sol";
-import { ReputationCard } from "../typechain-types/UserSystem/Reputation/ReputationCard.sol";
-
-let userManager: UserManager;
-const kycSystem = new Wallet('0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776');
-const kycId = '0a0a0a0a-1b1b1b1b-2c2c2c2c-3c3c3c3c';
-const userAddress = '0xAC688F514468a753894893e5463938896EFF81b4'
+import { KYC_SYSTEM_PV_KEY, deployBaseContracts, expectThrowsAsync, signMessage, usersInfo, verifyUsers } from "./utils";
+import { Role } from "./types";
 
 describe("User verification", () => {
-  beforeEach(async () => {
-    // Deploy User contract
-    const userManagerFactory = await ethers.getContractFactory("UserManager");
-    userManager = await userManagerFactory.deploy() as UserManager;
-    await userManager.initialize(kycSystem.address);
-  });
-
   it("Should allow a user to verify themselves with a valid signature and emit an event", async () => {
-    const messageHash = ethers.utils.solidityKeccak256(['address', 'string'], [userAddress, kycId]);
-    const signature = await kycSystem.signMessage(ethers.utils.arrayify(messageHash));
+    const { user } = await loadFixture(deployBaseContracts);
+    const signature = await signMessage(KYC_SYSTEM_PV_KEY, ['address', usersInfo[0].pubKey], ['string', usersInfo[0].kycId]);
 
-    expect(await userManager.isUserVerified(userAddress)).to.equal(false);
-    await expect(userManager.verifyUser(userAddress, kycId, signature))
-      .to.emit(userManager, "UserVerified")
-      .withArgs(userAddress);
-    expect(await userManager.isUserVerified(userAddress)).to.equal(true);
+    expect(await user.isUserVerified(usersInfo[0].pubKey)).to.equal(false);
+    await expect(user.verifyUser(usersInfo[0].pubKey, usersInfo[0].kycId, signature))
+      .to.emit(user, "UserVerified")
+      .withArgs(usersInfo[0].pubKey);
+    expect(await user.isUserVerified(usersInfo[0].pubKey)).to.equal(true);
   });
 
   it("Should reject a user with an invalid signature", async () => {
-    const messageHash = ethers.utils.solidityKeccak256(['address', 'string'], [userAddress, kycId]);
-    const signature = await Wallet.createRandom().signMessage(ethers.utils.arrayify(messageHash));
+    const { user } = await loadFixture(deployBaseContracts);
+    const signature = await signMessage(KYC_SYSTEM_PV_KEY, ['address', usersInfo[0].pubKey], ['string', usersInfo[0].kycId]);
 
-    expect(await userManager.isUserVerified(userAddress)).to.equal(false);
-    await expectThrowsAsync(() => userManager.verifyUser(userAddress, kycId, signature), 'invalid signature');
-  });
-
-  it("Should not allow a user to verify themselves twice", async () => {
-    const messageHash = ethers.utils.solidityKeccak256(['address', 'string'], [userAddress, kycId]);
-    const signature = await kycSystem.signMessage(ethers.utils.arrayify(messageHash));
-
-    expect(await userManager.isUserVerified(userAddress)).to.equal(false);
-    await userManager.verifyUser(userAddress, kycId, signature);
-    expect(await userManager.isUserVerified(userAddress)).to.equal(true);
-    await expectThrowsAsync(() => userManager.verifyUser(userAddress, kycId, signature), 'already verified');
+    expect(await user.isUserVerified(usersInfo[0].pubKey)).to.equal(false);
+    await expectThrowsAsync(() => user.verifyUser(usersInfo[0].pubKey, usersInfo[1].kycId, signature), 'Invalid signature');
   });
 
   it("Should retrieve the kycId of a user after verification", async () => {
-    const messageHash = ethers.utils.solidityKeccak256(['address', 'string'], [userAddress, kycId]);
-    const signature = await kycSystem.signMessage(ethers.utils.arrayify(messageHash));
+    const { user } = await loadFixture(deployBaseContracts);
+    await verifyUsers(user, usersInfo[0]);
 
-    expect(await userManager.isUserVerified(userAddress)).to.equal(false);
-    await userManager.verifyUser(userAddress, kycId, signature);
-    expect(await userManager.isUserVerified(userAddress)).to.equal(true);
+    const kycId = (await user.verifiedUsers(usersInfo[0].pubKey)).kycId;
+    expect(kycId).to.equal(kycId);
+  });
 
-    expect(await userManager.verifiedUsers(userAddress)).to.equal(kycId);
+  it("Should properly assign ids to users", async () => {
+    const { user } = await loadFixture(deployBaseContracts);
+    await verifyUsers(user, usersInfo[0], usersInfo[1]);
+    const employer1Id = (await user.verifiedUsers(usersInfo[0].pubKey)).employerId;
+    const contractor1Id = (await user.verifiedUsers(usersInfo[0].pubKey)).contractorId;
+    const employer2Id = (await user.verifiedUsers(usersInfo[1].pubKey)).employerId;
+    const contractor2Id = (await user.verifiedUsers(usersInfo[1].pubKey)).contractorId;
+    expect(employer1Id).to.equal(1);
+    expect(contractor1Id).to.equal(2);
+    expect(employer2Id).to.equal(3);
+    expect(contractor2Id).to.equal(4);
+  });
+
+  it("Should not allow a user to verify themselves twice", async () => {
+    const { user } = await loadFixture(deployBaseContracts);
+    const [{ signature }] = await verifyUsers(user, usersInfo[0]);
+    await expectThrowsAsync(() => user.verifyUser(usersInfo[0].pubKey, usersInfo[0].kycId, signature), 'Already verified');
   });
 });
 
 describe("User reputation", () => {
-  beforeEach(async () => {
-    // Deploy User contract
-    const userManagerFactory = await ethers.getContractFactory("UserManager");
-    userManager = await userManagerFactory.deploy() as UserManager;
-    await userManager.initialize(kycSystem.address);
-  });
-
   it("Fresh accounts should have 0 reviews and 0 reputation", async () => {
-    const messageHash = ethers.utils.solidityKeccak256(['address', 'string'], [userAddress, kycId]);
-    
-    const signature = await kycSystem.signMessage(ethers.utils.arrayify(messageHash));
+    const { user } = await loadFixture(deployBaseContracts);
+    await verifyUsers(user, usersInfo[0]);
 
-    await userManager.verifyUser(userAddress, kycId, signature);
-    const employerProfileAddr = await userManager.Employers(userAddress);
-    const employer = await getContractAt<Employer>(ContractsType.Employer, employerProfileAddr);
-    
-    const reputationCardAddr = await employer.getReputationCard();
-    const reputationCard = await getContractAt<ReputationCard>(ContractsType.ReputationCard, reputationCardAddr);
-
-    const reputation = await reputationCard.getReputation();
-    const reviews = await reputationCard.getReviewsCount();
-    expect(reputation).to.equal(0);
-    expect(reviews).to.equal(0);
+    const employerRep = await user.getReputation(usersInfo[0].pubKey, Role.Employer);
+    const contractorRep = await user.getReputation(usersInfo[0].pubKey, Role.Contractor);
+    expect(employerRep).to.equal(0);
+    expect(contractorRep).to.equal(0);
   });
 });

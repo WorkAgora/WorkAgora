@@ -1,81 +1,67 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "../UserManager/UserManager.sol";
-import "../../JobContract/JobContract.sol";
+import '../UserManager/UserManager.sol';
+import '../../JobContract/JobContract.sol';
 
 interface IReputationCard {
-    // Update the reputation score with the given amount (positive or negative)
-    function updateReputation(int256 _amount) external;
-
-    // Get the current reputation score
-    function getReputation() external view returns (uint256);
-
-    // Add a review with the given rating, message, and associated JobContract
-    // Ensures that the user has not reviewed the JobContract before
-    function addReview(
-        uint8 _rating,
-        string calldata _message,
-        JobContract _jobContract
-    ) external;
-
-    // Get the review at the specified index
-    function getReview(uint256 _index) external view returns (uint8 rating, bytes32 messageHash, JobContract jobContract);
-
-    // Get the total number of reviews
-    function getReviewsCount() external view returns (uint256);
+    // TODO
 }
 
 contract ReputationCard is IReputationCard {
     struct Review {
+        address reviewer;
         uint8 rating;
         bytes32 messageHash;
-        JobContract jobContract;
+        uint256 jobContractId;
     }
 
-    uint256 private reputation;
-    Review[] private reviews;
-    mapping(JobContract => bool) private reviewedContracts;
+    mapping(uint256 => uint256) public reputation;
+    mapping(address => Review[]) public reviews;
+    mapping(address => mapping(uint256 => bool)) private reviewedContracts;
 
-    constructor() {
-        reputation = 0;
-    }
-
-    function updateReputation(int256 _amount) external override {
+    function updateReputation(uint256 _userId, int256 _amount) external {
+        uint256 rep = reputation[_userId];
         if (_amount < 0) {
             uint256 absAmount = uint256(-_amount);
-            if (absAmount > reputation) {
-                reputation = 0;
+            if (absAmount > rep) {
+                rep = 0;
             } else {
-                reputation -= absAmount;
+                rep -= absAmount;
             }
         } else {
-            reputation += uint256(_amount);
+            rep += uint256(_amount);
         }
-    }
-
-    function getReputation() external view override returns (uint256) {
-        return reputation;
+        reputation[_userId] = rep;
     }
 
     function addReview(
+        address _address,
         uint8 _rating,
         string calldata _message,
-        JobContract _jobContract
+        uint256 _jobContractId
     ) external {
-        require(_rating >= 0 && _rating <= 5, "rating must be between 0 and 5");
-        require(!reviewedContracts[_jobContract], "jobContract already reviewed");
+        require(_rating >= 0 && _rating <= 5, 'rating must be between 0 and 5');
+        require(!reviewedContracts[_address][_jobContractId], 'jobContract already reviewed');
         bytes32 messageHash = keccak256(abi.encodePacked(_message));
-        reviews.push(Review(_rating, messageHash, _jobContract));
+        reviews[_address].push(Review(msg.sender, _rating, messageHash, _jobContractId));
+        reviewedContracts[_address][_jobContractId] = true;
     }
 
-    function getReview(uint256 _index) public view returns (uint8 rating, bytes32 messageHash, JobContract jobContract) {
-        require(_index < reviews.length, "index out of bounds");
-        Review storage review = reviews[_index];
-        return (review.rating, review.messageHash, review.jobContract);
+    function getReview(
+        address _address,
+        uint256 _index
+    )
+        public
+        view
+        returns (address reviewer, uint8 rating, bytes32 messageHash, uint256 jobContractId)
+    {
+        require(_index < reviews[_address].length, 'index out of bounds');
+        Review storage review = reviews[_address][_index];
+        return (review.reviewer, review.rating, review.messageHash, review.jobContractId);
     }
 
-    function getReviewsCount() public view returns (uint256) {
-        return reviews.length;
+    function getReviewsCount(address _address) public view returns (uint256) {
+        return reviews[_address].length;
     }
 }

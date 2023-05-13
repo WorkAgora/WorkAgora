@@ -1,4 +1,4 @@
-# UserManager
+# User
 
 
 
@@ -10,10 +10,44 @@
 
 ## Methods
 
-### Contractors
+### contractor
 
 ```solidity
-function Contractors(address) external view returns (address)
+function contractor() external view returns (contract Contractor)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | contract Contractor | undefined |
+
+### employer
+
+```solidity
+function employer() external view returns (contract Employer)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | contract Employer | undefined |
+
+### getReputation
+
+```solidity
+function getReputation(address _address, enum User.Role _role) external view returns (uint256)
 ```
 
 
@@ -24,40 +58,19 @@ function Contractors(address) external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined |
+| _address | address | undefined |
+| _role | enum User.Role | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined |
-
-### Employers
-
-```solidity
-function Employers(address) external view returns (address)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
+| _0 | uint256 | undefined |
 
 ### initialize
 
 ```solidity
-function initialize(address _kycSystem) external nonpayable
+function initialize(address _kycSystem, address _reputationCard, address _employer, address _contractor) external nonpayable
 ```
 
 
@@ -69,6 +82,9 @@ function initialize(address _kycSystem) external nonpayable
 | Name | Type | Description |
 |---|---|---|
 | _kycSystem | address | undefined |
+| _reputationCard | address | undefined |
+| _employer | address | undefined |
+| _contractor | address | undefined |
 
 ### isUserVerified
 
@@ -109,10 +125,27 @@ function kycSystem() external view returns (address)
 |---|---|---|
 | _0 | address | undefined |
 
+### reputationCard
+
+```solidity
+function reputationCard() external view returns (contract ReputationCard)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | contract ReputationCard | undefined |
+
 ### verifiedUsers
 
 ```solidity
-function verifiedUsers(address) external view returns (string)
+function verifiedUsers(address) external view returns (string kycId, uint256 employerId, uint256 contractorId)
 ```
 
 
@@ -129,7 +162,9 @@ function verifiedUsers(address) external view returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined |
+| kycId | string | undefined |
+| employerId | uint256 | undefined |
+| contractorId | uint256 | undefined |
 
 ### verifyUser
 
