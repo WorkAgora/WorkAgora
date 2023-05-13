@@ -14,16 +14,16 @@ const MotionButton = motion(Button);
 
 const companyMenu: MenuElement[] = [
   { view: 'dashboard', label: 'Dashboard' },
-  { view: 'recruitment', label: 'Recruitment' },
-  { view: 'community', label: 'Contracts' },
-  { view: 'contact', label: 'My profile' }
+  { view: 'offers', label: 'Find profiles' },
+  { view: 'jobs', label: 'Contracts' },
+  { view: 'profile', label: 'My profile' }
 ];
 
 const freelanceMenu: MenuElement[] = [
   { view: 'dashboard', label: 'Dashboard' },
   { view: 'offers', label: 'Find work' },
   { view: 'jobs', label: 'Contracts' },
-  { view: 'contact', label: 'My profile' }
+  { view: 'profile', label: 'My profile' }
 ];
 
 const menuVariants = {

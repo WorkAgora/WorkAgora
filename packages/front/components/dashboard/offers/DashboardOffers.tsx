@@ -3,6 +3,12 @@ import { useLanding } from "@workagora/front-provider";
 import { UserTypeEnum } from "@workagora/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { FC } from "react";
+import FreelanceTop from "./freelance/FreelanceTop";
+import FreelanceSearchBar from "./freelance/FreelanceSearchBar";
+import FreelanceGallery from "./freelance/FreelanceGallery";
+import CompanyTop from "./company/CompanyTop";
+import CompanySearchBar from "./company/CompanySearchBar";
+import CompanyGallery from "./freelance/FreelanceGallery";
 
 const MotionBox = motion(Box);
 
@@ -43,7 +49,9 @@ const DashboardOffers: FC = () => {
                   Find work
                 </Box>
                 <Flex flexDir="column" gap={6}>
-             
+                   <FreelanceTop />
+                   <FreelanceSearchBar />
+                   <FreelanceGallery />
                 </Flex>
               </Flex>
             </MotionBox>
@@ -59,10 +67,12 @@ const DashboardOffers: FC = () => {
             >
               <Flex flexDir="column" gap={4}>
                 <Box textStyle="h2" as="h1" w="100%" textAlign="left">
-                  Find freelancer
+                  Find profiles
                 </Box>
                 <Flex flexDir="column" gap={6}>
-
+                    <CompanyTop/>
+                    <CompanySearchBar/>
+                    <CompanyGallery/>
                 </Flex>
               </Flex>
             </MotionBox>
