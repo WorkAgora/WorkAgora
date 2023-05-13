@@ -14,13 +14,12 @@ import '../assets/scrollbar.css';
 //Import font
 import '@fontsource/comfortaa';
 import '@fontsource/montserrat';
+import CustomHead from '../components/CustomHead';
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Head>
-        <title>WorkAgora</title>
-      </Head>
+      <CustomHead />
       <ChakraProvider resetCSS theme={darkTheme}>
         <WagmiProvider>
           <CurrentUserProvider>
