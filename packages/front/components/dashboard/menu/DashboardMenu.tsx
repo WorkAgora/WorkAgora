@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useDashboard, useLanding } from '@workagora/front-provider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
@@ -21,8 +21,8 @@ const companyMenu: MenuElement[] = [
 
 const freelanceMenu: MenuElement[] = [
   { view: 'dashboard', label: 'Dashboard' },
-  { view: 'technology', label: 'Offers' },
-  { view: 'community', label: 'Contracts' },
+  { view: 'offers', label: 'Find work' },
+  { view: 'jobs', label: 'Contracts' },
   { view: 'contact', label: 'My profile' }
 ];
 
@@ -33,7 +33,7 @@ const menuVariants = {
 
 const DashboardMenu: FC = () => {
   const { type } = useLanding();
-  const { view } = useDashboard();
+  const { view, setView } = useDashboard();
 
   let menuElement: MenuElement[] = [];
   if (type === UserTypeEnum.Freelancer) {
@@ -46,6 +46,14 @@ const DashboardMenu: FC = () => {
   return (
     <AnimatePresence mode="wait">
       <MotionFlex flexDir="column" w="245px" h="100%" py={10} px={8} rowGap={6} position="fixed">
+        <Flex alignItems='center'>
+          <Box w='48px' h='48px'>
+            <Avatar />
+          </Box>
+          <Text ml={2} fontSize='14px' fontWeight='700' lineHeight='120%' color='neutral.black' fontFamily='Comfortaa'>
+            John Doe
+          </Text>
+        </Flex>
         {menuElement.map((v, k) => (
           <MotionButton
             key={k}
@@ -55,6 +63,7 @@ const DashboardMenu: FC = () => {
             variants={menuVariants}
             transition={{ ease: 'easeInOut', duration: 0.3 }}
             variant={view === v.view ? 'primary' : 'link'}
+            onClick={() => setView(v.view)}
           >
             {v.label}
           </MotionButton>
