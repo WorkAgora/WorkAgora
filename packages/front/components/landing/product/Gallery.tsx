@@ -5,7 +5,7 @@ import FreelanceCard from '../../card/FreelanceCard';
 import {SearchBarFilter} from './SearchBar';
 import {UserTypeEnum} from "@workagora/utils";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
@@ -46,7 +46,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   return (
     <Flex w="100%" flexDir="column" position="relative" pb={6}>
       <SimpleGrid
-        columns={3}
+        columns={2}
         spacing={8}
         w="100%"
         position="relative"
@@ -56,10 +56,10 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
       >
         {cards.map((v, k) => {
           if (type == UserTypeEnum.Freelancer) {
-            return <FreelanceCard key={k} badges={badges} blurred={k >= 9} />;
+            return <FreelanceCard key={k} badges={badges} blurred={k >= 6} />;
           }
           if (type == UserTypeEnum.Company) {
-            return <FreelanceCard key={k} badges={badges} blurred={k >= 9} />;
+            return <FreelanceCard key={k} badges={badges} blurred={k >= 6} />;
           }
         })}
       </SimpleGrid>

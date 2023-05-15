@@ -1,9 +1,9 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
-import FreelanceInlineCard from '@workagora/front/components/card/FreelanceInlineCard';
-import { SearchBarFilter } from '@workagora/front/components/landing/product/SearchBar';
+import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import FreelanceCard from '../../../card/FreelanceCard';
+import { SearchBarFilter } from '../../../landing/product/SearchBar';
 import { FC } from 'react';
 
-const offers = [1, 2, 3];
+const offers = [1, 2, 3, 4];
 
 const badges: SearchBarFilter[] = [
   {
@@ -33,7 +33,7 @@ const FreelanceOffers: FC = () => {
     <Flex flexDir="column" gap={4}>
       <Flex justifyContent="space-between" alignItems="center">
         <Box textStyle="h4" as="h3" color="neutral.black">
-          Some offers that might interest you
+          Other jobs that match your interests
         </Box>
         <Box>
           <Button variant="link" p={0}>
@@ -41,10 +41,14 @@ const FreelanceOffers: FC = () => {
           </Button>
         </Box>
       </Flex>
-      <Flex flexDir="column" gap={2}>
+      <Flex flexDir="column">
+      <SimpleGrid columns={2}
+        spacing={8}
+        w="100%">
         {offers.map((v, k) => (
-          <FreelanceInlineCard key={k} badges={badges} />
+          <FreelanceCard key={k} badges={badges} />
         ))}
+        </SimpleGrid>
       </Flex>
     </Flex>
   );

@@ -91,7 +91,8 @@ const baseStyle = {
   fontWeight: '700',
   fontFamily: 'Comfortaa',
   transition: 'all ease-in-out 250ms',
-  borderRadius: '32px'
+  borderRadius: '32px',
+  lineHeight: '100%'
 };
 
 const buttonTheme: ComponentStyleConfig = defineStyleConfig({

@@ -22,10 +22,11 @@ const DashboardMain: FC = () => {
   };
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%">
+    <Flex px={6} flexDir="column" w="100%" h="100%" minH='calc( 100vh - 80px )'>
       <Flex
         flexDir="column"
         w="100%"
+        flexGrow='1'
         bgColor="neutral.white"
         px={8}
         py={6}
