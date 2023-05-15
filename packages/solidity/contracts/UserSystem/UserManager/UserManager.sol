@@ -11,8 +11,8 @@ interface IUser {
     // // Event emitted when a user is successfully verified
     event UserVerified(address indexed _address);
 
-    // // Initializes the User contract with the given kycSystem address
-    // function initialize(address _kycSystem) external;
+    // // Initializes the User contract with the given authority address
+    // function initialize(address _authority) external;
 
     // // Verifies a user using their wallet address, KYC ID, and a signature
     // // The signature should be signed by the KYC system to ensure validity
@@ -35,7 +35,7 @@ contract User is IUser {
 
     uint256 private idCounter;
 
-    address public kycSystem;
+    address public authority;
     ReputationCard public reputationCard;
     Employer public employer;
     Contractor public contractor;
@@ -59,19 +59,19 @@ contract User is IUser {
     }
 
     function initialize(
-        address _kycSystem,
+        address _authority,
         ReputationCard _reputationCard,
         Employer _employer,
         Contractor _contractor,
         JobContract _jobContract
     ) external {
-        require(kycSystem == address(0), 'Already initialized');
+        require(authority == address(0), 'Already initialized');
         reputationCard = ReputationCard(_reputationCard);
         employer = Employer(_employer);
         contractor = Contractor(_contractor);
         jobContract = JobContract(_jobContract);
         jobContract.initialize(this);
-        kycSystem = _kycSystem;
+        authority = _authority;
     }
 
     function verifyUser(
@@ -82,7 +82,7 @@ contract User is IUser {
         require(!isUserVerified(_address), 'Already verified');
         bytes32 messagehash = keccak256(abi.encodePacked(_address, _kycId));
         require(
-            messagehash.toEthSignedMessageHash().recover(_signature) == kycSystem,
+            messagehash.toEthSignedMessageHash().recover(_signature) == authority,
             'Invalid signature'
         );
         verifiedUsers[_address] = UserInfo(_kycId, ++idCounter, ++idCounter);

@@ -10,6 +10,23 @@
 
 ## Methods
 
+### authority
+
+```solidity
+function authority() external view returns (address)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
 ### contractor
 
 ```solidity
@@ -70,7 +87,7 @@ function getReputation(address _address, enum User.Role _role) external view ret
 ### initialize
 
 ```solidity
-function initialize(address _kycSystem, contract ReputationCard _reputationCard, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
+function initialize(address _authority, contract ReputationCard _reputationCard, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
 ```
 
 
@@ -81,7 +98,7 @@ function initialize(address _kycSystem, contract ReputationCard _reputationCard,
 
 | Name | Type | Description |
 |---|---|---|
-| _kycSystem | address | undefined |
+| _authority | address | undefined |
 | _reputationCard | contract ReputationCard | undefined |
 | _employer | contract Employer | undefined |
 | _contractor | contract Contractor | undefined |
@@ -125,23 +142,6 @@ function jobContract() external view returns (contract JobContract)
 | Name | Type | Description |
 |---|---|---|
 | _0 | contract JobContract | undefined |
-
-### kycSystem
-
-```solidity
-function kycSystem() external view returns (address)
-```
-
-
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
 
 ### reputationCard
 

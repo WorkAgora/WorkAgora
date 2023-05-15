@@ -4,40 +4,9 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract, ReputationCard, User } from "../../typechain-types";
 import { Wallet } from "ethers";
 
-// Types
-type UserTestInfo = {
-    pubKey: string;
-    kycId: string;
-};
-
-type address = string;
-
-export type JobContractMetadata = { // JM
-    guid: string,
-    price: number,
-    description: string,
-    employerWallet: address,
-    contractorWallet: address,
-    // add more fields...
-}
-
-export enum ContractsType {
-    User = 'User',
-    Contractor = 'Contractor',
-    Employer = 'Employer',
-    ReputationCard = 'ReputationCard',
-}
-
-// User
-export enum Role {
-    Employer = 0,
-    Contractor = 1,
-}
-
-
 // Constants
-export const KYC_SYSTEM_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
-export const KYC_SYSTEM_WALLET = new Wallet(KYC_SYSTEM_PV_KEY);
+export const BACKEND_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
+export const BACKEND_WALLET = new Wallet(BACKEND_PV_KEY);
 export const usersInfo: UserTestInfo[] = [
     {
         // user 1
@@ -49,6 +18,19 @@ export const usersInfo: UserTestInfo[] = [
         kycId: '4d4d4d4d-5e5e5e5e-6f6f6f6f-7g7g7g7g',
     }
 ];
+
+// Types
+export type UserTestInfo = {
+    pubKey: string;
+    kycId: string;
+};
+
+export enum ContractsType {
+    User = 'User',
+    Contractor = 'Contractor',
+    Employer = 'Employer',
+    ReputationCard = 'ReputationCard',
+}
 
 // Methods
 export async function deployContract<T>(name: string) {
@@ -65,20 +47,9 @@ export async function deployBaseContracts() {
     const employer = await deployContract<Employer>("Employer");
     const contractor = await deployContract<Contractor>("Contractor");
     const jobContract = await deployContract<JobContract>("JobContract");
-    await user.initialize(KYC_SYSTEM_WALLET.address, reputationCard.address, employer.address, contractor.address, jobContract.address);
+    await user.initialize(BACKEND_WALLET.address, reputationCard.address, employer.address, contractor.address, jobContract.address);
 
     return { user, employer, contractor, reputationCard, jobContract, signers };
-}
-
-export async function verifyUsers(user: User, ...usersInfo: UserTestInfo[]) {
-    const result = [];
-    for (let i = 0; i < usersInfo.length; i++) {
-        const { pubKey, kycId } = usersInfo[i];
-        const signature = await signMessage(KYC_SYSTEM_PV_KEY, ['address', pubKey], ['string', kycId]);
-        await user.verifyUser(pubKey, kycId, signature);
-        result.push({ signature });
-    }
-    return result;
 }
 
 export async function getContractAt<T>(type: ContractsType, address: string) {

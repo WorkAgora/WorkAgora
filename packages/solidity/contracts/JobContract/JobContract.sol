@@ -15,7 +15,7 @@ contract JobContract {
         address contractorAddress;
         address employerAddress;
         State state;
-        bytes ipfsJmiHash;
+        string ipfsJmiHash;
     }
 
     enum State {
@@ -40,7 +40,7 @@ contract JobContract {
         uint256 _creationExpiryTimestamp,
         address _contractorAddress,
         address _employerAddress,
-        bytes calldata _ipfsJmiHash,
+        string calldata _ipfsJmiHash,
         bytes calldata _signature
     ) external {
         require(contracts[_contractId].contractId == 0, 'ContractId already exists');
@@ -63,7 +63,7 @@ contract JobContract {
             )
         );
         require(
-            messagehash.toEthSignedMessageHash().recover(_signature) == user.kycSystem(),
+            messagehash.toEthSignedMessageHash().recover(_signature) == user.authority(),
             'Invalid signature'
         );
 

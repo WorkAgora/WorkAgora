@@ -1,27 +1,48 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { KYC_SYSTEM_PV_KEY, deployBaseContracts, signMessage, usersInfo, verifyUsers } from "./utils";
+import { BACKEND_PV_KEY, deployBaseContracts, expectThrowsAsync, signMessage, usersInfo } from "./utils";
+import { Jcc, JobContractState, createJobContract, getJcc } from "./utils/jobContract";
+import { verifyUsers } from "./utils/user";
+
+const [employer, contractor] = usersInfo;
+const baseJcc: Jcc = {
+    contractId: ['uint256', 1],
+    priceUsd: ['uint256', 1000],
+    durationDays: ['uint256', 2],
+    creationExpiryTimestamp: ['uint256', 4082502246],
+    contractorAddress: ['address', contractor.pubKey],
+    employerAddress: ['address', employer.pubKey],
+    ipfsJmiHash: ['string', 'bafkreig4eie3hu7bc33omizt5rrb5bnrloewgfrrgdniqbdfoaie5gkdmy'],
+};
 
 describe("Job contracts", () => {
 
     it("Should create a contract", async () => {
         const { user, jobContract } = await loadFixture(deployBaseContracts);
-        const [employer, contractor] = usersInfo;
         await verifyUsers(user, employer, contractor);
 
-        const jcc = {
-            contractId: ['uint256', 1] as [string, number],
-            priceUsd: ['uint256', 1000] as [string, number],
-            durationDays: ['uint256', 2] as [string, number],
-            creationExpiryTimestamp: ['uint256', 4082502246] as [string, number],
-            contractorAddress: ['address', contractor.pubKey] as [string, string],
-            employerAddress: ['address', employer.pubKey] as [string, string],
-            ipfsJmiHash: ['bytes', Buffer.from('bafkreig4eie3hu7bc33omizt5rrb5bnrloewgfrrgdniqbdfoaie5gkdmy', 'utf-8')] as [string, Buffer],
-        }
-        const signature = await signMessage(KYC_SYSTEM_PV_KEY, jcc.contractId, jcc.priceUsd, jcc.durationDays, jcc.creationExpiryTimestamp, jcc.contractorAddress, jcc.employerAddress, jcc.ipfsJmiHash);
-        await jobContract.create(jcc.contractId[1], jcc.priceUsd[1], jcc.durationDays[1], jcc.creationExpiryTimestamp[1], jcc.contractorAddress[1], jcc.employerAddress[1], jcc.ipfsJmiHash[1], signature)
-        const kycId = (await user.verifiedUsers(usersInfo[0].pubKey)).kycId;
-        expect(kycId).to.equal(kycId);
+        const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
+        await createJobContract(baseJcc, signature, jobContract);
+
+        const contract = await jobContract.contracts(baseJcc.contractId[1]);
+        expect(contract.length).to.equal(8);
+        expect(contract[0]).to.equal(baseJcc.contractId[1]);
+        expect(contract[1]).to.equal(baseJcc.priceUsd[1]);
+        expect(contract[2]).to.equal(baseJcc.durationDays[1]);
+        expect(contract[3]).to.equal(baseJcc.creationExpiryTimestamp[1]);
+        expect(contract[4]).to.equal(baseJcc.contractorAddress[1]);
+        expect(contract[5]).to.equal(baseJcc.employerAddress[1]);
+        expect(contract[6]).to.equal(JobContractState.Started);
+        expect(contract[7]).to.equal(baseJcc.ipfsJmiHash[1]);
+    });
+
+    it("Should fail creation with an expiry timestamp in the past", async () => {
+        const { user, jobContract } = await loadFixture(deployBaseContracts);
+        await verifyUsers(user, employer, contractor);
+
+        const jcc = getJcc(baseJcc, { creationExpiryTimestamp: ['uint256', 1652633694] })
+        const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(jcc));
+        await expectThrowsAsync(() => createJobContract(jcc, signature, jobContract), 'Creation timestamp expired');
     });
 
 });
