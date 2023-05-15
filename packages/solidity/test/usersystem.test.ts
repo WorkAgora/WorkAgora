@@ -1,7 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { KYC_SYSTEM_PV_KEY, deployBaseContracts, expectThrowsAsync, signMessage, usersInfo, verifyUsers } from "./utils";
-import { Role } from "./types";
+import { KYC_SYSTEM_PV_KEY, deployBaseContracts, expectThrowsAsync, signMessage, usersInfo, verifyUsers, Role } from "./utils";
 
 describe("User verification", () => {
   it("Should allow a user to verify themselves with a valid signature and emit an event", async () => {
@@ -60,5 +59,22 @@ describe("User reputation", () => {
     const contractorRep = await user.getReputation(usersInfo[0].pubKey, Role.Contractor);
     expect(employerRep).to.equal(0);
     expect(contractorRep).to.equal(0);
+  });
+
+  it("Should not allow getting unverified users reputation", async () => {
+    const { user } = await loadFixture(deployBaseContracts);
+    await verifyUsers(user, usersInfo[0]);
+
+    await expectThrowsAsync(() => user.getReputation(usersInfo[1].pubKey, Role.Employer), 'User not verified');
+    await expectThrowsAsync(() => user.getReputation(usersInfo[1].pubKey, Role.Contractor), 'User not verified');
+  });
+
+  it("Should not allow getting reputation with an invalid role", async () => {
+    const { user } = await loadFixture(deployBaseContracts);
+    await verifyUsers(user, usersInfo[0]);
+
+    await expect(user.getReputation(usersInfo[0].pubKey, 0)).not.to.be.reverted;
+    await expect(user.getReputation(usersInfo[0].pubKey, 1)).not.to.be.reverted;
+    await expect(user.getReputation(usersInfo[0].pubKey, 2)).to.be.reverted;
   });
 });

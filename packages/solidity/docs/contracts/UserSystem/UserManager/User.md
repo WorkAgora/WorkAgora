@@ -70,7 +70,7 @@ function getReputation(address _address, enum User.Role _role) external view ret
 ### initialize
 
 ```solidity
-function initialize(address _kycSystem, address _reputationCard, address _employer, address _contractor) external nonpayable
+function initialize(address _kycSystem, contract ReputationCard _reputationCard, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
 ```
 
 
@@ -82,9 +82,10 @@ function initialize(address _kycSystem, address _reputationCard, address _employ
 | Name | Type | Description |
 |---|---|---|
 | _kycSystem | address | undefined |
-| _reputationCard | address | undefined |
-| _employer | address | undefined |
-| _contractor | address | undefined |
+| _reputationCard | contract ReputationCard | undefined |
+| _employer | contract Employer | undefined |
+| _contractor | contract Contractor | undefined |
+| _jobContract | contract JobContract | undefined |
 
 ### isUserVerified
 
@@ -107,6 +108,23 @@ function isUserVerified(address _address) external view returns (bool)
 | Name | Type | Description |
 |---|---|---|
 | _0 | bool | undefined |
+
+### jobContract
+
+```solidity
+function jobContract() external view returns (contract JobContract)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | contract JobContract | undefined |
 
 ### kycSystem
 

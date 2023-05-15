@@ -1,8 +1,7 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { ContractsType } from "./types";
-import { ReputationCard, User } from "../typechain-types";
+import { JobContract, ReputationCard, User } from "../../typechain-types";
 import { Wallet } from "ethers";
 
 // Types
@@ -10,6 +9,31 @@ type UserTestInfo = {
     pubKey: string;
     kycId: string;
 };
+
+type address = string;
+
+export type JobContractMetadata = { // JM
+    guid: string,
+    price: number,
+    description: string,
+    employerWallet: address,
+    contractorWallet: address,
+    // add more fields...
+}
+
+export enum ContractsType {
+    User = 'User',
+    Contractor = 'Contractor',
+    Employer = 'Employer',
+    ReputationCard = 'ReputationCard',
+}
+
+// User
+export enum Role {
+    Employer = 0,
+    Contractor = 1,
+}
+
 
 // Constants
 export const KYC_SYSTEM_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
@@ -34,16 +58,16 @@ export async function deployContract<T>(name: string) {
 }
 
 export async function deployBaseContracts() {
-    const [addr0, addr1, addr2] = await ethers.getSigners();
+    const signers = await ethers.getSigners();
 
     const user = await deployContract<User>("User");
     const reputationCard = await deployContract<ReputationCard>("ReputationCard");
     const employer = await deployContract<Employer>("Employer");
     const contractor = await deployContract<Contractor>("Contractor");
-    await user.initialize(KYC_SYSTEM_WALLET.address, reputationCard.address, employer.address, contractor.address);
+    const jobContract = await deployContract<JobContract>("JobContract");
+    await user.initialize(KYC_SYSTEM_WALLET.address, reputationCard.address, employer.address, contractor.address, jobContract.address);
 
-    // Fixtures can return anything you consider useful for your tests
-    return { user, employer, contractor, reputationCard, addr0, addr1, addr2 };
+    return { user, employer, contractor, reputationCard, jobContract, signers };
 }
 
 export async function verifyUsers(user: User, ...usersInfo: UserTestInfo[]) {
@@ -70,8 +94,8 @@ export async function expectThrowsAsync<T>(asyncFunc: () => Promise<T>, errorMes
         error = err;
     }
     expect(error).to.be.an('Error');
-    if (errorMessage) {
-        expect(error.message).to.include(errorMessage);
+    if (errorMessage && !error?.message.includes(errorMessage)) {
+        throw new Error(`Error message should include '${errorMessage}', error=${error}`)
     }
 }
 
@@ -83,7 +107,7 @@ export async function printBalances() {
     })
 }
 
-export async function signMessage(pvKey: string, ...data: [type: string, value: string][]): Promise<string> {
+export async function signMessage(pvKey: string, ...data: [type: string, value: any][]): Promise<string> {
     const messageHash = ethers.utils.solidityKeccak256(data.map(d => d[0]), data.map(d => d[1]));
     return await new Wallet(pvKey).signMessage(ethers.utils.arrayify(messageHash));
 }

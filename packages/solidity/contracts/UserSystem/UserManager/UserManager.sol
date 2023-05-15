@@ -3,6 +3,7 @@
 // compilation error: "Definition of base has to precede definition of derived contract."
 pragma solidity ^0.8.18;
 
+import '../../JobContract/JobContract.sol';
 import '../Reputation/ReputationCard.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
 
@@ -38,6 +39,7 @@ contract User is IUser {
     ReputationCard public reputationCard;
     Employer public employer;
     Contractor public contractor;
+    JobContract public jobContract;
     mapping(address => UserInfo) public verifiedUsers;
 
     enum Role {
@@ -52,23 +54,23 @@ contract User is IUser {
     }
 
     modifier onlyVerifiedUser(address _address) {
-        require(isUserVerified(_address), 'user not verified');
+        require(isUserVerified(_address), 'User not verified');
         _;
     }
 
     function initialize(
         address _kycSystem,
-        address _reputationCard,
-        address _employer,
-        address _contractor
-    ) public {
+        ReputationCard _reputationCard,
+        Employer _employer,
+        Contractor _contractor,
+        JobContract _jobContract
+    ) external {
         require(kycSystem == address(0), 'Already initialized');
         reputationCard = ReputationCard(_reputationCard);
         employer = Employer(_employer);
         contractor = Contractor(_contractor);
-        // reputationCard.initialize(this);
-        // employer.initialize(this);
-        // contractor.initialize(this);
+        jobContract = JobContract(_jobContract);
+        jobContract.initialize(this);
         kycSystem = _kycSystem;
     }
 
@@ -76,7 +78,7 @@ contract User is IUser {
         address _address,
         string calldata _kycId,
         bytes calldata _signature
-    ) public {
+    ) external {
         require(!isUserVerified(_address), 'Already verified');
         bytes32 messagehash = keccak256(abi.encodePacked(_address, _kycId));
         require(
@@ -98,10 +100,8 @@ contract User is IUser {
         uint256 id;
         if (_role == Role.Employer) {
             id = verifiedUsers[_address].employerId;
-        } else if (_role == Role.Contractor) {
-            id = verifiedUsers[_address].contractorId;
         } else {
-            revert('Invalid role');
+            id = verifiedUsers[_address].contractorId;
         }
         return reputationCard.reputation(id);
     }
