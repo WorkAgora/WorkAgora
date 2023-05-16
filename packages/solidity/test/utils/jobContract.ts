@@ -1,3 +1,4 @@
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract } from "packages/solidity/typechain-types";
 
 export enum JobContractState {
@@ -39,8 +40,9 @@ export function getJcc(baseJcc: Jcc, newParams: Partial<Jcc>): Jcc {
     return editedJcc;
 }
 
-export async function createJobContract(jcc: Jcc, signature: string, jobContract: JobContract) {
-    await jobContract.create(
+export async function createJobContract(jcc: Jcc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
+    const contract = sender ? jobContract.connect(sender) : jobContract;
+    await contract.create(
         jcc.contractId[1],
         jcc.priceUsd[1],
         jcc.durationDays[1],
