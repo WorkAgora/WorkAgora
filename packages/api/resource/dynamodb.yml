@@ -27,6 +27,22 @@ Resources:
           KeyType: HASH
         - AttributeName: sessionId
           KeyType: RANGE
+  RatingTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    Properties:
+      TableName: ${self:service}-${self:provider.stage}-rating-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: cidIPFS
+          AttributeType: S
+        - AttributeName: wallet
+          AttributeType: S
+      KeySchema:
+        - AttributeName: cidIPFS
+          KeyType: HASH
+        - AttributeName: wallet
+          KeyType: RANGE
   UserTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
