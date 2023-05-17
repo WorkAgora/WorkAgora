@@ -8,13 +8,25 @@ contract JobContract {
     using ECDSA for bytes32;
 
     struct Contract {
-        uint256 contractId;
-        uint256 priceUsd;
+        string contractId;
+        State state;
+        uint256 totalAmountUsd;
+        uint256 durationDays;
+        address contractorAddress;
+        address employerAddress;
+        string ipfsJmiHash;
+    }
+
+    struct CreateParams {
+        string contractId;
+        uint256 totalAmountUsd;
+        uint8 initialDepositPct;
+        uint8 lockedAmountPct;
+        uint8 deferredAmountPct;
         uint256 durationDays;
         uint256 creationExpiryTimestamp;
         address contractorAddress;
         address employerAddress;
-        State state;
         string ipfsJmiHash;
     }
 
@@ -26,40 +38,41 @@ contract JobContract {
     }
 
     User user;
-    mapping(uint256 => Contract) public contracts;
+    mapping(string => Contract) public contracts;
 
     function initialize(User _user) external {
         require(address(user) == address(0), 'Already initialized');
         user = User(_user);
     }
 
-    function create(
-        uint256 _contractId,
-        uint256 _priceUsd,
-        uint256 _durationDays,
-        uint256 _creationExpiryTimestamp,
-        address _contractorAddress,
-        address _employerAddress,
-        string calldata _ipfsJmiHash,
-        bytes calldata _signature
-    ) external {
-        require(contracts[_contractId].contractId == 0, 'ContractId already exists');
-        require(_creationExpiryTimestamp >= block.timestamp, 'Creation timestamp expired');
-        require(msg.sender == _employerAddress, 'Only the employer can create the contract');
-        require(_contractorAddress != _employerAddress, 'Invalid C/E addresses');
-        require(user.isUserVerified(_contractorAddress), 'Unverified contractor');
-        require(user.isUserVerified(_employerAddress), 'Unverified employer');
-        require(_durationDays > 0, 'Duration must be at least 1 day');
+    function create(CreateParams calldata _params, bytes calldata _signature) external {
+        require(
+            bytes(contracts[_params.contractId].contractId).length == 0,
+            'ContractId already exists'
+        );
+        require(_params.creationExpiryTimestamp >= block.timestamp, 'Creation timestamp expired');
+        require(msg.sender == _params.employerAddress, 'Only the employer can create the contract');
+        require(_params.contractorAddress != _params.employerAddress, 'Invalid C/E addresses');
+        require(user.isUserVerified(_params.contractorAddress), 'Unverified contractor');
+        require(user.isUserVerified(_params.employerAddress), 'Unverified employer');
+        require(_params.durationDays > 0, 'Duration must be at least 1 day');
+        require(
+            _params.initialDepositPct + _params.lockedAmountPct + _params.deferredAmountPct == 100,
+            'Sum of initialDepositPct, lockedAmountPct and deferredAmountPct must be 100'
+        );
 
         bytes32 messagehash = keccak256(
             abi.encodePacked(
-                _contractId,
-                _priceUsd,
-                _durationDays,
-                _creationExpiryTimestamp,
-                _contractorAddress,
-                _employerAddress,
-                _ipfsJmiHash
+               _params.contractId,
+                _params.totalAmountUsd,
+                _params.initialDepositPct,
+                _params.lockedAmountPct,
+                _params.deferredAmountPct,
+                _params.durationDays,
+                _params.creationExpiryTimestamp,
+                _params.contractorAddress,
+                _params.employerAddress,
+                _params.ipfsJmiHash
             )
         );
         require(
@@ -67,15 +80,14 @@ contract JobContract {
             'Invalid signature'
         );
 
-        contracts[_contractId] = Contract(
-            _contractId,
-            _priceUsd,
-            _durationDays,
-            _creationExpiryTimestamp,
-            _contractorAddress,
-            _employerAddress,
+        contracts[_params.contractId] = Contract(
+            _params.contractId,
             State.Started,
-            _ipfsJmiHash
+            _params.totalAmountUsd,
+            _params.durationDays,
+            _params.contractorAddress,
+            _params.employerAddress,
+            _params.ipfsJmiHash
         );
     }
 }
