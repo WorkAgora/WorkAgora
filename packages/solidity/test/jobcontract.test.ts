@@ -23,8 +23,31 @@ describe("Job contracts", () => {
 
     describe("Creation", () => {
 
+        async function deployPriceConsumerFixture() {
+            const [deployer] = await ethers.getSigners()
+    
+            const DECIMALS = "18"
+            const INITIAL_PRICE = "200000000000000000000"
+    
+            const mockV3AggregatorFactory = await ethers.getContractFactory("MockV3Aggregator")
+            const mockV3Aggregator = await mockV3AggregatorFactory
+                .connect(deployer)
+                .deploy(DECIMALS, INITIAL_PRICE)
+    
+            const priceConsumerV3Factory = await ethers.getContractFactory("PriceConsumer")
+            const priceConsumer = await priceConsumerV3Factory
+                .connect(deployer)
+                .deploy(mockV3Aggregator.address)
+    
+            return { priceConsumer, mockV3Aggregator }
+        }
+
         it("Should create a contract", async () => {
             const { user, jobContract } = await loadFixture(deployBaseContracts);
+            // const { priceConsumer } = await loadFixture(
+            //     deployPriceConsumerFixture
+            // )
+            // const price = await priceConsumer.getLatestPrice();
             await verifyUsers(user, employer, contractor);
 
             const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
