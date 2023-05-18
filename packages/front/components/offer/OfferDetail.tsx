@@ -10,7 +10,7 @@ interface OfferDetailProps {
   badges: SearchBarFilter[];
 }
 
-const badges: SearchBarFilter[] = [
+const FreelanceBadges: SearchBarFilter[] = [
   {
     label: 'Product',
     bgColor: 'badge.yellow',
@@ -137,8 +137,8 @@ const OfferDetail: FC<OfferDetailProps> = ({badges}: OfferDetailProps) => {
       >
         <Box textStyle="h4" color="neutral.black">Other jobs that match your interests</Box>
         <Flex columnGap={4}>
-          <FreelanceCard badges={badges}/>
-          <FreelanceCard badges={badges}/>
+          <FreelanceCard badges={FreelanceBadges}/>
+          <FreelanceCard badges={FreelanceBadges}/>
         </Flex>
       </Flex>
     </Flex>
