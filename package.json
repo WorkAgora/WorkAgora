@@ -8,7 +8,7 @@
     "sls:dev": "serverless offline start --noPrependStageInUrl",
     "build": "tsc -p packages/api",
     "start:dev": "nodemon packages/api/src/main.ts",
-    "start": "node packages/api/src/main.ts"
+    "start": "ts-node packages/api/src/main.ts"
   },
   "private": true,
   "devDependencies": {
