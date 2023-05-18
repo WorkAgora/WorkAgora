@@ -58,6 +58,7 @@ export class KycController {
     description: 'An unexpected error occurred'
   })
   async initiateKycProcess(@Req() req: Request): Promise<KycSessionDTO> {
+    // @ts-ignore
     const { wallet } = req.user;
     if (!wallet || wallet === '0x0' || !walletRegex.test(wallet)) {
       throw new HttpException('Invalid wallet address', 403);
@@ -86,6 +87,7 @@ export class KycController {
     description: 'An unexpected error occurred'
   })
   async checkSessionStatus(@Req() req: Request): Promise<KycSessionDTO> {
+    // @ts-ignore
     const { wallet } = req.user;
     if (!wallet || wallet === '0x0' || !walletRegex.test(wallet)) {
       throw new HttpException('Invalid wallet address', 403);

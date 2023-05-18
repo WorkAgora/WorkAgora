@@ -69,6 +69,7 @@ export class AuthController {
     description: 'Unexpected Error while register'
   })
   async register(@Body() payload: RegisterDTO, @Req() req: Request): Promise<boolean> {
+    // @ts-ignore
     const guardWallet = req.user as string;
     if (!guardWallet) {
       throw new HttpException(`Error while registering`, 500);
@@ -98,6 +99,7 @@ export class AuthController {
     description: 'Unexpected Error while login'
   })
   async login(@Body() payload: LoginDTO, @Req() req: Request, @Res() res: Response): Promise<void> {
+    // @ts-ignore
     const guardWallet = req.user as string;
 
     if (!guardWallet) {

@@ -1,10 +1,13 @@
-service: work-aurora-api
+service: work-agora-api
+useDotenv: true
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs16.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-west-3'}
+  logRetentionInDays: 1
+  timeout: 15
   environment:
     SERVICE: ${self:service}
     STAGE: ${self:provider.stage}
@@ -28,9 +31,12 @@ provider:
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-esbuild
   - serverless-dynamodb-local
   - serverless-plugin-optimize
   - serverless-offline
+  - serverless-jetpack
+  - serverless-dotenv-plugin
 
 custom:
   dynamodb:
@@ -42,20 +48,30 @@ custom:
       migrate: true
       seed: true
     seed: ${file(packages/api/resource/seed.yml)}
-  optimize:
-    external: ['swagger-ui-dist']
+  # optimize:
+  #   external: ['swagger-ui-dist']
   serverlessPluginTypescript:
-    tsConfigFileLocation: 'packages/api/tsconfig.app.json'
+    tsConfigFileLocation: packages/api/tsconfig.json
+  serverless-jetpack:
+    mode: pnpm
 
 functions:
-  main: # The name of the lambda function
-    # The module 'handler' is exported in the file 'src/lambda'
+  main:
     handler: packages/api/src/lambda.handler
     events:
       - http:
           cors: true
           path: '{proxy+}'
           method: any
+
+package:
+  excludeDevDependencies: false
+  patterns:
+    - 'node_modules/**'
+    - '!packages/**'
+    - 'packages/api'
+    - 'node_modules/@nestjs'
+    - 'node_modules/@vendia'
 
 resources:
   - ${file(packages/api/resource/dynamodb.yml)}
