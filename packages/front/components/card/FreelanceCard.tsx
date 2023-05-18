@@ -1,4 +1,5 @@
 import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
@@ -7,13 +8,16 @@ import { SearchBarFilter } from '../landing/product/SearchBar';
 interface FreelanceCardProps {
   badges: SearchBarFilter[];
   blurred?: boolean;
+  onClick?: (id: number) => void;
 }
 
-const skills = [
-  'Remote work', 'Full time', '3 months'
-]
+const skills = ['Remote work', 'Full time', '3 months'];
 
-const FreelanceCard: FC<FreelanceCardProps> = ({ badges, blurred = false }: FreelanceCardProps) => {
+const FreelanceCard: FC<FreelanceCardProps> = ({
+  badges,
+  blurred = false,
+  onClick
+}: FreelanceCardProps) => {
   return (
     <Box
       p={6}
@@ -25,7 +29,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({ badges, blurred = false }: Free
       position="relative"
     >
       <Flex>
-        <Avatar w="48px" h="48px" />
+        <Avatar w="48px" h="48px" borderRadius="16px" />
         <Flex flexDir="column" ml={4} justifyContent="center">
           <Text
             fontFamily="Comfortaa"
@@ -73,11 +77,11 @@ const FreelanceCard: FC<FreelanceCardProps> = ({ badges, blurred = false }: Free
         </Text>
       </Flex>
       <Flex mt={2}>
-      {Array.from({ length: 3 }).map((_, k) => (
+        {Array.from({ length: 3 }).map((_, k) => (
           <Badge
             key={k}
-            color='neutral.black'
-            bgColor='neutral.gray'
+            color="neutral.black"
+            bgColor="neutral.gray"
             borderWidth="1px"
             borderColor={'none'}
             variant="filter"
@@ -116,7 +120,21 @@ const FreelanceCard: FC<FreelanceCardProps> = ({ badges, blurred = false }: Free
             {badges[k].label}
           </Badge>
         ))}
-        <Button ml='auto' variant='outline' px='12px !important' py='2px !important' bgColor="white" borderColor='neutral.gray' fontSize='14px' fontWeight='400' lineHeight='100%' maxH='26px'>See more</Button>
+        <Button
+          ml="auto"
+          variant="outline"
+          px="12px !important"
+          py="2px !important"
+          bgColor="white"
+          borderColor="neutral.gray"
+          fontSize="14px"
+          fontWeight="400"
+          lineHeight="100%"
+          maxH="26px"
+          onClick={() => onClick?.(Math.floor(Math.random() * 2000))}
+        >
+          See more
+        </Button>
       </Flex>
       {blurred && (
         <Box

@@ -1,8 +1,9 @@
 import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
-import { useDashboard, useLanding } from '@workagora/front-provider';
+import { useDashboard, useLanding, ViewType } from '@workagora/front-provider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
-import {UserTypeEnum} from "@workagora/utils";
+import { UserTypeEnum } from '@workagora/utils';
+import { useRouter } from 'next/router';
 
 interface MenuElement {
   view: string;
@@ -34,6 +35,7 @@ const menuVariants = {
 const DashboardMenu: FC = () => {
   const { type } = useLanding();
   const { view, setView } = useDashboard();
+  const { pathname, push } = useRouter();
 
   let menuElement: MenuElement[] = [];
   if (type === UserTypeEnum.Freelancer) {
@@ -43,14 +45,28 @@ const DashboardMenu: FC = () => {
     menuElement = companyMenu;
   }
 
+  const handleViewChange = (view: string) => {
+    setView(view);
+    if (pathname !== '/dashboard') {
+      push('/dashboard');
+    }
+  };
+
   return (
     <AnimatePresence mode="wait">
       <MotionFlex flexDir="column" w="245px" h="100%" py={10} px={8} rowGap={6} position="fixed">
-        <Flex alignItems='center'>
-          <Box w='48px' h='48px'>
+        <Flex alignItems="center">
+          <Box w="48px" h="48px">
             <Avatar />
           </Box>
-          <Text ml={2} fontSize='14px' fontWeight='700' lineHeight='120%' color='neutral.black' fontFamily='Comfortaa'>
+          <Text
+            ml={2}
+            fontSize="14px"
+            fontWeight="700"
+            lineHeight="120%"
+            color="neutral.black"
+            fontFamily="Comfortaa"
+          >
             John Doe
           </Text>
         </Flex>
@@ -63,7 +79,7 @@ const DashboardMenu: FC = () => {
             variants={menuVariants}
             transition={{ ease: 'easeInOut', duration: 0.3 }}
             variant={view === v.view ? 'primary' : 'link'}
-            onClick={() => setView(v.view)}
+            onClick={() => handleViewChange(v.view)}
           >
             {v.label}
           </MotionButton>

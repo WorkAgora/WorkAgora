@@ -84,6 +84,7 @@ export function useLanding() {
     setType,
     handleViewChange,
     setSignupModalOpen,
-    handleScroll
+    handleScroll,
+    setHasScroll
   };
 }

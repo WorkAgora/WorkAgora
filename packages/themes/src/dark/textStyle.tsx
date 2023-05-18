@@ -35,6 +35,12 @@ const textStyles = {
     lineHeight: '150%',
     fontWeight: '400'
   },
+  h6: {
+    fontFamily: 'Comfortaa',
+    fontSize: '16px',
+    fontWeight: '700',
+    lineHeight: '120%'
+  },
   text: {
     fontFamily: 'Montserrat',
     fontWeight: '400',
@@ -45,6 +51,12 @@ const textStyles = {
     fontFamily: 'Montserrat',
     fontWeight: '400',
     fontSize: '20px',
+    lineHeight: '150%'
+  },
+  body2: {
+    fontFamily: 'Montserrat',
+    fontWeight: '400',
+    fontSize: '16px',
     lineHeight: '150%'
   }
 };
