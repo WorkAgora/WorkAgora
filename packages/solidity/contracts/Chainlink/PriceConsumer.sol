@@ -32,6 +32,14 @@ contract PriceConsumer {
     }
 }
 
+contract PriceConsumers {
+    PriceConsumer public immutable _avaxUsdPriceConsumer;
+
+    constructor(address _avaxUsdAggregator) {
+        _avaxUsdPriceConsumer = new PriceConsumer(_avaxUsdAggregator);
+    }
+}
+
 contract PriceConsumerAvaxUSD is PriceConsumer {
 
     /**

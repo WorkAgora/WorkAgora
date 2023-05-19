@@ -10,7 +10,6 @@
   "private": true,
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
-    "@chainlink/hardhat-chainlink": "^0.0.2",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@nestjs/schematics": "^9.0.0",
