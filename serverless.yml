@@ -29,14 +29,10 @@ provider:
             - dynamodb:DeleteItem
           Resource: arn:aws:dynamodb:${self:provider.region}:*:*
 
-plugins:
-  - serverless-plugin-typescript
-  - serverless-esbuild
-  - serverless-dynamodb-local
-  - serverless-plugin-optimize
-  - serverless-offline
-  - serverless-jetpack
-  - serverless-dotenv-plugin
+# plugins:
+#   - serverless-dynamodb-local
+#   - serverless-offline
+#   - serverless-dotenv-plugin
 
 custom:
   dynamodb:
@@ -50,28 +46,8 @@ custom:
     seed: ${file(packages/api/resource/seed.yml)}
   # optimize:
   #   external: ['swagger-ui-dist']
-  serverlessPluginTypescript:
-    tsConfigFileLocation: packages/api/tsconfig.json
   serverless-jetpack:
     mode: pnpm
-
-functions:
-  main:
-    handler: packages/api/src/lambda.handler
-    events:
-      - http:
-          cors: true
-          path: '{proxy+}'
-          method: any
-
-package:
-  excludeDevDependencies: false
-  patterns:
-    - 'node_modules/**'
-    - '!packages/**'
-    - 'packages/api'
-    - 'node_modules/@nestjs'
-    - 'node_modules/@vendia'
 
 resources:
   - ${file(packages/api/resource/dynamodb.yml)}
