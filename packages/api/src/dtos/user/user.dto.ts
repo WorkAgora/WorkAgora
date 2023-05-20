@@ -65,11 +65,11 @@ export class UserDTO {
 
   @IsOptional()
   @IsDate()
-  createdAt?: Date;
+  createdAt?: string;
 
   @IsOptional()
   @IsDate()
-  updatedAt?: Date;
+  updatedAt?: string;
 
   @ApiProperty({ type: UpdateFreelanceProfileDTO })
   @IsOptional()
@@ -92,5 +92,5 @@ export class UserDTO {
 
   @IsOptional()
   @IsDate()
-  tosAcceptedOn?: Date;
+  tosAcceptedOn?: string;
 }

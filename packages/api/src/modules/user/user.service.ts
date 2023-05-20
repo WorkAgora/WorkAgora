@@ -114,4 +114,32 @@ export class UserService {
 
     return updatedUser;
   }
+
+  /**
+   * Search for users based on skill, name, etc.
+   * @param searchTerm
+   * @returns UserDTO[]
+   */
+  async searchUsers(searchTerm: string): Promise<UserDTO[]> {
+    try {
+      const users = await this.model.scan().exec();
+
+      return users.filter((user) => {
+        // Convert searchTerm and fields to lowercase for case-insensitive search
+        const term = searchTerm.toLowerCase();
+        return (
+          user.firstname?.toLowerCase().includes(term) ||
+          user.lastname?.toLowerCase().includes(term) ||
+          user.description?.toLowerCase().includes(term) ||
+          user.location?.toLowerCase().includes(term) ||
+          user.location?.toLowerCase().includes(term) ||
+          user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term)) ||
+          user.freelanceProfile?.certificates.some((cert) => cert.toLowerCase().includes(term)) ||
+          user.freelanceProfile?.situation?.toLowerCase().includes(term)
+        );
+      });
+    } catch (error) {
+      throw new UnprocessableEntityException('Error while searching users', error.message);
+    }
+  }
 }

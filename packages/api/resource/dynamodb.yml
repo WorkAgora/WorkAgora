@@ -11,6 +11,18 @@ Resources:
       KeySchema:
         - AttributeName: wallet
           KeyType: HASH
+  JobTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    Properties:
+      TableName: ${self:service}-${self:provider.stage}-job-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: GUID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: GUID
+          KeyType: HASH
   KycTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
