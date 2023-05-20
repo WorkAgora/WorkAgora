@@ -2,6 +2,7 @@
 cache_forge/
 contracts-out/
 docs/lib/
+docs/@*
 
 # Ignores development broadcast logs
 !/broadcast

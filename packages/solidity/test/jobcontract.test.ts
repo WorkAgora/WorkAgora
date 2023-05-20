@@ -7,8 +7,11 @@ import { ethers } from "hardhat";
 
 const [employer, contractor] = usersInfo;
 const baseJcc: Jcc = {
-    contractId: ['uint256', 1],
-    priceUsd: ['uint256', 1000],
+    contractId: ['string', 'contract-id'],
+    totalAmountUsd: ['uint256', 1000],
+    initialDepositPct: ['uint8', 30],
+    lockedAmountPct: ['uint8', 50],
+    deferredAmountPct: ['uint8', 20],
     durationDays: ['uint256', 2],
     creationExpiryTimestamp: ['uint256', 4082502246],
     contractorAddress: ['address', contractor.pubKey],
@@ -20,23 +23,45 @@ describe("Job contracts", () => {
 
     describe("Creation", () => {
 
+        async function deployPriceConsumerFixture() {
+            const [deployer] = await ethers.getSigners()
+    
+            const DECIMALS = "18"
+            const INITIAL_PRICE = "200000000000000000000"
+    
+            const mockV3AggregatorFactory = await ethers.getContractFactory("MockV3Aggregator")
+            const mockV3Aggregator = await mockV3AggregatorFactory
+                .connect(deployer)
+                .deploy(DECIMALS, INITIAL_PRICE)
+    
+            const priceConsumerV3Factory = await ethers.getContractFactory("PriceConsumer")
+            const priceConsumer = await priceConsumerV3Factory
+                .connect(deployer)
+                .deploy(mockV3Aggregator.address)
+    
+            return { priceConsumer, mockV3Aggregator }
+        }
+
         it("Should create a contract", async () => {
             const { user, jobContract } = await loadFixture(deployBaseContracts);
+            // const { priceConsumer } = await loadFixture(
+            //     deployPriceConsumerFixture
+            // )
+            // const price = await priceConsumer.getLatestPrice();
             await verifyUsers(user, employer, contractor);
 
             const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
             await createJobContract(baseJcc, signature, jobContract);
 
             const contract = await jobContract.contracts(baseJcc.contractId[1]);
-            expect(contract.length).to.equal(8);
+            expect(contract.length).to.equal(7);
             expect(contract[0]).to.equal(baseJcc.contractId[1]);
-            expect(contract[1]).to.equal(baseJcc.priceUsd[1]);
-            expect(contract[2]).to.equal(baseJcc.durationDays[1]);
-            expect(contract[3]).to.equal(baseJcc.creationExpiryTimestamp[1]);
+            expect(contract[1]).to.equal(JobContractState.Started);
+            expect(contract[2]).to.equal(baseJcc.totalAmountUsd[1]);
+            expect(contract[3]).to.equal(baseJcc.durationDays[1]);
             expect(contract[4]).to.equal(baseJcc.contractorAddress[1]);
             expect(contract[5]).to.equal(baseJcc.employerAddress[1]);
-            expect(contract[6]).to.equal(JobContractState.Started);
-            expect(contract[7]).to.equal(baseJcc.ipfsJmiHash[1]);
+            expect(contract[6]).to.equal(baseJcc.ipfsJmiHash[1]);
         });
 
         it("Should fail creation with an expiry timestamp in the past", async () => {
@@ -68,7 +93,7 @@ describe("Job contracts", () => {
 
         it("Should fail creation when contractor address is the same as employer address", async () => {
             const { user, jobContract } = await loadFixture(deployBaseContracts);
-            await verifyUsers(user, employer, contractor); // Note that we're verifying the employer twice, once as the contractor.
+            await verifyUsers(user, employer, contractor);
 
             const jcc = getJcc(baseJcc, { contractorAddress: ['address', employer.pubKey] });
             const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(jcc));
@@ -77,7 +102,7 @@ describe("Job contracts", () => {
 
         it("Should fail creation when contractor is not verified", async () => {
             const { user, jobContract } = await loadFixture(deployBaseContracts);
-            await verifyUsers(user, employer); // Note that we're only verifying the employer.
+            await verifyUsers(user, employer);
 
             const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
             await expectThrowsAsync(() => createJobContract(baseJcc, signature, jobContract), 'Unverified contractor');
@@ -96,11 +121,11 @@ describe("Job contracts", () => {
             const { user, jobContract } = await loadFixture(deployBaseContracts);
             await verifyUsers(user, employer, contractor);
 
-            const jcc = getJcc(baseJcc, { contractId: ['uint256', 2] }); // change anything
+            const jcc = getJcc(baseJcc, { contractId: ['uint256', '2'] }); // change anything in jcc
             const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
             await expectThrowsAsync(() => createJobContract(jcc, signature, jobContract), 'Invalid signature');
         });
 
     });
-    
+
 });

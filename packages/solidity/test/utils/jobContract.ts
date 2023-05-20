@@ -1,5 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract } from "packages/solidity/typechain-types";
+import { toBlockchainParams } from ".";
 
 export enum JobContractState {
     Started,
@@ -8,8 +9,8 @@ export enum JobContractState {
     CompleteWithDispute
 }
 
-// JM
-export type JobContractMetadata = {
+// JobContractMetadata
+export type Jcm = {
     guid: string,
     price: number,
     description: string,
@@ -18,9 +19,13 @@ export type JobContractMetadata = {
     // add more fields...
 }
 
+// JobContractCreateParams
 export type Jcc = {
-    contractId: [string, number],
-    priceUsd: [string, number],
+    contractId: [string, string],
+    totalAmountUsd: [string, number],
+    initialDepositPct: [string, number],
+    lockedAmountPct: [string, number],
+    deferredAmountPct: [string, number],
     durationDays: [string, number],
     creationExpiryTimestamp: [string, number],
     contractorAddress: [string, string],
@@ -30,25 +35,14 @@ export type Jcc = {
 
 export function getJcc(baseJcc: Jcc, newParams: Partial<Jcc>): Jcc {
     const editedJcc: Jcc = { ...baseJcc };
-
-    // Overwrite the fields with the new values
     for (let key in newParams) {
         // @ts-ignore
         editedJcc[key] = newParams[key];
     }
-
     return editedJcc;
 }
 
 export async function createJobContract(jcc: Jcc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
-    const contract = sender ? jobContract.connect(sender) : jobContract;
-    await contract.create(
-        jcc.contractId[1],
-        jcc.priceUsd[1],
-        jcc.durationDays[1],
-        jcc.creationExpiryTimestamp[1],
-        jcc.contractorAddress[1],
-        jcc.employerAddress[1],
-        jcc.ipfsJmiHash[1],
-        signature);
+    const contract: JobContract = sender ? jobContract.connect(sender) : jobContract;
+    await contract.create(toBlockchainParams(jcc), signature);
 }

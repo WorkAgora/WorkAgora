@@ -13,7 +13,7 @@
 ### contracts
 
 ```solidity
-function contracts(uint256) external view returns (uint256 contractId, uint256 priceUsd, uint256 durationDays, uint256 creationExpiryTimestamp, address contractorAddress, address employerAddress, enum JobContract.State state, string ipfsJmiHash)
+function contracts(string) external view returns (string contractId, enum JobContract.State state, uint256 totalAmountUsd, uint256 durationDays, address contractorAddress, address employerAddress, string ipfsJmiHash)
 ```
 
 
@@ -24,25 +24,24 @@ function contracts(uint256) external view returns (uint256 contractId, uint256 p
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | string | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| contractId | uint256 | undefined |
-| priceUsd | uint256 | undefined |
+| contractId | string | undefined |
+| state | enum JobContract.State | undefined |
+| totalAmountUsd | uint256 | undefined |
 | durationDays | uint256 | undefined |
-| creationExpiryTimestamp | uint256 | undefined |
 | contractorAddress | address | undefined |
 | employerAddress | address | undefined |
-| state | enum JobContract.State | undefined |
 | ipfsJmiHash | string | undefined |
 
 ### create
 
 ```solidity
-function create(uint256 _contractId, uint256 _priceUsd, uint256 _durationDays, uint256 _creationExpiryTimestamp, address _contractorAddress, address _employerAddress, string _ipfsJmiHash, bytes _signature) external nonpayable
+function create(JobContract.CreateParams _params, bytes _signature) external nonpayable
 ```
 
 
@@ -53,13 +52,7 @@ function create(uint256 _contractId, uint256 _priceUsd, uint256 _durationDays, u
 
 | Name | Type | Description |
 |---|---|---|
-| _contractId | uint256 | undefined |
-| _priceUsd | uint256 | undefined |
-| _durationDays | uint256 | undefined |
-| _creationExpiryTimestamp | uint256 | undefined |
-| _contractorAddress | address | undefined |
-| _employerAddress | address | undefined |
-| _ipfsJmiHash | string | undefined |
+| _params | JobContract.CreateParams | undefined |
 | _signature | bytes | undefined |
 
 ### initialize

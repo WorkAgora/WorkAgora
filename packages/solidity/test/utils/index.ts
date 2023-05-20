@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract, ReputationCard, User } from "../../typechain-types";
 import { Wallet } from "ethers";
+import { Jcc } from "./jobContract";
 
 // Constants
 export const BACKEND_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
@@ -66,7 +67,12 @@ export async function expectThrowsAsync<T>(asyncFunc: () => Promise<T>, errorMes
     }
     expect(error).to.be.an('Error');
     if (errorMessage && !error?.message.includes(errorMessage)) {
-        throw new Error(`Error message should include '${errorMessage}', error=${error}`)
+        const errMsg = `Error message should include '${errorMessage}', error=${error}`;
+        if(error) {
+            error.message = `${errMsg} ${error.message}`;
+            throw error;
+        }
+        throw new Error(errMsg)
     }
 }
 
@@ -81,4 +87,13 @@ export async function printBalances() {
 export async function signMessage(pvKey: string, ...data: [type: string, value: any][]): Promise<string> {
     const messageHash = ethers.utils.solidityKeccak256(data.map(d => d[0]), data.map(d => d[1]));
     return await new Wallet(pvKey).signMessage(ethers.utils.arrayify(messageHash));
+}
+
+export function toBlockchainParams<T extends JobContract.CreateParamsStruct>(data: Jcc) {
+    const result = {};
+    for (const key in data) {
+        // @ts-ignore
+        result[key] = data[key][1];
+    }
+    return result as T;
 }
