@@ -7,7 +7,7 @@ import {UserTypeEnum} from "../../../../utils/src/index";
 export class RegisterDTO extends LoginDTO {
   @ApiProperty({ type: String, required: true })
   @IsEthereumAddress()
-  wallet: string;
+  declare wallet: string;
 
   @ApiProperty({ type: String, required: true })
   @IsEmail()
