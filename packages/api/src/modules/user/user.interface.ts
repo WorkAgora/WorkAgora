@@ -26,10 +26,10 @@ export interface User extends UserKey {
   location?: string;
   profilePicture?: string;
   links?: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
   freelanceProfile?: FreelancerProfile;
   employerProfile?: EmployerProfile;
   currentUserType?: string;
-  tosAcceptedOn?: Date;
+  tosAcceptedOn?: string;
 }

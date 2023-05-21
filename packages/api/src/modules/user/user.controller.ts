@@ -170,4 +170,30 @@ export class UserController {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
+  @Get('search/:searchTerm')
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Search for users' })
+  @ApiResponse({
+    status: 200,
+    description: 'Users details',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async searchUsers(
+    @Param('searchTerm') searchTerm: string,
+    @Req() req: Request
+  ): Promise<UserDTO[]> {
+    try {
+      return await this.userService.searchUsers(searchTerm);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
 }
