@@ -29,13 +29,19 @@ export class KycController {
   })
   async handleWebhook(@Req() req, @Res() res): Promise<void> {
     const secret = req.query.secret;
-    if (secret && secret === process.env.SYNAPS_WEBHOOK_SECRET) {
-      const { session_id, state, service } = req.body;
-      const existStep = await this.kycService.findStepBySessionIdAndService(session_id, service);
-      if (existStep && existStep.state !== state) {
-        await this.kycService.updateStepById(session_id, service, req.body as KycWebhookPayload);
-        await this.kycService.checkForFinalValidation(session_id);
-      }
+    if (!secret || secret !== process.env.SYNAPS_WEBHOOK_SECRET) {
+      res.status(403).send();
+      return;
+    }
+    const {session_id, state, service} = req.body;
+    const existStep = await this.kycService.findStepBySessionIdAndService(session_id, service);
+    if (!existStep) {
+      throw new HttpException(`Service '${service}' not found for session id '${session_id}'`, 404);
+    }
+
+    if (existStep?.state !== state) {
+      await this.kycService.updateStepById(session_id, service, req.body as KycWebhookPayload);
+      await this.kycService.checkForFinalValidation(session_id);
     }
     //@TODO if wrong secret throw error 403
     res.status(200).send();

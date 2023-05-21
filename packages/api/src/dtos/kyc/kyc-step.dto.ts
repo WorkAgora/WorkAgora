@@ -1,5 +1,4 @@
-import { IsString, IsIn, IsNotEmpty, Matches } from 'class-validator';
-import { walletRegex } from '../../../../utils/src/index';
+import { IsString, IsIn, IsNotEmpty } from 'class-validator';
 import { KycService, KycServiceState } from '../../modules/kyc/kyc.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -8,7 +7,7 @@ export class KycStepDTO {
     description: 'The service name',
     type: String,
     required: true,
-    example: '0x0'
+    example: 'LIVENESS|IDENTITY|RESIDENCY'
   })
   @IsNotEmpty()
   @IsString()

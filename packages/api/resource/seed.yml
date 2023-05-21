@@ -1,4 +1,4 @@
 user:
   sources:
-    - table: work-aurora-api-dev-user-table
+    - table: work-agora-api-dev-user-table
       sources: [./packages/api/resource/seeds/user.json]

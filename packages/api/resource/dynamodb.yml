@@ -18,14 +18,14 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-kyc-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: wallet
-          AttributeType: S
         - AttributeName: sessionId
+          AttributeType: S
+        - AttributeName: wallet
           AttributeType: S
       KeySchema:
-        - AttributeName: wallet
-          KeyType: HASH
         - AttributeName: sessionId
+          KeyType: HASH
+        - AttributeName: wallet
           KeyType: RANGE
   UserTable:
     Type: AWS::DynamoDB::Table
