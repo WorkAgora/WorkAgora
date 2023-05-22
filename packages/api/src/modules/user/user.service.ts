@@ -6,6 +6,7 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
+import {UserTypeEnum} from "../../../../utils/src/index";
 
 @Injectable()
 export class UserService {
@@ -157,54 +158,24 @@ export class UserService {
   async getRecentFreelancers(
     page: number,
     limit: number
-  ): Promise<{ data: UserDTO[]; lastEvaluatedKey: UserKey }> {
+  ): Promise<UserDTO[]> {
     try {
-      let lastEvaluatedKey = null;
-
-      // Loop until we have enough items for the requested page or we have exhausted all items
-      try {
-        for (let i = 0; i < page; ++i) {
-          const result = await this.model
-            .query('currentUserType')
-            .eq('Freelancer')
-            .using('FreelancerCreationIndex')
-            .sort(SortOrder.descending)
-            .startAt(lastEvaluatedKey)
-            .limit(limit)
-            .exec();
-
-          if (result.lastKey) {
-            lastEvaluatedKey = result.lastKey;
-          } else {
-            // If there's no more items, return whatever we have
-            return { data: result, lastEvaluatedKey: null };
-          }
-        }
-      } catch (error) {
-        throw new UnprocessableEntityException(
-          ('1-Error while getting recent freelancers' + error.message)
-        );
-      }
-
-  console.log("BITE");
-      console.log("Limit: " + limit);
-      console.log("LastEvaluatedKey: " + lastEvaluatedKey);
-      const users = await this.model
+      const result = await this.model
         .query('currentUserType')
-        .eq('Freelancer')
+        .eq(UserTypeEnum.Freelancer)
         .using('FreelancerCreationIndex')
         .sort(SortOrder.descending)
-        .startAt(lastEvaluatedKey)
-        .limit(limit)
         .exec();
 
-      console.log("UsersLength: " + users.length);
+      // Calculate the starting index and end index for the slice
+      const start = (page - 1) * limit;
+      const end = start + limit;
 
-      return { data: users, lastEvaluatedKey };
+      // Return the sliced result
+      return result.slice(start, end);
     } catch (error) {
-      console.error(error);
       throw new UnprocessableEntityException(
-        '2-Error while getting recent freelancers',
+        'Error while getting recent freelancers',
         error.message
       );
     }

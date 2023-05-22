@@ -66,9 +66,7 @@ export const UserSchema = new Schema({
     schema: [String],
     required: false
   },
-  createdAt: {
-    type: String
-  },
+  createdAt: String,
   updatedAt: String,
   tosAcceptedOn: String,
   currentUserType: {

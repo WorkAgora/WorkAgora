@@ -1,24 +1,13 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  Inject,
-  Param,
-  Put,
-  Query,
-  Req,
-  UseGuards
-} from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { User } from './user.interface';
-import { UserDTO } from '../../dtos/user/user.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
-import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
-import { Request } from 'express';
-import { ChangeUserTypeDTO } from '../../dtos/user/change-user-type-dto';
-import { UserTypeEnum } from '../../../../utils/src/index';
+import {Body, Controller, Get, HttpException, Inject, Param, Put, Query, Req, UseGuards} from '@nestjs/common';
+import {ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
+import {UserService} from './user.service';
+import {User} from './user.interface';
+import {UserDTO} from '../../dtos/user/user.dto';
+import {JwtAuthGuard} from '../auth/jwt.guard';
+import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
+import {Request} from 'express';
+import {ChangeUserTypeDTO} from '../../dtos/user/change-user-type-dto';
+import {UserTypeEnum} from '../../../../utils/src/index';
 
 @ApiTags('User')
 @Controller('user')
@@ -211,7 +200,7 @@ export class UserController {
     }
   }
   @Get('recentFreelancer/:page')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get recent freelancers' })
   @ApiParam({
     name: 'page',
@@ -237,8 +226,7 @@ export class UserController {
     @Query('limit') limit: number
   ): Promise<UserDTO[]> {
     try {
-      const freelancers = await this.userService.getRecentFreelancers(page, limit);
-      return freelancers.data;
+      return await this.userService.getRecentFreelancers(page, limit);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
