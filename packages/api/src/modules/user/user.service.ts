@@ -6,6 +6,7 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -39,7 +40,7 @@ export class UserService {
       if (userExist) {
         throw new UnprocessableEntityException('User with this address already exist');
       }
-      await this.model.create(user);
+      await this.model.create({ ...user, tosAcceptedOn: user.tosAcceptedOn.toString() });
     } catch (error) {
       throw new UnprocessableEntityException(error, error.message);
     }
@@ -124,10 +125,10 @@ export class UserService {
   async searchUsers(searchTerm: string): Promise<UserDTO[]> {
     try {
       const users = await this.model.scan().exec();
-
       return users.filter((user) => {
         // Convert searchTerm and fields to lowercase for case-insensitive search
         const term = searchTerm.toLowerCase();
+
         return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
 
         // NOT FOR MVP
@@ -149,46 +150,23 @@ export class UserService {
 
   /**
    * Get recent freelancers
-   * @param page Page number for pagination
    * @param limit Number of freelancers to return
    * @returns The list of recent freelancers
    */
-  async getRecentFreelancers(
-    page: number,
-    limit: number
-  ): Promise<{ data: UserDTO[]; lastEvaluatedKey: UserKey }> {
+  async getRecentFreelancers(limit: number): Promise<UserDTO[]> {
     try {
-      let lastEvaluatedKey = null;
-
-      // Loop until we have enough items for the requested page or we have exhausted all items
-      for (let i = 0; i < page; ++i) {
-        const result = await this.model
-          .query('currentUserType')
-          .eq('Freelancer')
-          .using('FreelancerCreationIndex')
-          .sort(SortOrder.descending)
-          .startAt(lastEvaluatedKey)
-          .limit(limit)
-          .exec();
-
-        if (result.lastKey) {
-          lastEvaluatedKey = result.lastKey;
-        } else {
-          // If there's no more items, return whatever we have
-          return { data: result, lastEvaluatedKey: null };
-        }
-      }
-
-      const users = await this.model
+      // Query the latest 'limit' number of Freelancers
+      const result = await this.model
         .query('currentUserType')
-        .eq('Freelancer')
+        .eq('Freelance')
+        .where('createdAt')
+        .between('1970-01-01T00:00:00.000Z', new Date(Date.now()).toISOString())
         .using('FreelancerCreationIndex')
         .sort(SortOrder.descending)
-        .startAt(lastEvaluatedKey)
         .limit(limit)
         .exec();
 
-      return { data: users, lastEvaluatedKey };
+      return result;
     } catch (error) {
       throw new UnprocessableEntityException(
         'Error while getting recent freelancers',

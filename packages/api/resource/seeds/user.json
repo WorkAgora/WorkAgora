@@ -13,7 +13,7 @@
     "createdAt": "2023-01-01T00:00:00.000Z",
     "updatedAt": "2023-01-01T00:00:00.000Z",
     "tosAcceptedOn": "2023-01-01T00:00:00.000Z",
-    "currentUserType": "freelance",
+    "currentUserType": "Freelance",
     "freelanceProfile": {
       "skills": ["JavaScript", "Node.js", "React"],
       "situation": "Available",
@@ -28,7 +28,7 @@
     }
   },
   {
-    "wallet": "0xabcdef1234567890abcdef1234567890abcdef12",
+    "wallet": "0xabcdef1234567890abcdef1234567890abcdef14",
     "email": "jane.doe@example.com",
     "firstname": "Jane",
     "lastname": "Doe",
@@ -41,7 +41,7 @@
     "createdAt": "2023-01-01T00:00:00.000Z",
     "updatedAt": "2023-01-01T00:00:00.000Z",
     "tosAcceptedOn": "2023-01-01T00:00:00.000Z",
-    "currentUserType": "freelance",
+    "currentUserType": "Freelance",
     "freelanceProfile": {
       "skills": ["UI/UX Design", "Adobe XD", "Figma"],
       "situation": "Available",
@@ -50,6 +50,454 @@
       "yearsOfExperience": "3",
       "certificates": ["Google UX Design Certificate"],
       "remuneration": "3000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "email": "user1@example.com",
+    "firstname": "User",
+    "lastname": "One",
+    "description": "Front-end developer proficient in HTML, CSS, and JavaScript",
+    "phone": "+1122334455",
+    "language": ["English"],
+    "location": "London, UK",
+    "profilePicture": "https://example.com/user1-profile.jpg",
+    "links": ["https://github.com/user1", "https://linkedin.com/in/user1"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["HTML", "CSS", "JavaScript"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "4",
+      "certificates": [],
+      "remuneration": "4000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0xabcdef1234567890abcdef1234567890abcdef13",
+    "email": "user2@example.com",
+    "firstname": "User",
+    "lastname": "Two",
+    "description": "Backend developer specializing in Python and Django",
+    "phone": "+9988776655",
+    "language": ["English", "Spanish"],
+    "location": "San Francisco, CA",
+    "profilePicture": "https://example.com/user2-profile.jpg",
+    "links": ["https://github.com/user2", "https://linkedin.com/in/user2"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Python", "Django", "SQL"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 20,
+      "yearsOfExperience": "3",
+      "certificates": ["Django Certified Developer"],
+      "remuneration": "2500"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x1234567890abcdef1234567890abcdef12345678",
+    "email": "user3@example.com",
+    "firstname": "User",
+    "lastname": "Three",
+    "description": "Mobile app developer with expertise in React Native",
+    "phone": "+1122334455",
+    "language": ["English", "French"],
+    "location": "Paris, France",
+    "profilePicture": "https://example.com/user3-profile.jpg",
+    "links": ["https://github.com/user3", "https://linkedin.com/in/user3"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["React Native", "JavaScript", "TypeScript"],
+      "situation": "Unavailable",
+      "availability": "N/A",
+      "hoursPerWeek": 0,
+      "yearsOfExperience": "6",
+      "certificates": ["React Native Certified Developer"],
+      "remuneration": "6000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x1a2b3c4d5e6f7890abcdef1234567890abcdef123",
+    "email": "user4@example.com",
+    "firstname": "User",
+    "lastname": "Four",
+    "description": "Data Scientist specializing in machine learning algorithms",
+    "phone": "+1234567890",
+    "language": ["English", "Mandarin"],
+    "location": "Shanghai, China",
+    "profilePicture": "https://example.com/user4-profile.jpg",
+    "links": ["https://github.com/user4", "https://linkedin.com/in/user4"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Python", "R", "TensorFlow"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "7",
+      "certificates": ["TensorFlow Developer Certificate"],
+      "remuneration": "7000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0xabcdef1234567890abcdef1234567890abcdef123",
+    "email": "user5@example.com",
+    "firstname": "User",
+    "lastname": "Five",
+    "description": "Game developer specializing in Unity and C#",
+    "phone": "+2345678901",
+    "language": ["English", "German"],
+    "location": "Berlin, Germany",
+    "profilePicture": "https://example.com/user5-profile.jpg",
+    "links": ["https://github.com/user5", "https://linkedin.com/in/user5"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["C#", "Unity", "Blender"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 20,
+      "yearsOfExperience": "4",
+      "certificates": ["Unity Certified Developer"],
+      "remuneration": "4500"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x555b3c4d5e6f7890abcdef1234567890abcdef123",
+    "email": "user6@example.com",
+    "firstname": "User",
+    "lastname": "Six",
+    "description": "Blockchain developer specializing in Solidity",
+    "phone": "+3141592653",
+    "language": ["English", "Italian"],
+    "location": "Rome, Italy",
+    "profilePicture": "https://example.com/user6-profile.jpg",
+    "links": ["https://github.com/user6", "https://linkedin.com/in/user6"],
+    "createdAt": "2023-05-23T00:00:00.000Z",
+    "updatedAt": "2023-05-23T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-23T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Solidity", "Ethereum", "Smart Contracts"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "4",
+      "certificates": ["Certified Ethereum Developer"],
+      "remuneration": "8000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0xaaaabbbbccccdddd1234567890abcdef12345678",
+    "email": "user7@example.com",
+    "firstname": "User",
+    "lastname": "Seven",
+    "description": "AI engineer with focus on Natural Language Processing",
+    "phone": "+9876543210",
+    "language": ["English", "Japanese"],
+    "location": "Tokyo, Japan",
+    "profilePicture": "https://example.com/user7-profile.jpg",
+    "links": ["https://github.com/user7", "https://linkedin.com/in/user7"],
+    "createdAt": "2023-05-23T00:00:00.000Z",
+    "updatedAt": "2023-05-23T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-23T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Python", "TensorFlow", "NLP"],
+      "situation": "Unavailable",
+      "availability": "N/A",
+      "hoursPerWeek": 0,
+      "yearsOfExperience": "7",
+      "certificates": ["TensorFlow Developer Certificate"],
+      "remuneration": "8500"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x1a2c3e4b5f6789d01234567890abcdef12345677",
+    "email": "user9@example.com",
+    "firstname": "User",
+    "lastname": "Nine",
+    "description": "Cloud Solutions Architect with focus on AWS",
+    "phone": "+1112223334",
+    "language": ["English", "German"],
+    "location": "Munich, Germany",
+    "profilePicture": "https://example.com/user9-profile.jpg",
+    "links": ["https://github.com/user9", "https://linkedin.com/in/user9"],
+    "createdAt": "2023-05-23T00:00:00.000Z",
+    "updatedAt": "2023-05-23T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-23T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["AWS", "Python", "SQL", "Java", "Docker"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 30,
+      "yearsOfExperience": "8",
+      "certificates": ["AWS Certified Solutions Architect"],
+      "remuneration": "9000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x1a1b2c3d4e5f678901234567890abcdef12345679",
+    "email": "user11@example.com",
+    "firstname": "User",
+    "lastname": "Eleven",
+    "description": "Frontend developer with Vue.js experience",
+    "phone": "+1002003004",
+    "language": ["English", "Spanish"],
+    "location": "Madrid, Spain",
+    "profilePicture": "https://example.com/user11-profile.jpg",
+    "links": ["https://github.com/user11", "https://linkedin.com/in/user11"],
+    "createdAt": "2023-05-24T00:00:00.000Z",
+    "updatedAt": "2023-05-24T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-24T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Vue.js", "JavaScript"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 20,
+      "yearsOfExperience": "2",
+      "certificates": [],
+      "remuneration": "4000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x2b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c",
+    "email": "user12@example.com",
+    "firstname": "User",
+    "lastname": "Twelve",
+    "description": "Backend developer with experience in Ruby and Ruby on Rails",
+    "phone": "+10987654321",
+    "language": ["English", "Japanese"],
+    "location": "Tokyo, Japan",
+    "profilePicture": "https://example.com/user12-profile.jpg",
+    "links": ["https://github.com/user12", "https://linkedin.com/in/user12"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Ruby", "Ruby on Rails", "PostgreSQL"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 20,
+      "yearsOfExperience": "3",
+      "certificates": [],
+      "remuneration": "3500"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x3c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d",
+    "email": "user13@example.com",
+    "firstname": "User",
+    "lastname": "Thirteen",
+    "description": "DevOps engineer with experience in AWS and Kubernetes",
+    "phone": "+12123434556",
+    "language": ["English"],
+    "location": "Seattle, WA",
+    "profilePicture": "https://example.com/user13-profile.jpg",
+    "links": ["https://github.com/user13", "https://linkedin.com/in/user13"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["AWS", "Kubernetes", "Terraform", "Docker"],
+      "situation": "Unavailable",
+      "availability": "N/A",
+      "hoursPerWeek": 0,
+      "yearsOfExperience": "6",
+      "certificates": ["AWS Certified DevOps Engineer"],
+      "remuneration": "6500"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x4d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2o",
+    "email": "user14@example.com",
+    "firstname": "User",
+    "lastname": "Fourteen",
+    "description": "Software engineer with a focus on C++ and embedded systems",
+    "phone": "+13141592653",
+    "language": ["English", "German"],
+    "location": "Munich, Germany",
+    "profilePicture": "https://example.com/user14-profile.jpg",
+    "links": ["https://github.com/user14", "https://linkedin.com/in/user14"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["C++", "Embedded Systems", "Real-time Software"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "8",
+      "certificates": ["Embedded C++ Certified Professional"],
+      "remuneration": "8000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x4d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e",
+    "email": "user14@example.com",
+    "firstname": "User",
+    "lastname": "Fourteen",
+    "description": "Software engineer with a focus on C++ and embedded systems",
+    "phone": "+13141592653",
+    "language": ["English", "German"],
+    "location": "Munich, Germany",
+    "profilePicture": "https://example.com/user14-profile.jpg",
+    "links": ["https://github.com/user14", "https://linkedin.com/in/user14"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["C++", "Embedded Systems", "Real-time Software"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "8",
+      "certificates": ["Embedded C++ Certified Professional"],
+      "remuneration": "8000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x5e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f",
+    "email": "user15@example.com",
+    "firstname": "User",
+    "lastname": "Fifteen",
+    "description": "Cybersecurity analyst experienced in threat intelligence and incident response",
+    "phone": "+14159265358",
+    "language": ["English", "Spanish"],
+    "location": "Austin, TX",
+    "profilePicture": "https://example.com/user15-profile.jpg",
+    "links": ["https://github.com/user15", "https://linkedin.com/in/user15"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Cybersecurity", "Threat Intelligence", "Incident Response"],
+      "situation": "Unavailable",
+      "availability": "N/A",
+      "hoursPerWeek": 0,
+      "yearsOfExperience": "5",
+      "certificates": ["Certified Information Systems Security Professional (CISSP)"],
+      "remuneration": "7000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x6f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a",
+    "email": "user16@example.com",
+    "firstname": "User",
+    "lastname": "Sixteen",
+    "description": "Data scientist proficient in Python, R and machine learning algorithms",
+    "phone": "+15101112131",
+    "language": ["English"],
+    "location": "San Francisco, CA",
+    "profilePicture": "https://example.com/user16-profile.jpg",
+    "links": ["https://github.com/user16", "https://linkedin.com/in/user16"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": ["Python", "R", "Machine Learning", "Data Visualization"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 30,
+      "yearsOfExperience": "3",
+      "certificates": [],
+      "remuneration": "6000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0x7a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b",
+    "email": "user17@example.com",
+    "firstname": "User",
+    "lastname": "Seventeen",
+    "description": "Full-stack developer specialized in .NET and Angular",
+    "phone": "+16111314151",
+    "language": ["English", "Dutch"],
+    "location": "Amsterdam, Netherlands",
+    "profilePicture": "https://example.com/user17-profile.jpg",
+    "links": ["https://github.com/user17", "https://linkedin.com/in/user17"],
+    "createdAt": "2023-05-22T00:00:00.000Z",
+    "updatedAt": "2023-05-22T00:00:00.000Z",
+    "tosAcceptedOn": "2023-05-22T00:00:00.000Z",
+    "currentUserType": "Freelance",
+    "freelanceProfile": {
+      "skills": [".NET", "C#", "Angular", "SQL Server"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "5",
+      "certificates": ["Microsoft Certified: .NET Developer"],
+      "remuneration": "5500"
     },
     "employerProfile": {
       "companyId": ""

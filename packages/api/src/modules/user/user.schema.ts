@@ -66,18 +66,18 @@ export const UserSchema = new Schema({
     schema: [String],
     required: false
   },
-  createdAt: {
+  createdAt: String,
+  updatedAt: String,
+  tosAcceptedOn: String,
+  currentUserType: {
     type: String,
     index: {
-      type: "global",
+      type: 'global',
       name: 'FreelancerCreationIndex', // Name of the GSI
-      rangeKey: 'currentUserType', // The sort key of the GSI
-      project: true, // This will project all fields in the GSI
-    },
+      rangeKey: 'createdAt', // The sort key of the GSI
+      project: true // This will project all fields in the GSI
+    }
   },
-    updatedAt: String,
-  tosAcceptedOn: String,
-  currentUserType: String,
   freelanceProfile: {
     type: Object,
     schema: {

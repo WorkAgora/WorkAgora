@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   Inject,
+  Logger,
   Param,
   Put,
   Query,
@@ -47,7 +48,6 @@ export class UserController {
     description: 'An unexpected error occurred'
   })
   async getCurrentUser(@Req() req: Request): Promise<UserDTO> {
-    // @ts-ignore
     return req.user;
   }
 
@@ -74,7 +74,6 @@ export class UserController {
     description: 'An unexpected error occurred'
   })
   async getUser(@Param('wallet') wallet: string, @Req() req: Request): Promise<User> {
-    // @ts-ignore
     const authenticatedUserWallet = req.user.toLowerCase();
     const requestedUserWallet = wallet.toLowerCase();
 
@@ -124,7 +123,6 @@ export class UserController {
     @Req() req: Request,
     @Body() updatedProfile: UpdateProfileDTO
   ): Promise<UserDTO> {
-    // @ts-ignore
     if (updatedProfile.wallet.toLowerCase() !== req.user.wallet.toLowerCase()) {
       throw new HttpException('Invalid wallet address', 403);
     }
@@ -178,12 +176,12 @@ export class UserController {
       throw new HttpException('Invalid user type', 400);
     }
     try {
-      // @ts-ignore
       return await this.userService.changeUserType(req.user.wallet.toLowerCase(), userType);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
+
   @Get('search/:searchTerm')
   // @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Search for users' })
@@ -210,13 +208,14 @@ export class UserController {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
-  @Get('recentFreelancer/:page')
+
+  @Get('recentFreelancer/:limit')
   @ApiOperation({ summary: 'Get recent freelancers' })
   @ApiParam({
-    name: 'page',
-    description: 'Page number for pagination',
+    name: 'limit',
+    description: 'Limit for freelancers to return',
     required: true,
-    schema: { type: 'integer', default: 1 }
+    schema: { type: 'integer', default: 8 }
   })
   @ApiResponse({
     status: 200,
@@ -231,12 +230,9 @@ export class UserController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getRecentFreelancers(
-    @Param('page') page: number,
-    @Query('limit') limit: number
-  ): Promise<UserDTO[]> {
+  async getRecentFreelancers(@Param('limit') limit: number): Promise<UserDTO[]> {
     try {
-      const freelancers = await this.userService.getRecentFreelancers(page, limit);
+      const freelancers = await this.userService.getRecentFreelancers(limit);
       return freelancers;
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);

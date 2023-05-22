@@ -1,15 +1,17 @@
-import {Box, Button, Flex, SimpleGrid, SimpleGridProps} from '@chakra-ui/react';
-import {useLanding} from '@workagora/front-provider';
-import {FC, useEffect, useState} from 'react';
+import { Box, Button, Flex, SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
+import { useLanding } from '@workagora/front-provider';
+import { FC, useEffect, useState } from 'react';
 import FreelanceCard from '../../card/FreelanceCard';
-import {SearchBarFilter} from './SearchBar';
-import {UserTypeEnum} from "@workagora/utils";
+import { SearchBarFilter } from './SearchBar';
+import { UserTypeEnum } from '@workagora/utils';
+import { useRecentFreelancer } from '@workagora/front/hooks/useRecentFreelancer';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
   const [caption, setCaption] = useState<string>('');
+  const { freelancers } = useRecentFreelancer();
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
