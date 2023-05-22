@@ -4,16 +4,14 @@ import {
   Get,
   HttpException,
   Inject,
-  Logger,
   Param,
   Put,
-  Query,
   Req,
   UseGuards
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { User } from './user.interface';
+import { User } from '@workagora/utils';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';

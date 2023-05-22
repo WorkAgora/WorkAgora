@@ -4,6 +4,7 @@ export interface UserKey {
 
 export interface FreelancerProfile {
   skills?: string[];
+  longDesc?: string;
   situation?: string;
   availability?: string;
   hoursPerWeek?: number;

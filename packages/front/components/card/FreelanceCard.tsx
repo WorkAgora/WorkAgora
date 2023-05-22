@@ -1,4 +1,5 @@
 import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
+import { User } from '@workagora/utils';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import DollarIcon from '../icons/DollarIcon';
@@ -6,7 +7,7 @@ import StarIcon from '../icons/StarIcon';
 import { SearchBarFilter } from '../landing/product/SearchBar';
 
 interface FreelanceCardProps {
-  badges: SearchBarFilter[];
+  user: User;
   blurred?: boolean;
   onClick?: (id: number) => void;
 }
@@ -14,7 +15,7 @@ interface FreelanceCardProps {
 const skills = ['Remote work', 'Full time', '3 months'];
 
 const FreelanceCard: FC<FreelanceCardProps> = ({
-  badges,
+  user,
   blurred = false,
   onClick
 }: FreelanceCardProps) => {
@@ -38,7 +39,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
             lineHeight="120%"
             color="neutral.black"
           >
-            John Doe
+            {user.firstname} {user.lastname}
           </Text>
           <Flex alignItems="center">
             <Text
@@ -64,7 +65,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           lineHeight="120%"
           color="neutral.black"
         >
-          Freelance UI/UX Designer
+          {user.description}
         </Text>
         <Text
           fontFamily="Comfortaa"
@@ -73,11 +74,11 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           lineHeight="120%"
           color="neutral.dsGray"
         >
-          Rennes - France
+          {user.location}
         </Text>
       </Flex>
       <Flex mt={2}>
-        {Array.from({ length: 3 }).map((_, k) => (
+        {/*Array.from({ length: 3 }).map((_, k) => (
           <Badge
             key={k}
             color="neutral.black"
@@ -89,7 +90,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           >
             {skills[k]}
           </Badge>
-        ))}
+        ))*/}
       </Flex>
       <Flex mt={4} px={1}>
         <Text
@@ -100,14 +101,11 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           lineHeight="150%"
           color="neutral.dsGray"
         >
-          I specialize in creating visually appealing and user-friendly interfaces. With extensive
-          experience designing mobile app UI/UX, I can provide valuable insights and deliver
-          exceptional results. My portfolio showcases a range of successful projects, and my hourly
-          rate is competitive.
+          {user.freelanceProfile?.longDesc}
         </Text>
       </Flex>
       <Flex mt={4}>
-        {Array.from({ length: 4 }).map((_, k) => (
+        {/*Array.from({ length: 4 }).map((_, k) => (
           <Badge
             mr={2}
             key={k}
@@ -119,7 +117,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           >
             {badges[k].label}
           </Badge>
-        ))}
+        ))*/}
         <Button
           ml="auto"
           variant="outline"

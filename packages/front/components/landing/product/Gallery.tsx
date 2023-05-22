@@ -56,14 +56,17 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         pb={16}
         {...props}
       >
-        {cards.map((v, k) => {
+        {type == UserTypeEnum.Company
+          ? freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)
+          : ''}
+        {/*cards.map((v, k) => {
           if (type == UserTypeEnum.Freelancer) {
             return <FreelanceCard key={k} badges={badges} blurred={k >= 6} />;
           }
           if (type == UserTypeEnum.Company) {
             return <FreelanceCard key={k} badges={badges} blurred={k >= 6} />;
           }
-        })}
+        })*/}
       </SimpleGrid>
       <Flex
         flexDir="column"

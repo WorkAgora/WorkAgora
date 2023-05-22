@@ -1,9 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsString,
-  IsOptional,
-  IsArray,
-} from 'class-validator';
+import { IsString, IsOptional, IsArray } from 'class-validator';
 
 export class FreelanceDTO {
   @ApiProperty({
@@ -14,6 +10,15 @@ export class FreelanceDTO {
   @IsArray()
   @IsOptional()
   skills?: string[];
+
+  @ApiProperty({
+    description: 'The long description of what the user do',
+    type: String,
+    required: false
+  })
+  @IsString()
+  @IsOptional()
+  longDesc?: string;
 
   @ApiProperty({
     description: 'The situation of the user',

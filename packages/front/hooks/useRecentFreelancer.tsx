@@ -6,7 +6,7 @@ export const useRecentFreelancer = () => {
 
   const callGet = useCallback(async () => {
     const res = await getRecentFreelancers({ limit: 8 });
-    console.log(res);
+    setFreelancers(res);
   }, []);
 
   useEffect(() => {

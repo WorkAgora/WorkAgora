@@ -26,7 +26,7 @@ export const UserSchema = new Schema({
     type: String,
     required: false,
     validate(value) {
-      return value.toString().length <= 500;
+      return value.toString().length <= 100;
     }
   },
   phone: {
@@ -85,6 +85,13 @@ export const UserSchema = new Schema({
         type: Array,
         schema: [String],
         required: false
+      },
+      longDesc: {
+        type: String,
+        required: false,
+        validate(value) {
+          return value.toString().length <= 500;
+        }
       },
       situation: String,
       availability: String,
