@@ -22,29 +22,6 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
     }
   }, [type]);
 
-  const badges: SearchBarFilter[] = [
-    {
-      label: 'Product',
-      bgColor: 'badge.yellow',
-      color: 'neutral.black'
-    },
-    {
-      label: 'Design',
-      bgColor: 'badge.blue',
-      color: 'neutral.white'
-    },
-    {
-      label: 'UI/UX',
-      bgColor: 'badge.red',
-      color: 'neutral.white'
-    },
-    {
-      label: 'Figma',
-      bgColor: 'badge.purple',
-      color: 'neutral.white'
-    }
-  ];
-
   return (
     <Flex w="100%" flexDir="column" position="relative" pb={6}>
       <SimpleGrid
@@ -59,14 +36,6 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         {type == UserTypeEnum.Company
           ? freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)
           : ''}
-        {/*cards.map((v, k) => {
-          if (type == UserTypeEnum.Freelancer) {
-            return <FreelanceCard key={k} badges={badges} blurred={k >= 6} />;
-          }
-          if (type == UserTypeEnum.Company) {
-            return <FreelanceCard key={k} badges={badges} blurred={k >= 6} />;
-          }
-        })*/}
       </SimpleGrid>
       <Flex
         flexDir="column"

@@ -1,10 +1,9 @@
 import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useColoredBadges } from '@workagora/front/hooks/useColoredBadges';
 import { User } from '@workagora/utils';
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
-import { SearchBarFilter } from '../landing/product/SearchBar';
 
 interface FreelanceCardProps {
   user: User;
@@ -12,13 +11,13 @@ interface FreelanceCardProps {
   onClick?: (id: number) => void;
 }
 
-const skills = ['Remote work', 'Full time', '3 months'];
-
 const FreelanceCard: FC<FreelanceCardProps> = ({
   user,
   blurred = false,
   onClick
 }: FreelanceCardProps) => {
+  const skillBadges = useColoredBadges();
+
   return (
     <Box
       p={6}
@@ -78,21 +77,43 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
         </Text>
       </Flex>
       <Flex mt={2}>
-        {/*Array.from({ length: 3 }).map((_, k) => (
-          <Badge
-            key={k}
-            color="neutral.black"
-            bgColor="neutral.gray"
-            borderWidth="1px"
-            borderColor={'none'}
-            variant="filter"
-            mr={2}
-          >
-            {skills[k]}
-          </Badge>
-        ))*/}
+        <Badge
+          color="neutral.black"
+          bgColor="neutral.gray"
+          borderWidth="1px"
+          borderColor={'none'}
+          variant="filter"
+          mr={2}
+        >
+          {user.freelanceProfile?.situation}
+        </Badge>
+        <Badge
+          color="neutral.black"
+          bgColor="neutral.gray"
+          borderWidth="1px"
+          borderColor={'none'}
+          variant="filter"
+          mr={2}
+        >
+          {user.freelanceProfile?.availability}
+        </Badge>
+        <Badge
+          color="neutral.black"
+          bgColor="neutral.gray"
+          borderWidth="1px"
+          borderColor={'none'}
+          variant="filter"
+          mr={2}
+        >
+          {user.freelanceProfile?.yearsOfExperience}{' '}
+          {user.freelanceProfile?.yearsOfExperience != undefined &&
+          parseInt(user.freelanceProfile?.yearsOfExperience) > 1
+            ? 'Years'
+            : 'Year'}{' '}
+          of Experience
+        </Badge>
       </Flex>
-      <Flex mt={4} px={1}>
+      <Flex mt={4} px={1} minHeight="110px">
         <Text
           as="span"
           fontFamily="Montserrat"
@@ -105,19 +126,40 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
         </Text>
       </Flex>
       <Flex mt={4}>
-        {/*Array.from({ length: 4 }).map((_, k) => (
-          <Badge
-            mr={2}
-            key={k}
-            color={badges[k].color}
-            bgColor={badges[k].bgColor}
-            borderWidth="1px"
-            borderColor={'none'}
-            variant="filter"
-          >
-            {badges[k].label}
-          </Badge>
-        ))*/}
+        {Array.from({ length: 4 }).map((_, k) => {
+          if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
+            const skill = user.freelanceProfile?.skills[k];
+            if (skillBadges[skill]) {
+              return (
+                <Badge
+                  mr={2}
+                  key={k}
+                  color={skillBadges[skill].color}
+                  bgColor={skillBadges[skill].bgColor}
+                  borderWidth="1px"
+                  borderColor={'none'}
+                  variant="filter"
+                >
+                  {skill}
+                </Badge>
+              );
+            } else {
+              return (
+                <Badge
+                  mr={2}
+                  key={k}
+                  color={'neutral.black'}
+                  bgColor={'badge.yellow'}
+                  borderWidth="1px"
+                  borderColor={'none'}
+                  variant="filter"
+                >
+                  {skill}
+                </Badge>
+              );
+            }
+          }
+        })}
         <Button
           ml="auto"
           variant="outline"
