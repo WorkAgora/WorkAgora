@@ -126,7 +126,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
         </Text>
       </Flex>
       <Flex mt={4}>
-        {Array.from({ length: 4 }).map((_, k) => {
+        {Array.from({ length: 6 }).map((_, k) => {
           if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
             const skill = user.freelanceProfile?.skills[k];
             skillsLength += skill.length;
