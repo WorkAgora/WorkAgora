@@ -17,7 +17,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
   onClick
 }: FreelanceCardProps) => {
   const skillBadges = useColoredBadges();
-
+  let skillsLength = 0;
   return (
     <Box
       p={6}
@@ -129,34 +129,37 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
         {Array.from({ length: 4 }).map((_, k) => {
           if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
             const skill = user.freelanceProfile?.skills[k];
-            if (skillBadges[skill]) {
-              return (
-                <Badge
-                  mr={2}
-                  key={k}
-                  color={skillBadges[skill].color}
-                  bgColor={skillBadges[skill].bgColor}
-                  borderWidth="1px"
-                  borderColor={'none'}
-                  variant="filter"
-                >
-                  {skill}
-                </Badge>
-              );
-            } else {
-              return (
-                <Badge
-                  mr={2}
-                  key={k}
-                  color={'neutral.black'}
-                  bgColor={'badge.yellow'}
-                  borderWidth="1px"
-                  borderColor={'none'}
-                  variant="filter"
-                >
-                  {skill}
-                </Badge>
-              );
+            skillsLength += skill.length;
+            if (skillsLength <= 45) {
+              if (skillBadges[skill]) {
+                return (
+                  <Badge
+                    mr={2}
+                    key={k}
+                    color={skillBadges[skill].color}
+                    bgColor={skillBadges[skill].bgColor}
+                    borderWidth="1px"
+                    borderColor={'none'}
+                    variant="filter"
+                  >
+                    {skill}
+                  </Badge>
+                );
+              } else {
+                return (
+                  <Badge
+                    mr={2}
+                    key={k}
+                    color={'neutral.black'}
+                    bgColor={'badge.yellow'}
+                    borderWidth="1px"
+                    borderColor={'none'}
+                    variant="filter"
+                  >
+                    {skill}
+                  </Badge>
+                );
+              }
             }
           }
         })}
