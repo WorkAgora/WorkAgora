@@ -185,7 +185,7 @@ export class UserController {
     }
   }
   @Get('search/:searchTerm')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Search for users' })
   @ApiResponse({
     status: 200,
@@ -210,6 +210,7 @@ export class UserController {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
+
   @Get('recentFreelancer/:page')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get recent freelancers' })
