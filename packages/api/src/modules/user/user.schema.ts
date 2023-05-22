@@ -38,7 +38,11 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     }
   },
-  language: Array,
+  language: {
+    type: Array,
+    schema: [String],
+    required: false
+  },
   location: {
     type: String,
     required: false,
@@ -57,20 +61,40 @@ export const UserSchema = new Schema({
       return match !== null && match.length > 0;
     }
   },
-  links: Array,
-  createdAt: Date,
-  updatedAt: Date,
-  tosAcceptedOn: Date,
+  links: {
+    type: Array,
+    schema: [String],
+    required: false
+  },
+  createdAt: {
+    type: String,
+    index: {
+      type: "global",
+      name: 'FreelancerCreationIndex', // Name of the GSI
+      rangeKey: 'currentUserType', // The sort key of the GSI
+      project: true, // This will project all fields in the GSI
+    },
+  },
+    updatedAt: String,
+  tosAcceptedOn: String,
   currentUserType: String,
   freelanceProfile: {
     type: Object,
     schema: {
-      skills: Array,
+      skills: {
+        type: Array,
+        schema: [String],
+        required: false
+      },
       situation: String,
       availability: String,
       hoursPerWeek: Number,
       yearsOfExperience: String,
-      certificates: Array,
+      certificates: {
+        type: Array,
+        schema: [String],
+        required: false
+      },
       remuneration: String
     }
   },

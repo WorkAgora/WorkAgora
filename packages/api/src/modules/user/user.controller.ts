@@ -1,13 +1,24 @@
-import {Body, Controller, Get, HttpException, Inject, Param, Put, Req, UseGuards} from '@nestjs/common';
-import {ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
-import {UserService} from './user.service';
-import {User} from './user.interface';
-import {UserDTO} from '../../dtos/user/user.dto';
-import {JwtAuthGuard} from '../auth/jwt.guard';
-import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
-import {Request} from 'express';
-import {ChangeUserTypeDTO} from "../../dtos/user/change-user-type-dto";
-import {UserTypeEnum} from "../../../../utils/src/index";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Inject,
+  Param,
+  Put,
+  Query,
+  Req,
+  UseGuards
+} from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserService } from './user.service';
+import { User } from './user.interface';
+import { UserDTO } from '../../dtos/user/user.dto';
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
+import { Request } from 'express';
+import { ChangeUserTypeDTO } from '../../dtos/user/change-user-type-dto';
+import { UserTypeEnum } from '../../../../utils/src/index';
 
 @ApiTags('User')
 @Controller('user')
@@ -68,7 +79,10 @@ export class UserController {
     const requestedUserWallet = wallet.toLowerCase();
 
     if (authenticatedUserWallet !== requestedUserWallet) {
-      throw new HttpException('Forbidden: You cannot query another user\'s information without their consent.', 403);
+      throw new HttpException(
+        "Forbidden: You cannot query another user's information without their consent.",
+        403
+      );
     }
 
     try {
@@ -154,7 +168,7 @@ export class UserController {
   })
   @ApiBody({
     description: 'The new user type',
-    type: ChangeUserTypeDTO,
+    type: ChangeUserTypeDTO
   })
   async changeUserType(
     @Req() req: Request,
@@ -166,6 +180,64 @@ export class UserController {
     try {
       // @ts-ignore
       return await this.userService.changeUserType(req.user.wallet.toLowerCase(), userType);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
+  @Get('search/:searchTerm')
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Search for users' })
+  @ApiResponse({
+    status: 200,
+    description: 'Users details',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async searchUsers(
+    @Param('searchTerm') searchTerm: string,
+    @Req() req: Request
+  ): Promise<UserDTO[]> {
+    try {
+      return await this.userService.searchUsers(searchTerm);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
+  @Get('recentFreelancer/:page')
+  @ApiOperation({ summary: 'Get recent freelancers' })
+  @ApiParam({
+    name: 'page',
+    description: 'Page number for pagination',
+    required: true,
+    schema: { type: 'integer', default: 1 }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The list of recent freelancers',
+    type: [UserDTO]
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async getRecentFreelancers(
+    @Param('page') page: number,
+    @Query('limit') limit: number
+  ): Promise<UserDTO[]> {
+    try {
+      const freelancers = await this.userService.getRecentFreelancers(page, limit);
+      return freelancers;
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }

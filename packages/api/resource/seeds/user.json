@@ -1,10 +1,58 @@
 [
   {
     "wallet": "0xac688f514468a753894893e5463938896eff81b4",
-    "email": "test@test.fr",
-    "firstname": "test",
-    "lastname": "test",
-    "currentUserType": "Freelance",
-    "tosAcceptedOn": 1683062347463
+    "email": "john.doe@example.com",
+    "firstname": "John",
+    "lastname": "Doe",
+    "description": "Full-stack developer with expertise in JavaScript",
+    "phone": "+1234567890",
+    "language": ["English", "Spanish"],
+    "location": "San Francisco, CA",
+    "profilePicture": "https://example.com/profile-picture.jpg",
+    "links": ["https://github.com/johndoe", "https://linkedin.com/in/johndoe"],
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z",
+    "tosAcceptedOn": "2023-01-01T00:00:00.000Z",
+    "currentUserType": "freelance",
+    "freelanceProfile": {
+      "skills": ["JavaScript", "Node.js", "React"],
+      "situation": "Available",
+      "availability": "Full-time",
+      "hoursPerWeek": 40,
+      "yearsOfExperience": "5",
+      "certificates": ["AWS Certified Developer"],
+      "remuneration": "5000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
+  },
+  {
+    "wallet": "0xabcdef1234567890abcdef1234567890abcdef12",
+    "email": "jane.doe@example.com",
+    "firstname": "Jane",
+    "lastname": "Doe",
+    "description": "Product designer with a focus on user experience",
+    "phone": "+0987654321",
+    "language": ["English", "French"],
+    "location": "New York, NY",
+    "profilePicture": "https://example.com/profile-picture.jpg",
+    "links": ["https://dribbble.com/janedoe", "https://linkedin.com/in/janedoe"],
+    "createdAt": "2023-01-01T00:00:00.000Z",
+    "updatedAt": "2023-01-01T00:00:00.000Z",
+    "tosAcceptedOn": "2023-01-01T00:00:00.000Z",
+    "currentUserType": "freelance",
+    "freelanceProfile": {
+      "skills": ["UI/UX Design", "Adobe XD", "Figma"],
+      "situation": "Available",
+      "availability": "Part-time",
+      "hoursPerWeek": 20,
+      "yearsOfExperience": "3",
+      "certificates": ["Google UX Design Certificate"],
+      "remuneration": "3000"
+    },
+    "employerProfile": {
+      "companyId": ""
+    }
   }
 ]

@@ -5,6 +5,7 @@ import { User, UserKey } from './user.interface';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
+import { SortOrder } from 'dynamoose/dist/General';
 
 @Injectable()
 export class UserService {
@@ -113,5 +114,86 @@ export class UserService {
     await this.model.update(updatedUser);
 
     return updatedUser;
+  }
+
+  /**
+   * Search for users based on skill, name, etc.
+   * @param searchTerm
+   * @returns UserDTO[]
+   */
+  async searchUsers(searchTerm: string): Promise<UserDTO[]> {
+    try {
+      const users = await this.model.scan().exec();
+
+      return users.filter((user) => {
+        // Convert searchTerm and fields to lowercase for case-insensitive search
+        const term = searchTerm.toLowerCase();
+        return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
+
+        // NOT FOR MVP
+        // return (
+        //   user.firstname?.toLowerCase().includes(term) ||
+        //   user.lastname?.toLowerCase().includes(term) ||
+        //   user.description?.toLowerCase().includes(term) ||
+        //   user.location?.toLowerCase().includes(term) ||
+        //   user.location?.toLowerCase().includes(term) ||
+        //   user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term)) ||
+        //   user.freelanceProfile?.certificates.some((cert) => cert.toLowerCase().includes(term)) ||
+        //   user.freelanceProfile?.situation?.toLowerCase().includes(term)
+        // );
+      });
+    } catch (error) {
+      throw new UnprocessableEntityException('Error while searching users', error.message);
+    }
+  }
+
+  /**
+   * Get recent freelancers
+   * @param page Page number for pagination
+   * @param limit Number of freelancers to return
+   * @returns The list of recent freelancers
+   */
+  async getRecentFreelancers(
+    page: number,
+    limit: number
+  ): Promise<{ data: UserDTO[]; lastEvaluatedKey: UserKey }> {
+    try {
+      let lastEvaluatedKey = null;
+
+      // Loop until we have enough items for the requested page or we have exhausted all items
+      for (let i = 0; i < page; ++i) {
+        const result = await this.model
+          .query('currentUserType')
+          .eq('Freelancer')
+          .using('FreelancerCreationIndex')
+          .sort(SortOrder.descending)
+          .startAt(lastEvaluatedKey)
+          .limit(limit)
+          .exec();
+
+        if (result.lastKey) {
+          lastEvaluatedKey = result.lastKey;
+        } else {
+          // If there's no more items, return whatever we have
+          return { data: result, lastEvaluatedKey: null };
+        }
+      }
+
+      const users = await this.model
+        .query('currentUserType')
+        .eq('Freelancer')
+        .using('FreelancerCreationIndex')
+        .sort(SortOrder.descending)
+        .startAt(lastEvaluatedKey)
+        .limit(limit)
+        .exec();
+
+      return { data: users, lastEvaluatedKey };
+    } catch (error) {
+      throw new UnprocessableEntityException(
+        'Error while getting recent freelancers',
+        error.message
+      );
+    }
   }
 }
