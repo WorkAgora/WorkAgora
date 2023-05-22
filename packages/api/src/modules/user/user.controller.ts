@@ -211,6 +211,7 @@ export class UserController {
     }
   }
   @Get('recentFreelancer/:page')
+  // @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get recent freelancers' })
   @ApiParam({
     name: 'page',
@@ -237,7 +238,7 @@ export class UserController {
   ): Promise<UserDTO[]> {
     try {
       const freelancers = await this.userService.getRecentFreelancers(page, limit);
-      return freelancers;
+      return freelancers.data;
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }

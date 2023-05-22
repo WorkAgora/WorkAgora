@@ -11,6 +11,7 @@ export async function encodeJSONForIPFS(json: object): Promise<string> {
   }
 
   // Convert the signed message into a Blob and store it
+  // @ts-ignore
   const { cid } = await NFTStorage.encodeBlob(blob).catch((e) => {
     throw new Error(`Error encoding the blob: ${e.message}`);
   });

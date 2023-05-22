@@ -39,6 +39,7 @@ export class UserService {
       if (userExist) {
         throw new UnprocessableEntityException('User with this address already exist');
       }
+      // @ts-ignore
       await this.model.create(user);
     } catch (error) {
       throw new UnprocessableEntityException(error, error.message);
@@ -161,24 +162,33 @@ export class UserService {
       let lastEvaluatedKey = null;
 
       // Loop until we have enough items for the requested page or we have exhausted all items
-      for (let i = 0; i < page; ++i) {
-        const result = await this.model
-          .query('currentUserType')
-          .eq('Freelancer')
-          .using('FreelancerCreationIndex')
-          .sort(SortOrder.descending)
-          .startAt(lastEvaluatedKey)
-          .limit(limit)
-          .exec();
+      try {
+        for (let i = 0; i < page; ++i) {
+          const result = await this.model
+            .query('currentUserType')
+            .eq('Freelancer')
+            .using('FreelancerCreationIndex')
+            .sort(SortOrder.descending)
+            .startAt(lastEvaluatedKey)
+            .limit(limit)
+            .exec();
 
-        if (result.lastKey) {
-          lastEvaluatedKey = result.lastKey;
-        } else {
-          // If there's no more items, return whatever we have
-          return { data: result, lastEvaluatedKey: null };
+          if (result.lastKey) {
+            lastEvaluatedKey = result.lastKey;
+          } else {
+            // If there's no more items, return whatever we have
+            return { data: result, lastEvaluatedKey: null };
+          }
         }
+      } catch (error) {
+        throw new UnprocessableEntityException(
+          ('1-Error while getting recent freelancers' + error.message)
+        );
       }
 
+  console.log("BITE");
+      console.log("Limit: " + limit);
+      console.log("LastEvaluatedKey: " + lastEvaluatedKey);
       const users = await this.model
         .query('currentUserType')
         .eq('Freelancer')
@@ -188,10 +198,13 @@ export class UserService {
         .limit(limit)
         .exec();
 
+      console.log("UsersLength: " + users.length);
+
       return { data: users, lastEvaluatedKey };
     } catch (error) {
+      console.error(error);
       throw new UnprocessableEntityException(
-        'Error while getting recent freelancers',
+        '2-Error while getting recent freelancers',
         error.message
       );
     }
