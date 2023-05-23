@@ -41,7 +41,7 @@ export class UserService {
       }
       await this.model.create({
         ...user,
-        hasFreelanceProfile: "false",
+        hasFreelanceProfile: 'false',
         tosAcceptedOn: user.tosAcceptedOn.toString()
       });
     } catch (error) {
@@ -127,12 +127,11 @@ export class UserService {
     limit: number
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
-      // Query users based on userType and sorted by createdAt
+      // Query users based on hasFreelanceProfile and sorted by createdAt
       const users = await this.model
-        .query('currentUserType')
-        .eq('Freelance')
-        .using('FreelancerCreationIndex')
-        .sort(SortOrder.descending)
+        .query('hasFreelanceProfile')
+        .eq('true')
+        .using('HasFreelanceProfileIndex')
         .exec();
 
       const filteredUsers = users.filter((user) => {
@@ -167,7 +166,7 @@ export class UserService {
     try {
       const users = await this.model
         .query('hasFreelanceProfile')
-        .eq("true")
+        .eq('true')
         .using('HasFreelanceProfileIndex')
         .sort(SortOrder.descending)
         .limit(limit)
