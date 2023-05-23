@@ -176,14 +176,15 @@ export class UserController {
       throw new HttpException('Invalid user type', 400);
     }
     try {
+      // @ts-ignore
       return await this.userService.changeUserType(req.user.wallet.toLowerCase(), userType);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
 
-  @Get('search/:page/:limit')
-  @ApiOperation({ summary: 'Search for users' })
+  @Get('searchFreelancer/:page/:limit')
+  @ApiOperation({ summary: 'Search for freelancer' })
   @ApiQuery({
     name: 'searchTerm',
     required: false,
@@ -254,6 +255,9 @@ export class UserController {
   })
   async getRecentFreelancers(@Param('limit') limit: number): Promise<UserDTO[]> {
     try {
+      if (!limit || limit < 1) {
+        throw new HttpException('Bad Request', 400);
+      }
       const freelancers = await this.userService.getRecentFreelancers(limit);
       return freelancers;
     } catch (e) {

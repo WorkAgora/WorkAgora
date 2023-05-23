@@ -50,7 +50,7 @@ Resources:
           AttributeType: S
         - AttributeName: email
           AttributeType: S
-        - AttributeName: currentUserType
+        - AttributeName: hasFreelanceProfile
           AttributeType: S
         - AttributeName: createdAt
           AttributeType: S
@@ -60,9 +60,9 @@ Resources:
         - AttributeName: email
           KeyType: RANGE
       GlobalSecondaryIndexes:
-        - IndexName: FreelancerCreationIndex
+        - IndexName: HasFreelanceProfileIndex
           KeySchema:
-            - AttributeName: currentUserType
+            - AttributeName: hasFreelanceProfile
               KeyType: HASH
             - AttributeName: createdAt
               KeyType: RANGE

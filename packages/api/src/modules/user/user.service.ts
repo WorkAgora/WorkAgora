@@ -6,7 +6,6 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
-import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -40,7 +39,11 @@ export class UserService {
       if (userExist) {
         throw new UnprocessableEntityException('User with this address already exist');
       }
-      await this.model.create({ ...user, tosAcceptedOn: user.tosAcceptedOn.toString() });
+      await this.model.create({
+        ...user,
+        hasFreelanceProfile: 'false',
+        tosAcceptedOn: user.tosAcceptedOn.toString()
+      });
     } catch (error) {
       throw new UnprocessableEntityException(error, error.message);
     }
@@ -58,6 +61,7 @@ export class UserService {
     const updatedUser: User = {
       ...user,
       ...updatedProfile,
+      hasFreelanceProfile: (user.freelanceProfile != null).toString(),
       freelanceProfile: {
         ...(user.freelanceProfile || {}),
         ...(updatedProfile || {})
@@ -123,12 +127,11 @@ export class UserService {
     limit: number
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
-      // Query users based on userType and sorted by createdAt
+      // Query users based on hasFreelanceProfile and sorted by createdAt
       const users = await this.model
-        .query('currentUserType')
-        .eq('Freelance')
-        .using('FreelancerCreationIndex')
-        .sort(SortOrder.descending)
+        .query('hasFreelanceProfile')
+        .eq('true')
+        .using('HasFreelanceProfileIndex')
         .exec();
 
       const filteredUsers = users.filter((user) => {
@@ -161,18 +164,15 @@ export class UserService {
    */
   async getRecentFreelancers(limit: number): Promise<UserDTO[]> {
     try {
-      // Query the latest 'limit' number of Freelancers
-      const result = await this.model
-        .query('currentUserType')
-        .eq('Freelance')
-        .where('createdAt')
-        .between('1970-01-01T00:00:00.000Z', new Date(Date.now()).toISOString())
-        .using('FreelancerCreationIndex')
+      const users = await this.model
+        .query('hasFreelanceProfile')
+        .eq('true')
+        .using('HasFreelanceProfileIndex')
         .sort(SortOrder.descending)
         .limit(limit)
         .exec();
 
-      return result;
+      return users;
     } catch (error) {
       throw new UnprocessableEntityException(
         'Error while getting recent freelancers',

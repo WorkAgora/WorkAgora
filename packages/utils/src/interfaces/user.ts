@@ -29,6 +29,7 @@ export interface User extends UserKey {
   links?: string[];
   createdAt?: string;
   updatedAt?: string;
+  hasFreelanceProfile?: string;
   freelanceProfile?: FreelancerProfile;
   employerProfile?: EmployerProfile;
   currentUserType?: string;
