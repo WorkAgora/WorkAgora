@@ -1,33 +1,35 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { useLanding } from "@workagora/front-provider";
-import { UserTypeEnum } from "@workagora/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import { FC } from "react";
-import FreelanceTop from "./freelance/FreelanceTop";
-import FreelanceSearchBar from "./freelance/FreelanceSearchBar";
-import FreelanceGallery from "./freelance/FreelanceGallery";
-import CompanyTop from "./company/CompanyTop";
-import CompanySearchBar from "./company/CompanySearchBar";
-import CompanyGallery from "./freelance/FreelanceGallery";
+import { Box, Flex } from '@chakra-ui/react';
+import { useLanding } from '@workagora/front-provider';
+import { UserTypeEnum } from '@workagora/utils';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FC, MutableRefObject } from 'react';
+import FreelanceTop from './freelance/FreelanceTop';
+import FreelanceSearchBar from './freelance/FreelanceSearchBar';
+import FreelanceGallery from './freelance/FreelanceGallery';
+import CompanyTop from './company/CompanyTop';
+import CompanySearchBar from './company/CompanySearchBar';
+import CompanyGallery from './company/CompanyGallery';
 
 const MotionBox = motion(Box);
 
+interface DashboardOffersProps {
+  scrollbarRef: MutableRefObject<HTMLElement | null>;
+}
 
-const DashboardOffers: FC = () => {
- const { type } = useLanding();
- 
+const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
+  const { type } = useLanding();
 
- const contentVariants = {
+  const contentVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH='calc( 100vh - 80px )'>
+    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
       <Flex
         flexDir="column"
         w="100%"
-        flexGrow='1'
+        flexGrow="1"
         bgColor="neutral.white"
         px={8}
         py={6}
@@ -49,9 +51,9 @@ const DashboardOffers: FC = () => {
                   Find work
                 </Box>
                 <Flex flexDir="column" gap={6}>
-                   <FreelanceTop />
-                   <FreelanceSearchBar />
-                   <FreelanceGallery />
+                  <FreelanceTop />
+                  <FreelanceSearchBar />
+                  <FreelanceGallery />
                 </Flex>
               </Flex>
             </MotionBox>
@@ -70,16 +72,17 @@ const DashboardOffers: FC = () => {
                   Find profiles
                 </Box>
                 <Flex flexDir="column" gap={6}>
-                    <CompanyTop/>
-                    <CompanySearchBar/>
-                    <CompanyGallery/>
+                  <CompanyTop />
+                  <CompanySearchBar />
+                  <CompanyGallery scrollbarRef={scrollbarRef} />
                 </Flex>
               </Flex>
             </MotionBox>
           )}
         </AnimatePresence>
       </Flex>
-    </Flex>)
+    </Flex>
+  );
 };
 
 export default DashboardOffers;

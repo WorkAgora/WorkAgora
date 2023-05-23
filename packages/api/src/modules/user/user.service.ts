@@ -6,6 +6,7 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -116,32 +117,38 @@ export class UserService {
     return updatedUser;
   }
 
-  /**
-   * Search for users based on skill, name, etc.
-   * @param searchTerm
-   * @returns UserDTO[]
-   */
-  async searchUsers(searchTerm: string): Promise<UserDTO[]> {
+  async searchUsers(
+    searchTerm: string,
+    page: number,
+    limit: number
+  ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
-      const users = await this.model.scan().exec();
-      return users.filter((user) => {
-        // Convert searchTerm and fields to lowercase for case-insensitive search
-        const term = searchTerm.toLowerCase();
+      // Query users based on userType and sorted by createdAt
+      const users = await this.model
+        .query('currentUserType')
+        .eq('Freelance')
+        .using('FreelancerCreationIndex')
+        .sort(SortOrder.descending)
+        .exec();
 
-        return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
+      const filteredUsers = users.filter((user) => {
+        if (searchTerm) {
+          const term = searchTerm.toLowerCase();
 
-        // NOT FOR MVP
-        // return (
-        //   user.firstname?.toLowerCase().includes(term) ||
-        //   user.lastname?.toLowerCase().includes(term) ||
-        //   user.description?.toLowerCase().includes(term) ||
-        //   user.location?.toLowerCase().includes(term) ||
-        //   user.location?.toLowerCase().includes(term) ||
-        //   user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term)) ||
-        //   user.freelanceProfile?.certificates.some((cert) => cert.toLowerCase().includes(term)) ||
-        //   user.freelanceProfile?.situation?.toLowerCase().includes(term)
-        // );
+          return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
+        }
+        return user;
       });
+
+      const maxPage = Math.ceil(filteredUsers.length / limit);
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+
+      return {
+        users: filteredUsers.slice(startIndex, endIndex),
+        maxPage: maxPage,
+        totalResult: filteredUsers.length
+      };
     } catch (error) {
       throw new UnprocessableEntityException('Error while searching users', error.message);
     }
