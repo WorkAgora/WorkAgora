@@ -254,6 +254,9 @@ export class UserController {
   })
   async getRecentFreelancers(@Param('limit') limit: number): Promise<UserDTO[]> {
     try {
+      if (!limit || limit < 1) {
+        throw new HttpException('Bad Request', 400);
+      }
       const freelancers = await this.userService.getRecentFreelancers(limit);
       return freelancers;
     } catch (e) {
