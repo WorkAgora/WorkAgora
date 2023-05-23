@@ -26,7 +26,7 @@ export const UserSchema = new Schema({
     type: String,
     required: false,
     validate(value) {
-      return value.toString().length <= 500;
+      return value.toString().length <= 100;
     }
   },
   phone: {
@@ -66,18 +66,19 @@ export const UserSchema = new Schema({
     schema: [String],
     required: false
   },
-  createdAt: {
-    type: String,
-    index: {
-      type: "global",
-      name: 'FreelancerCreationIndex', // Name of the GSI
-      rangeKey: 'currentUserType', // The sort key of the GSI
-      project: true, // This will project all fields in the GSI
-    },
-  },
-    updatedAt: String,
+  createdAt: String,
+  updatedAt: String,
   tosAcceptedOn: String,
   currentUserType: String,
+  hasFreelanceProfile: {
+    type: String,
+    index: {
+      throughput: 'ON_DEMAND',
+      name: 'HasFreelanceProfileIndex',
+      rangeKey: 'createdAt',
+      project: true, // ProjectionType: ALL
+    },
+  },
   freelanceProfile: {
     type: Object,
     schema: {
@@ -85,6 +86,13 @@ export const UserSchema = new Schema({
         type: Array,
         schema: [String],
         required: false
+      },
+      longDesc: {
+        type: String,
+        required: false,
+        validate(value) {
+          return value.toString().length <= 500;
+        }
       },
       situation: String,
       availability: String,

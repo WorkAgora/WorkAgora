@@ -4,14 +4,8 @@ import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
 import { useRouter } from 'next/router';
 import { privateApi } from '../api';
-import { useLanding, ViewType } from '../landing-provider';
-export interface User {
-  wallet: string;
-  email: string;
-  currentUserType: ViewType;
-  firstname: string;
-  lastname: string;
-}
+import { useLanding } from '../landing-provider';
+import { User, UserTypeEnum } from '@workagora/utils';
 
 type CurrentUserContextInterface = {
   user: User | null;
@@ -38,7 +32,7 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
         path: '/',
         secure: process.env.NODE_ENV === 'production'
       });
-      setType(user.currentUserType);
+      setType(user.currentUserType as UserTypeEnum);
       push('/dashboard');
     }
   };

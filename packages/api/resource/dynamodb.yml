@@ -50,8 +50,21 @@ Resources:
           AttributeType: S
         - AttributeName: email
           AttributeType: S
+        - AttributeName: hasFreelanceProfile
+          AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: S
       KeySchema:
         - AttributeName: wallet
           KeyType: HASH
         - AttributeName: email
           KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: HasFreelanceProfileIndex
+          KeySchema:
+            - AttributeName: hasFreelanceProfile
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL

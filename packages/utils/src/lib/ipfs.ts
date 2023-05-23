@@ -1,11 +1,10 @@
 import { NFTStorage } from 'nft.storage';
-import { Blob } from 'buffer';
 
 // Encode a JSON object for IPFS
 export async function encodeJSONForIPFS(json: object): Promise<string> {
   let blob: Blob;
   try {
-    blob = new Blob([`{"metadata": "${json}"`]);
+    blob = new Blob([`{"metadata": "${json}"`], { type: 'application/json' });
   } catch (e) {
     throw new Error(`Error creating the blob: ${e}`);
   }

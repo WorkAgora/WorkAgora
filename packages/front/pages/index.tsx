@@ -11,10 +11,10 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 
 const Home: NextPage = () => {
   const { user } = useCurrentUser();
-  const { push } = useRouter();
+  const { push, pathname } = useRouter();
   const { handleScroll } = useLanding();
 
-  if (user) {
+  if (user && !pathname.includes('dashboard')) {
     push('/dashboard');
   }
 

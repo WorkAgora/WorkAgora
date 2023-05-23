@@ -1,17 +1,20 @@
 import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useColoredBadges } from '../../hooks/useColoredBadges';
 import { FC } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import SendMsgIcon from '../icons/SendMsgIcon';
 import StarIcon from '../icons/StarIcon';
 import { SearchBarFilter } from '../landing/product/SearchBar';
+import { User } from '@workagora/utils';
 
 interface FreelanceInlineCardProps {
-  badges: SearchBarFilter[];
+  user: User;
 }
 
-const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({
-  badges
-}: FreelanceInlineCardProps) => {
+const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceInlineCardProps) => {
+  const skillBadges = useColoredBadges();
+  let skillsLength = 0;
+
   return (
     <Flex
       w="100%"
@@ -30,7 +33,7 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({
           lineHeight="120%"
           color="neutral.black"
         >
-          John Doe
+          {user.firstname} {user.lastname}
         </Text>
         <Text
           fontFamily="Comfortaa"
@@ -39,23 +42,48 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({
           lineHeight="120%"
           color="neutral.dsGray"
         >
-          Freelance UI/UX Designer
+          {user.description}
         </Text>
       </Flex>
-      <Flex ml="auto" justifyContent="space-between" flexBasis="50%">
-        <Flex columnGap={2} alignItems="center">
-          {Array.from({ length: 4 }).map((_, k) => (
-            <Badge
-              key={k}
-              color={badges[k].color}
-              bgColor={badges[k].bgColor}
-              borderWidth="1px"
-              borderColor={'none'}
-              variant="filter"
-            >
-              {badges[k].label}
-            </Badge>
-          ))}
+      <Flex ml="auto" justifyContent="space-between" flexBasis="60%">
+        <Flex columnGap={2} alignItems="center" flexBasis="60%">
+          {Array.from({ length: 6 }).map((_, k) => {
+            if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
+              const skill = user.freelanceProfile?.skills[k];
+              skillsLength += skill.length;
+              if (skillsLength <= 45) {
+                if (skillBadges[skill]) {
+                  return (
+                    <Badge
+                      mr={2}
+                      key={k}
+                      color={skillBadges[skill].color}
+                      bgColor={skillBadges[skill].bgColor}
+                      borderWidth="1px"
+                      borderColor={'none'}
+                      variant="filter"
+                    >
+                      {skill}
+                    </Badge>
+                  );
+                } else {
+                  return (
+                    <Badge
+                      mr={2}
+                      key={k}
+                      color={'neutral.black'}
+                      bgColor={'badge.yellow'}
+                      borderWidth="1px"
+                      borderColor={'none'}
+                      variant="filter"
+                    >
+                      {skill}
+                    </Badge>
+                  );
+                }
+              }
+            }
+          })}
         </Flex>
         <Flex alignItems="center">
           <Flex w="20px" color="#38A169" justifyContent="center">
@@ -68,8 +96,19 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({
             fontSize="14px"
             lineHeight="120%"
             color="neutral.black"
+            display="flex"
+            flexDir="row"
+            minW="55px"
+            maxW="55px"
+            alignItems="center"
           >
-            40/hr
+            <Flex flexBasis="60%" ml="auto" justifyContent="center">
+              {user.freelanceProfile?.remuneration}
+            </Flex>
+            <Flex flexBasis="10%">/</Flex>
+            <Flex flexBasis="30%" ml={1}>
+              hr
+            </Flex>
           </Text>
         </Flex>
         <Flex alignItems="center">

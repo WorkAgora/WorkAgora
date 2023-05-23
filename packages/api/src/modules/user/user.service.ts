@@ -1,12 +1,11 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException, Logger } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
-import { User, UserKey } from './user.interface';
+import { User, UserKey } from '@workagora/utils';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
-
 @Injectable()
 export class UserService {
   constructor(
@@ -39,7 +38,11 @@ export class UserService {
       if (userExist) {
         throw new UnprocessableEntityException('User with this address already exist');
       }
-      await this.model.create(user);
+      await this.model.create({
+        ...user,
+        hasFreelanceProfile: 'false',
+        tosAcceptedOn: user.tosAcceptedOn.toString()
+      });
     } catch (error) {
       throw new UnprocessableEntityException(error, error.message);
     }
@@ -57,6 +60,7 @@ export class UserService {
     const updatedUser: User = {
       ...user,
       ...updatedProfile,
+      hasFreelanceProfile: (user.freelanceProfile != null).toString(),
       freelanceProfile: {
         ...(user.freelanceProfile || {}),
         ...(updatedProfile || {})
@@ -116,32 +120,51 @@ export class UserService {
     return updatedUser;
   }
 
-  /**
-   * Search for users based on skill, name, etc.
-   * @param searchTerm
-   * @returns UserDTO[]
-   */
-  async searchUsers(searchTerm: string): Promise<UserDTO[]> {
+  async searchUsers(
+    searchTerm: string,
+    page: number,
+    limit: number,
+    wallet?: string
+  ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
-      const users = await this.model.scan().exec();
+      // Query users based on hasFreelanceProfile and sorted by createdAt
+      let users = null;
+      Logger.log(wallet);
+      if (!wallet) {
+        users = await this.model
+          .query('hasFreelanceProfile')
+          .eq('true')
+          .using('HasFreelanceProfileIndex')
+          .exec();
+      } else {
+        users = await this.model
+          .query('hasFreelanceProfile')
+          .eq('true')
+          .where('wallet')
+          .not()
+          .eq(wallet.toLowerCase())
+          .using('HasFreelanceProfileIndex')
+          .exec();
+      }
 
-      return users.filter((user) => {
-        // Convert searchTerm and fields to lowercase for case-insensitive search
-        const term = searchTerm.toLowerCase();
-        return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
+      const filteredUsers = users.filter((user) => {
+        if (searchTerm) {
+          const term = searchTerm.toLowerCase();
 
-        // NOT FOR MVP
-        // return (
-        //   user.firstname?.toLowerCase().includes(term) ||
-        //   user.lastname?.toLowerCase().includes(term) ||
-        //   user.description?.toLowerCase().includes(term) ||
-        //   user.location?.toLowerCase().includes(term) ||
-        //   user.location?.toLowerCase().includes(term) ||
-        //   user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term)) ||
-        //   user.freelanceProfile?.certificates.some((cert) => cert.toLowerCase().includes(term)) ||
-        //   user.freelanceProfile?.situation?.toLowerCase().includes(term)
-        // );
+          return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
+        }
+        return user;
       });
+
+      const maxPage = Math.ceil(filteredUsers.length / limit);
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+
+      return {
+        users: filteredUsers.slice(startIndex, endIndex),
+        maxPage: maxPage,
+        totalResult: filteredUsers.length
+      };
     } catch (error) {
       throw new UnprocessableEntityException('Error while searching users', error.message);
     }
@@ -149,46 +172,20 @@ export class UserService {
 
   /**
    * Get recent freelancers
-   * @param page Page number for pagination
    * @param limit Number of freelancers to return
    * @returns The list of recent freelancers
    */
-  async getRecentFreelancers(
-    page: number,
-    limit: number
-  ): Promise<{ data: UserDTO[]; lastEvaluatedKey: UserKey }> {
+  async getRecentFreelancers(limit: number): Promise<UserDTO[]> {
     try {
-      let lastEvaluatedKey = null;
-
-      // Loop until we have enough items for the requested page or we have exhausted all items
-      for (let i = 0; i < page; ++i) {
-        const result = await this.model
-          .query('currentUserType')
-          .eq('Freelancer')
-          .using('FreelancerCreationIndex')
-          .sort(SortOrder.descending)
-          .startAt(lastEvaluatedKey)
-          .limit(limit)
-          .exec();
-
-        if (result.lastKey) {
-          lastEvaluatedKey = result.lastKey;
-        } else {
-          // If there's no more items, return whatever we have
-          return { data: result, lastEvaluatedKey: null };
-        }
-      }
-
       const users = await this.model
-        .query('currentUserType')
-        .eq('Freelancer')
-        .using('FreelancerCreationIndex')
+        .query('hasFreelanceProfile')
+        .eq('true')
+        .using('HasFreelanceProfileIndex')
         .sort(SortOrder.descending)
-        .startAt(lastEvaluatedKey)
         .limit(limit)
         .exec();
 
-      return { data: users, lastEvaluatedKey };
+      return users;
     } catch (error) {
       throw new UnprocessableEntityException(
         'Error while getting recent freelancers',
