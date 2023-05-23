@@ -54,9 +54,9 @@ const FreelanceOffers: FC = () => {
       </Flex>
       <Flex flexDir="column">
         <SimpleGrid columns={2} spacing={8} w="100%">
-          {offers.map((v, k) => (
+          {/*offers.map((v, k) => (
             <FreelanceCard key={k} badges={badges} onClick={handleFreelanceCardClick} />
-          ))}
+          ))*/}
         </SimpleGrid>
       </Flex>
     </Flex>

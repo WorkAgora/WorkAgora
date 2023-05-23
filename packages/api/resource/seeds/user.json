@@ -22,7 +22,7 @@
       "hoursPerWeek": 40,
       "yearsOfExperience": "5",
       "certificates": ["AWS Certified Developer"],
-      "remuneration": "5000"
+      "remuneration": "200"
     },
     "employerProfile": {
       "companyId": ""
@@ -51,7 +51,7 @@
       "hoursPerWeek": 20,
       "yearsOfExperience": "3",
       "certificates": ["Google UX Design Certificate"],
-      "remuneration": "3000"
+      "remuneration": "150"
     },
     "employerProfile": {
       "companyId": ""
@@ -80,7 +80,7 @@
       "hoursPerWeek": 40,
       "yearsOfExperience": "4",
       "certificates": [],
-      "remuneration": "4000"
+      "remuneration": "80"
     },
     "employerProfile": {
       "companyId": ""
@@ -109,7 +109,7 @@
       "hoursPerWeek": 20,
       "yearsOfExperience": "3",
       "certificates": ["Django Certified Developer"],
-      "remuneration": "2500"
+      "remuneration": "200"
     },
     "employerProfile": {
       "companyId": ""
@@ -138,7 +138,7 @@
       "hoursPerWeek": 0,
       "yearsOfExperience": "6",
       "certificates": ["React Native Certified Developer"],
-      "remuneration": "6000"
+      "remuneration": "250"
     },
     "employerProfile": {
       "companyId": ""
@@ -167,7 +167,7 @@
       "hoursPerWeek": 40,
       "yearsOfExperience": "7",
       "certificates": ["TensorFlow Developer Certificate"],
-      "remuneration": "7000"
+      "remuneration": "90"
     },
     "employerProfile": {
       "companyId": ""
@@ -196,7 +196,7 @@
       "hoursPerWeek": 20,
       "yearsOfExperience": "4",
       "certificates": ["Unity Certified Developer"],
-      "remuneration": "4500"
+      "remuneration": "120"
     },
     "employerProfile": {
       "companyId": ""
@@ -225,7 +225,7 @@
       "hoursPerWeek": 40,
       "yearsOfExperience": "4",
       "certificates": ["Certified Ethereum Developer"],
-      "remuneration": "8000"
+      "remuneration": "150"
     },
     "employerProfile": {
       "companyId": ""
@@ -254,7 +254,7 @@
       "hoursPerWeek": 0,
       "yearsOfExperience": "7",
       "certificates": ["TensorFlow Developer Certificate"],
-      "remuneration": "8500"
+      "remuneration": "100"
     },
     "employerProfile": {
       "companyId": ""
@@ -283,7 +283,7 @@
       "hoursPerWeek": 30,
       "yearsOfExperience": "8",
       "certificates": ["AWS Certified Solutions Architect"],
-      "remuneration": "9000"
+      "remuneration": "60"
     },
     "employerProfile": {
       "companyId": ""
@@ -312,7 +312,7 @@
       "hoursPerWeek": 20,
       "yearsOfExperience": "2",
       "certificates": [],
-      "remuneration": "4000"
+      "remuneration": "170"
     },
     "employerProfile": {
       "companyId": ""
@@ -341,7 +341,7 @@
       "hoursPerWeek": 20,
       "yearsOfExperience": "3",
       "certificates": [],
-      "remuneration": "3500"
+      "remuneration": "300"
     },
     "employerProfile": {
       "companyId": ""
@@ -370,7 +370,7 @@
       "hoursPerWeek": 0,
       "yearsOfExperience": "6",
       "certificates": ["AWS Certified DevOps Engineer"],
-      "remuneration": "6500"
+      "remuneration": "165"
     },
     "employerProfile": {
       "companyId": ""
@@ -399,7 +399,7 @@
       "hoursPerWeek": 40,
       "yearsOfExperience": "8",
       "certificates": ["Embedded C++ Certified Professional"],
-      "remuneration": "8000"
+      "remuneration": "80"
     },
     "employerProfile": {
       "companyId": ""
@@ -428,7 +428,7 @@
       "hoursPerWeek": 0,
       "yearsOfExperience": "5",
       "certificates": ["Certified Information Systems Security Professional (CISSP)"],
-      "remuneration": "7000"
+      "remuneration": "70"
     },
     "employerProfile": {
       "companyId": ""
@@ -457,7 +457,7 @@
       "hoursPerWeek": 30,
       "yearsOfExperience": "3",
       "certificates": [],
-      "remuneration": "6000"
+      "remuneration": "60"
     },
     "employerProfile": {
       "companyId": ""
@@ -486,7 +486,7 @@
       "hoursPerWeek": 40,
       "yearsOfExperience": "5",
       "certificates": ["Microsoft Certified: .NET Developer"],
-      "remuneration": "5500"
+      "remuneration": "55"
     },
     "employerProfile": {
       "companyId": ""

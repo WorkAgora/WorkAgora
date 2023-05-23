@@ -1,17 +1,25 @@
+import { User } from '@workagora/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { getRecentFreelancers } from '../services/search';
 
-export const useRecentFreelancer = () => {
-  const [freelancers, setFreelancers] = useState<any[]>([]);
+interface UseRecentFreelancerProps {
+  limit: number;
+}
+
+export const useRecentFreelancer = ({ limit }: UseRecentFreelancerProps) => {
+  const [freelancers, setFreelancers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const callGet = useCallback(async () => {
-    const res = await getRecentFreelancers({ limit: 8 });
+    setLoading(true);
+    const res = await getRecentFreelancers({ limit });
     setFreelancers(res);
-  }, []);
+    setLoading(false);
+  }, [limit]);
 
   useEffect(() => {
     callGet();
   }, [callGet]);
 
-  return { freelancers };
+  return { freelancers, loading };
 };

@@ -1,6 +1,7 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
-import FreelanceInlineCard from '@workagora/front/components/card/FreelanceInlineCard';
-import { SearchBarFilter } from '@workagora/front/components/landing/product/SearchBar';
+import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
+import FreelanceInlineCard from '../../../card/FreelanceInlineCard';
+import { SearchBarFilter } from '../../../landing/product/SearchBar';
+import { useRecentFreelancer } from '../../../../hooks/useRecentFreelancer';
 import { FC } from 'react';
 
 const offers = [1, 2, 3, 4];
@@ -29,6 +30,8 @@ const badges: SearchBarFilter[] = [
 ];
 
 const CompanyOffers: FC = () => {
+  const { freelancers, loading } = useRecentFreelancer({ limit: 4 });
+
   return (
     <Flex flexDir="column" gap={4}>
       <Flex justifyContent="space-between" alignItems="center">
@@ -42,9 +45,8 @@ const CompanyOffers: FC = () => {
         </Box>
       </Flex>
       <Flex flexDir="column" gap={2}>
-        {offers.map((v, k) => (
-          <FreelanceInlineCard key={k} badges={badges} />
-        ))}
+        {loading && <Spinner />}
+        {!loading && freelancers.map((v, k) => <FreelanceInlineCard key={k} user={v} />)}
       </Flex>
     </Flex>
   );

@@ -62,13 +62,13 @@ const CompanyGallery: FC = () => {
       </Flex>
       <Flex flexDir="column" mt={4}>
         <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
-          {curResult.map((v, k) => (
+          {/*curResult.map((v, k) => (
             <FreelanceCard
               key={k}
               badges={badges}
               onClick={(id: number) => push(`/dashboard/offer/${id}`)}
             />
-          ))}
+          ))*/}
         </SimpleGrid>
       </Flex>
       <Flex justifyContent="center" alignItems="center" mt={6}>
