@@ -12,6 +12,7 @@ export const darkTheme: ThemeOverride = extendTheme({
     brand: {
       primary: '#FDB81E',
       primaryHover: '#E39E02',
+      green: '#38A169',
       secondary: '#002C39',
       secondaryAlpha: '#002C3966', // 66 -> 40%
       secondaryHover: '#005061'

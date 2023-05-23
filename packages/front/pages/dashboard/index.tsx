@@ -6,6 +6,8 @@ import DashboardMenu from '../../components/dashboard/menu/DashboardMenu';
 import DashboardOffers from '../../components/dashboard/offers/DashboardOffers';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import DashboardProfile from '../../components/dashboard/profile/DashboardProfile';
+import { UserTypeEnum } from '@workagora/utils';
 
 const Dashboard: NextPage = () => {
   const { view } = useDashboard();
@@ -16,12 +18,15 @@ const Dashboard: NextPage = () => {
 
   useEffect(() => {
     if (user) {
-      setType(user.currentUserType);
+      setType(user.currentUserType as UserTypeEnum);
     }
   }, [setType, user]);
 
   useEffect(() => {
     switch (view) {
+      case 'profile':
+        setContent(<DashboardProfile />);
+        break;
       case 'dashboard':
         setContent(<DashboardMain />);
         break;
