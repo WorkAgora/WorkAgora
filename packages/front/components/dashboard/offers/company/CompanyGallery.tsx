@@ -1,4 +1,4 @@
-import { Button, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { FC, MutableRefObject, useEffect, useState } from 'react';
 import FreelanceCard from '@workagora/front/components/card/FreelanceCard';
 import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer';
@@ -39,33 +39,46 @@ const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
 
   return (
     <Flex flexDir="column">
-      <Flex justifyContent="end">
-        <Text
-          id="total-result"
-          fontSize="16px"
-          fontWeight="700"
-          lineHeight="120%"
-          fontFamily="Comfortaa"
-        >
-          {totalResult} results
-        </Text>
-      </Flex>
-      <Flex flexDir="column" mt={4}>
-        <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
-          {loading && <Spinner />}
-          {!loading && freelancers.map((v, k) => <FreelanceCard key={k} user={v} />)}
-        </SimpleGrid>
-      </Flex>
-      {maxPage > 1 && (
-        <Flex justifyContent="center" alignItems="center" mt={6}>
-          <Button variant="icon" onClick={prevPage} disabled={curPage === 1}>
-            {`<`}
-          </Button>
-          <Text mx={2}>{`${curPage} / ${maxPage}`}</Text>
-          <Button variant="icon" onClick={nextPage} disabled={curPage === maxPage}>
-            {`>`}
-          </Button>
+      {loading && (
+        <Flex flexDir="column" justifyContent="center" alignItems="center" my={16}>
+          <Spinner color="brand.primary" size="xl" mx="auto" />
+          <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+            Loading Offers
+          </Box>
         </Flex>
+      )}
+      {!loading && (
+        <>
+          <Flex justifyContent="end">
+            <Text
+              id="total-result"
+              fontSize="16px"
+              fontWeight="700"
+              lineHeight="120%"
+              fontFamily="Comfortaa"
+            >
+              {totalResult} results
+            </Text>
+          </Flex>
+          <Flex flexDir="column" mt={4}>
+            <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
+              {freelancers.map((v, k) => (
+                <FreelanceCard key={k} user={v} />
+              ))}
+            </SimpleGrid>
+          </Flex>
+          {maxPage > 1 && (
+            <Flex justifyContent="center" alignItems="center" mt={6}>
+              <Button variant="icon" onClick={prevPage} disabled={curPage === 1}>
+                {`<`}
+              </Button>
+              <Text mx={2}>{`${curPage} / ${maxPage}`}</Text>
+              <Button variant="icon" onClick={nextPage} disabled={curPage === maxPage}>
+                {`>`}
+              </Button>
+            </Flex>
+          )}
+        </>
       )}
     </Flex>
   );

@@ -4,7 +4,7 @@ import {
   Get,
   HttpException,
   Inject,
-  Optional,
+  Logger,
   Param,
   Put,
   Query,
@@ -176,7 +176,6 @@ export class UserController {
       throw new HttpException('Invalid user type', 400);
     }
     try {
-      // @ts-ignore
       return await this.userService.changeUserType(req.user.wallet.toLowerCase(), userType);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
@@ -221,12 +220,65 @@ export class UserController {
     description: 'An unexpected error occurred'
   })
   async searchUsers(
+    @Req() req: Request,
     @Param('page') page: number,
     @Param('limit') limit: number,
     @Query('searchTerm') searchTerm?: string
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
       return await this.userService.searchUsers(searchTerm, page, limit);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
+
+  @Get('searchFreelancerLogged/:page/:limit')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Search for freelancer' })
+  @ApiQuery({
+    name: 'searchTerm',
+    required: false,
+    description: 'Term to search users',
+    type: String
+  })
+  @ApiParam({
+    name: 'page',
+    description: 'Page for freelancers to return',
+    required: true,
+    schema: { type: 'integer', default: 1 }
+  })
+  @ApiParam({
+    name: 'limit',
+    description: 'Limit for freelancers to return',
+    required: true,
+    schema: { type: 'integer', default: 8 }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Users details',
+    type: () => ({
+      users: [UserDTO],
+      maxPage: Number,
+      totalResult: Number
+    })
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async searchUsersLogged(
+    @Req() req: Request,
+    @Param('page') page: number,
+    @Param('limit') limit: number,
+    @Query('searchTerm') searchTerm?: string
+  ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
+    Logger.log(JSON.stringify(req.user));
+    try {
+      return await this.userService.searchUsers(searchTerm, page, limit, req.user.wallet);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }

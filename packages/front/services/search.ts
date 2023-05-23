@@ -1,4 +1,4 @@
-import { publicApi } from '@workagora/front-provider';
+import { privateApi, publicApi } from '@workagora/front-provider';
 import { User } from '@workagora/utils';
 
 export interface GetRecentFreelancersProps {
@@ -23,10 +23,19 @@ export const getRecentFreelancers: GetRecentFreelancers = async ({ limit }) => {
 };
 
 export const searchFreelancers: SearchFreelancers = async ({ limit, page, searchTerm }) => {
-  let query = `/user/search/${page}/${limit}`;
+  let query = `/user/searchFreelancer/${page}/${limit}`;
   if (searchTerm) {
     query = `${query}?searchTerm=${searchTerm}`;
   }
   const res = await publicApi.get(query);
+  return res.data;
+};
+
+export const searchFreelancersLogged: SearchFreelancers = async ({ limit, page, searchTerm }) => {
+  let query = `/user/searchFreelancerLogged/${page}/${limit}`;
+  if (searchTerm) {
+    query = `${query}?searchTerm=${searchTerm}`;
+  }
+  const res = await privateApi.get(query);
   return res.data;
 };

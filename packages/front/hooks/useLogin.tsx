@@ -17,7 +17,7 @@ export const useLogin = (signupModalOpen: boolean) => {
     async ({ address, chain }: { address: `0x${string}`; chain: Chain }) => {
       setIsLoading(true);
       const res = await signIn({ address, chain });
-      if (typeof res !== 'string') {
+      if (typeof res !== 'string' && res) {
         setUser(res);
         setType(res.currentUserType);
       } else {

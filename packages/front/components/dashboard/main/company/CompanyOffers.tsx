@@ -44,10 +44,23 @@ const CompanyOffers: FC = () => {
           </Button>
         </Box>
       </Flex>
-      <Flex flexDir="column" gap={2}>
-        {loading && <Spinner />}
-        {!loading && freelancers.map((v, k) => <FreelanceInlineCard key={k} user={v} />)}
-      </Flex>
+
+      {loading && (
+        <Flex flexDir="column" justifyContent="center" alignItems="center" my={16}>
+          <Spinner color="brand.primary" size="xl" mx="auto" />
+          <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+            Loading Offers
+          </Box>
+        </Flex>
+      )}
+      {!loading && (
+        <Flex flexDir="column" gap={2}>
+          {' '}
+          {freelancers.map((v, k) => (
+            <FreelanceInlineCard key={k} user={v} />
+          ))}{' '}
+        </Flex>
+      )}
     </Flex>
   );
 };

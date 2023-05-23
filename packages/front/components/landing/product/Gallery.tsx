@@ -1,4 +1,4 @@
-import { Box, Button, Flex, SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, SimpleGridProps, Spinner } from '@chakra-ui/react';
 import { useLanding } from '@workagora/front-provider';
 import { FC, useEffect, useState } from 'react';
 import FreelanceCard from '../../card/FreelanceCard';
@@ -8,7 +8,7 @@ import { useRecentFreelancer } from '@workagora/front/hooks/useRecentFreelancer'
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
   const [caption, setCaption] = useState<string>('');
-  const { freelancers } = useRecentFreelancer({ limit: 8 });
+  const { freelancers, loading } = useRecentFreelancer({ limit: 8 });
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
@@ -21,19 +21,35 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
 
   return (
     <Flex w="100%" flexDir="column" position="relative" pb={6}>
-      <SimpleGrid
-        columns={2}
-        spacing={8}
-        w="100%"
-        position="relative"
-        zIndex="1"
-        pb={16}
-        {...props}
-      >
-        {type == UserTypeEnum.Company
-          ? freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)
-          : ''}
-      </SimpleGrid>
+      {loading && (
+        <Flex
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          my={16}
+          w="100%"
+          position="relative"
+        >
+          <Spinner color="brand.primary" size="xl" mx="auto" />
+          <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+            Loading Offers
+          </Box>
+        </Flex>
+      )}
+      {!loading && (
+        <SimpleGrid
+          columns={2}
+          spacing={8}
+          w="100%"
+          position="relative"
+          zIndex="1"
+          pb={16}
+          {...props}
+        >
+          {type == UserTypeEnum.Company &&
+            freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)}
+        </SimpleGrid>
+      )}
       <Flex
         flexDir="column"
         justifyContent="end"
@@ -42,7 +58,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         w="100%"
         position="absolute"
         zIndex="2"
-        bottom="0"
+        bottom={loading ? '-50' : '0'}
       >
         <Box textStyle="h3" as="h3" w="100%" textAlign="center" cursor="default">
           {caption}

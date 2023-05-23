@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException, Logger } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from '@workagora/utils';
@@ -6,7 +6,6 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
-
 @Injectable()
 export class UserService {
   constructor(
@@ -124,15 +123,29 @@ export class UserService {
   async searchUsers(
     searchTerm: string,
     page: number,
-    limit: number
+    limit: number,
+    wallet?: string
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
       // Query users based on hasFreelanceProfile and sorted by createdAt
-      const users = await this.model
-        .query('hasFreelanceProfile')
-        .eq('true')
-        .using('HasFreelanceProfileIndex')
-        .exec();
+      let users = null;
+      Logger.log(wallet);
+      if (!wallet) {
+        users = await this.model
+          .query('hasFreelanceProfile')
+          .eq('true')
+          .using('HasFreelanceProfileIndex')
+          .exec();
+      } else {
+        users = await this.model
+          .query('hasFreelanceProfile')
+          .eq('true')
+          .where('wallet')
+          .not()
+          .eq(wallet.toLowerCase())
+          .using('HasFreelanceProfileIndex')
+          .exec();
+      }
 
       const filteredUsers = users.filter((user) => {
         if (searchTerm) {
