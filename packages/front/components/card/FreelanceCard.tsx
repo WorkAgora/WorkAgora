@@ -8,7 +8,7 @@ import StarIcon from '../icons/StarIcon';
 interface FreelanceCardProps {
   user: User;
   blurred?: boolean;
-  onClick?: (id: number) => void;
+  onClick?: (id: string) => void;
 }
 
 const FreelanceCard: FC<FreelanceCardProps> = ({
@@ -160,7 +160,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           fontWeight="400"
           lineHeight="100%"
           maxH="26px"
-          onClick={() => onClick?.(Math.floor(Math.random() * 2000))}
+          onClick={() => onClick?.(user.wallet)}
         >
           See more
         </Button>

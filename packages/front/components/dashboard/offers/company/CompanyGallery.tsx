@@ -5,6 +5,7 @@ import {
   SearchFreelancerProvider,
   useSearchFreelancer
 } from '../../../../hooks/useSearchFreelancer';
+import { useRouter } from 'next/router';
 
 interface CompanyGalleryProps {
   scrollbarRef: MutableRefObject<HTMLElement | null>;
@@ -21,6 +22,7 @@ const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
     elementByPage,
     searchFilters
   } = useSearchFreelancer(6);
+  const { push } = useRouter();
 
   const handlePageChange = (newPage: number) => {
     handleSearch(newPage, elementByPage, searchFilters);
@@ -70,7 +72,13 @@ const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
           <Flex flexDir="column" mt={4}>
             <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
               {freelancers.length > 0 &&
-                freelancers.map((v, k) => <FreelanceCard key={k} user={v} />)}
+                freelancers.map((v, k) => (
+                  <FreelanceCard
+                    key={k}
+                    user={v}
+                    onClick={(id) => push(`/dashboard/freelance/${id}`)}
+                  />
+                ))}
             </SimpleGrid>
           </Flex>
           {maxPage > 1 && (

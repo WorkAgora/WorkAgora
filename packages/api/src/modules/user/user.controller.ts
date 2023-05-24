@@ -74,17 +74,8 @@ export class UserController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getUser(@Param('wallet') wallet: string, @Req() req: Request): Promise<User> {
-    const authenticatedUserWallet = req.user.toLowerCase();
+  async getUser(@Param('wallet') wallet: string): Promise<User> {
     const requestedUserWallet = wallet.toLowerCase();
-
-    if (authenticatedUserWallet !== requestedUserWallet) {
-      throw new HttpException(
-        "Forbidden: You cannot query another user's information without their consent.",
-        403
-      );
-    }
-
     try {
       const user = await this.userService.findUserByWallet(requestedUserWallet);
       if (!user) {
@@ -281,7 +272,6 @@ export class UserController {
     @Param('limit') limit: number,
     @Query('searchTerm') searchTerm?: string
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
-    Logger.log(JSON.stringify(req.user));
     try {
       return await this.userService.searchUsers(searchTerm, page, limit, req.user.wallet);
     } catch (e) {
