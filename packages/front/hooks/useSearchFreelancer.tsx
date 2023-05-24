@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useCurrentUser } from '@workagora/front-provider';
-import { User } from '@workagora/utils';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
+import { User, UserTypeEnum } from '@workagora/utils';
 import { searchFreelancers, searchFreelancersLogged } from '../services/search';
 import { createContext, ReactNode, useContext, useState, useCallback, useEffect } from 'react';
 
@@ -89,6 +89,7 @@ export const useSearchFreelancer = (elementToDisplay?: number) => {
     setLoading
   } = useContext(SearchFreelancerContext);
   const { user } = useCurrentUser();
+  const { type } = useLanding();
 
   useEffect(() => {
     if (elementToDisplay) {
@@ -132,10 +133,10 @@ export const useSearchFreelancer = (elementToDisplay?: number) => {
   );
 
   useEffect(() => {
-    if (searchFilters) {
+    if (searchFilters && type === UserTypeEnum.Company) {
       handleSearch(1, elementByPage, searchFilters);
     }
-  }, [elementByPage, handleSearch, searchFilters]);
+  }, [handleSearch, searchFilters]);
 
   return {
     freelancers,

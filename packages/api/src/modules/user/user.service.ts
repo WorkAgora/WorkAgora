@@ -174,7 +174,7 @@ export class UserService {
           .exec();
       }
 
-      const term = searchTerm.toLowerCase();
+      const term = searchTerm?.toLowerCase() ?? '';
       const skillsArray = term.split(',');
 
       // Calculate score for each user
@@ -191,7 +191,7 @@ export class UserService {
       });
 
       // Remove users with score = 0
-      const filteredUsers = users.filter(user => user.score > 0);
+      const filteredUsers = users.filter((user) => user.score > 0);
 
       // Sort users by score
       filteredUsers.sort((a, b) => b.score - a.score);
@@ -206,7 +206,7 @@ export class UserService {
         totalResult: filteredUsers.length
       };
     } catch (error) {
-      throw new UnprocessableEntityException('Error while searching users', error.message);
+      throw new UnprocessableEntityException('Error while searching users: ' + error.message);
     }
   }
 
