@@ -1,4 +1,4 @@
-# User
+# UserManager
 
 
 
@@ -9,23 +9,6 @@
 
 
 ## Methods
-
-### authority
-
-```solidity
-function authority() external view returns (address)
-```
-
-
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
 
 ### contractor
 
@@ -64,7 +47,7 @@ function employer() external view returns (contract Employer)
 ### getReputation
 
 ```solidity
-function getReputation(address _address, enum User.Role _role) external view returns (uint256)
+function getReputation(address _address, enum UserManager.Role _role) external view returns (uint256)
 ```
 
 
@@ -76,7 +59,7 @@ function getReputation(address _address, enum User.Role _role) external view ret
 | Name | Type | Description |
 |---|---|---|
 | _address | address | undefined |
-| _role | enum User.Role | undefined |
+| _role | enum UserManager.Role | undefined |
 
 #### Returns
 
@@ -87,7 +70,7 @@ function getReputation(address _address, enum User.Role _role) external view ret
 ### initialize
 
 ```solidity
-function initialize(address _authority, contract ReputationCard _reputationCard, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
+function initialize(address _sigAuthority, contract ReputationCard _reputationCard, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
 ```
 
 
@@ -98,7 +81,7 @@ function initialize(address _authority, contract ReputationCard _reputationCard,
 
 | Name | Type | Description |
 |---|---|---|
-| _authority | address | undefined |
+| _sigAuthority | address | undefined |
 | _reputationCard | contract ReputationCard | undefined |
 | _employer | contract Employer | undefined |
 | _contractor | contract Contractor | undefined |
@@ -143,6 +126,34 @@ function jobContract() external view returns (contract JobContract)
 |---|---|---|
 | _0 | contract JobContract | undefined |
 
+### owner
+
+```solidity
+function owner() external view returns (address)
+```
+
+
+
+*Returns the address of the current owner.*
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
+### renounceOwnership
+
+```solidity
+function renounceOwnership() external nonpayable
+```
+
+
+
+*Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.*
+
+
 ### reputationCard
 
 ```solidity
@@ -159,6 +170,39 @@ function reputationCard() external view returns (contract ReputationCard)
 | Name | Type | Description |
 |---|---|---|
 | _0 | contract ReputationCard | undefined |
+
+### sigAuthority
+
+```solidity
+function sigAuthority() external view returns (address)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | undefined |
+
+### transferOwnership
+
+```solidity
+function transferOwnership(address newOwner) external nonpayable
+```
+
+
+
+*Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| newOwner | address | undefined |
 
 ### verifiedUsers
 
@@ -205,6 +249,23 @@ function verifyUser(address _address, string _kycId, bytes _signature) external 
 
 
 ## Events
+
+### OwnershipTransferred
+
+```solidity
+event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| previousOwner `indexed` | address | undefined |
+| newOwner `indexed` | address | undefined |
 
 ### UserVerified
 

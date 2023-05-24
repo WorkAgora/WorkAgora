@@ -55,6 +55,7 @@
     "aws-lambda": "^1.0.7",
     "aws-serverless-express": "^3.4.0",
     "babel-jest": "^29.4.1",
+    "bignumber.js": "^9.1.1",
     "chai": "^4.3.7",
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",

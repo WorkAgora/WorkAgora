@@ -1,10 +1,10 @@
-# JobContract
+# PriceController
 
 
 
 
 
-
+Network: Avax From: https://docs.chain.link/data-feeds/price-feeds/addresses?network=avalanche Aggregator: AVAX/USD      Address (mainnet): 0x0A77230d17318075983913bC2145DB16C7366156      Address (testnet): 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD Aggregator: LINK/USD      Address (mainnet): 0x49ccd9ca821EfEab2b98c60dC60F518E765EDe9a      Address (testnet): 0x34C4c526902d88a3Aa98DB8a9b802603EB1E3470
 
 
 
@@ -13,7 +13,7 @@
 ### contracts
 
 ```solidity
-function contracts(string) external view returns (string contractId, enum JobContract.State state, uint256 totalAmountUsd, enum PaymentToken paymentToken, uint256 durationDays, address contractorAddress, address employerAddress, string ipfsJmiHash)
+function contracts(enum PaymentToken) external view returns (contract PriceConsumer priceConsumer, contract IERC20 tokenAddress)
 ```
 
 
@@ -24,25 +24,19 @@ function contracts(string) external view returns (string contractId, enum JobCon
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined |
+| _0 | enum PaymentToken | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| contractId | string | undefined |
-| state | enum JobContract.State | undefined |
-| totalAmountUsd | uint256 | undefined |
-| paymentToken | enum PaymentToken | undefined |
-| durationDays | uint256 | undefined |
-| contractorAddress | address | undefined |
-| employerAddress | address | undefined |
-| ipfsJmiHash | string | undefined |
+| priceConsumer | contract PriceConsumer | undefined |
+| tokenAddress | contract IERC20 | undefined |
 
-### create
+### getTokenData
 
 ```solidity
-function create(JobContract.CreateParams _params, bytes _signature) external nonpayable
+function getTokenData(enum PaymentToken _token) external view returns (contract PriceConsumer, contract IERC20)
 ```
 
 
@@ -53,35 +47,19 @@ function create(JobContract.CreateParams _params, bytes _signature) external non
 
 | Name | Type | Description |
 |---|---|---|
-| _params | JobContract.CreateParams | undefined |
-| _signature | bytes | undefined |
-
-### getContractPrice
-
-```solidity
-function getContractPrice(JobContract.CreateParams _params) external view returns (uint256)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _params | JobContract.CreateParams | undefined |
+| _token | enum PaymentToken | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | contract PriceConsumer | undefined |
+| _1 | contract IERC20 | undefined |
 
-### getEmployerBalance
+### isTokenSet
 
 ```solidity
-function getEmployerBalance(JobContract.CreateParams _params) external view returns (uint256)
+function isTokenSet(enum PaymentToken _token) external view returns (bool)
 ```
 
 
@@ -92,30 +70,13 @@ function getEmployerBalance(JobContract.CreateParams _params) external view retu
 
 | Name | Type | Description |
 |---|---|---|
-| _params | JobContract.CreateParams | undefined |
+| _token | enum PaymentToken | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
-
-### initialize
-
-```solidity
-function initialize(address _user, address _priceController) external nonpayable
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _user | address | undefined |
-| _priceController | address | undefined |
+| _0 | bool | undefined |
 
 ### owner
 
@@ -144,6 +105,24 @@ function renounceOwnership() external nonpayable
 
 *Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.*
 
+
+### setToken
+
+```solidity
+function setToken(enum PaymentToken _token, address _aggregator, address _tokenAddress) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _token | enum PaymentToken | undefined |
+| _aggregator | address | undefined |
+| _tokenAddress | address | undefined |
 
 ### transferOwnership
 
