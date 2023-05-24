@@ -8,6 +8,7 @@ import FreelanceGallery from './freelance/FreelanceGallery';
 import CompanyTop from './company/CompanyTop';
 import CompanyGallery from './company/CompanyGallery';
 import SearchBar from '../../landing/product/SearchBar';
+import { SearchFreelancerProvider } from '@workagora/front/hooks/useSearchFreelancer';
 
 const MotionBox = motion(Box);
 
@@ -17,7 +18,6 @@ interface DashboardOffersProps {
 
 const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
   const { type } = useLanding();
-  const [searchFilters, setSearchFilters] = useState<string[]>([]);
 
   const contentVariants = {
     hidden: { opacity: 0 },
@@ -72,9 +72,11 @@ const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
                   Find profiles
                 </Box>
                 <Flex flexDir="column" gap={6}>
-                  <CompanyTop />
-                  <SearchBar onSearch={(filters) => setSearchFilters(filters)} />
-                  <CompanyGallery searchFilters={searchFilters} scrollbarRef={scrollbarRef} />
+                  <SearchFreelancerProvider>
+                    <CompanyTop />
+                    <SearchBar />
+                    <CompanyGallery scrollbarRef={scrollbarRef} />
+                  </SearchFreelancerProvider>
                 </Flex>
               </Flex>
             </MotionBox>

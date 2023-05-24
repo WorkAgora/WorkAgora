@@ -4,11 +4,13 @@ import { FC, useEffect, useState } from 'react';
 import FreelanceCard from '../../card/FreelanceCard';
 import { UserTypeEnum } from '@workagora/utils';
 import { useRecentFreelancer } from '@workagora/front/hooks/useRecentFreelancer';
+import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer';
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
   const [caption, setCaption] = useState<string>('');
   const { freelancers, loading } = useRecentFreelancer({ limit: 8 });
+  const searchFreelance = useSearchFreelancer(8);
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
@@ -46,8 +48,24 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
           pb={16}
           {...props}
         >
-          {type == UserTypeEnum.Company &&
-            freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)}
+          {type == UserTypeEnum.Company && (
+            <>
+              {searchFreelance.searchFilters.length === 0 &&
+                freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)}
+              {searchFreelance.searchFilters.length > 0 &&
+                searchFreelance.freelancers.map((v, k) => (
+                  <FreelanceCard
+                    key={k}
+                    user={v}
+                    blurred={
+                      searchFreelance.freelancers.length % 2 === 0
+                        ? k >= searchFreelance.freelancers.length - 2
+                        : k >= searchFreelance.freelancers.length - 1
+                    }
+                  />
+                ))}
+            </>
+          )}
         </SimpleGrid>
       )}
       <Flex

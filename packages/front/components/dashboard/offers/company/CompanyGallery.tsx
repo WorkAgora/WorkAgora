@@ -1,25 +1,29 @@
 import { Box, Button, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
-import { FC, MutableRefObject, useEffect, useState } from 'react';
+import { FC, MutableRefObject, useCallback, useEffect, useState } from 'react';
 import FreelanceCard from '@workagora/front/components/card/FreelanceCard';
-import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer';
+import {
+  SearchFreelancerProvider,
+  useSearchFreelancer
+} from '../../../../hooks/useSearchFreelancer';
 
 interface CompanyGalleryProps {
   scrollbarRef: MutableRefObject<HTMLElement | null>;
-  searchFilters: string[];
 }
 
-const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef, searchFilters }) => {
-  const { freelancers, loading, maxPage, curPage, totalResult, callGet } = useSearchFreelancer();
-  const elementByPage = 6;
-
-  useEffect(() => {
-    if (searchFilters.length === 0) {
-      callGet(1, elementByPage);
-    }
-  }, [callGet, searchFilters]);
+const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
+  const {
+    freelancers,
+    loading,
+    maxPage,
+    curPage,
+    totalResult,
+    handleSearch,
+    elementByPage,
+    searchFilters
+  } = useSearchFreelancer(6);
 
   const handlePageChange = (newPage: number) => {
-    callGet(newPage, elementByPage);
+    handleSearch(newPage, elementByPage, searchFilters);
     const element = document.getElementById('total-result');
     if (element && scrollbarRef.current) {
       // Calculate the position of the target element relative to the PerfectScrollbar container
@@ -65,9 +69,8 @@ const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef, searchFilters }
           </Flex>
           <Flex flexDir="column" mt={4}>
             <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
-              {freelancers.map((v, k) => (
-                <FreelanceCard key={k} user={v} />
-              ))}
+              {freelancers.length > 0 &&
+                freelancers.map((v, k) => <FreelanceCard key={k} user={v} />)}
             </SimpleGrid>
           </Flex>
           {maxPage > 1 && (

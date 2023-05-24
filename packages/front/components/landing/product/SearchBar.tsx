@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import {
   Badge,
   Box,
@@ -15,12 +15,9 @@ import {
 import { useLanding } from '@workagora/front-provider';
 import { mostCommonSkill, UserTypeEnum } from '@workagora/utils';
 import { useColoredBadges } from '../../../hooks/useColoredBadges';
+import { useSearchFreelancer } from '../../../hooks/useSearchFreelancer';
 
-interface SearchBarProps extends FlexProps {
-  onSearch?: (filters: string[]) => void;
-}
-
-const SearchBar: FC<SearchBarProps> = ({ onSearch, ...props }: SearchBarProps) => {
+const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const { type } = useLanding();
   const [title, setTitle] = useState<string>('');
   const [filters, setFilters] = useState<string[]>([]);
@@ -31,14 +28,18 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch, ...props }: SearchBarProps) =
   const menuRef = useRef();
   const inputRef = useRef();
   const [searchText, setSearchText] = useState('');
+  const { setSearchFilters } = useSearchFreelancer();
 
   const selectFilter = (filter: string) => {
+    let newFilters: string[] = [];
     if (!curFilters.includes(filter)) {
-      setCurFilters([...curFilters, filter]);
+      newFilters = [...curFilters, filter];
+      setCurFilters(newFilters);
     } else {
-      setCurFilters([...curFilters.filter((v) => v !== filter)]);
+      newFilters = [...curFilters.filter((v) => v !== filter)];
+      setCurFilters(newFilters);
     }
-    if (onSearch) onSearch(curFilters);
+    setSearchFilters(newFilters);
   };
 
   const handleItemClick = (filter: string) => {
@@ -119,6 +120,15 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch, ...props }: SearchBarProps) =
     };
   }, [onClose]);
 
+  useEffect(() => {
+    // Component mounted
+    // Perform any setup or side effects here
+
+    return () => {
+      setSearchFilters([]);
+    };
+  }, []);
+
   return (
     <Flex flexDir="column" {...props} zIndex="10">
       <Box textStyle="h2" cursor="default">
@@ -182,6 +192,7 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch, ...props }: SearchBarProps) =
             onClick={() => {
               setCurFilters([]);
               setFilters([]);
+              setSearchFilters([]);
             }}
           >
             Clear filters

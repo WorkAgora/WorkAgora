@@ -16,7 +16,14 @@
     "currentUserType": "Freelance",
     "hasFreelanceProfile": "true",
     "freelanceProfile": {
-      "skills": ["JavaScript", "Node.js", "React"],
+      "skills": [
+        "JavaScript",
+        "Node.js",
+        "React",
+        "Cloud Computing",
+        "Data Analysis",
+        "Digital Marketing"
+      ],
       "longDesc": "I'm a bilingual full-stack developer proficient in JavaScript, Node.js, and React. With over 5 years of experience in the tech field, I've also earned an AWS Developer Certificate. I'm currently available for full-time gigs and able to commit 40 hours per week. Excited to develop efficient solutions for your business!",
       "situation": "Available",
       "availability": "Full-time",
@@ -66,7 +73,7 @@
     "currentUserType": "Freelance",
     "hasFreelanceProfile": "true",
     "freelanceProfile": {
-      "skills": ["HTML", "CSS", "JavaScript"],
+      "skills": ["HTML", "CSS", "JavaScript", "Responsive Web Design", "Front-end Frameworks"],
       "longDesc": "I am an experienced front-end developer proficient in HTML, CSS, and JavaScript. I have 4 years of experience in this field and I'm currently available full time. I guarantee to dedicate 40 hours per week and provide excellent quality work.",
       "situation": "Available",
       "availability": "Full-time",
@@ -96,8 +103,8 @@
     "currentUserType": "Freelance",
     "hasFreelanceProfile": "true",
     "freelanceProfile": {
-      "skills": ["Python", "Django", "SQL"],
-      "longDesc": " I'm a Backend developer proficient in Python, Django, and SQL. As a Django Certified Developer with 3 years of experience, I am capable of handling part-time roles and dedicating 20 hours per week.",
+      "skills": ["Python", "Django", "SQL", "RESTful API Development", "Database Management"],
+      "longDesc": "I'm a Backend developer proficient in Python, Django, and SQL. As a Django Certified Developer with 3 years of experience, I am capable of handling part-time roles and dedicating 20 hours per week.",
       "situation": "Available",
       "availability": "Part-time",
       "hoursPerWeek": 20,
@@ -126,7 +133,7 @@
     "currentUserType": "Freelance",
     "hasFreelanceProfile": "true",
     "freelanceProfile": {
-      "skills": ["React Native", "JavaScript", "TypeScript"],
+      "skills": ["React Native", "JavaScript", "TypeScript", "Mobile App Design"],
       "longDesc": "I'm a mobile app developer, skilled in React Native, JavaScript, and TypeScript. With 6 years of experience and a React Native Developer Certificate, I have proven my proficiency in the field. Currently, I'm not available for projects.",
       "situation": "Unavailable",
       "availability": "N/A",
@@ -156,7 +163,7 @@
     "currentUserType": "Freelance",
     "hasFreelanceProfile": "true",
     "freelanceProfile": {
-      "skills": ["Python", "R", "TensorFlow"],
+      "skills": ["Python", "R", "TensorFlow", "Data Analysis"],
       "longDesc": "I'm an expert data scientist skilled in Python, R, and TensorFlow. With 7 years of experience and a TensorFlow Developer Certificate, I offer full-time services and can commit 40 hours per week.",
       "situation": "Available",
       "availability": "Full-time",
