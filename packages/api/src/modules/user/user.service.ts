@@ -172,17 +172,20 @@ export class UserService {
         user.score = score;
       });
 
-      // Sort users by score
-      users.sort((a, b) => b.score - a.score);
+      // Remove users with score = 0
+      const filteredUsers = users.filter(user => user.score > 0);
 
-      const maxPage = Math.ceil(users.length / limit);
+      // Sort users by score
+      filteredUsers.sort((a, b) => b.score - a.score);
+
+      const maxPage = Math.ceil(filteredUsers.length / limit);
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
 
       return {
-        users: users.slice(startIndex, endIndex),
+        users: filteredUsers.slice(startIndex, endIndex),
         maxPage: maxPage,
-        totalResult: users.length
+        totalResult: filteredUsers.length
       };
     } catch (error) {
       throw new UnprocessableEntityException('Error while searching users', error.message);
