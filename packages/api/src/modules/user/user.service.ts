@@ -174,7 +174,7 @@ export class UserService {
           .exec();
       }
 
-      const term = searchTerm?.toLowerCase() ?? '';
+      const term = searchTerm ? searchTerm.toLowerCase() : '';
       const skillsArray = term.split(',');
 
       // Calculate score for each user
@@ -190,11 +190,17 @@ export class UserService {
         user.score = score;
       });
 
-      // Remove users with score = 0
-      const filteredUsers = users.filter((user) => user.score > 0);
-
-      // Sort users by score
-      filteredUsers.sort((a, b) => b.score - a.score);
+      let filteredUsers = users;
+      if (term !== '') {
+        filteredUsers = users.filter((user) => user.score > 0);
+        filteredUsers.sort((a, b) => b.score - a.score);
+      } else {
+        filteredUsers.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB.getTime() - dateA.getTime();
+        });
+      }
 
       const maxPage = Math.ceil(filteredUsers.length / limit);
       const startIndex = (page - 1) * limit;
