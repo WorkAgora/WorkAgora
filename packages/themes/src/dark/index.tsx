@@ -34,7 +34,10 @@ export const darkTheme: ThemeOverride = extendTheme({
       orange: '#DD6B20',
       teal: '#319795',
       pink: '#D53F8C',
-      indigo: '#667EEA'
+      indigo: '#667EEA',
+      cyan: '#48BB78',
+      lime: '#84CC16',
+      amber: '#F6AD55'
     }
   },
   fonts: {

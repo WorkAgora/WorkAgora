@@ -26,7 +26,7 @@ export const UserSchema = new Schema({
     type: String,
     required: false,
     validate(value) {
-      return value.toString().length <= 100;
+      return value.toString().length <= 55;
     }
   },
   phone: {
@@ -76,8 +76,8 @@ export const UserSchema = new Schema({
       throughput: 'ON_DEMAND',
       name: 'HasFreelanceProfileIndex',
       rangeKey: 'createdAt',
-      project: true, // ProjectionType: ALL
-    },
+      project: true // ProjectionType: ALL
+    }
   },
   freelanceProfile: {
     type: Object,

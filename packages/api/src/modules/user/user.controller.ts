@@ -20,6 +20,7 @@ import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
 import { Request } from 'express';
 import { ChangeUserTypeDTO } from '../../dtos/user/change-user-type-dto';
 import { UserTypeEnum } from '../../../../utils/src/index';
+import { omit } from 'lodash';
 
 @ApiTags('User')
 @Controller('user')
@@ -127,6 +128,10 @@ export class UserController {
       throw new HttpException('Invalid wallet address', 403);
     }
     try {
+      await this.userService.updateUserProfile(
+        updatedProfile.wallet.toLowerCase(),
+        omit(updatedProfile, ['freelanceProfile', 'employerProfile'])
+      );
       // Update the profile based on the currentUserType
       if (updatedProfile.currentUserType === UserTypeEnum.Freelancer) {
         // Update FreelancerProfile
@@ -144,7 +149,7 @@ export class UserController {
         throw new HttpException('Bad Request', 400);
       }
     } catch (e) {
-      throw new HttpException('An unexpected error occurred', 500);
+      throw new HttpException('An unexpected error occurred: ' + e.message, 500);
     }
   }
 

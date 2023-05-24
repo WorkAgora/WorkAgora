@@ -16,7 +16,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
   blurred = false,
   onClick
 }: FreelanceCardProps) => {
-  const skillBadges = useColoredBadges();
+  const { getCategoryColorForSkill } = useColoredBadges();
   let skillsLength = 0;
   return (
     <Box
@@ -131,35 +131,21 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
             const skill = user.freelanceProfile?.skills[k];
             skillsLength += skill.length;
             if (skillsLength <= 45) {
-              if (skillBadges[skill]) {
-                return (
-                  <Badge
-                    mr={2}
-                    key={k}
-                    color={skillBadges[skill].color}
-                    bgColor={skillBadges[skill].bgColor}
-                    borderWidth="1px"
-                    borderColor={'none'}
-                    variant="filter"
-                  >
-                    {skill}
-                  </Badge>
-                );
-              } else {
-                return (
-                  <Badge
-                    mr={2}
-                    key={k}
-                    color={'neutral.black'}
-                    bgColor={'badge.yellow'}
-                    borderWidth="1px"
-                    borderColor={'none'}
-                    variant="filter"
-                  >
-                    {skill}
-                  </Badge>
-                );
-              }
+              const colors = getCategoryColorForSkill(skill);
+
+              return (
+                <Badge
+                  mr={2}
+                  key={k}
+                  color={colors.color}
+                  bgColor={colors.bgColor}
+                  borderWidth="1px"
+                  borderColor={'none'}
+                  variant="filter"
+                >
+                  {skill}
+                </Badge>
+              );
             }
           }
         })}

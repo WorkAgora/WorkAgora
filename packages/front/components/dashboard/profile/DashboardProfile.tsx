@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { UserTypeEnum } from '@workagora/utils';
 import FreelanceTopProfile from './freelance/FreelanceTopProfile';
+import FreelanceResume from './freelance/FreelanceResume';
 
 const MotionBox = motion(Box);
 
@@ -38,8 +39,9 @@ const DashboardProfile: FC = () => {
               variants={contentVariants}
               transition={{ ease: 'easeInOut', duration: 0.3 }}
             >
-              <Flex flexDir="column" gap={4}>
+              <Flex flexDir="column" gap={6}>
                 <FreelanceTopProfile />
+                <FreelanceResume />
               </Flex>
             </MotionBox>
           )}

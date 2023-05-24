@@ -6,6 +6,7 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
+import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
 @Injectable()
 export class UserService {
   constructor(
@@ -46,6 +47,23 @@ export class UserService {
     } catch (error) {
       throw new UnprocessableEntityException(error, error.message);
     }
+  }
+
+  async updateUserProfile(wallet: string, updatedProfile: UpdateProfileDTO): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      ...updatedProfile
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
   }
 
   async updateFreelancerProfile(

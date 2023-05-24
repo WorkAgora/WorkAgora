@@ -5,15 +5,18 @@ import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer'
 
 interface CompanyGalleryProps {
   scrollbarRef: MutableRefObject<HTMLElement | null>;
+  searchFilters: string[];
 }
 
-const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
+const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef, searchFilters }) => {
   const { freelancers, loading, maxPage, curPage, totalResult, callGet } = useSearchFreelancer();
   const elementByPage = 6;
 
   useEffect(() => {
-    callGet(1, elementByPage);
-  }, [callGet]);
+    if (searchFilters.length === 0) {
+      callGet(1, elementByPage);
+    }
+  }, [callGet, searchFilters]);
 
   const handlePageChange = (newPage: number) => {
     callGet(newPage, elementByPage);

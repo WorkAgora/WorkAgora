@@ -1,130 +1,192 @@
-import {Badge, Box, Button, Flex, FlexProps, Input, InputGroup, InputRightElement} from '@chakra-ui/react';
-import {useLanding} from '@workagora/front-provider';
-import {FC, useEffect, useState} from 'react';
-import AddIcon from '../../icons/AddIcon';
-import {UserTypeEnum} from "@workagora/utils";
+import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  FlexProps,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useDisclosure
+} from '@chakra-ui/react';
+import { useLanding } from '@workagora/front-provider';
+import { mostCommonSkill, UserTypeEnum } from '@workagora/utils';
+import { useColoredBadges } from '../../../hooks/useColoredBadges';
 
-export interface SearchBarFilter {
-  label: string;
-  bgColor: string;
-  color: string;
+interface SearchBarProps extends FlexProps {
+  onSearch?: (filters: string[]) => void;
 }
 
-const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
+const SearchBar: FC<SearchBarProps> = ({ onSearch, ...props }: SearchBarProps) => {
   const { type } = useLanding();
   const [title, setTitle] = useState<string>('');
-  const [filters, setFilters] = useState<SearchBarFilter[]>([]);
+  const [filters, setFilters] = useState<string[]>([]);
   const [curFilters, setCurFilters] = useState<string[]>([]);
+  const { getCategoryColorForSkill, allSkills } = useColoredBadges();
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const menuRef = useRef();
+  const inputRef = useRef();
+  const [searchText, setSearchText] = useState('');
 
-  const selectFilter = (filter: SearchBarFilter) => {
-    if (!curFilters.includes(filter.label)) {
-      setCurFilters([...curFilters, filter.label]);
+  const selectFilter = (filter: string) => {
+    if (!curFilters.includes(filter)) {
+      setCurFilters([...curFilters, filter]);
     } else {
-      setCurFilters([...curFilters.filter((v) => v !== filter.label)]);
+      setCurFilters([...curFilters.filter((v) => v !== filter)]);
     }
+    if (onSearch) onSearch(curFilters);
+  };
+
+  const handleItemClick = (filter: string) => {
+    if (filter != 'No result') {
+      setSearchText('');
+      setSearchResults([]);
+      if (!filters.includes(filter)) {
+        setFilters([...filters, filter]);
+      }
+      selectFilter(filter);
+    }
+    if (isOpen) onClose();
+    if (inputRef.current) inputRef.current.focus();
+  };
+
+  const searchSkills = (searchText: string) => {
+    searchText = searchText.toLowerCase();
+    if (searchText === '') {
+      setSearchResults([]);
+      onClose();
+      return;
+    }
+    let searchResults = allSkills
+      .filter((skill) => skill.toLowerCase().startsWith(searchText))
+      .map((skill) => {
+        let score = 0;
+        if (skill.toLowerCase() === searchText) {
+          score = 100;
+        } else {
+          score = 100 - skill.length;
+        }
+        return {
+          skill,
+          score
+        };
+      });
+
+    searchResults.sort((a, b) => b.score - a.score);
+    searchResults = searchResults.slice(0, 10);
+
+    const finalResult = searchResults
+      .map((result) => result.skill)
+      .filter((result) => !filters.includes(result));
+    if (finalResult.length > 0) {
+      setSearchResults(finalResult);
+    } else {
+      setSearchResults(['No result']);
+    }
+    if (!isOpen) onOpen();
+    if (inputRef.current) inputRef.current.focus();
   };
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
       setTitle('Find the perfect offer');
       setCurFilters([]);
-      setFilters([
-        {
-          label: 'Badge1',
-          bgColor: 'badge.yellow',
-          color: 'neutral.black'
-        },
-        {
-          label: 'Badge2',
-          bgColor: 'badge.purple',
-          color: 'neutral.white'
-        },
-        {
-          label: 'Badge3',
-          bgColor: 'badge.red',
-          color: 'neutral.white'
-        },
-        {
-          label: 'Badge4',
-          bgColor: 'badge.yellow',
-          color: 'neutral.black'
-        }
-      ]);
+      setFilters([]);
     }
 
     if (type === UserTypeEnum.Company) {
       setTitle('Find the perfect freelancer');
       setCurFilters([]);
-      setFilters([
-        {
-          label: 'Product',
-          bgColor: 'badge.yellow',
-          color: 'neutral.black'
-        },
-        {
-          label: 'Design',
-          bgColor: 'badge.blue',
-          color: 'neutral.white'
-        },
-        {
-          label: 'UI/UX',
-          bgColor: 'badge.red',
-          color: 'neutral.white'
-        },
-        {
-          label: 'Figma',
-          bgColor: 'badge.purple',
-          color: 'neutral.white'
-        }
-      ]);
+      setFilters(mostCommonSkill);
     }
   }, [type]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
-    <Flex flexDir="column" {...props}>
+    <Flex flexDir="column" {...props} zIndex="10">
       <Box textStyle="h2" cursor="default">
         {title}
       </Box>
-      <InputGroup variant="searchBar" mt={2}>
-        <Input placeholder="Add a filter to improve your research" />
-        <InputRightElement width="auto">
-          <Button
-            variant="primary"
-            rightIcon={
-              <Box w="14px" h="14px" ml={2}>
-                <AddIcon />
-              </Box>
-            }
-            borderLeftRadius="0"
-          >
-            Add the filter
-          </Button>
-        </InputRightElement>
-      </InputGroup>
+      <Box position="relative">
+        <Input
+          ref={inputRef}
+          variant="searchBar"
+          mt={2}
+          value={searchText}
+          placeholder="Add a filter to improve your research"
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            searchSkills(e.target.value);
+          }}
+        />
+        <Box ref={menuRef}>
+          <Menu isOpen={isOpen}>
+            <MenuButton as={Box} position="absolute" top="85%" left="0" zIndex={1} width="100%" />
+            <MenuList>
+              {searchResults.map((result, index) => (
+                <MenuItem key={index} onClick={(e) => handleItemClick(e.target.textContent)}>
+                  {result}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        </Box>
+      </Box>
       <Flex width="100%" mt={3} alignItems="center">
-        <Flex maxW="85%" columnGap={2}>
-          {filters.map((v, k) => (
-            <Badge
-              key={k}
-              color={!curFilters.includes(v.label) ? 'neutral.black' : v.color}
-              bgColor={!curFilters.includes(v.label) ? 'none' : v.bgColor}
-              borderWidth="1px"
-              borderColor={!curFilters.includes(v.label) ? v.bgColor : 'none'}
-              _hover={{
-                bgColor: !curFilters.includes(v.label) ? v.bgColor : 'rgba(0,0,0,0)',
-                color: !curFilters.includes(v.label) ? v.color : 'neutral.black',
-                borderColor: !curFilters.includes(v.label) ? 'none' : v.bgColor
-              }}
-              variant="filter"
-              onClick={() => selectFilter(v)}
-            >
-              {v.label}
-            </Badge>
-          ))}
+        <Flex maxW="85%" flexWrap="wrap" gap={2}>
+          {filters.map((v, k) => {
+            const colors = getCategoryColorForSkill(v);
+            return (
+              <Badge
+                key={k}
+                color={!curFilters.includes(v) ? 'neutral.black' : colors.color}
+                bgColor={!curFilters.includes(v) ? 'none' : colors.bgColor}
+                borderWidth="1px"
+                borderColor={!curFilters.includes(v) ? colors.bgColor : 'none'}
+                _hover={{
+                  bgColor: !curFilters.includes(v) ? colors.bgColor : 'rgba(0,0,0,0)',
+                  color: !curFilters.includes(v) ? colors.color : 'neutral.black',
+                  borderColor: !curFilters.includes(v) ? 'none' : colors.bgColor
+                }}
+                variant="filter"
+                onClick={() => selectFilter(v)}
+              >
+                {v}
+              </Badge>
+            );
+          })}
         </Flex>
-        <Button variant="link" size="xs" ml={4} mt={0.5} onClick={() => setCurFilters([])}>
-          Clear filters
-        </Button>
+        {filters.length > 0 && (
+          <Button
+            variant="link"
+            size="xs"
+            ml={4}
+            mt={0.5}
+            onClick={() => {
+              setCurFilters([]);
+              setFilters([]);
+            }}
+          >
+            Clear filters
+          </Button>
+        )}
       </Flex>
     </Flex>
   );
