@@ -120,6 +120,15 @@ export class UserService {
     return updatedUser;
   }
 
+  /**
+   * Search users based on a search term
+   * @param searchTerm The search term
+   * @param page The page number
+   * @param limit The number of results per page
+   * @param wallet The wallet address of the user who is searching
+   * @returns The list of users matching the search term
+   * @throws UnprocessableEntityException
+   */
   async searchUsers(
     searchTerm: string,
     page: number,
@@ -147,23 +156,33 @@ export class UserService {
           .exec();
       }
 
-      const filteredUsers = users.filter((user) => {
-        if (searchTerm) {
-          const term = searchTerm.toLowerCase();
+      const term = searchTerm.toLowerCase();
+      const skillsArray = term.split(',');
 
-          return user.freelanceProfile?.skills.some((skill) => skill.toLowerCase().includes(term));
+      // Calculate score for each user
+      users.forEach((user) => {
+        let score = 0;
+        if (user.freelanceProfile?.skills) {
+          user.freelanceProfile.skills.forEach((skill) => {
+            if (skillsArray.includes(skill.toLowerCase())) {
+              score++;
+            }
+          });
         }
-        return user;
+        user.score = score;
       });
 
-      const maxPage = Math.ceil(filteredUsers.length / limit);
+      // Sort users by score
+      users.sort((a, b) => b.score - a.score);
+
+      const maxPage = Math.ceil(users.length / limit);
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
 
       return {
-        users: filteredUsers.slice(startIndex, endIndex),
+        users: users.slice(startIndex, endIndex),
         maxPage: maxPage,
-        totalResult: filteredUsers.length
+        totalResult: users.length
       };
     } catch (error) {
       throw new UnprocessableEntityException('Error while searching users', error.message);

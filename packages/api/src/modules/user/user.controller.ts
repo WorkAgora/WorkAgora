@@ -187,7 +187,7 @@ export class UserController {
   @ApiQuery({
     name: 'searchTerm',
     required: false,
-    description: 'Term to search users',
+    description: 'Term to search users. Separate multiple terms with a comma',
     type: String
   })
   @ApiParam({
