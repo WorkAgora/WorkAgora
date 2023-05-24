@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import CheckIcon from '@workagora/front/components/icons/CheckIcon';
 import { useUpdateProfile } from '@workagora/front/hooks/useUpdateProfile';
+import CloseIcon from '@workagora/front/components/icons/CloseIcon';
 
 interface FormData {
   longDesc: string;
@@ -99,20 +100,34 @@ const FreelanceResume: FC = () => {
                     </Box>
                   )}
                   {edit && (
-                    <Box ml="auto">
-                      <Button
-                        variant={!isValid ? 'outline' : 'primary'}
-                        type="submit"
-                        width="100%"
-                        isDisabled={!isValid}
-                        isLoading={loading}
-                        loadingText="Updating profile"
-                        spinnerPlacement="end"
-                        rightIcon={<CheckIcon />}
+                    <Flex ml="auto" alignItems="center">
+                      <Box>
+                        <Button
+                          variant={!isValid ? 'outline' : 'primary'}
+                          type="submit"
+                          width="100%"
+                          isDisabled={!isValid}
+                          isLoading={loading}
+                          loadingText="Updating profile"
+                          spinnerPlacement="end"
+                          rightIcon={<CheckIcon />}
+                        >
+                          Save changes
+                        </Button>
+                      </Box>
+                      <Box
+                        color="red.500"
+                        p={2}
+                        ml={2}
+                        cursor="pointer"
+                        borderRadius="8px"
+                        transition="all ease-in-out 250ms"
+                        _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
+                        onClick={() => setEdit(false)}
                       >
-                        Save changes
-                      </Button>
-                    </Box>
+                        <CloseIcon />
+                      </Box>
+                    </Flex>
                   )}
                 </Flex>
                 {!edit && (

@@ -1,8 +1,13 @@
 import { Avatar, Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
+import { shortHash } from '@workagora/utils';
+import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
+import ProfileResume from './ProfileResume';
+import ProfileSkills from './ProfileSkills';
+import ProfileTop from './ProfileTop';
 
 interface ProfileProps {
   wallet: string;
@@ -10,6 +15,7 @@ interface ProfileProps {
 
 const Profile: FC<ProfileProps> = ({ wallet }) => {
   const { loading, curUser, getProfile } = useGetUserProfile();
+  const { push } = useRouter();
 
   useEffect(() => {
     if (wallet) {
@@ -26,104 +32,30 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
         bgColor="neutral.white"
         px={8}
         py={6}
-        gap={8}
+        gap={4}
         borderRadius="64px"
       >
+        <Flex textStyle="h4" as="h1" color="neutral.dsGray" ml={4}>
+          <Box
+            color="neutral.dsGray"
+            cursor="pointer"
+            _hover={{ color: 'neutral.dsDarkGray', transition: 'all ease-in-out 250ms' }}
+            onClick={() => push('/dashboard')}
+          >
+            Find Profiles{' '}
+          </Box>{' '}
+          <Box ml={2}>{'>'}</Box>{' '}
+          {curUser && (
+            <Box ml={2} color="neutral.black">
+              {shortHash(curUser.wallet, { padLeft: 6, padRight: 6, separator: '...' })}
+            </Box>
+          )}
+        </Flex>
         {curUser && (
           <>
-            <Flex alignItems={'center'} p={6}>
-              <Avatar w="128px" h="128px" borderRadius="100%" />
-              <Flex flexDir="column" ml={8} justifyContent="center">
-                <Box textStyle="h3">
-                  {curUser.firstname} {curUser.lastname}
-                </Box>
-                <Box textStyle="h4" color="neutral.dsGray">
-                  {curUser.description}
-                </Box>
-                <Flex mt={2}>
-                  <Flex
-                    alignItems="center"
-                    borderRadius="8px"
-                    borderWidth="2px"
-                    borderColor="brand.primary"
-                    py={1}
-                    px={2}
-                  >
-                    <Box color="brand.primary" mr={1}>
-                      <StarIcon />
-                    </Box>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="700"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                    >
-                      4,9
-                    </Text>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="500"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                      ml={1}
-                    >
-                      /5
-                    </Text>
-                  </Flex>
-                  <Flex
-                    ml={4}
-                    alignItems="center"
-                    borderRadius="8px"
-                    borderWidth="2px"
-                    borderColor="brand.green"
-                    py={1}
-                    px={2}
-                  >
-                    <Box color="brand.green" mr={1}>
-                      <DollarIcon />
-                    </Box>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="700"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                    >
-                      {curUser.freelanceProfile?.remuneration}
-                    </Text>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="500"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                      ml={1}
-                    >
-                      /day
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Flex>
-            <Flex
-              flexDir="column"
-              justifyContent="center"
-              p={6}
-              borderRadius="32px"
-              borderWidth="1px"
-              borderColor="neutral.gray"
-              w="100%"
-              gap={4}
-            >
-              <Box textStyle="h4" as="span">
-                Resume
-              </Box>
-              <Box textStyle="body2" color="neutral.dsDarkGray" pl={4} pr={16}>
-                {curUser.freelanceProfile?.longDesc}
-              </Box>
-            </Flex>
+            <ProfileTop curUser={curUser} />
+            <ProfileSkills curUser={curUser} />
+            <ProfileResume curUser={curUser} />
           </>
         )}
       </Flex>

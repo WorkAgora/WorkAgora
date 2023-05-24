@@ -77,41 +77,72 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
         </Text>
       </Flex>
       <Flex mt={2}>
-        <Badge
-          color="neutral.black"
-          bgColor="neutral.gray"
-          borderWidth="1px"
-          borderColor={'none'}
-          variant="filter"
-          mr={2}
-        >
-          {user.freelanceProfile?.situation}
-        </Badge>
-        <Badge
-          color="neutral.black"
-          bgColor="neutral.gray"
-          borderWidth="1px"
-          borderColor={'none'}
-          variant="filter"
-          mr={2}
-        >
-          {user.freelanceProfile?.availability}
-        </Badge>
-        <Badge
-          color="neutral.black"
-          bgColor="neutral.gray"
-          borderWidth="1px"
-          borderColor={'none'}
-          variant="filter"
-          mr={2}
-        >
-          {user.freelanceProfile?.yearsOfExperience}{' '}
-          {user.freelanceProfile?.yearsOfExperience != undefined &&
-          parseInt(user.freelanceProfile?.yearsOfExperience) > 1
-            ? 'Years'
-            : 'Year'}{' '}
-          of Experience
-        </Badge>
+        {user.freelanceProfile?.situation && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.situation}
+          </Badge>
+        )}
+        {user.freelanceProfile?.availability && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.availability}
+          </Badge>
+        )}
+        {user.freelanceProfile?.workLocation && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.workLocation}
+          </Badge>
+        )}
+        {user.freelanceProfile?.hoursPerWeek !== 0 && user.freelanceProfile?.hoursPerWeek && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            cursor="default"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.hoursPerWeek.toString()} hrs/week
+          </Badge>
+        )}
+        {user.freelanceProfile?.yearsOfExperience && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.yearsOfExperience}{' '}
+            {user.freelanceProfile?.yearsOfExperience != undefined &&
+            parseInt(user.freelanceProfile?.yearsOfExperience) > 1
+              ? 'Years'
+              : 'Year'}{' '}
+            of Exp
+          </Badge>
+        )}
       </Flex>
       <Flex mt={4} px={1} minHeight="110px">
         <Text

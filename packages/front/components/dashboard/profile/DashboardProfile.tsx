@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { UserTypeEnum } from '@workagora/utils';
 import FreelanceTopProfile from './freelance/FreelanceTopProfile';
 import FreelanceResume from './freelance/FreelanceResume';
+import FreelanceSkills from './freelance/FreelanceSkills';
+import FreelancePreferences from './freelance/FreelancePreferences';
 
 const MotionBox = motion(Box);
 
@@ -41,7 +43,11 @@ const DashboardProfile: FC = () => {
             >
               <Flex flexDir="column" gap={6}>
                 <FreelanceTopProfile />
+                <FreelanceSkills />
                 <FreelanceResume />
+                <Flex>
+                  <FreelancePreferences />
+                </Flex>
               </Flex>
             </MotionBox>
           )}

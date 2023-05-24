@@ -9,6 +9,9 @@ export const skills = [
       'Solidity',
       'Ethereum',
       'Smart Contracts',
+      'Node.js',
+      'React',
+      'Vue.js',
       'R',
       'Machine Learning',
       'Data Visualization',
@@ -38,6 +41,8 @@ export const skills = [
       'SAS',
       'Scala',
       'AI/Machine Learning',
+      '.NET',
+      'Angular',
       'TensorFlow',
       'PyTorch',
       'Keras',
@@ -47,6 +52,8 @@ export const skills = [
       'Unreal Engine',
       'Godot',
       'Cocos2d',
+      'Django',
+      'RESTful API Development',
       'NLP'
     ]
   },
@@ -172,7 +179,7 @@ export const skills = [
       'MySQL',
       'PostgreSQL',
       'MongoDB',
-      'Microsoft SQL Server',
+      'SQL Server',
       'Cloud Computing',
       'System Administration',
       'IT Support',
@@ -181,7 +188,9 @@ export const skills = [
       'Firewall Management',
       'Wireless Networking',
       'IT Governance',
-      'Data Center Management'
+      'Data Center Management',
+      'Kubernetes',
+      'Terraform'
     ]
   },
   {

@@ -44,7 +44,7 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
           {user.description}
         </Text>
       </Flex>
-      <Flex ml="auto" justifyContent="space-between" flexBasis="60%">
+      <Flex ml="auto" justifyContent="space-between" flexBasis="80%">
         <Flex columnGap={2} alignItems="center" flexBasis="60%">
           {Array.from({ length: 6 }).map((_, k) => {
             if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {

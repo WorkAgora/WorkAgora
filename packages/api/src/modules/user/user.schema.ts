@@ -94,6 +94,7 @@ export const UserSchema = new Schema({
           return value.toString().length <= 500;
         }
       },
+      workLocation: String,
       situation: String,
       availability: String,
       hoursPerWeek: Number,

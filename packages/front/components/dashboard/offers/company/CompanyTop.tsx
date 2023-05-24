@@ -9,7 +9,7 @@ const CompanyTop: FC = () => {
       bgColor="neutral.lightGray"
       position="relative"
       borderRadius="24px"
-      minH="225px"
+      minH="250px"
       overflow="hidden"
     >
       <Flex
@@ -62,8 +62,15 @@ const CompanyTop: FC = () => {
           {`Whether you search for a designer, a community manager, or\na corgi, you will find what you are looking for.`}
         </Box>
         <Box mr="auto">
-          <Button variant="primary" rightIcon={<Box h='16px' w='16px' ml={2}><AddIcon /></Box>}>
-             Create my offer
+          <Button
+            variant="primary"
+            rightIcon={
+              <Box h="16px" w="16px" ml={2}>
+                <AddIcon />
+              </Box>
+            }
+          >
+            Create my offer
           </Button>
         </Box>
       </Flex>
@@ -77,11 +84,7 @@ const CompanyTop: FC = () => {
         borderLeftRadius="24px"
         overflow="hidden"
       >
-        <Image
-          src="/images/dashboard/freelance_offers_top.png"
-          alt="Your Image Description"
-          fill
-        />
+        <Image src="/images/dashboard/freelance_offers_top.png" alt="Your Image Description" fill />
       </Box>
     </Flex>
   );

@@ -20,6 +20,7 @@ export const changeUserType: ChangeUserType = async (userType) => {
 };
 
 export const updateUserProfile: UpdateUserProfile = async (user) => {
+  const updatedUser = user;
   const res = await privateApi.put('/user/updateProfile', {
     ...user
   });

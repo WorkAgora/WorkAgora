@@ -6,6 +6,7 @@ export interface FreelancerProfile {
   skills?: string[];
   longDesc?: string;
   situation?: string;
+  workLocation?: string;
   availability?: string;
   hoursPerWeek?: number;
   yearsOfExperience?: string;

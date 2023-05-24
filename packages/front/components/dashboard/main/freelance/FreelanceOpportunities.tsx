@@ -2,14 +2,17 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
 import { FC } from 'react';
 import Image from 'next/image';
+import { useDashboard } from '@workagora/front-provider';
 
 const FreelanceOpportunities: FC = () => {
+  const { setView } = useDashboard();
+
   return (
     <Flex
       bgColor="brand.secondary"
       position="relative"
       borderRadius="24px"
-      minH="225px"
+      minH="250px"
       overflow="hidden"
     >
       <Box
@@ -78,7 +81,11 @@ const FreelanceOpportunities: FC = () => {
           {`Whether you are a designer, a community manager, or a corgi,\nyou will find what you are looking for.`}
         </Box>
         <Box ml="auto">
-          <Button variant="primary" rightIcon={<ArrowRightIcon />}>
+          <Button
+            variant="primary"
+            rightIcon={<ArrowRightIcon />}
+            onClick={() => setView('offers')}
+          >
             Start your journey
           </Button>
         </Box>
