@@ -94,7 +94,10 @@ const FreelanceResume: FC = () => {
                       cursor="pointer"
                       borderRadius="8px"
                       _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
-                      onClick={() => setEdit(true)}
+                      onClick={() => {
+                        setEdit(true);
+                        resetForm();
+                      }}
                     >
                       <PencilIcon />
                     </Box>

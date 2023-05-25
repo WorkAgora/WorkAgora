@@ -1,14 +1,14 @@
 import { Flex } from '@chakra-ui/react';
-import { useDashboard, useLanding } from '@workagora/front-provider';
+import { useLanding } from '@workagora/front-provider';
 import { NextPage } from 'next';
-import DashboardMenu from '../../../components/dashboard/menu/DashboardMenu';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { ReactNode, useEffect, useState } from 'react';
 import { UserTypeEnum } from '@workagora/utils';
 import OfferDetail from '../../../components/offer/OfferDetail';
-import { SearchBarFilter } from '../../../components/landing/product/SearchBar';
+import Footer from '../../../components/landing/footer/Footer';
+import DashboardLayout from '../../../components/layout/DashboardLayout';
 
-const badges: SearchBarFilter[] = [
+const badges: any[] = [
   { label: 'Remote work', bgColor: 'neutral.gray', color: 'neutral.black' },
   { label: 'Full time', bgColor: 'neutral.gray', color: 'neutral.black' },
   { label: '3 months mission', bgColor: 'neutral.gray', color: 'neutral.black' },
@@ -36,12 +36,10 @@ const badges: SearchBarFilter[] = [
 
 const OfferWithId: NextPage<{ id: number }> = ({ id }) => {
   const { type, handleScroll, setHasScroll } = useLanding();
-  const { setView } = useDashboard();
   const [content, setContent] = useState<ReactNode>(<>{id}</>);
 
   useEffect(() => {
     setHasScroll(false);
-    setView('offers');
   }, []);
 
   useEffect(() => {
@@ -51,22 +49,22 @@ const OfferWithId: NextPage<{ id: number }> = ({ id }) => {
   }, [type]);
 
   return (
-    <Flex flexDir="column" w="100%" mt="80px" h={`calc(100vh - 80px)`}>
-      <Flex w="100%" h="100%" position="relative">
-        <DashboardMenu />
-        <Flex w="calc(100vw - 245px)" ml="auto" maxHeight="100%">
-          <PerfectScrollbar
-            options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
-            style={{
-              width: '100%'
-            }}
-            onScrollY={handleScroll}
-          >
-            {content}
-          </PerfectScrollbar>
+    <DashboardLayout>
+      <PerfectScrollbar
+        options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
+        style={{
+          width: '100%'
+        }}
+        onScrollY={handleScroll}
+      >
+        <Flex w="calc(100vw - 245px)" ml="auto">
+          {content}
         </Flex>
-      </Flex>
-    </Flex>
+        <Flex bgColor="neutral.white" mt={8}>
+          <Footer />
+        </Flex>
+      </PerfectScrollbar>
+    </DashboardLayout>
   );
 };
 

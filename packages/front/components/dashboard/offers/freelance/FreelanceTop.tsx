@@ -1,10 +1,10 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 import Image from 'next/image';
-import { useDashboard } from '@workagora/front-provider';
+import { useRouter } from 'next/router';
 
 const FreelanceTop: FC = () => {
-  const { setView } = useDashboard();
+  const { push } = useRouter();
 
   return (
     <Flex
@@ -64,7 +64,7 @@ const FreelanceTop: FC = () => {
           {`A fully completed profile is more likely to be chosen by\ncompanies. Don't miss your chance`}
         </Box>
         <Box mr="auto">
-          <Button variant="primary" onClick={() => setView('profile')}>
+          <Button variant="primary" onClick={() => push('/dashboard/profile')}>
             Complete my profile
           </Button>
         </Box>

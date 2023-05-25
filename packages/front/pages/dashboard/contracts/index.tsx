@@ -1,13 +1,13 @@
 import { useLanding } from '@workagora/front-provider';
 import { NextPage } from 'next';
-import DashboardMain from '../../components/dashboard/main/DashboardMain';
 import { useRef } from 'react';
-import DashboardLayout from '../../components/layout/DashboardLayout';
+import DashboardLayout from '../../../components/layout/DashboardLayout';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import DashboardContracts from '../../../components/dashboard/contracts/DashboardContracts';
+import Footer from '@workagora/front/components/landing/footer/Footer';
 import { Flex } from '@chakra-ui/react';
-import Footer from '../../components/landing/footer/Footer';
 
-const Dashboard: NextPage = () => {
+const DashboardContractsPage: NextPage = () => {
   const { handleScroll } = useLanding();
   const scrollbarRef = useRef<HTMLElement | null>(null);
 
@@ -24,7 +24,7 @@ const Dashboard: NextPage = () => {
         onScrollY={handleScroll}
       >
         <Flex w="calc(100vw - 245px)" ml="auto">
-          <DashboardMain />
+          <DashboardContracts />
         </Flex>
         <Flex bgColor="neutral.white" mt={8}>
           <Footer />
@@ -34,4 +34,4 @@ const Dashboard: NextPage = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardContractsPage;

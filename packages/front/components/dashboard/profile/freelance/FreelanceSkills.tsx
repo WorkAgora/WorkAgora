@@ -14,13 +14,13 @@ import {
 } from '@chakra-ui/react';
 import { useCurrentUser } from '@workagora/front-provider';
 import { FC, useEffect, useRef, useState } from 'react';
-import PencilIcon from '@workagora/front/components/icons/PencilIcon';
+import PencilIcon from '../../../icons/PencilIcon';
 import { useUpdateProfile } from '@workagora/front/hooks/useUpdateProfile';
 import { useColoredBadges } from '@workagora/front/hooks/useColoredBadges';
-import SearchIcon from '@workagora/front/components/icons/SearchIcon';
+import SearchIcon from '../../../icons/SearchIcon';
 import { skills, User } from '@workagora/utils';
-import CheckIcon from '@workagora/front/components/icons/CheckIcon';
-import CloseIcon from '@workagora/front/components/icons/CloseIcon';
+import CheckIcon from '../../../icons/CheckIcon';
+import CloseIcon from '../../../icons/CloseIcon';
 
 const FreelanceSkills: FC = () => {
   const { user } = useCurrentUser();
@@ -93,7 +93,7 @@ const FreelanceSkills: FC = () => {
       setSearchText('');
       setSearchResults([]);
       if (!curSkills?.includes(skill)) {
-        setCurSkills((prevSkills) => [...prevSkills, skill]);
+        setCurSkills((prevSkills) => (prevSkills ? [...prevSkills, skill] : [skill]));
       } else {
         setCurSkills((prevSkills) => prevSkills?.filter((v) => v !== skill));
       }
@@ -224,7 +224,9 @@ const FreelanceSkills: FC = () => {
                           {searchResults.map((result, index) => (
                             <MenuItem
                               key={index}
-                              onClick={(e) => handleItemClick(e.target.textContent)}
+                              onClick={(e: React.MouseEvent<HTMLElement>) =>
+                                handleItemClick(e.target.textContent)
+                              }
                             >
                               {result}
                             </MenuItem>

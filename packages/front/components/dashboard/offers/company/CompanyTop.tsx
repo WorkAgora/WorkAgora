@@ -2,8 +2,11 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 import Image from 'next/image';
 import AddIcon from '@workagora/front/components/icons/AddIcon';
+import { useRouter } from 'next/router';
 
 const CompanyTop: FC = () => {
+  const { push } = useRouter();
+
   return (
     <Flex
       bgColor="neutral.lightGray"
@@ -69,6 +72,7 @@ const CompanyTop: FC = () => {
                 <AddIcon />
               </Box>
             }
+            onClick={() => push('/dashboard/jobs/create')}
           >
             Create my offer
           </Button>

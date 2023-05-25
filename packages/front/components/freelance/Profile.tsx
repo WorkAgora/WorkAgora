@@ -41,7 +41,7 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
             color="neutral.dsGray"
             cursor="pointer"
             _hover={{ color: 'neutral.dsDarkGray', transition: 'all ease-in-out 250ms' }}
-            onClick={() => push('/dashboard')}
+            onClick={() => push('/dashboard/offers')}
           >
             Find Profiles{' '}
           </Box>{' '}

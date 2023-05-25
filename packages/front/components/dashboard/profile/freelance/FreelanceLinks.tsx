@@ -1,27 +1,15 @@
-import {
-  Avatar,
-  Box,
-  Text,
-  Flex,
-  Button,
-  Input,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  InputRightElement,
-  Textarea
-} from '@chakra-ui/react';
+import { Box, Text, Flex, Button, Input, FormControl } from '@chakra-ui/react';
 import { useCurrentUser } from '@workagora/front-provider';
-import { FC, useEffect, useState } from 'react';
-import PencilIcon from '@workagora/front/components/icons/PencilIcon';
+import { FC, useState } from 'react';
+import PencilIcon from '../../../icons/PencilIcon';
 import { User } from '@workagora/utils';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
-import CheckIcon from '@workagora/front/components/icons/CheckIcon';
+import CheckIcon from '../../../icons/CheckIcon';
 import { useUpdateProfile } from '@workagora/front/hooks/useUpdateProfile';
-import CloseIcon from '@workagora/front/components/icons/CloseIcon';
+import CloseIcon from '../../../icons/CloseIcon';
 import { useIconForLink } from '@workagora/front/hooks/useIconForLink';
-import AddIcon from '@workagora/front/components/icons/AddIcon';
+import AddIcon from '../../../icons/AddIcon';
 
 interface FormData {
   links: string[];
@@ -224,7 +212,7 @@ const FreelanceLinks: FC = () => {
                                 name={`links.${k}`}
                                 placeholder="https://"
                                 as={Input}
-                                onFocus={(e) => {
+                                onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
                                   console.log(e.target.value.includes('https://'));
                                   if (!e.target.value.includes('https://')) {
                                     setFieldValue(`links.${k}`, 'https://');

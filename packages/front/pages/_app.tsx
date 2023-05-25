@@ -1,16 +1,8 @@
-import {
-  CurrentUserProvider,
-  DashboardProvider,
-  LandingProvider,
-  WagmiProvider
-} from '@workagora/front-provider';
+import { CurrentUserProvider, LandingProvider, WagmiProvider } from '@workagora/front-provider';
 import { ChakraProvider } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import GlobalLayout from '../components/GlobalLayout';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 //Import styles
 import { darkTheme } from '@workagora/themes';
@@ -31,11 +23,9 @@ function App({ Component, pageProps }: AppProps) {
         <WagmiProvider>
           <CurrentUserProvider>
             <LandingProvider>
-              <DashboardProvider>
-                <GlobalLayout>
-                  <Component {...pageProps} />
-                </GlobalLayout>
-              </DashboardProvider>
+              <GlobalLayout>
+                <Component {...pageProps} />
+              </GlobalLayout>
             </LandingProvider>
           </CurrentUserProvider>
         </WagmiProvider>

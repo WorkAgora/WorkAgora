@@ -2,10 +2,10 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
 import { FC } from 'react';
 import Image from 'next/image';
-import { useDashboard } from '@workagora/front-provider';
+import { useRouter } from 'next/router';
 
 const FreelanceOpportunities: FC = () => {
-  const { setView } = useDashboard();
+  const { push } = useRouter();
 
   return (
     <Flex
@@ -84,7 +84,7 @@ const FreelanceOpportunities: FC = () => {
           <Button
             variant="primary"
             rightIcon={<ArrowRightIcon />}
-            onClick={() => setView('offers')}
+            onClick={() => push('/dashboard/offers')}
           >
             Start your journey
           </Button>

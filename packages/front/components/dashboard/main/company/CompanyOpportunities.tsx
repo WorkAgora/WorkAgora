@@ -2,10 +2,10 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 import Image from 'next/image';
 import SearchIcon from '@workagora/front/components/icons/SearchIcon';
-import { useDashboard } from '@workagora/front-provider';
+import { useRouter } from 'next/router';
 
 const CompanyOpportunities: FC = () => {
-  const { setView } = useDashboard();
+  const { push } = useRouter();
 
   return (
     <Flex
@@ -81,7 +81,11 @@ const CompanyOpportunities: FC = () => {
           {`Whether you are a designer, a community manager, or a corgi,\nyou will find what you are looking for.`}
         </Box>
         <Box ml="auto">
-          <Button variant="primary" rightIcon={<SearchIcon />} onClick={() => setView('offers')}>
+          <Button
+            variant="primary"
+            rightIcon={<SearchIcon />}
+            onClick={() => push('/dashboard/offers')}
+          >
             Start to hire
           </Button>
         </Box>
