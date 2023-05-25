@@ -59,7 +59,7 @@ function create(JobContract.CreateParams _params, bytes _signature) external non
 ### getContractPrice
 
 ```solidity
-function getContractPrice(JobContract.CreateParams _params) external view returns (uint256)
+function getContractPrice(enum PaymentToken _paymentToken, uint256 _amountUsd) external view returns (uint256)
 ```
 
 
@@ -70,29 +70,8 @@ function getContractPrice(JobContract.CreateParams _params) external view return
 
 | Name | Type | Description |
 |---|---|---|
-| _params | JobContract.CreateParams | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | uint256 | undefined |
-
-### getEmployerBalance
-
-```solidity
-function getEmployerBalance(JobContract.CreateParams _params) external view returns (uint256)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _params | JobContract.CreateParams | undefined |
+| _paymentToken | enum PaymentToken | undefined |
+| _amountUsd | uint256 | undefined |
 
 #### Returns
 

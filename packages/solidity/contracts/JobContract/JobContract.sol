@@ -53,6 +53,7 @@ contract JobContract is Ownable {
     }
 
     function create(CreateParams calldata _params, bytes calldata _signature) external {
+        require(verifySignature(_params, _signature), 'Invalid signature');
         require(
             bytes(contracts[_params.contractId].contractId).length == 0,
             'ContractId already exists'
@@ -72,8 +73,12 @@ contract JobContract is Ownable {
             'Sum of initialDepositPct, lockedAmountPct and deferredAmountPct must be 100'
         );
 
-        checkEmployerBalance(_params);
-        verifySignature(_params, _signature);
+        (, IERC20 token) = priceController.getTokenData(_params.paymentToken);
+        uint256 totalAmountInTokens = getContractPrice(
+            _params.paymentToken,
+            _params.totalAmountUsd
+        );
+        transferFunds(_params, token, totalAmountInTokens);
 
         contracts[_params.contractId] = Contract(
             _params.contractId,
@@ -87,33 +92,50 @@ contract JobContract is Ownable {
         );
     }
 
-    function checkEmployerBalance(CreateParams calldata _params) internal view {
-        (PriceConsumer priceConsumer, IERC20 token) = priceController.getTokenData(
-            _params.paymentToken
-        );
-        uint256 totalAmountInTokens = _params.totalAmountUsd * uint256(priceConsumer.getLatestPrice());
+    function transferFunds(
+        CreateParams calldata _params,
+        IERC20 token,
+        uint256 totalAmountInTokens
+    ) internal {
         uint256 employerBalance = token.balanceOf(_params.employerAddress);
         require(employerBalance >= totalAmountInTokens, 'Insufficient balance');
+
+        if (_params.initialDepositPct > 0) {
+            uint256 initialDepositAmount = (totalAmountInTokens * _params.initialDepositPct) / 100;
+            // transfer from the employer to the contract
+            require(
+                token.transferFrom(_params.employerAddress, address(this), initialDepositAmount),
+                'transferFrom failed from employer to contract'
+            );
+            // then from the contract to the contractor
+            require(
+                token.transfer(_params.contractorAddress, initialDepositAmount),
+                'transfer failed from contract to contractor'
+            );
+        }
+
+        if (_params.lockedAmountPct > 0) {
+            uint256 lockedAmount = (totalAmountInTokens * _params.lockedAmountPct) / 100;
+            // transfer from the employer to the contract
+            require(
+                token.transferFrom(_params.employerAddress, address(this), lockedAmount),
+                'transfer failed from employer to contract'
+            );
+        }
     }
 
-    function getEmployerBalance(CreateParams calldata _params) public view returns(uint256) {
-        (, IERC20 token) = priceController.getTokenData(
-            _params.paymentToken
-        );
-        return token.balanceOf(_params.employerAddress);
-    }
-
-    function getContractPrice(CreateParams calldata _params) public view returns(uint256) {
-        (PriceConsumer priceConsumer,) = priceController.getTokenData(
-            _params.paymentToken
-        );
-        return _params.totalAmountUsd * uint256(priceConsumer.getLatestPrice());
+    function getContractPrice(
+        PaymentToken _paymentToken,
+        uint256 _amountUsd
+    ) public view returns (uint256) {
+        (PriceConsumer priceConsumer, ) = priceController.getTokenData(_paymentToken);
+        return _amountUsd * uint256(priceConsumer.getLatestPrice());
     }
 
     function verifySignature(
         CreateParams calldata _params,
         bytes calldata _signature
-    ) internal view {
+    ) internal view returns (bool) {
         bytes32 messagehash = keccak256(
             abi.encodePacked(
                 _params.contractId,
@@ -129,9 +151,6 @@ contract JobContract is Ownable {
                 _params.ipfsJmiHash
             )
         );
-        require(
-            messagehash.toEthSignedMessageHash().recover(_signature) == user.sigAuthority(),
-            'Invalid signature'
-        );
+        return messagehash.toEthSignedMessageHash().recover(_signature) == user.sigAuthority();
     }
 }
