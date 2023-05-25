@@ -181,7 +181,8 @@ const FreelancePreferences: FC = () => {
               values,
               setFieldValue,
               validateField,
-              setFieldTouched
+              setFieldTouched,
+              resetForm
             }) => {
               const handleSelectionWorkLocation = (value: string) => {
                 if (selectedWorkLocation === value) {
@@ -265,7 +266,10 @@ const FreelancePreferences: FC = () => {
                           borderRadius="8px"
                           transition="all ease-in-out 250ms"
                           _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
-                          onClick={() => setEdit(false)}
+                          onClick={() => {
+                            setEdit(false);
+                            resetForm();
+                          }}
                         >
                           <CloseIcon />
                         </Box>

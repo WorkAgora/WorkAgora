@@ -75,113 +75,113 @@ const FreelanceTopProfile: FC = () => {
   return (
     <>
       {user && (
-        <Flex alignItems={edit ? 'start' : 'center'} p={6}>
-          <Avatar w="128px" h="128px" borderRadius="100%" />
-          {!edit && (
-            <>
-              <Flex flexDir="column" ml={8} justifyContent="center">
-                <Box textStyle="h3">
-                  {user.firstname} {user.lastname}
-                </Box>
-                <Box textStyle="h4" color="neutral.dsGray">
-                  {user.description}
-                </Box>
-                <Flex mt={2}>
-                  <Flex
-                    alignItems="center"
-                    borderRadius="8px"
-                    borderWidth="2px"
-                    borderColor="brand.primary"
-                    py={1}
-                    px={2}
-                  >
-                    <Box color="brand.primary" mr={1}>
-                      <StarIcon />
+        <Formik
+          initialValues={{
+            firstname: user.firstname ?? '',
+            lastname: user.lastname ?? '',
+            remuneration: user.freelanceProfile?.remuneration ?? '',
+            description: user.description ?? ''
+          }}
+          validationSchema={validationSchema}
+          isInitialValid={false}
+          onSubmit={onSubmit}
+          validateOnChange={false}
+          validateOnBlur={true}
+        >
+          {({ isValid, errors, touched, resetForm }) => (
+            <Flex alignItems={edit ? 'start' : 'center'} p={6}>
+              <Avatar w="128px" h="128px" borderRadius="100%" />
+              {!edit && (
+                <>
+                  <Flex flexDir="column" ml={8} justifyContent="center">
+                    <Box textStyle="h3">
+                      {user.firstname} {user.lastname}
                     </Box>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="700"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                    >
-                      4,9
-                    </Text>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="500"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                      ml={1}
-                    >
-                      /5
-                    </Text>
-                  </Flex>
-                  <Flex
-                    ml={4}
-                    alignItems="center"
-                    borderRadius="8px"
-                    borderWidth="2px"
-                    borderColor="brand.green"
-                    py={1}
-                    px={2}
-                  >
-                    <Box color="brand.green" mr={1}>
-                      <DollarIcon />
+                    <Box textStyle="h4" color="neutral.dsGray">
+                      {user.description}
                     </Box>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="700"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                    >
-                      {user.freelanceProfile?.remuneration}
-                    </Text>
-                    <Text
-                      fontFamily="Montserrat"
-                      fontWeight="500"
-                      fontSize="16px"
-                      lineHeight="120%"
-                      color="neutral.black"
-                      ml={1}
-                    >
-                      /day
-                    </Text>
+                    <Flex mt={2}>
+                      <Flex
+                        alignItems="center"
+                        borderRadius="8px"
+                        borderWidth="2px"
+                        borderColor="brand.primary"
+                        py={1}
+                        px={2}
+                      >
+                        <Box color="brand.primary" mr={1}>
+                          <StarIcon />
+                        </Box>
+                        <Text
+                          fontFamily="Montserrat"
+                          fontWeight="700"
+                          fontSize="16px"
+                          lineHeight="120%"
+                          color="neutral.black"
+                        >
+                          4,9
+                        </Text>
+                        <Text
+                          fontFamily="Montserrat"
+                          fontWeight="500"
+                          fontSize="16px"
+                          lineHeight="120%"
+                          color="neutral.black"
+                          ml={1}
+                        >
+                          /5
+                        </Text>
+                      </Flex>
+                      <Flex
+                        ml={4}
+                        alignItems="center"
+                        borderRadius="8px"
+                        borderWidth="2px"
+                        borderColor="brand.green"
+                        py={1}
+                        px={2}
+                      >
+                        <Box color="brand.green" mr={1}>
+                          <DollarIcon />
+                        </Box>
+                        <Text
+                          fontFamily="Montserrat"
+                          fontWeight="700"
+                          fontSize="16px"
+                          lineHeight="120%"
+                          color="neutral.black"
+                        >
+                          {user.freelanceProfile?.remuneration}
+                        </Text>
+                        <Text
+                          fontFamily="Montserrat"
+                          fontWeight="500"
+                          fontSize="16px"
+                          lineHeight="120%"
+                          color="neutral.black"
+                          ml={1}
+                        >
+                          /day
+                        </Text>
+                      </Flex>
+                    </Flex>
                   </Flex>
-                </Flex>
-              </Flex>
-              <Box
-                color="neutral.dsGray"
-                p={2}
-                ml="auto"
-                cursor="pointer"
-                borderRadius="8px"
-                transition="all ease-in-out 250ms"
-                _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
-                mt={-8}
-                onClick={() => setEdit(true)}
-              >
-                <PencilIcon />
-              </Box>
-            </>
-          )}
-          {edit && (
-            <Formik
-              initialValues={{
-                firstname: user.firstname ?? '',
-                lastname: user.lastname ?? '',
-                remuneration: user.freelanceProfile?.remuneration ?? '',
-                description: user.description ?? ''
-              }}
-              validationSchema={validationSchema}
-              isInitialValid={false}
-              onSubmit={onSubmit}
-              validateOnChange={false}
-              validateOnBlur={true}
-            >
-              {({ isValid, errors, touched }) => (
+                  <Box
+                    color="neutral.dsGray"
+                    p={2}
+                    ml="auto"
+                    cursor="pointer"
+                    borderRadius="8px"
+                    transition="all ease-in-out 250ms"
+                    _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
+                    mt={-8}
+                    onClick={() => setEdit(true)}
+                  >
+                    <PencilIcon />
+                  </Box>
+                </>
+              )}
+              {edit && (
                 <Form style={{ width: '100%', marginLeft: '32px' }}>
                   <Flex>
                     <Flex flexDir="column" gap={4}>
@@ -292,7 +292,10 @@ const FreelanceTopProfile: FC = () => {
                         transition="all ease-in-out 250ms"
                         _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
                         mt={9}
-                        onClick={() => setEdit(false)}
+                        onClick={() => {
+                          setEdit(false);
+                          resetForm();
+                        }}
                       >
                         <CloseIcon />
                       </Box>
@@ -300,9 +303,9 @@ const FreelanceTopProfile: FC = () => {
                   </Flex>
                 </Form>
               )}
-            </Formik>
+            </Flex>
           )}
-        </Flex>
+        </Formik>
       )}
     </>
   );

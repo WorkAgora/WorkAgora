@@ -46,7 +46,7 @@ const DashboardProfile: FC = () => {
                 <FreelanceTopProfile />
                 <FreelanceSkills />
                 <FreelanceResume />
-                <Flex columnGap={6}>
+                <Flex columnGap={6} alignItems="start">
                   <FreelancePreferences />
                   <FreelanceLinks />
                 </Flex>

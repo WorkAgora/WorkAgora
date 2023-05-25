@@ -78,7 +78,7 @@ const FreelanceResume: FC = () => {
             validateOnChange={false}
             validateOnBlur={true}
           >
-            {({ isValid, errors, touched }) => (
+            {({ isValid, errors, touched, resetForm }) => (
               <Form
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '16px' }}
               >
@@ -123,7 +123,10 @@ const FreelanceResume: FC = () => {
                         borderRadius="8px"
                         transition="all ease-in-out 250ms"
                         _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
-                        onClick={() => setEdit(false)}
+                        onClick={() => {
+                          setEdit(false);
+                          resetForm();
+                        }}
                       >
                         <CloseIcon />
                       </Box>
