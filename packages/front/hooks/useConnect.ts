@@ -18,7 +18,7 @@ export function useConnect() {
   const signIn = useCallback(
     async ({ address, chain }: LoginProps) => {
       if (chain.unsupported) return;
-      if (address && chain && pathname === '/') {
+      if (address && chain && chain.unsupported === false && pathname === '/') {
         try {
           const nonce = await getNonceApi(address);
           const message = new SiweMessage({

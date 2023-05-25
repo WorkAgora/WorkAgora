@@ -132,7 +132,6 @@ const DashboardJobCreate: FC = () => {
                   isInitialValid={false}
                   onSubmit={onSubmit}
                   validateOnChange={false}
-                  validateOnBlur={true}
                 >
                   {({
                     isValid,
@@ -181,6 +180,7 @@ const DashboardJobCreate: FC = () => {
                             options={workLocationOptions}
                             handleSelection={handleSelection}
                             error={errors.location}
+                            touched={touched.location}
                             flexBasis="33.3%"
                           />
                           <CreateJobSelector
@@ -194,6 +194,7 @@ const DashboardJobCreate: FC = () => {
                             options={availabilityOptions}
                             handleSelection={handleSelection}
                             error={errors.situation}
+                            touched={touched.situation}
                             flexBasis="33.3%"
                           />
                           <Flex gap={4} flexBasis="33.3%">
@@ -215,6 +216,7 @@ const DashboardJobCreate: FC = () => {
                               setSelectedOption={setSelectedDurationUnit}
                               options={durationUnitOptions}
                               handleSelection={handleSelection}
+                              touched={touched.durationUnit}
                               error={errors.durationUnit}
                             />
                           </Flex>

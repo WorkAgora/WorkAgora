@@ -15,7 +15,7 @@ const CreateJobTextArea: FC<CreateJobTextAreaProps> = ({
   placeholder,
   isRequired
 }) => {
-  const { errors } = useFormikContext();
+  const { errors, touched } = useFormikContext();
   return (
     <FormControl id={name} isRequired={isRequired}>
       <FormLabel>{label}</FormLabel>
@@ -23,7 +23,7 @@ const CreateJobTextArea: FC<CreateJobTextAreaProps> = ({
         name={name}
         placeholder={placeholder}
         as={Textarea}
-        isInvalid={errors[name]}
+        isInvalid={errors[name] && touched[name]}
         resize="vertical"
         minH="100px"
         maxH="200px"

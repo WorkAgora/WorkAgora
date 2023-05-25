@@ -30,6 +30,7 @@ interface SelectorProps extends FlexProps {
     setter: (value: any) => void
   ) => void;
   error?: string;
+  touched?: boolean;
 }
 
 const CreateJobSelector: FC<SelectorProps> = ({
@@ -43,6 +44,7 @@ const CreateJobSelector: FC<SelectorProps> = ({
   options,
   handleSelection,
   error,
+  touched,
   ...props
 }) => (
   <FormControl id={id} isRequired {...props}>
@@ -52,9 +54,13 @@ const CreateJobSelector: FC<SelectorProps> = ({
         as={Button}
         variant="select"
         color={selectedOption ? 'neutral.black' : 'neutral.dsGray'}
-        borderColor={isOpen ? 'brand.primary' : error ? 'red' : 'brand.primary'}
+        borderColor={isOpen ? 'brand.primary' : error && touched ? 'red' : 'brand.primary'}
         boxShadow={
-          isOpen ? '0 0 0 1px var(--chakra-colors-brand-primary)' : error ? '0 0 0 1px red' : 'none'
+          isOpen
+            ? '0 0 0 1px var(--chakra-colors-brand-primary)'
+            : error && touched
+            ? '0 0 0 1px red'
+            : 'none'
         }
         opacity={selectedOption ? 1 : 0.75}
         borderBottomLeftRadius={isOpen ? '0' : '6px'}
@@ -99,7 +105,7 @@ const CreateJobSelector: FC<SelectorProps> = ({
       </MenuList>
       <Field name={id} type="hidden" />
     </Menu>
-    {error && <Text textStyle="errorMessage">{error}</Text>}
+    {error && touched && <Text textStyle="errorMessage">{error}</Text>}
   </FormControl>
 );
 

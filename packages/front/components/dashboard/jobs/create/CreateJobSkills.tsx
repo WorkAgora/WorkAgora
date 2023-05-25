@@ -19,10 +19,11 @@ import SearchIcon from '../../../icons/SearchIcon';
 import ChevronDownIcon from '@workagora/front/components/icons/ChevronDownIcon';
 import { useFormikContext, ErrorMessage } from 'formik';
 import { skills } from '@workagora/utils';
+import CloseIcon from '@workagora/front/components/icons/CloseIcon';
 
 const CreateJobSkills: FC = () => {
   const { getCategoryColorForSkill, allSkills } = useColoredBadges();
-  const { values, setFieldValue, errors } = useFormikContext<{ skills: string[] }>();
+  const { values, setFieldValue, errors, touched } = useFormikContext<{ skills: string[] }>();
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -136,8 +137,8 @@ const CreateJobSkills: FC = () => {
                 ref={inputRef}
                 variant="searchBar"
                 value={searchText}
-                borderColor={errors['skills'] ? 'red' : 'brand.primary'}
-                boxShadow={errors['skills'] ? '0 0 0 1px red' : 'none'}
+                borderColor={errors['skills'] && touched['skills'] ? 'red' : 'brand.primary'}
+                boxShadow={errors['skills'] && touched['skills'] ? '0 0 0 1px red' : 'none'}
                 _focus={{
                   borderColor: 'brand.primary',
                   boxShadow: '0 0 0 1px var(--chakra-colors-brand-primary)'
@@ -182,7 +183,9 @@ const CreateJobSkills: FC = () => {
           </Box>
         </Flex>
         <Flex flexWrap="wrap" mt={2} w="100%" gap={2}>
-          {errors['skills'] && <Text textStyle="errorMessage">{errors['skills']}</Text>}
+          {errors['skills'] && touched['skills'] && (
+            <Text textStyle="errorMessage">{errors['skills']}</Text>
+          )}
           {curSkills.map((v, k) => {
             const colors = getCategoryColorForSkill(v);
             return (
@@ -196,6 +199,15 @@ const CreateJobSkills: FC = () => {
                 onClick={() => handleItemClick(v)}
               >
                 {v}
+                <Box
+                  w="10px"
+                  h="10px"
+                  ml={2}
+                  mt={0.5}
+                  sx={{ svg: { width: '100% !important', height: '100% !important' } }}
+                >
+                  <CloseIcon />
+                </Box>
               </Badge>
             );
           })}

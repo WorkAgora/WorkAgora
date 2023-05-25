@@ -248,8 +248,21 @@ const FreelanceSkills: FC = () => {
                           borderWidth="1px"
                           borderColor={'none'}
                           variant="filter"
+                          display="flex"
+                          alignItems="center"
                         >
                           {v}
+                          {edit && (
+                            <Box
+                              w="10px"
+                              h="10px"
+                              ml={2}
+                              mt={0.5}
+                              sx={{ svg: { width: '100% !important', height: '100% !important' } }}
+                            >
+                              <CloseIcon />
+                            </Box>
+                          )}
                         </Badge>
                       );
                     })}
