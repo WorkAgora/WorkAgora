@@ -61,6 +61,7 @@ const FreelancePreferences: FC = () => {
   const [selectedAvailability, setSelectedAvailability] = useState('');
   const [workLocationOpen, setWorkLocationOpen] = useState(false);
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
 
   const findKeyByValue = (
     value: string,
@@ -154,6 +155,7 @@ const FreelancePreferences: FC = () => {
           borderColor="neutral.gray"
           w="100%"
           gap={4}
+          flexBasis="60%"
         >
           <Formik
             initialValues={{

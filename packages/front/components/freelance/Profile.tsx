@@ -1,10 +1,10 @@
-import { Avatar, Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
 import { shortHash } from '@workagora/utils';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
-import DollarIcon from '../icons/DollarIcon';
-import StarIcon from '../icons/StarIcon';
+import ProfileLinks from './ProfileLinks';
+import ProfilePreferences from './ProfilePreferences';
 import ProfileResume from './ProfileResume';
 import ProfileSkills from './ProfileSkills';
 import ProfileTop from './ProfileTop';
@@ -56,6 +56,10 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
             <ProfileTop curUser={curUser} />
             <ProfileSkills curUser={curUser} />
             <ProfileResume curUser={curUser} />
+            <Flex gap={6}>
+              <ProfilePreferences curUser={curUser} />
+              <ProfileLinks curUser={curUser} />
+            </Flex>
           </>
         )}
       </Flex>

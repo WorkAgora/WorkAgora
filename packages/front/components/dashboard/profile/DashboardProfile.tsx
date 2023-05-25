@@ -7,6 +7,7 @@ import FreelanceTopProfile from './freelance/FreelanceTopProfile';
 import FreelanceResume from './freelance/FreelanceResume';
 import FreelanceSkills from './freelance/FreelanceSkills';
 import FreelancePreferences from './freelance/FreelancePreferences';
+import FreelanceLinks from './freelance/FreelanceLinks';
 
 const MotionBox = motion(Box);
 
@@ -45,8 +46,9 @@ const DashboardProfile: FC = () => {
                 <FreelanceTopProfile />
                 <FreelanceSkills />
                 <FreelanceResume />
-                <Flex>
+                <Flex columnGap={6}>
                   <FreelancePreferences />
+                  <FreelanceLinks />
                 </Flex>
               </Flex>
             </MotionBox>
