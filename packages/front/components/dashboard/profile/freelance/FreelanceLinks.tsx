@@ -154,9 +154,9 @@ const FreelanceLinks: FC = () => {
                           isLoading={loading}
                           loadingText="Updating profile"
                           spinnerPlacement="end"
-                          rightIcon={<CheckIcon />}
+                          leftIcon={<CheckIcon />}
                         >
-                          Save changes
+                          Save links
                         </Button>
                       </Box>
                       <Box

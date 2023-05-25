@@ -3,6 +3,7 @@ import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
 import { shortHash } from '@workagora/utils';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
+import ProfileCompletedJobs from './ProfileCompletedJob';
 import ProfileLinks from './ProfileLinks';
 import ProfilePreferences from './ProfilePreferences';
 import ProfileResume from './ProfileResume';
@@ -24,7 +25,7 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
   }, [getProfile, wallet]);
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
+    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )" gap={6} pb={6}>
       <Flex
         flexDir="column"
         w="100%"
@@ -63,6 +64,7 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
           </>
         )}
       </Flex>
+      <ProfileCompletedJobs />
     </Flex>
   );
 };
