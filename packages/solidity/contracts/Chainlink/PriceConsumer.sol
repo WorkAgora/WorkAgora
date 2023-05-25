@@ -31,23 +31,3 @@ contract PriceConsumer {
         return _aggregator.decimals();
     }
 }
-
-contract PriceConsumers {
-    PriceConsumer public immutable _avaxUsdPriceConsumer;
-
-    constructor(address _avaxUsdAggregator) {
-        _avaxUsdPriceConsumer = new PriceConsumer(_avaxUsdAggregator);
-    }
-}
-
-contract PriceConsumerAvaxUSD is PriceConsumer {
-
-    /**
-     * Network: Avax
-     * Aggregator: MATIC/USD
-     * Address (mainnet): 0x0A77230d17318075983913bC2145DB16C7366156
-     * Address (testnet): 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD
-     * From: https://docs.chain.link/data-feeds/price-feeds/addresses?network=avalanche
-     */
-    constructor() PriceConsumer(0x5498BB86BC934c8D34FDA08E81D444153d0D06aD) { }
-}

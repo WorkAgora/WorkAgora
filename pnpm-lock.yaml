@@ -321,6 +321,9 @@ devDependencies:
   babel-jest:
     specifier: ^29.4.1
     version: 29.4.1(@babel/core@7.21.8)
+  bignumber.js:
+    specifier: ^9.1.1
+    version: 9.1.1
   chai:
     specifier: ^4.3.7
     version: 4.3.7
@@ -10268,6 +10271,10 @@ packages:
   /bigint-crypto-utils@3.2.2:
     resolution: {integrity: sha512-U1RbE3aX9ayCUVcIPHuPDPKcK3SFOXf93J1UK/iHlJuQB7bhagPIX06/CLpLEsDThJ7KA4Dhrnzynl+d2weTiw==}
     engines: {node: '>=14.0.0'}
+    dev: true
+
+  /bignumber.js@9.1.1:
+    resolution: {integrity: sha512-pHm4LsMJ6lzgNGVfZHjMoO8sdoRhOzOH4MLmY65Jg70bpxCKu5iOHNJyfF6OyvYw7t8Fpf35RuzUyqnQsj8Vig==}
     dev: true
 
   /binary-case@1.1.4:

@@ -6,13 +6,14 @@ pragma solidity ^0.8.18;
 import '../../JobContract/JobContract.sol';
 import '../Reputation/ReputationCard.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-interface IUser {
+interface IUserManager {
     // // Event emitted when a user is successfully verified
     event UserVerified(address indexed _address);
 
-    // // Initializes the User contract with the given authority address
-    // function initialize(address _authority) external;
+    // // Initializes the User contract with the given sigAuthority address
+    // function initialize(address _sigAuthority) external;
 
     // // Verifies a user using their wallet address, KYC ID, and a signature
     // // The signature should be signed by the KYC system to ensure validity
@@ -30,12 +31,12 @@ interface IContractor {
     // Add other functions specific to the Contractor
 }
 
-contract User is IUser {
+contract UserManager is IUserManager, Ownable {
     using ECDSA for bytes32;
 
     uint256 private idCounter;
 
-    address public authority;
+    address public sigAuthority;
     ReputationCard public reputationCard;
     Employer public employer;
     Contractor public contractor;
@@ -59,19 +60,18 @@ contract User is IUser {
     }
 
     function initialize(
-        address _authority,
+        address _sigAuthority,
         ReputationCard _reputationCard,
         Employer _employer,
         Contractor _contractor,
         JobContract _jobContract
-    ) external {
-        require(authority == address(0), 'Already initialized');
+    ) external onlyOwner {
+        require(sigAuthority == address(0), 'Already initialized');
         reputationCard = ReputationCard(_reputationCard);
         employer = Employer(_employer);
         contractor = Contractor(_contractor);
         jobContract = JobContract(_jobContract);
-        jobContract.initialize(this);
-        authority = _authority;
+        sigAuthority = _sigAuthority;
     }
 
     function verifyUser(
@@ -82,7 +82,7 @@ contract User is IUser {
         require(!isUserVerified(_address), 'Already verified');
         bytes32 messagehash = keccak256(abi.encodePacked(_address, _kycId));
         require(
-            messagehash.toEthSignedMessageHash().recover(_signature) == authority,
+            messagehash.toEthSignedMessageHash().recover(_signature) == sigAuthority,
             'Invalid signature'
         );
         verifiedUsers[_address] = UserInfo(_kycId, ++idCounter, ++idCounter);

@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract } from "packages/solidity/typechain-types";
-import { toBlockchainParams } from ".";
+import { getSignersInfo, toBlockchainParams } from ".";
 
 export enum JobContractState {
     Started,
@@ -23,6 +23,7 @@ export type Jcm = {
 export type Jcc = {
     contractId: [string, string],
     totalAmountUsd: [string, number],
+    paymentToken: [string, number],
     initialDepositPct: [string, number],
     lockedAmountPct: [string, number],
     deferredAmountPct: [string, number],
@@ -43,6 +44,12 @@ export function getJcc(baseJcc: Jcc, newParams: Partial<Jcc>): Jcc {
 }
 
 export async function createJobContract(jcc: Jcc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
-    const contract: JobContract = sender ? jobContract.connect(sender) : jobContract;
-    await contract.create(toBlockchainParams(jcc), signature);
+    let deployer: SignerWithAddress;
+    if(sender) {
+        deployer = sender;
+    } else {
+        deployer = (await getSignersInfo()).employer.signer;
+    }
+    const params = toBlockchainParams(jcc);
+    await jobContract.connect(deployer).create(params, signature);
 }
