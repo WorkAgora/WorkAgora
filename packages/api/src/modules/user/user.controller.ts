@@ -22,7 +22,7 @@ import {Request} from 'express';
 import {ChangeUserTypeDTO} from '../../dtos/user/change-user-type-dto';
 import {UserTypeEnum} from '../../../../utils/src/index';
 import {omit} from 'lodash';
-import {ExperienceDTO, DeleteExperienceDTO} from '../../dtos/user/experience.dto';
+import {ExperienceDTO, DeleteExperienceDTO, UpdateExperienceDTO} from '../../dtos/user/experience.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -314,7 +314,7 @@ export class UserController {
   }
 
   @Put('experiences/add')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({summary: 'Add experiences'})
   @ApiResponse({
     status: 200,
@@ -330,15 +330,14 @@ export class UserController {
     @Body() experience: ExperienceDTO
   ): Promise<UserDTO> {
     try {
-      return await this.userService.addExperience("0xac688f514468a753894893e5463938896eff81b4", experience);
+      return await this.userService.addExperience(req.user.wallet, experience);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
 
-  // delete based on company name and position
   @Delete('experiences/delete')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({summary: 'Delete experiences'})
   @ApiResponse({
     status: 200,
@@ -354,14 +353,14 @@ export class UserController {
     @Body() body: DeleteExperienceDTO
   ): Promise<UserDTO> {
     try {
-      return await this.userService.removeExperience("0xac688f514468a753894893e5463938896eff81b4", body.role, body.company);
+      return await this.userService.removeExperience(req.user.wallet, body.id);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }
   }
 
   @Patch('experiences/update')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({summary: 'Update experiences'})
   @ApiResponse({
     status: 200,
@@ -374,9 +373,10 @@ export class UserController {
   })
   async updateExperience(
     @Req() req: Request,
-    @Body() experience: ExperienceDTO): Promise<UserDTO> {
+    @Body() body: UpdateExperienceDTO
+  ): Promise<UserDTO> {
     try {
-      return await this.userService.updateExperience("0xac688f514468a753894893e5463938896eff81b4", experience);
+      return await this.userService.updateExperience(req.user.wallet, body);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }

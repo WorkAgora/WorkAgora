@@ -7,8 +7,9 @@ import {UpdateFreelanceProfileDTO} from '../../dtos/user/update-freelance.dto';
 import {UpdateEmployerProfileDTO} from '../../dtos/user/update-employer.dto';
 import {SortOrder} from 'dynamoose/dist/General';
 import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
-import {ExperienceDTO} from "../../dtos/user/experience.dto";
+import {ExperienceDTO, UpdateExperienceDTO} from "../../dtos/user/experience.dto";
 import {Experience} from '../../../../utils/src/index';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
@@ -256,6 +257,7 @@ export class UserService {
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
     const experienceConverted: Experience = {
+      id: uuidv4(),
       company: experience.company ?? '',
       role: experience.role ?? '',
       startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
@@ -275,7 +277,7 @@ export class UserService {
     return user;
   }
 
-  async removeExperience(wallet: string, role: string, company: string): Promise<UserDTO> {
+  async removeExperience(wallet: string, id: string): Promise<UserDTO> {
     const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
     const user = userDTO[0];
 
@@ -287,16 +289,14 @@ export class UserService {
       user.freelanceProfile.experiences = [];
     }
 
-    user.freelanceProfile.experiences = user.freelanceProfile.experiences.filter((experience) => {
-      return experience.role !== role && experience.company !== company;
-    });
+    user.freelanceProfile.experiences = user.freelanceProfile.experiences.filter((experience) => experience.id !== id);
 
     await this.model.update(user);
 
     return user;
   }
 
-  async updateExperience(wallet: string, experience: ExperienceDTO): Promise<UserDTO> {
+  async updateExperience(wallet: string, experience: UpdateExperienceDTO): Promise<UserDTO> {
     const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
     const user = userDTO[0];
 
@@ -313,7 +313,7 @@ export class UserService {
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
     user.freelanceProfile.experiences = user.freelanceProfile.experiences.map((experienceItem) =>
-      experienceItem.role === experience.role && experienceItem.company === experience.company ? {
+      experienceItem.id === experience.id ? {
         ...experienceItem,
         company: experience.company ?? '',
         role: experience.role ?? '',

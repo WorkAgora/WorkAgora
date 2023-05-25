@@ -46,10 +46,10 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-experience-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: role
+        - AttributeName: id
           AttributeType: S
       KeySchema:
-        - AttributeName: role
+        - AttributeName: id
           KeyType: HASH
   UserTable:
     Type: AWS::DynamoDB::Table
