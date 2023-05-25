@@ -7,7 +7,7 @@ import HeaderButton from './HeaderButton';
 import HeaderMenu from './HeaderMenu';
 
 const Header: FC = () => {
-  const { user } = useCurrentUser();
+  const { user, fetchingUser } = useCurrentUser();
   const { hasScroll } = useLanding();
 
   return (
@@ -28,14 +28,16 @@ const Header: FC = () => {
         <BrandLogo />
         <UserTypeSwitch ml={12} />
       </Flex>
-      {!user && (
+      {!user && !fetchingUser && (
         <Flex direction="row" alignItems="center" justifyContent="center">
           <HeaderMenu />
         </Flex>
       )}
-      <Flex direction="row" alignItems="center" justifyContent="end">
-        <HeaderButton />
-      </Flex>
+      {!fetchingUser && (
+        <Flex direction="row" alignItems="center" justifyContent="end">
+          <HeaderButton />
+        </Flex>
+      )}
     </Flex>
   );
 };

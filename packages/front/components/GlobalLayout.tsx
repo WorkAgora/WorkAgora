@@ -8,7 +8,7 @@ import SignupModal from './modal/SignupModal';
 import { useRouter } from 'next/router';
 
 export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
-  const { user, setUser } = useCurrentUser();
+  const { user, setUser, setFetchingUser } = useCurrentUser();
   const [isFetching, setIsFetching] = useState(true);
   const authenticatedCookie = Cookies.get('authenticated');
   const { pathname, push } = useRouter();
@@ -26,15 +26,17 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
   useEffect(() => {
     if (authenticatedCookie === 'true' && !user) {
       setIsFetching(true);
+      setFetchingUser(true);
       isUserLogged();
     }
     if (!authenticatedCookie) {
       if (pathname !== '/') {
         push('/');
       }
+      setFetchingUser(false);
       setIsFetching(false);
     }
-  }, [isUserLogged, user, authenticatedCookie, pathname, push]);
+  }, [isUserLogged, user, authenticatedCookie, pathname, push, setFetchingUser]);
 
   return (
     <Container
