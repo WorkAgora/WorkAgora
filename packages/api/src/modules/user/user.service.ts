@@ -1,18 +1,22 @@
-import { Injectable, UnprocessableEntityException, Logger } from '@nestjs/common';
-import { InjectModel, Model } from 'nestjs-dynamoose';
-import { UserDTO } from '../../dtos/user/user.dto';
-import { User, UserKey } from '@workagora/utils';
-import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
-import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
-import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
-import { SortOrder } from 'dynamoose/dist/General';
-import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
+import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
+import {InjectModel, Model} from 'nestjs-dynamoose';
+import {UserDTO} from '../../dtos/user/user.dto';
+import {User, UserKey} from '@workagora/utils';
+import {CreateUserDTO} from '../../dtos/auth/create-user.dto';
+import {UpdateFreelanceProfileDTO} from '../../dtos/user/update-freelance.dto';
+import {UpdateEmployerProfileDTO} from '../../dtos/user/update-employer.dto';
+import {SortOrder} from 'dynamoose/dist/General';
+import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
+import {ExperienceDTO} from "../../dtos/user/experience.dto";
+import {Experience} from '../../../../utils/src/index';
+
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel('User')
     private readonly model: Model<User, UserKey>
-  ) {}
+  ) {
+  }
 
   public async findUserByWallet(wallet: string): Promise<UserDTO> {
     try {
@@ -238,5 +242,89 @@ export class UserService {
         error.message
       );
     }
+  }
+
+  async addExperience(wallet: string, experience: ExperienceDTO): Promise<UserDTO> {
+    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const user = userDTO[0];
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const experienceConverted: Experience = {
+      company: experience.company ?? '',
+      role: experience.role ?? '',
+      startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
+      endDate: experience.endDate ?? new Date().toISOString(),
+      description: experience.description ?? '',
+      imageUrl: experience.imageUrl ?? ''
+    }
+
+    if (!user.freelanceProfile.experiences) {
+      user.freelanceProfile.experiences = [];
+    }
+
+    user.freelanceProfile.experiences.push(experienceConverted);
+
+    await this.model.update(user);
+
+    return user;
+  }
+
+  async removeExperience(wallet: string, role: string, company: string): Promise<UserDTO> {
+    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const user = userDTO[0];
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!user.freelanceProfile.experiences) {
+      user.freelanceProfile.experiences = [];
+    }
+
+    user.freelanceProfile.experiences = user.freelanceProfile.experiences.filter((experience) => {
+      return experience.role !== role && experience.company !== company;
+    });
+
+    await this.model.update(user);
+
+    return user;
+  }
+
+  async updateExperience(wallet: string, experience: ExperienceDTO): Promise<UserDTO> {
+    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const user = userDTO[0];
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!user.freelanceProfile.experiences) {
+      user.freelanceProfile.experiences = [];
+      return user;
+    }
+
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    user.freelanceProfile.experiences = user.freelanceProfile.experiences.map((experienceItem) =>
+      experienceItem.role === experience.role && experienceItem.company === experience.company ? {
+        ...experienceItem,
+        company: experience.company ?? '',
+        role: experience.role ?? '',
+        startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
+        endDate: experience.endDate ?? new Date().toISOString(),
+        description: experience.description ?? '',
+        imageUrl: experience.imageUrl ?? ''
+      } : experienceItem
+    );
+
+    await this.model.update(user);
+    return user;
   }
 }

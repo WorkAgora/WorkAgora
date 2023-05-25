@@ -6,6 +6,7 @@ import {
   walletRegex
 } from '../../../../utils/src/index';
 import { Schema } from 'dynamoose';
+import {ExperienceSchema} from "./experience.schema";
 
 export const UserSchema = new Schema({
   wallet: {
@@ -104,6 +105,12 @@ export const UserSchema = new Schema({
         schema: [String],
         required: false
       },
+      experiences: {
+        type: Array,
+        schema: [ExperienceSchema],
+        required: false,
+        default: []
+      },
       remuneration: String
     }
   },
@@ -113,4 +120,4 @@ export const UserSchema = new Schema({
       companyId: String
     }
   }
-});
+}, { saveUnknown: true });
