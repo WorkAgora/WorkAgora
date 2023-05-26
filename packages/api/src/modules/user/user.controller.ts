@@ -12,17 +12,21 @@ import {
   Req,
   UseGuards
 } from '@nestjs/common';
-import {ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
-import {UserService} from './user.service';
-import {User} from '@workagora/utils';
-import {UserDTO} from '../../dtos/user/user.dto';
-import {JwtAuthGuard} from '../auth/jwt.guard';
-import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
-import {Request} from 'express';
-import {ChangeUserTypeDTO} from '../../dtos/user/change-user-type-dto';
-import {UserTypeEnum} from '../../../../utils/src/index';
-import {omit} from 'lodash';
-import {ExperienceDTO, DeleteExperienceDTO, UpdateExperienceDTO} from '../../dtos/user/experience.dto';
+import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserService } from './user.service';
+import { User } from '@workagora/utils';
+import { UserDTO } from '../../dtos/user/user.dto';
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
+import { Request } from 'express';
+import { ChangeUserTypeDTO } from '../../dtos/user/change-user-type-dto';
+import { UserTypeEnum } from '../../../../utils/src/index';
+import { omit } from 'lodash';
+import {
+  ExperienceDTO,
+  DeleteExperienceDTO,
+  UpdateExperienceDTO
+} from '../../dtos/user/experience.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -32,7 +36,7 @@ export class UserController {
 
   @Get('')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Get current user by guard'})
+  @ApiOperation({ summary: 'Get current user by guard' })
   @ApiResponse({
     status: 200,
     description: 'The user details',
@@ -55,13 +59,13 @@ export class UserController {
   }
 
   @Get(':wallet')
-  // @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Get user details by wallet address'})
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get user details by wallet address' })
   @ApiParam({
     name: 'wallet',
     description: 'The wallet address of the user',
     required: true,
-    schema: {type: 'string', default: '0x0'}
+    schema: { type: 'string', default: '0x0' }
   })
   @ApiResponse({
     status: 200,
@@ -95,7 +99,7 @@ export class UserController {
 
   @Put('updateProfile')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Update user profile'})
+  @ApiOperation({ summary: 'Update user profile' })
   @ApiResponse({
     status: 200,
     description: 'Profile updated successfully',
@@ -148,7 +152,7 @@ export class UserController {
 
   @Put('changeUserType')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Change user type'})
+  @ApiOperation({ summary: 'Change user type' })
   @ApiResponse({
     status: 200,
     description: 'User type changed successfully',
@@ -181,7 +185,7 @@ export class UserController {
   }
 
   @Get('searchFreelancer/:page/:limit')
-  @ApiOperation({summary: 'Search for freelancer'})
+  @ApiOperation({ summary: 'Search for freelancer' })
   @ApiQuery({
     name: 'searchTerm',
     required: false,
@@ -192,13 +196,13 @@ export class UserController {
     name: 'page',
     description: 'Page for freelancers to return',
     required: true,
-    schema: {type: 'integer', default: 1}
+    schema: { type: 'integer', default: 1 }
   })
   @ApiParam({
     name: 'limit',
     description: 'Limit for freelancers to return',
     required: true,
-    schema: {type: 'integer', default: 8}
+    schema: { type: 'integer', default: 8 }
   })
   @ApiResponse({
     status: 200,
@@ -232,7 +236,7 @@ export class UserController {
 
   @Get('searchFreelancerLogged/:page/:limit')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Search for freelancer'})
+  @ApiOperation({ summary: 'Search for freelancer' })
   @ApiQuery({
     name: 'searchTerm',
     required: false,
@@ -243,13 +247,13 @@ export class UserController {
     name: 'page',
     description: 'Page for freelancers to return',
     required: true,
-    schema: {type: 'integer', default: 1}
+    schema: { type: 'integer', default: 1 }
   })
   @ApiParam({
     name: 'limit',
     description: 'Limit for freelancers to return',
     required: true,
-    schema: {type: 'integer', default: 8}
+    schema: { type: 'integer', default: 8 }
   })
   @ApiResponse({
     status: 200,
@@ -282,12 +286,12 @@ export class UserController {
   }
 
   @Get('recentFreelancer/:limit')
-  @ApiOperation({summary: 'Get recent freelancers'})
+  @ApiOperation({ summary: 'Get recent freelancers' })
   @ApiParam({
     name: 'limit',
     description: 'Limit for freelancers to return',
     required: true,
-    schema: {type: 'integer', default: 8}
+    schema: { type: 'integer', default: 8 }
   })
   @ApiResponse({
     status: 200,
@@ -315,7 +319,7 @@ export class UserController {
 
   @Put('experiences/add')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Add experiences'})
+  @ApiOperation({ summary: 'Add experiences' })
   @ApiResponse({
     status: 200,
     description: 'Experience added successfully',
@@ -325,10 +329,7 @@ export class UserController {
     status: 400,
     description: 'Bad Request'
   })
-  async addExperience(
-    @Req() req: Request,
-    @Body() experience: ExperienceDTO
-  ): Promise<UserDTO> {
+  async addExperience(@Req() req: Request, @Body() experience: ExperienceDTO): Promise<UserDTO> {
     try {
       return await this.userService.addExperience(req.user.wallet, experience);
     } catch (e) {
@@ -338,7 +339,7 @@ export class UserController {
 
   @Delete('experiences/delete')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Delete experiences'})
+  @ApiOperation({ summary: 'Delete experiences' })
   @ApiResponse({
     status: 200,
     description: 'Experience deleted successfully',
@@ -348,10 +349,7 @@ export class UserController {
     status: 400,
     description: 'Bad Request'
   })
-  async deleteExperience(
-    @Req() req: Request,
-    @Body() body: DeleteExperienceDTO
-  ): Promise<UserDTO> {
+  async deleteExperience(@Req() req: Request, @Body() body: DeleteExperienceDTO): Promise<UserDTO> {
     try {
       return await this.userService.removeExperience(req.user.wallet, body.id);
     } catch (e) {
@@ -361,7 +359,7 @@ export class UserController {
 
   @Patch('experiences/update')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({summary: 'Update experiences'})
+  @ApiOperation({ summary: 'Update experiences' })
   @ApiResponse({
     status: 200,
     description: 'Experience updated successfully',
@@ -371,10 +369,7 @@ export class UserController {
     status: 400,
     description: 'Bad Request'
   })
-  async updateExperience(
-    @Req() req: Request,
-    @Body() body: UpdateExperienceDTO
-  ): Promise<UserDTO> {
+  async updateExperience(@Req() req: Request, @Body() body: UpdateExperienceDTO): Promise<UserDTO> {
     try {
       return await this.userService.updateExperience(req.user.wallet, body);
     } catch (e) {

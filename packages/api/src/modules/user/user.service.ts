@@ -1,14 +1,14 @@
-import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
-import {InjectModel, Model} from 'nestjs-dynamoose';
-import {UserDTO} from '../../dtos/user/user.dto';
-import {User, UserKey} from '@workagora/utils';
-import {CreateUserDTO} from '../../dtos/auth/create-user.dto';
-import {UpdateFreelanceProfileDTO} from '../../dtos/user/update-freelance.dto';
-import {UpdateEmployerProfileDTO} from '../../dtos/user/update-employer.dto';
-import {SortOrder} from 'dynamoose/dist/General';
-import {UpdateProfileDTO} from '../../dtos/user/update-profile.dto';
-import {ExperienceDTO, UpdateExperienceDTO} from "../../dtos/user/experience.dto";
-import {Experience} from '../../../../utils/src/index';
+import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
+import { InjectModel, Model } from 'nestjs-dynamoose';
+import { UserDTO } from '../../dtos/user/user.dto';
+import { User, UserKey } from '@workagora/utils';
+import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
+import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
+import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
+import { SortOrder } from 'dynamoose/dist/General';
+import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
+import { ExperienceDTO, UpdateExperienceDTO } from '../../dtos/user/experience.dto';
+import { Experience } from '../../../../utils/src/index';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -16,8 +16,7 @@ export class UserService {
   constructor(
     @InjectModel('User')
     private readonly model: Model<User, UserKey>
-  ) {
-  }
+  ) {}
 
   public async findUserByWallet(wallet: string): Promise<UserDTO> {
     try {
@@ -264,13 +263,20 @@ export class UserService {
       endDate: experience.endDate ?? new Date().toISOString(),
       description: experience.description ?? '',
       imageUrl: experience.imageUrl ?? ''
-    }
+    };
 
     if (!user.freelanceProfile.experiences) {
       user.freelanceProfile.experiences = [];
     }
 
     user.freelanceProfile.experiences.push(experienceConverted);
+
+    // Sort the experiences by startDate in descending order
+    user.freelanceProfile.experiences.sort((a, b) => {
+      const dateA = new Date(a.startDate);
+      const dateB = new Date(b.startDate);
+      return dateB.getTime() - dateA.getTime();
+    });
 
     await this.model.update(user);
 
@@ -289,7 +295,9 @@ export class UserService {
       user.freelanceProfile.experiences = [];
     }
 
-    user.freelanceProfile.experiences = user.freelanceProfile.experiences.filter((experience) => experience.id !== id);
+    user.freelanceProfile.experiences = user.freelanceProfile.experiences.filter(
+      (experience) => experience.id !== id
+    );
 
     await this.model.update(user);
 
@@ -313,15 +321,17 @@ export class UserService {
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
     user.freelanceProfile.experiences = user.freelanceProfile.experiences.map((experienceItem) =>
-      experienceItem.id === experience.id ? {
-        ...experienceItem,
-        company: experience.company ?? '',
-        role: experience.role ?? '',
-        startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
-        endDate: experience.endDate ?? new Date().toISOString(),
-        description: experience.description ?? '',
-        imageUrl: experience.imageUrl ?? ''
-      } : experienceItem
+      experienceItem.id === experience.id
+        ? {
+            ...experienceItem,
+            company: experience.company ?? '',
+            role: experience.role ?? '',
+            startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
+            endDate: experience.endDate ?? new Date().toISOString(),
+            description: experience.description ?? '',
+            imageUrl: experience.imageUrl ?? ''
+          }
+        : experienceItem
     );
 
     await this.model.update(user);
