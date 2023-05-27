@@ -3,7 +3,7 @@ export interface UserKey {
 }
 
 export interface Experience {
-  id: string;
+  id?: string;
   role: string;
   company: string;
   description: string;

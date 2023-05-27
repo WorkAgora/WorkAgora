@@ -23,7 +23,9 @@ import CloseIcon from '@workagora/front/components/icons/CloseIcon';
 
 const CreateJobSkills: FC = () => {
   const { getCategoryColorForSkill, allSkills } = useColoredBadges();
-  const { values, setFieldValue, errors, touched } = useFormikContext<{ skills: string[] }>();
+  const { values, setFieldValue, errors, touched, setFieldTouched } = useFormikContext<{
+    skills: string[];
+  }>();
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,6 +92,7 @@ const CreateJobSkills: FC = () => {
         setCurSkills((prevSkills) => prevSkills.filter((v) => v !== skill));
       }
     }
+    setFieldTouched('skills', true);
     if (isOpen) onClose();
   };
 
@@ -109,7 +112,7 @@ const CreateJobSkills: FC = () => {
 
   useEffect(() => {
     setFieldValue('skills', curSkills, true);
-  }, [curSkills, setFieldValue]);
+  }, [curSkills, setFieldTouched, setFieldValue]);
 
   return (
     <Flex flexDir="column" justifyContent="center" w="100%" gap={4}>
@@ -197,6 +200,8 @@ const CreateJobSkills: FC = () => {
                 borderColor={'none'}
                 variant="filter"
                 onClick={() => handleItemClick(v)}
+                display="flex"
+                alignItems="center"
               >
                 {v}
                 <Box

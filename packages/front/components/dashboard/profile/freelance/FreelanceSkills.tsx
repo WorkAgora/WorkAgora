@@ -250,6 +250,7 @@ const FreelanceSkills: FC = () => {
                           variant="filter"
                           display="flex"
                           alignItems="center"
+                          onClick={() => handleItemClick(v)}
                         >
                           {v}
                           {edit && (

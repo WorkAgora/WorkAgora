@@ -247,20 +247,22 @@ const DashboardJobCreate: FC = () => {
                           name="requirements"
                           isRequired
                         />
-                        <Box ml="auto">
-                          <Button
-                            variant={!isValid ? 'outline' : 'primary'}
-                            type="submit"
-                            width="100%"
-                            isDisabled={!isValid}
-                            isLoading={loading}
-                            loadingText="Creating job"
-                            spinnerPlacement="end"
-                            leftIcon={<CheckIcon />}
-                          >
-                            Publish this job
-                          </Button>
-                        </Box>
+                        <Flex>
+                          <Box ml="auto">
+                            <Button
+                              variant={!isValid ? 'outline' : 'primary'}
+                              type="submit"
+                              width="100%"
+                              isDisabled={!isValid}
+                              isLoading={loading}
+                              loadingText="Creating job"
+                              spinnerPlacement="end"
+                              leftIcon={<CheckIcon />}
+                            >
+                              Publish this job
+                            </Button>
+                          </Box>
+                        </Flex>
                       </Form>
                     );
                   }}

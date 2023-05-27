@@ -125,7 +125,6 @@ const FreelanceLinks: FC = () => {
                       _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
                       onClick={() => {
                         setEdit(true);
-                        resetForm();
                       }}
                     >
                       <PencilIcon />

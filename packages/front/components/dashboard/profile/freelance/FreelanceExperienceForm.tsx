@@ -22,6 +22,7 @@ import CloseIcon from '@workagora/front/components/icons/CloseIcon';
 import TrashIcon from '@workagora/front/components/icons/TrashIcon';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+import { useExperiences } from '@workagora/front/hooks/useExperiences';
 
 interface FormData {
   company: string;
@@ -74,6 +75,7 @@ const validationSchema = Yup.object().shape({
   role: Yup.string().required('Role is required').max(50, 'Role must be less than 50 characters'),
   startDate: Yup.date()
     .required('Start Date is required')
+    .max(new Date(), 'Start Date cannot be after today')
     .max(Yup.ref('endDate'), 'Start Date should be before End Date'),
   endDate: Yup.date()
     .required('End Date is required')
@@ -85,25 +87,14 @@ const validationSchema = Yup.object().shape({
 
 const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, onClose }) => {
   const { user } = useCurrentUser();
-  const { loading, updateProfile } = useUpdateProfile();
+  const { loading, callAddExperience, callDeleteExperience, callUpdateExperience } =
+    useExperiences();
 
   const onSubmit = async (values: FormData) => {
-    /*if (user) {
-      const { longDesc } = values;
-      const updatedValues: Partial<User> = {};
-
-      if (user.freelanceProfile?.longDesc !== longDesc) {
-        updatedValues.freelanceProfile = { longDesc };
-      }
-
-      await updateProfile({
-        wallet: user.wallet,
-        email: user.email,
-        currentUserType: user.currentUserType,
-        ...updatedValues
-      });
-      setEdit(false);
-    }*/
+    if (user) {
+      const { company, role, startDate, endDate, description } = values;
+      await callAddExperience({ company, role, startDate, endDate, description });
+    }
   };
 
   return (
