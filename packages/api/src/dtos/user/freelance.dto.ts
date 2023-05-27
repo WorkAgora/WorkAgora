@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsOptional, IsArray, IsNumber } from 'class-validator';
+import {Experience} from '../../../../utils/src/index';
 
 export class FreelanceDTO {
   @ApiProperty({
@@ -57,7 +58,7 @@ export class FreelanceDTO {
   hoursPerWeek?: number;
 
   @ApiProperty({
-    description: 'The years of experience of the user',
+    description: 'The years of experiences of the user',
     type: String,
     required: false
   })
@@ -82,4 +83,13 @@ export class FreelanceDTO {
   @IsString()
   @IsOptional()
   remuneration?: string;
+
+  @ApiProperty({
+    description: 'The experiences of the user',
+    type: Array,
+    required: false
+  })
+  @IsArray()
+  @IsOptional()
+  experiences?: Experience[];
 }
