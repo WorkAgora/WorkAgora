@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
 import { User, UserKey } from '@workagora/utils';
@@ -6,6 +6,11 @@ import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
+import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
+import { ExperienceDTO, UpdateExperienceDTO } from '../../dtos/user/experience.dto';
+import { Experience } from '../../../../utils/src/index';
+import { v4 as uuidv4 } from 'uuid';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -46,6 +51,23 @@ export class UserService {
     } catch (error) {
       throw new UnprocessableEntityException(error, error.message);
     }
+  }
+
+  async updateUserProfile(wallet: string, updatedProfile: UpdateProfileDTO): Promise<UserDTO> {
+    const user = await this.findUserByWallet(wallet);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser: User = {
+      ...user,
+      ...updatedProfile
+    };
+
+    // Save the updated user to the database
+    await this.model.update(updatedUser);
+
+    return updatedUser;
   }
 
   async updateFreelancerProfile(
@@ -156,7 +178,7 @@ export class UserService {
           .exec();
       }
 
-      const term = searchTerm.toLowerCase();
+      const term = searchTerm ? searchTerm.toLowerCase() : '';
       const skillsArray = term.split(',');
 
       // Calculate score for each user
@@ -172,11 +194,17 @@ export class UserService {
         user.score = score;
       });
 
-      // Remove users with score = 0
-      const filteredUsers = users.filter(user => user.score > 0);
-
-      // Sort users by score
-      filteredUsers.sort((a, b) => b.score - a.score);
+      let filteredUsers = users;
+      if (term !== '') {
+        filteredUsers = users.filter((user) => user.score > 0);
+        filteredUsers.sort((a, b) => b.score - a.score);
+      } else {
+        filteredUsers.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB.getTime() - dateA.getTime();
+        });
+      }
 
       const maxPage = Math.ceil(filteredUsers.length / limit);
       const startIndex = (page - 1) * limit;
@@ -188,7 +216,7 @@ export class UserService {
         totalResult: filteredUsers.length
       };
     } catch (error) {
-      throw new UnprocessableEntityException('Error while searching users', error.message);
+      throw new UnprocessableEntityException('Error while searching users: ' + error.message);
     }
   }
 
@@ -214,5 +242,99 @@ export class UserService {
         error.message
       );
     }
+  }
+
+  async addExperience(wallet: string, experience: ExperienceDTO): Promise<UserDTO> {
+    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const user = userDTO[0];
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const experienceConverted: Experience = {
+      id: uuidv4(),
+      company: experience.company ?? '',
+      role: experience.role ?? '',
+      startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
+      endDate: experience.endDate ?? new Date().toISOString(),
+      description: experience.description ?? '',
+      imageUrl: experience.imageUrl ?? ''
+    };
+
+    if (!user.freelanceProfile.experiences) {
+      user.freelanceProfile.experiences = [];
+    }
+
+    user.freelanceProfile.experiences.push(experienceConverted);
+
+    // Sort the experiences by startDate in descending order
+    user.freelanceProfile.experiences.sort((a, b) => {
+      const dateA = new Date(a.startDate);
+      const dateB = new Date(b.startDate);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    await this.model.update(user);
+
+    return user;
+  }
+
+  async removeExperience(wallet: string, id: string): Promise<UserDTO> {
+    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const user = userDTO[0];
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!user.freelanceProfile.experiences) {
+      user.freelanceProfile.experiences = [];
+    }
+
+    user.freelanceProfile.experiences = user.freelanceProfile.experiences.filter(
+      (experience) => experience.id !== id
+    );
+
+    await this.model.update(user);
+
+    return user;
+  }
+
+  async updateExperience(wallet: string, experience: UpdateExperienceDTO): Promise<UserDTO> {
+    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const user = userDTO[0];
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!user.freelanceProfile.experiences) {
+      user.freelanceProfile.experiences = [];
+      return user;
+    }
+
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    user.freelanceProfile.experiences = user.freelanceProfile.experiences.map((experienceItem) =>
+      experienceItem.id === experience.id
+        ? {
+            ...experienceItem,
+            company: experience.company ?? '',
+            role: experience.role ?? '',
+            startDate: experience.startDate ?? sixMonthsAgo.toISOString(),
+            endDate: experience.endDate ?? new Date().toISOString(),
+            description: experience.description ?? '',
+            imageUrl: experience.imageUrl ?? ''
+          }
+        : experienceItem
+    );
+
+    await this.model.update(user);
+    return user;
   }
 }

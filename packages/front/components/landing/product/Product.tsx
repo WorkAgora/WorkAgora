@@ -1,13 +1,14 @@
-import {Flex} from '@chakra-ui/react';
-import {useLanding} from '@workagora/front-provider';
-import {FC} from 'react';
+import { Flex } from '@chakra-ui/react';
+import { useLanding } from '@workagora/front-provider';
+import { FC } from 'react';
 import ProductCompany from './company/ProductCompany';
 import ProductFreelance from './freelance/ProductFreelance';
-import {InView} from 'react-intersection-observer';
+import { InView } from 'react-intersection-observer';
 import SearchBar from './SearchBar';
 import Gallery from './Gallery';
 import Partners from './Partners';
-import {UserTypeEnum} from "@workagora/utils";
+import { UserTypeEnum } from '@workagora/utils';
+import { SearchFreelancerProvider } from '@workagora/front/hooks/useSearchFreelancer';
 
 const Product: FC = () => {
   const { type, handleViewChange } = useLanding();
@@ -32,8 +33,10 @@ const Product: FC = () => {
       <Flex flexDir="column" pt={16}>
         <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
           {topContent}
-          <SearchBar />
-          <Gallery mt={8} />
+          <SearchFreelancerProvider>
+            <SearchBar />
+            <Gallery mt={8} />
+          </SearchFreelancerProvider>
         </Flex>
         <Partners mt={16} />
       </Flex>

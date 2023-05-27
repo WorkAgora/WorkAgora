@@ -1,11 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   Inject,
-  Logger,
   Param,
+  Patch,
   Put,
   Query,
   Req,
@@ -20,6 +21,12 @@ import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
 import { Request } from 'express';
 import { ChangeUserTypeDTO } from '../../dtos/user/change-user-type-dto';
 import { UserTypeEnum } from '../../../../utils/src/index';
+import { omit } from 'lodash';
+import {
+  ExperienceDTO,
+  DeleteExperienceDTO,
+  UpdateExperienceDTO
+} from '../../dtos/user/experience.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -73,17 +80,8 @@ export class UserController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getUser(@Param('wallet') wallet: string, @Req() req: Request): Promise<User> {
-    const authenticatedUserWallet = req.user.toLowerCase();
+  async getUser(@Param('wallet') wallet: string): Promise<User> {
     const requestedUserWallet = wallet.toLowerCase();
-
-    if (authenticatedUserWallet !== requestedUserWallet) {
-      throw new HttpException(
-        "Forbidden: You cannot query another user's information without their consent.",
-        403
-      );
-    }
-
     try {
       const user = await this.userService.findUserByWallet(requestedUserWallet);
       if (!user) {
@@ -127,6 +125,10 @@ export class UserController {
       throw new HttpException('Invalid wallet address', 403);
     }
     try {
+      await this.userService.updateUserProfile(
+        updatedProfile.wallet.toLowerCase(),
+        omit(updatedProfile, ['freelanceProfile', 'employerProfile'])
+      );
       // Update the profile based on the currentUserType
       if (updatedProfile.currentUserType === UserTypeEnum.Freelancer) {
         // Update FreelancerProfile
@@ -144,7 +146,7 @@ export class UserController {
         throw new HttpException('Bad Request', 400);
       }
     } catch (e) {
-      throw new HttpException('An unexpected error occurred', 500);
+      throw new HttpException('An unexpected error occurred: ' + e.message, 500);
     }
   }
 
@@ -276,7 +278,6 @@ export class UserController {
     @Param('limit') limit: number,
     @Query('searchTerm') searchTerm?: string
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
-    Logger.log(JSON.stringify(req.user));
     try {
       return await this.userService.searchUsers(searchTerm, page, limit, req.user.wallet);
     } catch (e) {
@@ -310,8 +311,67 @@ export class UserController {
       if (!limit || limit < 1) {
         throw new HttpException('Bad Request', 400);
       }
-      const freelancers = await this.userService.getRecentFreelancers(limit);
-      return freelancers;
+      return await this.userService.getRecentFreelancers(limit);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
+
+  @Put('experiences/add')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Add experiences' })
+  @ApiResponse({
+    status: 200,
+    description: 'Experience added successfully',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  async addExperience(@Req() req: Request, @Body() experience: ExperienceDTO): Promise<UserDTO> {
+    try {
+      return await this.userService.addExperience(req.user.wallet, experience);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
+
+  @Delete('experiences/delete')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Delete experiences' })
+  @ApiResponse({
+    status: 200,
+    description: 'Experience deleted successfully',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  async deleteExperience(@Req() req: Request, @Body() body: DeleteExperienceDTO): Promise<UserDTO> {
+    try {
+      return await this.userService.removeExperience(req.user.wallet, body.id);
+    } catch (e) {
+      throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
+    }
+  }
+
+  @Patch('experiences/update')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Update experiences' })
+  @ApiResponse({
+    status: 200,
+    description: 'Experience updated successfully',
+    type: UserDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  async updateExperience(@Req() req: Request, @Body() body: UpdateExperienceDTO): Promise<UserDTO> {
+    try {
+      return await this.userService.updateExperience(req.user.wallet, body);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
     }

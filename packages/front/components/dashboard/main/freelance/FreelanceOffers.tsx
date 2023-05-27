@@ -1,13 +1,11 @@
 import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
 import FreelanceCard from '../../../card/FreelanceCard';
-import { SearchBarFilter } from '../../../landing/product/SearchBar';
 import { FC } from 'react';
-import { useDashboard } from '@workagora/front-provider';
 import { useRouter } from 'next/router';
 
 const offers = [1, 2, 3, 4];
 
-const badges: SearchBarFilter[] = [
+const badges: any[] = [
   {
     label: 'Product',
     bgColor: 'badge.yellow',
@@ -31,14 +29,10 @@ const badges: SearchBarFilter[] = [
 ];
 
 const FreelanceOffers: FC = () => {
-  const { view, setView } = useDashboard();
   const { push } = useRouter();
 
   const handleFreelanceCardClick = (id: number) => {
-    if (view !== 'offers') {
-      setView('offers');
-      push(`/dashboard/offer/${id}`);
-    }
+    push(`/dashboard/offer/${id}`);
   };
   return (
     <Flex flexDir="column" gap={4}>

@@ -8,7 +8,7 @@ import StarIcon from '../icons/StarIcon';
 interface FreelanceCardProps {
   user: User;
   blurred?: boolean;
-  onClick?: (id: number) => void;
+  onClick?: (id: string) => void;
 }
 
 const FreelanceCard: FC<FreelanceCardProps> = ({
@@ -16,7 +16,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
   blurred = false,
   onClick
 }: FreelanceCardProps) => {
-  const skillBadges = useColoredBadges();
+  const { getCategoryColorForSkill } = useColoredBadges();
   let skillsLength = 0;
   return (
     <Box
@@ -77,41 +77,72 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
         </Text>
       </Flex>
       <Flex mt={2}>
-        <Badge
-          color="neutral.black"
-          bgColor="neutral.gray"
-          borderWidth="1px"
-          borderColor={'none'}
-          variant="filter"
-          mr={2}
-        >
-          {user.freelanceProfile?.situation}
-        </Badge>
-        <Badge
-          color="neutral.black"
-          bgColor="neutral.gray"
-          borderWidth="1px"
-          borderColor={'none'}
-          variant="filter"
-          mr={2}
-        >
-          {user.freelanceProfile?.availability}
-        </Badge>
-        <Badge
-          color="neutral.black"
-          bgColor="neutral.gray"
-          borderWidth="1px"
-          borderColor={'none'}
-          variant="filter"
-          mr={2}
-        >
-          {user.freelanceProfile?.yearsOfExperience}{' '}
-          {user.freelanceProfile?.yearsOfExperience != undefined &&
-          parseInt(user.freelanceProfile?.yearsOfExperience) > 1
-            ? 'Years'
-            : 'Year'}{' '}
-          of Experience
-        </Badge>
+        {user.freelanceProfile?.situation && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.situation}
+          </Badge>
+        )}
+        {user.freelanceProfile?.availability && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.availability}
+          </Badge>
+        )}
+        {user.freelanceProfile?.workLocation && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.workLocation}
+          </Badge>
+        )}
+        {user.freelanceProfile?.hoursPerWeek !== 0 && user.freelanceProfile?.hoursPerWeek && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            cursor="default"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.hoursPerWeek.toString()} hrs/week
+          </Badge>
+        )}
+        {user.freelanceProfile?.yearsOfExperience && (
+          <Badge
+            color="neutral.black"
+            bgColor="neutral.gray"
+            borderWidth="1px"
+            borderColor={'none'}
+            variant="filter"
+            mr={2}
+          >
+            {user.freelanceProfile?.yearsOfExperience}{' '}
+            {user.freelanceProfile?.yearsOfExperience != undefined &&
+            parseInt(user.freelanceProfile?.yearsOfExperience) > 1
+              ? 'Years'
+              : 'Year'}{' '}
+            of Exp
+          </Badge>
+        )}
       </Flex>
       <Flex mt={4} px={1} minHeight="110px">
         <Text
@@ -131,35 +162,21 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
             const skill = user.freelanceProfile?.skills[k];
             skillsLength += skill.length;
             if (skillsLength <= 45) {
-              if (skillBadges[skill]) {
-                return (
-                  <Badge
-                    mr={2}
-                    key={k}
-                    color={skillBadges[skill].color}
-                    bgColor={skillBadges[skill].bgColor}
-                    borderWidth="1px"
-                    borderColor={'none'}
-                    variant="filter"
-                  >
-                    {skill}
-                  </Badge>
-                );
-              } else {
-                return (
-                  <Badge
-                    mr={2}
-                    key={k}
-                    color={'neutral.black'}
-                    bgColor={'badge.yellow'}
-                    borderWidth="1px"
-                    borderColor={'none'}
-                    variant="filter"
-                  >
-                    {skill}
-                  </Badge>
-                );
-              }
+              const colors = getCategoryColorForSkill(skill);
+
+              return (
+                <Badge
+                  mr={2}
+                  key={k}
+                  color={colors.color}
+                  bgColor={colors.bgColor}
+                  borderWidth="1px"
+                  borderColor={'none'}
+                  variant="filter"
+                >
+                  {skill}
+                </Badge>
+              );
             }
           }
         })}
@@ -174,7 +191,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           fontWeight="400"
           lineHeight="100%"
           maxH="26px"
-          onClick={() => onClick?.(Math.floor(Math.random() * 2000))}
+          onClick={() => onClick?.(user.wallet)}
         >
           See more
         </Button>

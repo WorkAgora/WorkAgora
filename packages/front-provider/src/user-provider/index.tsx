@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { useDisconnect } from 'wagmi';
@@ -10,17 +10,23 @@ import { User, UserTypeEnum } from '@workagora/utils';
 type CurrentUserContextInterface = {
   user: User | null;
   setUser: (user: User | null) => void;
+  fetchingUser: boolean;
+  setFetchingUser: (fetching: boolean) => void;
 };
 
 export const CurrentUserContext = createContext<CurrentUserContextInterface>({
   user: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setUser: () => {}
+  setUser: () => {},
+  fetchingUser: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setFetchingUser: () => {}
 });
 
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setCurUser] = useState<User | null>(null);
-  const { push } = useRouter();
+  const [fetchingUser, setFetchingUser] = useState(false);
+  const { push, pathname } = useRouter();
   const { setType } = useLanding();
 
   const setUser = (user: User | null) => {
@@ -33,30 +39,43 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
         secure: process.env.NODE_ENV === 'production'
       });
       setType(user.currentUserType as UserTypeEnum);
-      push('/dashboard');
+      if (!pathname.includes('dashboard')) {
+        push('/dashboard');
+      }
     }
   };
 
+  useEffect(() => {
+    if (Cookies.get('authenticated')) {
+      if (user) {
+        setFetchingUser(false);
+      }
+    } else {
+      setFetchingUser(false);
+    }
+  }, [user]);
+
   return (
-    <CurrentUserContext.Provider value={{ user, setUser }}>{children}</CurrentUserContext.Provider>
+    <CurrentUserContext.Provider value={{ user, setUser, fetchingUser, setFetchingUser }}>
+      {children}
+    </CurrentUserContext.Provider>
   );
 };
 
 export function useCurrentUser() {
-  const { user, setUser } = useContext(CurrentUserContext);
+  const { user, setUser, fetchingUser, setFetchingUser } = useContext(CurrentUserContext);
   const { disconnect } = useDisconnect();
   const { push } = useRouter();
 
   const logout = async () => {
     disconnect();
-    await privateApi.get('/auth/logout');
-    //Timeout to prevent wallet asking for nonce again
     push('/');
+    await privateApi.get('/auth/logout');
     setTimeout(() => {
       Cookies.remove('authenticated');
       setUser(null);
     }, 200);
   };
 
-  return { user, setUser, logout };
+  return { user, setUser, logout, fetchingUser, setFetchingUser };
 }

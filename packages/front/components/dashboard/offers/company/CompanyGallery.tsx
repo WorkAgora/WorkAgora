@@ -1,22 +1,31 @@
 import { Box, Button, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
-import { FC, MutableRefObject, useEffect, useState } from 'react';
+import { FC, MutableRefObject, useCallback, useEffect, useState } from 'react';
 import FreelanceCard from '@workagora/front/components/card/FreelanceCard';
-import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer';
+import {
+  SearchFreelancerProvider,
+  useSearchFreelancer
+} from '../../../../hooks/useSearchFreelancer';
+import { useRouter } from 'next/router';
 
 interface CompanyGalleryProps {
   scrollbarRef: MutableRefObject<HTMLElement | null>;
 }
 
 const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
-  const { freelancers, loading, maxPage, curPage, totalResult, callGet } = useSearchFreelancer();
-  const elementByPage = 6;
-
-  useEffect(() => {
-    callGet(1, elementByPage);
-  }, [callGet]);
+  const {
+    freelancers,
+    loading,
+    maxPage,
+    curPage,
+    totalResult,
+    handleSearch,
+    elementByPage,
+    searchFilters
+  } = useSearchFreelancer(6);
+  const { push } = useRouter();
 
   const handlePageChange = (newPage: number) => {
-    callGet(newPage, elementByPage);
+    handleSearch(newPage, elementByPage, searchFilters);
     const element = document.getElementById('total-result');
     if (element && scrollbarRef.current) {
       // Calculate the position of the target element relative to the PerfectScrollbar container
@@ -62,9 +71,14 @@ const CompanyGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
           </Flex>
           <Flex flexDir="column" mt={4}>
             <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
-              {freelancers.map((v, k) => (
-                <FreelanceCard key={k} user={v} />
-              ))}
+              {freelancers.length > 0 &&
+                freelancers.map((v, k) => (
+                  <FreelanceCard
+                    key={k}
+                    user={v}
+                    onClick={(id) => push(`/dashboard/freelance/${id}`)}
+                  />
+                ))}
             </SimpleGrid>
           </Flex>
           {maxPage > 1 && (

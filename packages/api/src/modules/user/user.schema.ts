@@ -6,6 +6,7 @@ import {
   walletRegex
 } from '../../../../utils/src/index';
 import { Schema } from 'dynamoose';
+import {ExperienceSchema} from "./experience.schema";
 
 export const UserSchema = new Schema({
   wallet: {
@@ -26,7 +27,7 @@ export const UserSchema = new Schema({
     type: String,
     required: false,
     validate(value) {
-      return value.toString().length <= 100;
+      return value.toString().length <= 55;
     }
   },
   phone: {
@@ -76,8 +77,8 @@ export const UserSchema = new Schema({
       throughput: 'ON_DEMAND',
       name: 'HasFreelanceProfileIndex',
       rangeKey: 'createdAt',
-      project: true, // ProjectionType: ALL
-    },
+      project: true // ProjectionType: ALL
+    }
   },
   freelanceProfile: {
     type: Object,
@@ -94,6 +95,7 @@ export const UserSchema = new Schema({
           return value.toString().length <= 500;
         }
       },
+      workLocation: String,
       situation: String,
       availability: String,
       hoursPerWeek: Number,
@@ -102,6 +104,12 @@ export const UserSchema = new Schema({
         type: Array,
         schema: [String],
         required: false
+      },
+      experiences: {
+        type: Array,
+        schema: [ExperienceSchema],
+        required: false,
+        default: []
       },
       remuneration: String
     }
@@ -112,4 +120,4 @@ export const UserSchema = new Schema({
       companyId: String
     }
   }
-});
+}, { saveUnknown: true });

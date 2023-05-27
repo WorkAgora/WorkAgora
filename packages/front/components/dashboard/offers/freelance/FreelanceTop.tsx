@@ -1,14 +1,17 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const FreelanceTop: FC = () => {
+  const { push } = useRouter();
+
   return (
     <Flex
       bgColor="neutral.lightGray"
       position="relative"
       borderRadius="24px"
-      minH="225px"
+      minH="250px"
       overflow="hidden"
     >
       <Flex
@@ -61,8 +64,8 @@ const FreelanceTop: FC = () => {
           {`A fully completed profile is more likely to be chosen by\ncompanies. Don't miss your chance`}
         </Box>
         <Box mr="auto">
-          <Button variant="primary">
-             Complete my profile
+          <Button variant="primary" onClick={() => push('/dashboard/profile')}>
+            Complete my profile
           </Button>
         </Box>
       </Flex>
@@ -76,11 +79,7 @@ const FreelanceTop: FC = () => {
         borderLeftRadius="24px"
         overflow="hidden"
       >
-        <Image
-          src="/images/dashboard/freelance_offers_top.png"
-          alt="Your Image Description"
-          fill
-        />
+        <Image src="/images/dashboard/freelance_offers_top.png" alt="Your Image Description" fill />
       </Box>
     </Flex>
   );

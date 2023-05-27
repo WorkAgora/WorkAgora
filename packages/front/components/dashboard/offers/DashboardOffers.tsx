@@ -2,13 +2,13 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useLanding } from '@workagora/front-provider';
 import { UserTypeEnum } from '@workagora/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, MutableRefObject } from 'react';
+import { FC, MutableRefObject, useState } from 'react';
 import FreelanceTop from './freelance/FreelanceTop';
-import FreelanceSearchBar from './freelance/FreelanceSearchBar';
 import FreelanceGallery from './freelance/FreelanceGallery';
 import CompanyTop from './company/CompanyTop';
-import CompanySearchBar from './company/CompanySearchBar';
 import CompanyGallery from './company/CompanyGallery';
+import SearchBar from '../../landing/product/SearchBar';
+import { SearchFreelancerProvider } from '@workagora/front/hooks/useSearchFreelancer';
 
 const MotionBox = motion(Box);
 
@@ -52,7 +52,7 @@ const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
                 </Box>
                 <Flex flexDir="column" gap={6}>
                   <FreelanceTop />
-                  <FreelanceSearchBar />
+                  <SearchBar />
                   <FreelanceGallery />
                 </Flex>
               </Flex>
@@ -72,9 +72,11 @@ const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
                   Find profiles
                 </Box>
                 <Flex flexDir="column" gap={6}>
-                  <CompanyTop />
-                  <CompanySearchBar />
-                  <CompanyGallery scrollbarRef={scrollbarRef} />
+                  <SearchFreelancerProvider>
+                    <CompanyTop />
+                    <SearchBar />
+                    <CompanyGallery scrollbarRef={scrollbarRef} />
+                  </SearchFreelancerProvider>
                 </Flex>
               </Flex>
             </MotionBox>

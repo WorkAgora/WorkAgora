@@ -1,8 +1,7 @@
-import { CurrentUserProvider, DashboardProvider, LandingProvider, WagmiProvider } from '@workagora/front-provider';
+import { CurrentUserProvider, LandingProvider, WagmiProvider } from '@workagora/front-provider';
 import { ChakraProvider } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import GlobalLayout from '../components/GlobalLayout';
 
 //Import styles
@@ -24,11 +23,9 @@ function App({ Component, pageProps }: AppProps) {
         <WagmiProvider>
           <CurrentUserProvider>
             <LandingProvider>
-              <DashboardProvider>
-                <GlobalLayout>
-                  <Component {...pageProps} />
-                </GlobalLayout>
-              </DashboardProvider>
+              <GlobalLayout>
+                <Component {...pageProps} />
+              </GlobalLayout>
             </LandingProvider>
           </CurrentUserProvider>
         </WagmiProvider>
