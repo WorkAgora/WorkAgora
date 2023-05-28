@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { KycModule } from './modules/kyc/kyc.module';
 import { JobModule } from './modules/job/job.module';
+import { CompanyModule } from './modules/company/company.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JobModule } from './modules/job/job.module';
     AuthModule,
     KycModule,
     JobModule,
+    CompanyModule
   ],
   controllers: [],
   providers: []
