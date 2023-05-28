@@ -1,9 +1,9 @@
-export interface JobKey {
-  contractorWallet: string;  // PK
-  GUID: string;  // SK
+export interface ConfirmJobKey {
+  contractorWallet: string; // PK
+  GUID: string; // SK
 }
 
-export interface CreateJob extends JobKey {
+export interface ConfirmJob extends ConfirmJobKey {
   employerWallet: string;
   contractPrice: number;
   contractDescription: string;
@@ -13,7 +13,44 @@ export interface CreateJob extends JobKey {
 }
 
 export type JobCreationResponse = {
-  JCC: CreateJob;
+  JCC: ConfirmJob;
   contractorSignature: string;
   employerSignature: string;
 };
+
+export enum WorkAvailability {
+  FullTime = 'Full Time',
+  PartTime = 'Part Time',
+  Contract = 'Contract',
+  Internship = 'Internship'
+}
+
+export enum Visibility {
+  Public = 'Public',
+  Private = 'Private'
+}
+
+export interface WorkDuration {
+  years: number;
+  months: number;
+  days: number;
+  hours: number;
+}
+
+export interface JobKey {
+  uuid: string; // PK
+  contractorWallet: string; // SK
+}
+
+export interface CreateJob extends JobKey {
+  title: string;
+  location: string;
+  availability: WorkAvailability;
+  duration: WorkDuration;
+  jobMission: string;
+  responsibilities: string;
+  requirements: string;
+  tags: string[];
+  visibility: Visibility;
+  createdAt: string;
+}

@@ -18,11 +18,28 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-job-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: GUID
+        - AttributeName: uuid
+          AttributeType: S
+        - AttributeName: contractorWallet
+          AttributeType: S
+        - AttributeName: visibility
+          AttributeType: S
+        - AttributeName: createdAt
           AttributeType: S
       KeySchema:
-        - AttributeName: GUID
+        - AttributeName: uuid
           KeyType: HASH
+        - AttributeName: contractorWallet
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: visibilityIndex
+          KeySchema:
+            - AttributeName: visibility
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
   KycTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
