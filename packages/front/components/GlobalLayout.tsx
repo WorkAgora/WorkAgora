@@ -1,14 +1,18 @@
 import { Container } from '@chakra-ui/react';
-import { useCurrentUser } from '@workagora/front-provider';
+import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { checkUserLogged } from '../services/user';
 import Header from './header/Header';
 import SignupModal from './modal/SignupModal';
 import { useRouter } from 'next/router';
+import { getMyCompanies } from '../services/company';
+import { UserTypeEnum } from '@workagora/utils';
 
 export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const { user, setUser, setFetchingUser } = useCurrentUser();
+  const { setCompany, setFetching, fetching } = useCurrentCompany();
+  const { type } = useLanding();
   const [isFetching, setIsFetching] = useState(true);
   const authenticatedCookie = Cookies.get('authenticated');
   const { pathname, push } = useRouter();
@@ -37,6 +41,21 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
       setIsFetching(false);
     }
   }, [isUserLogged, user, authenticatedCookie, pathname, push, setFetchingUser]);
+
+  const getCompany = useCallback(async () => {
+    const res = await getMyCompanies();
+    setCompany(res);
+    setFetching(false);
+  }, [setCompany, setFetching]);
+
+  useEffect(() => {
+    if (type === UserTypeEnum.Company) {
+      if (!fetching) {
+        setFetching(true);
+        getCompany();
+      }
+    }
+  }, [getCompany, setFetching, type]);
 
   return (
     <Container

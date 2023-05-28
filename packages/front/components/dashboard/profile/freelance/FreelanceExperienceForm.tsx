@@ -205,7 +205,6 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                             <ArrowRightIcon />
                           </Box>
                         }
-                        onClick={onClose}
                       >
                         Upload logo
                       </Button>

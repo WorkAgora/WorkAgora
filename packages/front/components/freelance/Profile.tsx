@@ -4,6 +4,7 @@ import { shortHash } from '@workagora/utils';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import ProfileCompletedJobs from './ProfileCompletedJob';
+import ProfileExperiences from './ProfileExperiences';
 import ProfileLinks from './ProfileLinks';
 import ProfilePreferences from './ProfilePreferences';
 import ProfileResume from './ProfileResume';
@@ -61,6 +62,7 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
               <ProfilePreferences curUser={curUser} />
               <ProfileLinks curUser={curUser} />
             </Flex>
+            <ProfileExperiences curUser={curUser} />
           </>
         )}
       </Flex>

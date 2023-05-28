@@ -2,3 +2,5 @@ user:
   sources:
     - table: work-agora-api-dev-user-table
       sources: [./packages/api/resource/seeds/user.json]
+    - table: work-agora-api-dev-company-table
+      sources: [./packages/api/resource/seeds/company.json]
