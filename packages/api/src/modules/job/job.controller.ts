@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CompleteJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
@@ -33,7 +33,7 @@ export class JobController {
     return this.jobService.createJob(req.user.wallet, createJobDTO);
   }
 
-  @Get('/mine')
+  @Get('/my')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all jobs created by the current user' })
   @ApiResponse({
@@ -94,10 +94,17 @@ export class JobController {
   })
   async searchJobs(
     @Query('searchTerm') searchTerm: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number
+    @Param('page') page: string,
+    @Param('limit') limit: string
   ): Promise<{ jobs: CreateJobDTO[]; maxPage: number; totalResult: number }> {
-    return this.jobService.searchJobs(searchTerm, page, limit);
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    if (isNaN(pageNumber) || isNaN(limitNumber)) {
+      throw new BadRequestException('Page and limit must be numbers');
+    }
+
+    return this.jobService.searchJobs(searchTerm, pageNumber, limitNumber);
   }
 
   @Get('recent')
