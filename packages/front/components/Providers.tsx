@@ -2,6 +2,7 @@ import { ChakraProvider, ChakraProviderProps } from '@chakra-ui/react';
 import {
   CurrentCompanyProvider,
   CurrentUserProvider,
+  JobsProvider,
   LandingProvider,
   WagmiProvider
 } from '@workagora/front-provider';
@@ -18,7 +19,9 @@ const Providers: FC<ProvidersProps> = ({ children, theme }) => {
       <WagmiProvider>
         <CurrentUserProvider>
           <CurrentCompanyProvider>
-            <LandingProvider>{children}</LandingProvider>
+            <JobsProvider>
+              <LandingProvider>{children}</LandingProvider>
+            </JobsProvider>
           </CurrentCompanyProvider>
         </CurrentUserProvider>
       </WagmiProvider>

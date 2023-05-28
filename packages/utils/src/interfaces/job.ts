@@ -19,8 +19,8 @@ export type JobCreationResponse = {
 };
 
 export enum WorkAvailability {
-  FullTime = 'Full Time',
-  PartTime = 'Part Time',
+  FullTime = 'Full-time',
+  PartTime = 'Part-time',
   Contract = 'Contract',
   Internship = 'Internship'
 }

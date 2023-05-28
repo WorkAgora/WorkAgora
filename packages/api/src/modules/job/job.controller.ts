@@ -1,9 +1,21 @@
-import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards
+} from '@nestjs/common';
 import { CompleteJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { JobService } from './job.service';
-import { CreateJob } from './job.interface';
+import { CreateJob } from '@workagora/utils';
 import { Request } from 'express';
 import { DeleteJobDTO } from '../../dtos/job/delete-job.dto';
 

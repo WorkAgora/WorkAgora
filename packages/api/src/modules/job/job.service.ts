@@ -1,6 +1,6 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
-import { ConfirmJob, CreateJob, JobKey } from './job.interface';
+import { ConfirmJob, CreateJob, JobKey } from '@workagora/utils';
 import { ConfirmJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
 import { encodeJSONForIPFS } from '../../../../utils/src/index';
 import { v4 as uuidv4 } from 'uuid';

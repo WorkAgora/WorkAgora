@@ -11,6 +11,9 @@ import CreateJobSkills from './create/CreateJobSkills';
 import CreateJobSwitch from './create/CreateJobSwitch';
 import CreateJobTextArea from './create/CreateJobTextArea';
 import CheckIcon from '../../icons/CheckIcon';
+import { CreateJob, Visibility, WorkAvailability } from '@workagora/utils';
+import { useCreateJob } from '@workagora/front/hooks/useCreateJob';
+import { useRouter } from 'next/router';
 
 const MotionBox = motion(Box);
 
@@ -35,15 +38,16 @@ const workLocationOptions: { [key: string]: string } = {
 
 const availabilityOptions: { [key: string]: string } = {
   fullTime: 'Full-time',
-  partTime: 'Part-time'
+  partTime: 'Part-time',
+  contract: 'Contract',
+  internship: 'Internship'
 };
 
 const durationUnitOptions: { [key: string]: string } = {
-  hours: 'hours',
-  day: 'day',
-  week: 'week',
-  month: 'month',
-  year: 'year'
+  hours: 'Hours',
+  days: 'Days',
+  months: 'Months',
+  years: 'Years'
 };
 
 const validationSchema = Yup.object().shape({
@@ -66,30 +70,78 @@ const validationSchema = Yup.object().shape({
   skills: Yup.array().required('Skills are required').min(1, 'At least one skill is required'),
   introduction: Yup.string()
     .required('Introduction is required')
-    .max(500, 'Introduction must be less than 500 characters'),
+    .max(1000, 'Introduction must be less than 1000 characters'),
   responsibility: Yup.string()
     .required('Responsibility is required')
-    .max(500, 'Responsibility must be less than 500 characters'),
+    .max(2000, 'Responsibility must be less than 2000 characters'),
   requirements: Yup.string()
     .required('Requirements is required')
-    .max(500, 'Requirements must be less than 500 characters')
+    .max(2000, 'Requirements must be less than 2000 characters')
 });
 
 const DashboardJobCreate: FC = () => {
-  const [loading, setLoading] = useState(false);
   const [selectedWorkLocation, setSelectedWorkLocation] = useState('');
   const [selectedAvailability, setSelectedAvailability] = useState('');
   const [selectedDurationUnit, setSelectedDurationUnit] = useState('');
   const [workLocationOpen, setWorkLocationOpen] = useState(false);
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
   const [durationUnitOpen, setDurationUnitOpen] = useState(false);
+  const { createNewJob, loading } = useCreateJob();
+  const { push } = useRouter();
 
   const contentVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
 
-  const onSubmit = (values: FormData) => {};
+  const onSubmit = async (values: FormData) => {
+    const {
+      title,
+      location,
+      situation,
+      introduction,
+      responsibility,
+      requirements,
+      skills,
+      visibility
+    } = values;
+    const updatedValues: Partial<CreateJob> = {
+      title,
+      location: selectedWorkLocation,
+      availability: selectedAvailability as WorkAvailability,
+      duration: {
+        years: 0,
+        months: 0,
+        days: 0,
+        hours: 0
+      },
+      jobMission: introduction,
+      responsibilities: responsibility,
+      requirements,
+      tags: skills,
+      visibility: visibility as Visibility
+    };
+    if (updatedValues.duration) {
+      switch (values.durationUnit) {
+        case 'hours':
+          updatedValues.duration.hours = parseInt(values.duration);
+          break;
+        case 'days':
+          updatedValues.duration.days = parseInt(values.duration);
+          break;
+        case 'months':
+          updatedValues.duration.months = parseInt(values.duration);
+          break;
+        case 'years':
+          updatedValues.duration.years = parseInt(values.duration);
+          break;
+      }
+    }
+    await createNewJob(updatedValues);
+    setTimeout(() => {
+      push('/dashboard/jobs');
+    }, 500);
+  };
 
   return (
     <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">

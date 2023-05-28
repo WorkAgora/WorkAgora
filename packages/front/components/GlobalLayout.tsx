@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react';
-import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
+import { useCurrentCompany, useCurrentUser, useJobs, useLanding } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { checkUserLogged } from '../services/user';
@@ -8,10 +8,12 @@ import SignupModal from './modal/SignupModal';
 import { useRouter } from 'next/router';
 import { getMyCompanies } from '../services/company';
 import { UserTypeEnum } from '@workagora/utils';
+import { getMyJobs } from '../services/jobs';
 
 export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const { user, setUser, setFetchingUser } = useCurrentUser();
   const { setCompany, setFetching, fetching } = useCurrentCompany();
+  const { setJobs, setJobsFetching, jobsFetching } = useJobs();
   const { type } = useLanding();
   const [isFetching, setIsFetching] = useState(true);
   const authenticatedCookie = Cookies.get('authenticated');
@@ -48,6 +50,12 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
     setFetching(false);
   }, [setCompany, setFetching]);
 
+  const getJobs = useCallback(async () => {
+    const res = await getMyJobs();
+    setJobs(res);
+    setJobsFetching(false);
+  }, [setJobs, setJobsFetching]);
+
   useEffect(() => {
     if (type === UserTypeEnum.Company) {
       if (!fetching) {
@@ -56,6 +64,13 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
       }
     }
   }, [getCompany, setFetching, type]);
+
+  useEffect(() => {
+    if (!jobsFetching) {
+      setJobsFetching(true);
+      getJobs();
+    }
+  }, [getJobs, setJobsFetching]);
 
   return (
     <Container
