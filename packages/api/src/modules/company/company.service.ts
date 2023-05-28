@@ -112,6 +112,12 @@ export class CompanyService {
     updateCompanyDto: CreateCompanyDTO
   ): Promise<CreateCompany> {
     try {
+      // Check if the company exists
+      const company = await this.model.query('uuid').eq(companyUuid).exec();
+      if (!company) {
+        throw new Error('Company not found');
+      }
+
       return await this.model.update(
         { uuid: companyUuid, companyWallet: wallet },
         {
