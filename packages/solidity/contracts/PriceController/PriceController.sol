@@ -43,7 +43,15 @@ contract PriceController is Ownable {
         return address(contracts[_token].priceConsumer) != address(0);
     }
 
-    function getTokenData(PaymentToken _token) external view returns (PriceConsumer, IERC20) {
+    function getTokenData(PaymentToken _token) public view returns (PriceConsumer, IERC20) {
         return (contracts[_token].priceConsumer, contracts[_token].tokenAddress);
+    }
+
+    function getTokenPriceFromUsd(
+        PaymentToken _paymentToken,
+        uint256 _amountUsd
+    ) public view returns (uint256) {
+        (PriceConsumer priceConsumer, ) = getTokenData(_paymentToken);
+        return _amountUsd * uint256(priceConsumer.getLatestPrice());
     }
 }

@@ -13,12 +13,15 @@ contract JobContract is Ownable {
     struct Contract {
         string contractId;
         State state;
-        uint256 totalAmountUsd;
+        uint256 totalAmountToken;
+        uint8 lockedAmountPct;
+        uint8 deferredAmountPct;
         PaymentToken paymentToken;
         uint256 durationDays;
         address contractorAddress;
         address employerAddress;
         string ipfsJmiHash;
+        string ipfsJfiHash;
     }
 
     struct CreateParams {
@@ -35,7 +38,13 @@ contract JobContract is Ownable {
         string ipfsJmiHash;
     }
 
+    struct FinalizationParams {
+        string contractId;
+        string ipfsJfiHash;
+    }
+
     enum State {
+        None,
         Started,
         CompleteWithSuccess,
         OngoingDispute,
@@ -53,7 +62,7 @@ contract JobContract is Ownable {
     }
 
     function create(CreateParams calldata _params, bytes calldata _signature) external {
-        require(verifySignature(_params, _signature), 'Invalid signature');
+        require(verifyCreationSignature(_params, _signature), 'Invalid signature');
         require(
             bytes(contracts[_params.contractId].contractId).length == 0,
             'ContractId already exists'
@@ -74,49 +83,63 @@ contract JobContract is Ownable {
         );
 
         (, IERC20 token) = priceController.getTokenData(_params.paymentToken);
-        uint256 totalAmountInTokens = getContractPrice(
+        uint256 totalAmountToken = priceController.getTokenPriceFromUsd(
             _params.paymentToken,
             _params.totalAmountUsd
         );
-        transferFunds(_params, token, totalAmountInTokens);
+        transferCreationFunds(_params, token, totalAmountToken);
 
         contracts[_params.contractId] = Contract(
             _params.contractId,
             State.Started,
-            _params.totalAmountUsd,
+            totalAmountToken,
+            _params.lockedAmountPct,
+            _params.deferredAmountPct,
             _params.paymentToken,
             _params.durationDays,
             _params.contractorAddress,
             _params.employerAddress,
-            _params.ipfsJmiHash
+            _params.ipfsJmiHash,
+            ''
         );
     }
 
-    function transferFunds(
+    function finalize(FinalizationParams calldata _params, bytes calldata _signature) external {
+        require(verifyFinalizationSignature(_params, _signature), 'Invalid signature');
+        require(contracts[_params.contractId].state == State.Started, 'Invalid contract state');
+
+        Contract storage record = contracts[_params.contractId];
+        (, IERC20 token) = priceController.getTokenData(record.paymentToken);
+        transferFinalizationFunds(record, token);
+
+        record.state = State.CompleteWithSuccess;
+        record.ipfsJfiHash = _params.ipfsJfiHash;
+    }
+
+    function transferCreationFunds(
         CreateParams calldata _params,
         IERC20 token,
-        uint256 totalAmountInTokens
+        uint256 totalAmountToken
     ) internal {
         uint256 employerBalance = token.balanceOf(_params.employerAddress);
-        require(employerBalance >= totalAmountInTokens, 'Insufficient balance');
+        require(employerBalance >= totalAmountToken, 'Insufficient balance');
 
         if (_params.initialDepositPct > 0) {
-            uint256 initialDepositAmount = (totalAmountInTokens * _params.initialDepositPct) / 100;
-            // transfer from the employer to the contract
+            uint256 initialDepositAmount = (totalAmountToken * _params.initialDepositPct) / 100;
+            // transfer from employer to contractor
             require(
-                token.transferFrom(_params.employerAddress, address(this), initialDepositAmount),
-                'transferFrom failed from employer to contract'
-            );
-            // then from the contract to the contractor
-            require(
-                token.transfer(_params.contractorAddress, initialDepositAmount),
-                'transfer failed from contract to contractor'
+                token.transferFrom(
+                    _params.employerAddress,
+                    _params.contractorAddress,
+                    initialDepositAmount
+                ),
+                'transferFrom failed from employer to contractor'
             );
         }
 
         if (_params.lockedAmountPct > 0) {
-            uint256 lockedAmount = (totalAmountInTokens * _params.lockedAmountPct) / 100;
-            // transfer from the employer to the contract
+            uint256 lockedAmount = (totalAmountToken * _params.lockedAmountPct) / 100;
+            // transfer from employer to contract
             require(
                 token.transferFrom(_params.employerAddress, address(this), lockedAmount),
                 'transfer failed from employer to contract'
@@ -124,15 +147,7 @@ contract JobContract is Ownable {
         }
     }
 
-    function getContractPrice(
-        PaymentToken _paymentToken,
-        uint256 _amountUsd
-    ) public view returns (uint256) {
-        (PriceConsumer priceConsumer, ) = priceController.getTokenData(_paymentToken);
-        return _amountUsd * uint256(priceConsumer.getLatestPrice());
-    }
-
-    function verifySignature(
+    function verifyCreationSignature(
         CreateParams calldata _params,
         bytes calldata _signature
     ) internal view returns (bool) {
@@ -151,6 +166,38 @@ contract JobContract is Ownable {
                 _params.ipfsJmiHash
             )
         );
+        return messagehash.toEthSignedMessageHash().recover(_signature) == user.sigAuthority();
+    }
+
+    function transferFinalizationFunds(Contract memory record, IERC20 token) internal {
+        if (record.lockedAmountPct > 0) {
+            uint256 lockedAmount = (record.totalAmountToken * record.lockedAmountPct) / 100;
+            // transfer from contract to contractor
+            require(
+                token.transfer(record.contractorAddress, lockedAmount),
+                'transfer failed from contract to contractor'
+            );
+        }
+
+        if (record.deferredAmountPct > 0) {
+            uint256 deferredAmount = (record.totalAmountToken * record.deferredAmountPct) / 100;
+            // transfer from employer to contractor
+            require(
+                token.transferFrom(
+                    record.employerAddress,
+                    record.contractorAddress,
+                    deferredAmount
+                ),
+                'transferFrom failed from employer to contractor'
+            );
+        }
+    }
+
+    function verifyFinalizationSignature(
+        FinalizationParams calldata _params,
+        bytes calldata _signature
+    ) internal view returns (bool) {
+        bytes32 messagehash = keccak256(abi.encodePacked(_params.contractId, _params.ipfsJfiHash));
         return messagehash.toEthSignedMessageHash().recover(_signature) == user.sigAuthority();
     }
 }

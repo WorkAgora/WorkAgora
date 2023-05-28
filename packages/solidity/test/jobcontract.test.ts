@@ -1,13 +1,16 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { BACKEND_PV_KEY, UserTestInfo, deployBaseContracts, expectThrowsAsync, getSignersInfo, signMessage } from "./utils";
-import { Jcc, JobContractState, createJobContract, getJcc } from "./utils/jobContract";
+import { SIG_AUTHORITY_PV_KEY, UserTestInfo, deployBaseContracts, expectThrowsAsync, getSignersInfo, signMessage } from "./utils";
+import { Jcc, Jfc, JobContractState, createJobContract, finalizeJobContract, getOnChainParams } from "./utils/jobContract";
 import { verifyUsers } from "./utils/userManager";
 import { PaymentToken } from "./utils/priceController";
 import BigNumber from "bignumber.js";
 import { JobContract, UserManager, WrappedAvaxToken } from "../typechain-types";
 
-type JobContractFixtureParams = {
+const WRONG_SIG_AUTHORITY_PV_KEY = '0x4747474747474747474747474747474747474747474747474747474747474747';
+const AVAX_PRICE = new BigNumber('68000000000000000000');
+
+type JobContractCreateFixtureParams = {
     usersToVerify: UserTestInfo[],
     wavaxTransfer?: {
         user: UserTestInfo,
@@ -17,6 +20,7 @@ type JobContractFixtureParams = {
         user: UserTestInfo,
         price: BigNumber,
     },
+    jcc?: Jcc,
 };
 
 describe("Job contracts", () => {
@@ -24,18 +28,18 @@ describe("Job contracts", () => {
     /**
       For AVAX/USD regtests price see: {@link ./utils/priceController.ts|tokensInfo}
     */
-    const avaxPrice = new BigNumber('68000000000000000000');
     let baseJcc: Jcc;
+    let jccSignature: string;
     let contractor: UserTestInfo;
     let employer: UserTestInfo;
     let userManager: UserManager;
     let jobContract: JobContract;
     let wavax: WrappedAvaxToken;
-    let defaultFixtureParams: JobContractFixtureParams;
-    
-    async function initCreationFixture(_params?: Partial<JobContractFixtureParams>) {
+    let defaultFixtureCreateParams: JobContractCreateFixtureParams;
+
+    async function initCreateFixture(_params?: Partial<JobContractCreateFixtureParams>) {
         const params = {
-            ...defaultFixtureParams,
+            ...defaultFixtureCreateParams,
             ..._params,
         };
         ({ userManager, jobContract, wavax } = await loadFixture(deployBaseContracts));
@@ -47,6 +51,25 @@ describe("Job contracts", () => {
         if (wavaxApproval) {
             await wavax.connect(wavaxApproval.user.signer).approve(jobContract.address, wavaxApproval.price.toFixed());
         }
+        jccSignature = await signMessage(SIG_AUTHORITY_PV_KEY, ...Object.values(_params?.jcc || baseJcc));
+    }
+
+    async function expectBalances(contractBalance: string, employerBalance: string, contractorBalance: string) {
+        expect(await wavax.balanceOf(jobContract.address)).eq(contractBalance);
+        expect(await wavax.balanceOf(employer.pubKey)).eq(employerBalance);
+        expect(await wavax.balanceOf(contractor.pubKey)).eq(contractorBalance);
+    }
+
+    function getMinTransferApprovalAmount(jcc: Jcc) {
+        return AVAX_PRICE.times(jcc.initialDepositPct[1] + jcc.lockedAmountPct[1]).div(100);
+    }
+
+    function getJccCustomPct(baseJcc: Jcc, percentages: { initialDepositPct: number, lockedAmountPct: number, deferredAmountPct: number }) {
+        return getOnChainParams(baseJcc, {
+            initialDepositPct: ['uint8', percentages.initialDepositPct],
+            lockedAmountPct: ['uint8', percentages.lockedAmountPct],
+            deferredAmountPct: ['uint8', percentages.deferredAmountPct]
+        });
     }
 
     before(async () => {
@@ -65,35 +88,37 @@ describe("Job contracts", () => {
             employerAddress: ['address', employer.pubKey],
             ipfsJmiHash: ['string', 'bafkreig4eie3hu7bc33omizt5rrb5bnrloewgfrrgdniqbdfoaie5gkdmy'],
         };
-        defaultFixtureParams = {
+        defaultFixtureCreateParams = {
             usersToVerify: [employer, contractor],
-            wavaxTransfer: { user: employer, price: avaxPrice },
-            wavaxApproval: { user: employer, price: avaxPrice },
+            wavaxTransfer: { user: employer, price: AVAX_PRICE },
+            wavaxApproval: { user: employer, price: getMinTransferApprovalAmount(baseJcc) },
         };
     });
 
     describe("Creation", () => {
 
         it("Should create a contract", async () => {
-            await initCreationFixture();
+            await initCreateFixture();
             expect(await wavax.balanceOf(jobContract.address)).eq('0');
-            expect(await wavax.balanceOf(employer.pubKey)).eq('68000000000000000000');
+            expect(await wavax.balanceOf(employer.pubKey)).eq(AVAX_PRICE.toFixed());
             expect(await wavax.balanceOf(contractor.pubKey)).eq('0');
 
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
-            await createJobContract(baseJcc, signature, jobContract);
+            await createJobContract(baseJcc, jccSignature, jobContract);
 
-            // Validate saved contract
+            // Validate created contract
             const contract = await jobContract.contracts(baseJcc.contractId[1]);
-            expect(contract.length).to.equal(8);
+            expect(contract.length).to.equal(11);
             expect(contract[0]).to.equal(baseJcc.contractId[1]);
             expect(contract[1]).to.equal(JobContractState.Started);
-            expect(contract[2]).to.equal(baseJcc.totalAmountUsd[1]);
-            expect(contract[3]).to.equal(PaymentToken.Avax);
-            expect(contract[4]).to.equal(baseJcc.durationDays[1]);
-            expect(contract[5]).to.equal(baseJcc.contractorAddress[1]);
-            expect(contract[6]).to.equal(baseJcc.employerAddress[1]);
-            expect(contract[7]).to.equal(baseJcc.ipfsJmiHash[1]);
+            expect(contract[2]).to.equal(AVAX_PRICE.toFixed());
+            expect(contract[3]).to.equal(baseJcc.lockedAmountPct[1]);
+            expect(contract[4]).to.equal(baseJcc.deferredAmountPct[1]);
+            expect(contract[5]).to.equal(PaymentToken.Avax);
+            expect(contract[6]).to.equal(baseJcc.durationDays[1]);
+            expect(contract[7]).to.equal(baseJcc.contractorAddress[1]);
+            expect(contract[8]).to.equal(baseJcc.employerAddress[1]);
+            expect(contract[9]).to.equal(baseJcc.ipfsJmiHash[1]);
+            expect(contract[10]).to.equal('');
 
             // Validate balances
             expect(await wavax.balanceOf(jobContract.address)).eq('34000000000000000000'); // 50% - locked
@@ -102,66 +127,144 @@ describe("Job contracts", () => {
         });
 
         it("Should fail creation with an existing contractId", async () => {
-            await initCreationFixture();
-
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
-            await createJobContract(baseJcc, signature, jobContract);
-            await expectThrowsAsync(() => createJobContract(baseJcc, signature, jobContract), 'ContractId already exists');
+            await initCreateFixture();
+            await createJobContract(baseJcc, jccSignature, jobContract);
+            await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'ContractId already exists');
         });
 
         it("Should fail creation with an expiry timestamp in the past", async () => {
-            await initCreationFixture();
-
-            const jcc = getJcc(baseJcc, { creationExpiryTimestamp: ['uint256', 1652633694] });
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(jcc));
-            await expectThrowsAsync(() => createJobContract(jcc, signature, jobContract), 'Creation timestamp expired');
+            const jcc = getOnChainParams(baseJcc, { creationExpiryTimestamp: ['uint256', 1652633694] });
+            await initCreateFixture({ jcc });
+            await expectThrowsAsync(() => createJobContract(jcc, jccSignature, jobContract), 'Creation timestamp expired');
         });
 
         it("Should fail creation when sender is not the employer", async () => {
-            await initCreationFixture();
-
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
-            await expectThrowsAsync(() => createJobContract(baseJcc, signature, jobContract, contractor.signer), 'Only the employer can create the contract');
+            await initCreateFixture();
+            await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract, contractor.signer), 'Only the employer can create the contract');
         });
 
         it("Should fail creation when contractor address is the same as employer address", async () => {
-            await initCreationFixture();
-
-            const jcc = getJcc(baseJcc, { contractorAddress: ['address', employer.pubKey] });
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(jcc));
-            await expectThrowsAsync(() => createJobContract(jcc, signature, jobContract), 'Invalid C/E addresses');
+            const jcc = getOnChainParams(baseJcc, { contractorAddress: ['address', employer.pubKey] });
+            await initCreateFixture({ jcc });
+            await expectThrowsAsync(() => createJobContract(jcc, jccSignature, jobContract), 'Invalid C/E addresses');
         });
 
         it("Should fail creation when contractor is not verified", async () => {
-            await initCreationFixture({ usersToVerify: [employer] });
+            await initCreateFixture({ usersToVerify: [employer] });
+            await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'Unverified contractor');
+        });
 
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
-            await expectThrowsAsync(() => createJobContract(baseJcc, signature, jobContract), 'Unverified contractor');
+        it("Should fail creation when employer is not verified", async () => {
+            await initCreateFixture({ usersToVerify: [contractor] });
+            await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'Unverified employer');
         });
 
         it("Should fail creation when duration is zero", async () => {
-            await initCreationFixture();
-
-            const jcc = getJcc(baseJcc, { durationDays: ['uint256', 0] })
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(jcc));
-            await expectThrowsAsync(() => createJobContract(jcc, signature, jobContract), 'Duration must be at least 1 day');
+            const jcc = getOnChainParams(baseJcc, { durationDays: ['uint256', 0] });
+            await initCreateFixture({ jcc });
+            await expectThrowsAsync(() => createJobContract(jcc, jccSignature, jobContract), 'Duration must be at least 1 day');
         });
 
-        it("Should fail creation when signature is invalid", async () => {
-            await initCreationFixture();
+        it("Should fail creation when percentages sum is not 100", async () => {
+            const jcc = getOnChainParams(baseJcc, {
+                initialDepositPct: ['uint8', 30],
+                lockedAmountPct: ['uint8', 50],
+                deferredAmountPct: ['uint8', 0],
+            });
+            await initCreateFixture({ jcc });
+            await expectThrowsAsync(() => createJobContract(jcc, jccSignature, jobContract), 'Sum of initialDepositPct, lockedAmountPct and deferredAmountPct must be 100');
+        });
 
-            const jcc = getJcc(baseJcc, { contractId: ['uint256', '2'] }); // change anything in jcc
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
-            await expectThrowsAsync(() => createJobContract(jcc, signature, jobContract), 'Invalid signature');
+        it("Should fail creation when signer isn't sigAuthority", async () => {
+            await initCreateFixture();
+            const signature = await signMessage(WRONG_SIG_AUTHORITY_PV_KEY, ...Object.values(baseJcc));
+            await expectThrowsAsync(() => createJobContract(baseJcc, signature, jobContract), 'Invalid signature');
+        });
+
+        it("Should fail creation if token transfer allowance is insufficient", async () => {
+            await initCreateFixture({ wavaxApproval: { user: employer, price: getMinTransferApprovalAmount(baseJcc).minus(1) } });
+            await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'ERC20: insufficient allowance');
         });
 
         it("Should fail creation if token balance is insufficient", async () => {
-            await initCreationFixture({ wavaxTransfer: { user: employer, price: avaxPrice.minus(1) }});
-
-            const signature = await signMessage(BACKEND_PV_KEY, ...Object.values(baseJcc));
-            await expectThrowsAsync(() => createJobContract(baseJcc, signature, jobContract), 'Insufficient balance');
+            await initCreateFixture({ wavaxTransfer: { user: employer, price: AVAX_PRICE.minus(1) } });
+            await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'Insufficient balance');
         });
 
     });
 
+    describe("Finalization", () => {
+
+        let baseJfc: Jfc;
+        let baseJfcSignature: string;
+
+        before(async () => {
+            baseJfc = {
+                contractId: ['string', 'contract-id'],
+                ipfsJfiHash: ['string', 'bafkhsrc80ewgfrrgdniqbdfoaie5gkdmyu7bc33omizt5rrb5bnrreig4e'],
+            };
+            defaultFixtureCreateParams = {
+                ...defaultFixtureCreateParams,
+                wavaxApproval: { user: employer, price: AVAX_PRICE },
+            };
+        });
+
+        async function initFinalizationFixture(_params?: Partial<JobContractCreateFixtureParams>) {
+            await initCreateFixture(_params);
+            await createJobContract(_params?.jcc || baseJcc, jccSignature, jobContract);
+            baseJfcSignature = await signMessage(SIG_AUTHORITY_PV_KEY, ...Object.values(baseJfc));
+        }
+
+        it("Should finalize a job contract", async () => {
+            await initFinalizationFixture();
+            await finalizeJobContract(baseJfc, baseJfcSignature, jobContract);
+
+            // Validate finalized contract
+            const contract = await jobContract.contracts(baseJfc.contractId[1]);
+            expect(contract[1]).to.equal(JobContractState.CompleteWithSuccess);
+            expect(contract[10]).to.equal(baseJfc.ipfsJfiHash[1]);
+
+            // Validate balances
+            await expectBalances('0', '0', AVAX_PRICE.toFixed());
+        });
+
+        it("Should finalize a job contract with 100% in locked amount", async () => {
+            const percentages = { initialDepositPct: 0, lockedAmountPct: 100, deferredAmountPct: 0 };
+            const jcc = getJccCustomPct(baseJcc, percentages);
+            await initFinalizationFixture({ jcc });
+
+            await expectBalances(AVAX_PRICE.toFixed(), '0', '0');
+            await finalizeJobContract(baseJfc, baseJfcSignature, jobContract);
+            await expectBalances('0', '0', AVAX_PRICE.toFixed());
+        });
+
+        it("Should finalize a job contract with 100% in deferred amount", async () => {
+            const percentages = { initialDepositPct: 0, lockedAmountPct: 0, deferredAmountPct: 100 };
+            const jcc = getJccCustomPct(baseJcc, percentages);
+            await initFinalizationFixture({ jcc });
+
+            await expectBalances('0', AVAX_PRICE.toFixed(), '0');
+            await finalizeJobContract(baseJfc, baseJfcSignature, jobContract);
+            await expectBalances('0', '0', AVAX_PRICE.toFixed());
+        });
+
+        it("Should fail finalization of a job contract that has not started", async () => {
+            await initFinalizationFixture();
+            const jfc = getOnChainParams(baseJfc, { contractId: ['string', 'contract-id-new'] });
+            const signature = await signMessage(SIG_AUTHORITY_PV_KEY, ...Object.values(jfc));
+            await expectThrowsAsync(() => finalizeJobContract(jfc, signature, jobContract), 'Invalid contract state');
+        });
+
+        it("Should fail finalization when signer isn't sigAuthority", async () => {
+            await initFinalizationFixture();
+            const signature = await signMessage(WRONG_SIG_AUTHORITY_PV_KEY, ...Object.values(baseJfc));
+            await expectThrowsAsync(() => finalizeJobContract(baseJfc, signature, jobContract), 'Invalid signature');
+        });
+
+        it("Should fail finalization if deferred token transfer allowance is insufficient", async () => {
+            await initFinalizationFixture({ wavaxApproval: { user: employer, price: getMinTransferApprovalAmount(baseJcc) } });
+            await expectThrowsAsync(() => finalizeJobContract(baseJfc, baseJfcSignature, jobContract), 'ERC20: insufficient allowance');
+        });
+
+    });
 });

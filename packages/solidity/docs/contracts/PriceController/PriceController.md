@@ -56,6 +56,29 @@ function getTokenData(enum PaymentToken _token) external view returns (contract 
 | _0 | contract PriceConsumer | undefined |
 | _1 | contract IERC20 | undefined |
 
+### getTokenPriceFromUsd
+
+```solidity
+function getTokenPriceFromUsd(enum PaymentToken _paymentToken, uint256 _amountUsd) external view returns (uint256)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _paymentToken | enum PaymentToken | undefined |
+| _amountUsd | uint256 | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
+
 ### isTokenSet
 
 ```solidity

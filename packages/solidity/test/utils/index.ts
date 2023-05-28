@@ -3,13 +3,13 @@ import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract, MockV3Aggregator, PriceController, ReputationCard, UserManager } from "../../typechain-types";
 import { Wallet } from "ethers";
-import { Jcc } from "./jobContract";
+import { Jcc, Jfc } from "./jobContract";
 import { PaymentToken, tokensInfo } from "./priceController";
 import { strict as assert } from "assert";
 
 // Constants
-export const BACKEND_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
-export const BACKEND_WALLET = new Wallet(BACKEND_PV_KEY);
+export const SIG_AUTHORITY_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
+export const SIG_AUTHORITY_WALLET = new Wallet(SIG_AUTHORITY_PV_KEY);
 
 // Types
 export type UserTestInfo = {
@@ -63,7 +63,7 @@ export async function deployBaseContracts() {
     const priceController = await deployContract<PriceController>(ContractsType.PriceController);
 
     // Init
-    await userManager.initialize(BACKEND_WALLET.address,
+    await userManager.initialize(SIG_AUTHORITY_WALLET.address,
         reputationCard.address,
         employer.address,
         contractor.address,
@@ -144,7 +144,7 @@ export async function signMessage(pvKey: string, ...data: [type: string, value: 
     return await new Wallet(pvKey).signMessage(ethers.utils.arrayify(messageHash));
 }
 
-export function toBlockchainParams<T extends JobContract.CreateParamsStruct>(data: Jcc) {
+export function toBlockchainParams<T>(data: Jcc | Jfc) {
     const result = {};
     for (const key in data) {
         // @ts-ignore
