@@ -1,5 +1,3 @@
-import { CurrentUserProvider, LandingProvider, WagmiProvider } from '@workagora/front-provider';
-import { ChakraProvider } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import GlobalLayout from '../components/GlobalLayout';
@@ -14,22 +12,17 @@ import '../assets/scrollbar.css';
 import '@fontsource/comfortaa';
 import '@fontsource/montserrat';
 import CustomHead from '../components/CustomHead';
+import Providers from '../components/Providers';
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <CustomHead />
-      <ChakraProvider resetCSS theme={darkTheme}>
-        <WagmiProvider>
-          <CurrentUserProvider>
-            <LandingProvider>
-              <GlobalLayout>
-                <Component {...pageProps} />
-              </GlobalLayout>
-            </LandingProvider>
-          </CurrentUserProvider>
-        </WagmiProvider>
-      </ChakraProvider>
+      <Providers theme={darkTheme}>
+        <GlobalLayout>
+          <Component {...pageProps} />
+        </GlobalLayout>
+      </Providers>
     </>
   );
 }

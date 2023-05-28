@@ -14,7 +14,7 @@ import { CreateCompanyDTO } from '../../dtos/company/create-company.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CompanyService } from './company.service';
-import { CreateCompany } from './company.interface';
+import { CreateCompany } from '@workagora/utils';
 import { Request } from 'express';
 import { DeleteCompanyDTO } from '../../dtos/company/delete-company.dto';
 

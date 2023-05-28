@@ -1,6 +1,6 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
-import { CompanyKey, CreateCompany } from './company.interface';
+import { CompanyKey, CreateCompany } from '@workagora/utils';
 import { CreateCompanyDTO } from '../../dtos/company/create-company.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { DeleteCompanyDTO } from '../../dtos/company/delete-company.dto';

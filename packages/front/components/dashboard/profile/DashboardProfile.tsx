@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useCurrentUser, useLanding } from '@workagora/front-provider';
-import { FC } from 'react';
+import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
+import { FC, useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { UserTypeEnum } from '@workagora/utils';
 import FreelanceTopProfile from './freelance/FreelanceTopProfile';
@@ -10,12 +10,14 @@ import FreelancePreferences from './freelance/FreelancePreferences';
 import FreelanceLinks from './freelance/FreelanceLinks';
 import ProfileCompletedJobs from '../../freelance/ProfileCompletedJob';
 import FreelanceExperiences from './freelance/FreelanceExperiences';
+import CompanyForm from './company/CompanyForm';
+import CompanyWithEdit from './company/CompanyWithEdit';
 
 const MotionBox = motion(Box);
 
 const DashboardProfile: FC = () => {
   const { type } = useLanding();
-  const { user } = useCurrentUser();
+  const { company } = useCurrentCompany();
 
   const contentVariants = {
     hidden: { opacity: 0 },
@@ -65,12 +67,15 @@ const DashboardProfile: FC = () => {
               variants={contentVariants}
               transition={{ ease: 'easeInOut', duration: 0.3 }}
             >
-              <Flex flexDir="column" gap={4}></Flex>
+              <Flex flexDir="column" gap={4}>
+                {!company && <CompanyForm />}
+                {company && <CompanyWithEdit />}
+              </Flex>
             </MotionBox>
           )}
         </AnimatePresence>
       </Flex>
-      <ProfileCompletedJobs />
+      {type === UserTypeEnum.Freelancer && <ProfileCompletedJobs />}
     </Flex>
   );
 };

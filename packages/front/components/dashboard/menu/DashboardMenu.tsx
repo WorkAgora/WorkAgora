@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
-import { useCurrentUser, useLanding } from '@workagora/front-provider';
+import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
 import { UserTypeEnum } from '@workagora/utils';
 import { useRouter } from 'next/router';
@@ -27,6 +27,7 @@ const DashboardMenu: FC = () => {
   const { type } = useLanding();
   const { pathname, push } = useRouter();
   const { user } = useCurrentUser();
+  const { company } = useCurrentCompany();
 
   let menuElement: MenuElement[] = [];
   if (type === UserTypeEnum.Freelancer) {
@@ -65,7 +66,7 @@ const DashboardMenu: FC = () => {
           justifyContent={!user ? 'center' : 'start'}
           onClick={() => handleViewChange('/dashboard/profile')}
         >
-          {user && (
+          {user && type === UserTypeEnum.Freelancer && (
             <>
               <Box w="48px" h="48px">
                 <Avatar />
@@ -83,6 +84,33 @@ const DashboardMenu: FC = () => {
               </Text>
             </>
           )}
+          {user && type === UserTypeEnum.Company && (
+            <>
+              {!company && (
+                <Box fontWeight={700} fontFamily="Comfortaa" textAlign="center" w="100%">
+                  Create company
+                </Box>
+              )}
+              {company && (
+                <>
+                  <Box w="48px" h="48px">
+                    <Avatar borderRadius="16px" />
+                  </Box>
+                  <Text
+                    ml={2}
+                    fontSize="14px"
+                    fontWeight="700"
+                    lineHeight="120%"
+                    color="neutral.black"
+                    fontFamily="Comfortaa"
+                  >
+                    {company?.name}
+                  </Text>
+                </>
+              )}
+            </>
+          )}
+
           {!user && <Spinner color="neutral.lightGray" size="md" />}
         </Flex>
         {menuElement.map((v, k) => {

@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex } from '@chakra-ui/react';
 import PencilIcon from '@workagora/front/components/icons/PencilIcon';
-import { Experience } from '@workagora/utils';
+import { Experience, getDateDiff } from '@workagora/utils';
 import { FC } from 'react';
 
 interface FreelanceExperiencesLineProps {
@@ -12,41 +12,6 @@ const FreelanceExperiencesLine: FC<FreelanceExperiencesLineProps> = ({
   experience,
   onEditExperience
 }) => {
-  const getDateDiff = (startDate: string, endDate: string): string => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    let years, months;
-
-    months = end.getMonth() - start.getMonth();
-    years = end.getFullYear() - start.getFullYear();
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    let text = '';
-    if (years) {
-      if (years > 1) {
-        text += `${years} years`;
-      }
-      if (years === 1) {
-        text += `${years} year`;
-      }
-    }
-    if (text !== '') text += ' & ';
-    if (months) {
-      if (months > 1) {
-        text += `${months} months`;
-      }
-      if (months === 1) {
-        text += `${months} month`;
-      }
-    }
-    return text;
-  };
-
   return (
     <Flex p={4} alignItems="start">
       <Avatar w="48px" h="48px" borderRadius="16px" my="auto" />
