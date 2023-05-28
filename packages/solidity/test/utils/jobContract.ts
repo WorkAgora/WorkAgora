@@ -3,20 +3,11 @@ import { JobContract } from "packages/solidity/typechain-types";
 import { getSignersInfo, toBlockchainParams } from ".";
 
 export enum JobContractState {
+    None,
     Started,
     CompleteWithSuccess,
     OngoingDispute,
     CompleteWithDispute
-}
-
-// JobContractMetadata
-export type Jcm = {
-    guid: string,
-    price: number,
-    description: string,
-    employerWallet: string,
-    contractorWallet: string,
-    // add more fields...
 }
 
 // JobContractCreateParams
@@ -34,13 +25,21 @@ export type Jcc = {
     ipfsJmiHash: [string, string],
 };
 
-export function getJcc(baseJcc: Jcc, newParams: Partial<Jcc>): Jcc {
-    const editedJcc: Jcc = { ...baseJcc };
+// JobContractFinalizationParams
+export type Jfc = {
+    contractId: [string, string],
+    ipfsJfiHash: [string, string],
+};
+
+export function getOnChainParams<T extends Jcc | Jfc>(params: T, newParams: Partial<T>): T {
+    const edited: T = { ...params };
     for (let key in newParams) {
-        // @ts-ignore
-        editedJcc[key] = newParams[key];
+        if (newParams[key] !== undefined) {
+            // @ts-ignore
+            edited[key] = newParams[key];
+        }
     }
-    return editedJcc;
+    return edited;
 }
 
 export async function createJobContract(jcc: Jcc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
@@ -50,6 +49,18 @@ export async function createJobContract(jcc: Jcc, signature: string, jobContract
     } else {
         deployer = (await getSignersInfo()).employer.signer;
     }
-    const params = toBlockchainParams(jcc);
+    const params = toBlockchainParams<JobContract.CreateParamsStruct>(jcc);
     await jobContract.connect(deployer).create(params, signature);
 }
+
+export async function finalizeJobContract(jfc: Jfc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
+    let deployer: SignerWithAddress;
+    if(sender) {
+        deployer = sender;
+    } else {
+        deployer = (await getSignersInfo()).employer.signer;
+    }
+    const params = toBlockchainParams<JobContract.FinalizationParamsStruct>(jfc);
+    await jobContract.connect(deployer).finalize(params, signature);
+}
+

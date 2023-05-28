@@ -1,6 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { BACKEND_PV_KEY, UserTestInfo, deployBaseContracts, expectThrowsAsync, getSignersInfo, signMessage } from "./utils";
+import { SIG_AUTHORITY_PV_KEY, UserTestInfo, deployBaseContracts, expectThrowsAsync, getSignersInfo, signMessage } from "./utils";
 import { Role, verifyUsers } from "./utils/userManager";
 
 describe("User", () => {
@@ -16,7 +16,7 @@ describe("User", () => {
 
     it("Should allow a user to verify themselves with a valid signature and emit an event", async () => {
       const { userManager } = await loadFixture(deployBaseContracts);
-      const signature = await signMessage(BACKEND_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
+      const signature = await signMessage(SIG_AUTHORITY_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
 
       expect(await userManager.isUserVerified(employer.pubKey)).to.equal(false);
       await expect(userManager.verifyUser(employer.pubKey, employer.kycId, signature))
@@ -27,7 +27,7 @@ describe("User", () => {
 
     it("Should reject a user with an invalid signature", async () => {
       const { userManager } = await loadFixture(deployBaseContracts);
-      const signature = await signMessage(BACKEND_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
+      const signature = await signMessage(SIG_AUTHORITY_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
 
       expect(await userManager.isUserVerified(employer.pubKey)).to.equal(false);
       await expectThrowsAsync(() => userManager.verifyUser(employer.pubKey, contractor.kycId, signature), 'Invalid signature');
