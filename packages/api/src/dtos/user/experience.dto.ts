@@ -3,7 +3,7 @@ import { IsString, IsOptional } from 'class-validator';
 
 export class DeleteExperienceDTO {
   @ApiProperty({
-    description: 'The id of the experience',
+    description: 'The uuid of the experience',
     type: String,
     required: true
   })
@@ -13,7 +13,7 @@ export class DeleteExperienceDTO {
 
 export class UpdateExperienceDTO {
   @ApiProperty({
-    description: 'The id of the experience',
+    description: 'The uuid of the experience',
     type: String,
     required: true
   })

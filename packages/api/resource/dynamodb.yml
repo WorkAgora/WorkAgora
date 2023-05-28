@@ -11,6 +11,22 @@ Resources:
       KeySchema:
         - AttributeName: wallet
           KeyType: HASH
+  CompanyTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    Properties:
+      TableName: ${self:service}-${self:provider.stage}-company-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: uuid
+          AttributeType: S
+        - AttributeName: companyWallet
+          AttributeType: S
+      KeySchema:
+        - AttributeName: uuid
+          KeyType: HASH
+        - AttributeName: companyWallet
+          KeyType: RANGE
   JobTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete
@@ -63,10 +79,10 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-experience-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: id
+        - AttributeName: uuid
           AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: uuid
           KeyType: HASH
   UserTable:
     Type: AWS::DynamoDB::Table

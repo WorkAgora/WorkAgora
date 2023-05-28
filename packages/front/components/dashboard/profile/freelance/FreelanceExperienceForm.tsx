@@ -7,13 +7,17 @@ import {
   Input,
   FormControl,
   FormLabel,
+  NumberInput,
   Textarea
 } from '@chakra-ui/react';
 import { useCurrentUser } from '@workagora/front-provider';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import PencilIcon from '@workagora/front/components/icons/PencilIcon';
+import { User } from '@workagora/utils';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import CheckIcon from '@workagora/front/components/icons/CheckIcon';
+import { useUpdateProfile } from '@workagora/front/hooks/useUpdateProfile';
 import CloseIcon from '@workagora/front/components/icons/CloseIcon';
 import TrashIcon from '@workagora/front/components/icons/TrashIcon';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
@@ -71,16 +75,14 @@ const validationSchema = Yup.object().shape({
   role: Yup.string().required('Role is required').max(50, 'Role must be less than 50 characters'),
   startDate: Yup.date()
     .required('Start Date is required')
-    .transform((value, originalValue) => new Date(originalValue))
     .max(new Date(), 'Start Date cannot be after today')
     .max(Yup.ref('endDate'), 'Start Date should be before End Date'),
   endDate: Yup.date()
-    .transform((value, originalValue) => new Date(originalValue))
     .required('End Date is required')
     .min(Yup.ref('startDate'), 'End Date should be after Start Date'),
   description: Yup.string()
     .required('Description is required')
-    .max(500, 'Description must be less than 500 characters')
+    .max(255, 'Description must be less than 255 characters')
 });
 
 const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, onClose }) => {
@@ -91,42 +93,8 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
   const onSubmit = async (values: FormData) => {
     if (user) {
       const { company, role, startDate, endDate, description } = values;
-      if (!experience?.id) {
-        await callAddExperience({ company, role, startDate, endDate, description });
-      }
-      if (experience?.id) {
-        await callUpdateExperience({
-          id: experience.id,
-          company,
-          role,
-          startDate,
-          endDate,
-          description
-        });
-      }
+      await callAddExperience({ company, role, startDate, endDate, description });
     }
-  };
-
-  const hasChanged = (values: FormData) => {
-    if (!experience) return true;
-    let changed = false;
-    if (values.company !== experience.company) {
-      changed = true;
-    }
-
-    if (values.role !== experience.role) {
-      changed = true;
-    }
-    if (new Date(values.startDate).getTime() !== new Date(experience.startDate).getTime()) {
-      changed = true;
-    }
-    if (new Date(values.endDate).getTime() !== new Date(experience.endDate).getTime()) {
-      changed = true;
-    }
-    if (values.description !== experience.description) {
-      changed = true;
-    }
-    return changed;
   };
 
   return (
@@ -144,27 +112,19 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
         >
           <Formik
             initialValues={{
-              company: experience?.company ?? '',
-              role: experience?.role ?? '',
-              startDate: experience?.startDate
-                ? new Date(experience.startDate)
-                : new Date().setMonth(new Date().getMonth() - 6),
-              endDate: experience?.endDate ? new Date(experience.endDate) : new Date(),
-              description: experience?.description ?? ''
+              company: experience ?? '',
+              role: experience ?? '',
+              startDate: experience ?? new Date().setMonth(new Date().getMonth() - 6),
+              endDate: experience ?? new Date(),
+              description: experience ?? ''
             }}
             validationSchema={validationSchema}
             isInitialValid={false}
-            onSubmit={async (values, actions) => {
-              await onSubmit(values);
-              setTimeout(() => {
-                onClose();
-                actions.resetForm();
-              }, 500);
-            }}
+            onSubmit={onSubmit}
             validateOnChange={false}
             validateOnBlur={true}
           >
-            {({ isValid, errors, touched, resetForm, setFieldValue, values }) => (
+            {({ isValid, errors, touched, resetForm, setFieldValue }) => (
               <Form
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '16px' }}
               >
@@ -220,20 +180,6 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                       color="neutral.dsGray"
                     >
                       {'.jpg / .png < 1Mo'}
-                    </Box>
-                    <Box
-                      color="red.500"
-                      p={2}
-                      ml="auto"
-                      cursor="pointer"
-                      borderRadius="8px"
-                      transition="all ease-in-out 250ms"
-                      _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
-                      onClick={() => {
-                        onClose();
-                      }}
-                    >
-                      <CloseIcon />
                     </Box>
                   </Flex>
                 </Flex>
@@ -326,32 +272,26 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                   </ErrorMessage>
                 </FormControl>
                 <Flex justifyContent="space-between">
-                  {experience?.id && (
-                    <Box>
-                      <Button
-                        variant="outline"
-                        width="100%"
-                        color="red.500"
-                        borderColor="red.500"
-                        _hover={{ color: 'red.700', borderColor: 'red.700' }}
-                        spinnerPlacement="end"
-                        leftIcon={<TrashIcon />}
-                        onClick={async () => {
-                          await callDeleteExperience(experience.id);
-                          onClose();
-                          resetForm();
-                        }}
-                      >
-                        Remove experience
-                      </Button>
-                    </Box>
-                  )}
-                  <Box ml="auto">
+                  <Box>
                     <Button
-                      variant={!isValid && !hasChanged(values) ? 'outline' : 'primary'}
+                      variant="outline"
+                      width="100%"
+                      color="red.500"
+                      borderColor="red.500"
+                      _hover={{ color: 'red.700', borderColor: 'red.700' }}
+                      spinnerPlacement="end"
+                      leftIcon={<TrashIcon />}
+                      onClick={onClose}
+                    >
+                      Remove experience
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button
+                      variant={!isValid ? 'outline' : 'primary'}
                       type="submit"
                       width="100%"
-                      isDisabled={!isValid && !hasChanged(values)}
+                      isDisabled={!isValid}
                       isLoading={loading}
                       loadingText="Updating profile"
                       spinnerPlacement="end"

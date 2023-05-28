@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsOptional, IsArray, IsNumber } from 'class-validator';
-import { Experience } from '../../../../utils/src/index';
+import {Experience} from '../../../../utils/src/index';
 
 export class FreelanceDTO {
   @ApiProperty({
