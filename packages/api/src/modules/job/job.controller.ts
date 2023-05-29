@@ -41,7 +41,7 @@ export class JobController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async createJob(@Req() req: Request, @Body() createJobDTO: CreateJobDTO): Promise<CreateJob> {
+  async createJob(@Req() req: Request, @Body() createJobDTO: CreateJobDTO): Promise<CreateJobDTO> {
     return this.jobService.createJob(req.user.wallet, createJobDTO);
   }
 
@@ -181,6 +181,29 @@ export class JobController {
       throw new BadRequestException('Page and limit must be numbers');
     }
 
-    return this.jobService.getRecentJobs(limit);
+    return this.jobService.getRecentJobs(pageNumber, limitNumber);
+  }
+
+  @Get('/:uuid')
+  @ApiOperation({ summary: 'Get a job by its UUID' })
+  @ApiResponse({
+    status: 200,
+    description: 'The job with the given UUID',
+    type: CreateJobDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Job not found'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async getJobByUUID(@Param('uuid') uuid: string): Promise<CreateJobDTO> {
+    return this.jobService.getJobByUUID(uuid);
   }
 }

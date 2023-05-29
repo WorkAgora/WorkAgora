@@ -1,24 +1,19 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { ConfirmJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
-import {
-  ConfirmJob,
-  CreateJob,
-  encodeJSONForIPFS,
-  JobKey,
-  Visibility
-} from '../../../../utils/src/index';
+import { ConfirmJob, encodeJSONForIPFS, JobKey, Visibility } from '../../../../utils/src/index';
 import { v4 as uuidv4 } from 'uuid';
 import { ethers } from 'ethers';
 import { DeleteJobDTO } from '../../dtos/job/delete-job.dto';
 import { SortOrder } from 'dynamoose/dist/General';
 import { CompanyService } from '../company/company.service';
+import { CreateJobBackend } from './job.interface';
 
 @Injectable()
 export class JobService {
   constructor(
     @InjectModel('Job')
-    private readonly model: Model<CreateJob, JobKey>,
+    private readonly model: Model<CreateJobBackend, JobKey>,
     private readonly companyService: CompanyService
   ) {}
 
@@ -46,7 +41,7 @@ export class JobService {
    * @returns The job metadata
    * @throws UnprocessableEntityException
    */
-  async createJob(wallet: string, createJobDto: CreateJobDTO): Promise<CreateJob> {
+  async createJob(wallet: string, createJobDto: CreateJobDTO): Promise<CreateJobDTO> {
     try {
       // Check for missing values in createJobDto
       if (
@@ -73,15 +68,15 @@ export class JobService {
         throw new Error('Missing required fields in createJobDto.duration');
       }
 
-      const job: CreateJob = {
+      const job: CreateJobBackend = {
         uuid: uuidv4(),
         contractorWallet: wallet,
         createdAt: new Date().toISOString(),
         ...createJobDto,
-        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join('<<')
+        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join(';')
       };
 
-      return await this.model.create(job);
+      return (await this.createJobsToJobsDTO([await this.model.create(job)]))[0];
     } catch (e) {
       throw new UnprocessableEntityException('Could not create job: ' + e.message);
     }
@@ -174,6 +169,7 @@ export class JobService {
 
   /**
    * Get recent jobs
+   * @param page
    * @param limit Number of jobs to return
    * @returns The list of recent jobs
    * @throws UnprocessableEntityException
@@ -255,16 +251,34 @@ export class JobService {
     }
   }
 
-  async createJobsToJobsDTO(jobs: CreateJob[]): Promise<CreateJobDTO[]> {
-    return await Promise.all(
-      jobs.map(async (job) => {
-        const company = await this.companyService.getCompany(job.companyUuid);
-        return {
-          ...job,
-          company,
-          tags: job.tags.split('<<').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
-        };
-      })
-    );
+  async getJobByUUID(uuid: string): Promise<CreateJobDTO> {
+    try {
+      const jobs = await this.model.scan({ uuid: uuid }).exec();
+
+      if (!jobs || jobs.length === 0) {
+        throw new Error('Job not found');
+      }
+
+      return (await this.createJobsToJobsDTO(jobs))[0];
+    } catch (e) {
+      throw new UnprocessableEntityException('Could not get job: ' + e.message);
+    }
+  }
+
+  async createJobsToJobsDTO(jobs: CreateJobBackend[]): Promise<CreateJobDTO[]> {
+    try {
+      return await Promise.all(
+        jobs.map(async (job) => {
+          const company = await this.companyService.getCompany(job.companyUuid);
+          return {
+            ...job,
+            company,
+            tags: job.tags.split(';').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+          };
+        })
+      );
+    } catch (error) {
+      throw new UnprocessableEntityException('Error while creating jobs DTO: ' + error.message);
+    }
   }
 }

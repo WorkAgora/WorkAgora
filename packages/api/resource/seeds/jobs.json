@@ -7,8 +7,13 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Fullstack Developer expert in Typescript and React",
     "uuid": "bb797055-87d8-41b9-ae54-50978fd821db",
-    "tags": "react<<web-development<<html<<css<<typescript",
-    "duration": { "days": 0, "hours": 0, "months": 0, "years": 2 },
+    "tags": "react;web-development;html;css;typescript",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 2
+    },
     "jobMission": "We are seeking an expert Fullstack Developer proficient in Typescript and React to join our dynamic team at Softubi. The successful candidate will play a pivotal role in developing cutting-edge gaming software and contribute to the continuous evolution of our gaming systems. You will be part of a vibrant team dedicated to delivering high-quality experiences to our global user base. This role provides an excellent opportunity to leverage your technical skills and be part of our innovative journey in the gaming industry.",
     "createdAt": "2023-05-29T10:32:28.782Z",
     "responsibilities": "- Design, develop, and maintain efficient, reusable, and reliable Typescript and React code to deliver top-notch gaming experiences.\n- Work collaboratively with a team of developers, designers, and project managers to drive project success.\n- Analyze user requirements and convert them into robust software solutions.\n- Ensure the best possible performance, quality, and responsiveness of the applications.\n- Identify bottlenecks and bugs, and devise solutions to these problems.\n- Engage in peer code reviews, provide constructive feedback, and share best practices.\n- Participate in Agile development practices such as Scrum and Sprint planning.",
@@ -22,7 +27,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Game Designer",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890a1",
-    "tags": "game design<<unreal engine<<unity",
+    "tags": "game design;unreal engine;unity",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -42,7 +47,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Sound Designer",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890b2",
-    "tags": "sound design<<audio editing<<game development",
+    "tags": "sound design;audio editing;game development",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -62,7 +67,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "UI/UX Designer",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890c3",
-    "tags": "ui/ux design<<sketch<<figma<<adobe xd",
+    "tags": "ui/ux design;sketch;figma;adobe xd",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -82,7 +87,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Quality Assurance Tester",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890d4",
-    "tags": "quality assurance<<testing<<qa tools",
+    "tags": "quality assurance;testing;qa tools",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -102,7 +107,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Game Developer",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890e5",
-    "tags": "game development<<c++<<c#<<java<<unity<<unreal engine",
+    "tags": "game development;c++;c#;java;unity;unreal engine",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -122,7 +127,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Game Artist",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890f6",
-    "tags": "art design<<adobe illustrator<<photoshop<<game art",
+    "tags": "art design;adobe illustrator;photoshop;game art",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -142,7 +147,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Data Scientist",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890g7",
-    "tags": "data science<<machine learning<<python<<r<<pandas<<scikit-learn",
+    "tags": "data science;machine learning;python;r;pandas;scikit-learn",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -162,7 +167,7 @@
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "Senior Software Engineer - Python/Java",
     "uuid": "1a2b3c4d5e6f7a8b9c0d1e2f3g4h5i6j7k8l9m0n",
-    "tags": "python<<java<<software engineering<<ai<<machine learning",
+    "tags": "python;java;software engineering;ai;machine learning",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -182,7 +187,7 @@
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "Senior Python Developer",
     "uuid": "8a808080-80f8-4a9a-aa12-78d193d1h913",
-    "tags": "python<<web development<<django",
+    "tags": "python;web development;django",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -202,7 +207,7 @@
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "Node.js Developer",
     "uuid": "9b909090-91f9-4b9a-bb13-67d193d1i924",
-    "tags": "node.js<<javascript<<html<<css",
+    "tags": "node.js;javascript;html;css",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -222,7 +227,7 @@
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "React.js Developer",
     "uuid": "10a0a0a0-10g0-4c9a-cb14-78d193d1j935",
-    "tags": "react.js<<javascript<<front-end<<web development",
+    "tags": "react.js;javascript;front-end;web development",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -242,7 +247,7 @@
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "UX Designer",
     "uuid": "11b1b1b1-11h1-4d9a-db15-89d193d1k946",
-    "tags": "ux design<<ui design<<html<<css",
+    "tags": "ux design;ui design;html;css",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -262,7 +267,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Biomedical Engineer",
     "uuid": "15a1515-15c15-5d9a-eb16-99d193d1m957",
-    "tags": "biomedical engineering<<medical<<engineering",
+    "tags": "biomedical engineering;medical;engineering",
     "duration": {
       "days": 0,
       "hours": 120,
@@ -282,7 +287,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Medical Device Sales Representative",
     "uuid": "16b1616-16d16-6e9a-fb17-aad193d1n968",
-    "tags": "sales<<medical devices<<marketing",
+    "tags": "sales;medical devices;marketing",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -302,7 +307,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Medical Device Engineer",
     "uuid": "12c2c2c2-12i2-4e9a-eb16-90d193d1l412",
-    "tags": "medical devices<<cad<<product development<<manufacturing",
+    "tags": "medical devices;cad;product development;manufacturing",
     "duration": {
       "days": 10,
       "hours": 0,
@@ -322,7 +327,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Medical Equipment Sales Representative",
     "uuid": "13d3d3d3-13j3-4f9a-fb17-91d193d1m713",
-    "tags": "medical equipment<<sales<<healthcare<<relationship building",
+    "tags": "medical equipment;sales;healthcare;relationship building",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -342,7 +347,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Clinical Research Coordinator",
     "uuid": "14e4e4e4-14k4-4g9a-gb18-92d193d1n914",
-    "tags": "clinical research<<medical terminology<<data collection<<statistical analysis",
+    "tags": "clinical research;medical terminology;data collection;statistical analysis",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -362,7 +367,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Biomedical Engineer",
     "uuid": "15f5f5f5-15l5-4h9a-hb19-93d193d1p115",
-    "tags": "biomedical engineering<<medical device design<<cad<<quality",
+    "tags": "biomedical engineering;medical device design;cad;quality",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -382,7 +387,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Clinical Trial Manager",
     "uuid": "16g6g6g6-16m6-4i9a-ib20-94d193d1q316",
-    "tags": "clinical trials<<regulatory compliance<<project management<<data management",
+    "tags": "clinical trials;regulatory compliance;project management;data management",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -402,7 +407,7 @@
     "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
     "title": "Biomedical Research Assistant",
     "uuid": "17h7h7h7-17n7-4j9a-jb21-95d193d1r517",
-    "tags": "biomedical research<<data analysis<<statistical analysis<<research methodologies",
+    "tags": "biomedical research;data analysis;statistical analysis;research methodologies",
     "duration": {
       "days": 0,
       "hours": 0,
