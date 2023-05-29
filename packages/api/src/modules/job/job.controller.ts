@@ -12,7 +12,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { CompleteJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { JobService } from './job.service';
 import { CreateJob } from '@workagora/utils';
@@ -88,9 +88,26 @@ export class JobController {
     return this.jobService.deleteJob(req.user.wallet, deleteJobDto);
   }
 
-  @Get('search')
-  @UseGuards(JwtAuthGuard)
+  @Get('search/:page/:limit')
   @ApiOperation({ summary: 'Search for jobs' })
+  @ApiQuery({
+    name: 'searchTerm',
+    required: false,
+    description: 'Term to search jobs. Separate multiple terms with a comma',
+    type: String
+  })
+  @ApiParam({
+    name: 'page',
+    description: 'Page for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 1 }
+  })
+  @ApiParam({
+    name: 'limit',
+    description: 'Limit for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 8 }
+  })
   @ApiResponse({
     status: 200,
     description: 'The jobs matching the search criteria',
@@ -105,9 +122,9 @@ export class JobController {
     description: 'An unexpected error occurred'
   })
   async searchJobs(
-    @Query('searchTerm') searchTerm: string,
     @Param('page') page: string,
-    @Param('limit') limit: string
+    @Param('limit') limit: string,
+    @Query('searchTerm') searchTerm?: string
   ): Promise<{ jobs: CreateJobDTO[]; maxPage: number; totalResult: number }> {
     const pageNumber = Number(page);
     const limitNumber = Number(limit);

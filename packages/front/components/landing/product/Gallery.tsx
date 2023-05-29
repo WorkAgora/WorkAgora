@@ -7,6 +7,7 @@ import { useRecentFreelancer } from '@workagora/front/hooks/useRecentFreelancer'
 import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer';
 import { useRecentJob } from '@workagora/front/hooks/useRecentJob';
 import JobCard from '../../card/JobCard';
+import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
@@ -14,6 +15,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const recentFreelancer = useRecentFreelancer({ limit: 8 });
   const recentJob = useRecentJob({ limit: 8 });
   const searchFreelance = useSearchFreelancer(8);
+  const searchJobs = useSearchJob(8);
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
@@ -94,17 +96,17 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
           pb={16}
           {...props}
         >
-          {searchFreelance.searchFilters.length === 0 &&
+          {searchJobs.searchFilters.length === 0 &&
             recentJob.jobs.map((v, k) => <JobCard key={k} job={v} blurred={k >= 6} />)}
-          {searchFreelance.searchFilters.length > 0 &&
-            searchFreelance.freelancers.map((v, k) => (
-              <FreelanceCard
+          {searchJobs.searchFilters.length > 0 &&
+            searchJobs.jobs.map((v, k) => (
+              <JobCard
                 key={k}
-                user={v}
+                job={v}
                 blurred={
-                  searchFreelance.freelancers.length % 2 === 0
-                    ? k >= searchFreelance.freelancers.length - 2
-                    : k >= searchFreelance.freelancers.length - 1
+                  searchJobs.jobs.length % 2 === 0
+                    ? k >= searchJobs.jobs.length - 2
+                    : k >= searchJobs.jobs.length - 1
                 }
               />
             ))}

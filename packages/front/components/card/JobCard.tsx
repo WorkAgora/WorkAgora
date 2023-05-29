@@ -160,7 +160,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           lineHeight="150%"
           color="neutral.dsGray"
         >
-          {job.jobMission.slice(0, 450)} {job.jobMission.length > 450 && '...'}
+          {job.jobMission.slice(0, 380)} {job.jobMission.length > 380 && '...'}
         </Text>
       </Flex>
       <Flex mt={4}>

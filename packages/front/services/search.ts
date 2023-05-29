@@ -9,6 +9,11 @@ export interface GetRecentJobsProps {
   limit: number;
 }
 
+export interface SearchJobsProps {
+  limit: number;
+  page: number;
+  searchTerm?: string;
+}
 export interface SearchFreelancersProps {
   limit: number;
   page: number;
@@ -20,6 +25,10 @@ export type GetRecentFreelancers = (props: GetRecentFreelancersProps) => Promise
 export type SearchFreelancers = (
   props: SearchFreelancersProps
 ) => Promise<{ users: User[]; maxPage: number; totalResult: number }>;
+
+export type SearchJobs = (
+  props: SearchJobsProps
+) => Promise<{ jobs: CreateJob[]; maxPage: number; totalResult: number }>;
 
 export type GetRecentJobs = (props: GetRecentJobsProps) => Promise<CreateJob[]>;
 
@@ -35,6 +44,15 @@ export const getRecentJobs: GetRecentJobs = async ({ limit }) => {
 
 export const searchFreelancers: SearchFreelancers = async ({ limit, page, searchTerm }) => {
   let query = `/user/searchFreelancer/${page}/${limit}`;
+  if (searchTerm) {
+    query = `${query}?searchTerm=${searchTerm}`;
+  }
+  const res = await publicApi.get(query);
+  return res.data;
+};
+
+export const searchJobs: SearchJobs = async ({ limit, page, searchTerm }) => {
+  let query = `/jobs/search/${page}/${limit}`;
   if (searchTerm) {
     query = `${query}?searchTerm=${searchTerm}`;
   }

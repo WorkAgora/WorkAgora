@@ -9,6 +9,7 @@ import Gallery from './Gallery';
 import Partners from './Partners';
 import { UserTypeEnum } from '@workagora/utils';
 import { SearchFreelancerProvider } from '@workagora/front/hooks/useSearchFreelancer';
+import { SearchJobProvider } from '@workagora/front/hooks/useSearchJob';
 
 const Product: FC = () => {
   const { type, handleViewChange } = useLanding();
@@ -34,8 +35,10 @@ const Product: FC = () => {
         <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
           {topContent}
           <SearchFreelancerProvider>
-            <SearchBar />
-            <Gallery mt={8} />
+            <SearchJobProvider>
+              <SearchBar />
+              <Gallery mt={8} />
+            </SearchJobProvider>
           </SearchFreelancerProvider>
         </Flex>
         <Partners mt={16} />

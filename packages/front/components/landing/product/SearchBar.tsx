@@ -16,6 +16,7 @@ import { useLanding } from '@workagora/front-provider';
 import { mostCommonSkill, UserTypeEnum } from '@workagora/utils';
 import { useColoredBadges } from '../../../hooks/useColoredBadges';
 import { useSearchFreelancer } from '../../../hooks/useSearchFreelancer';
+import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
 
 const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const { type } = useLanding();
@@ -28,7 +29,8 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const menuRef = useRef();
   const inputRef = useRef();
   const [searchText, setSearchText] = useState('');
-  const { setSearchFilters } = useSearchFreelancer();
+  const searchFreelancer = useSearchFreelancer();
+  const searchJobs = useSearchJob();
 
   const selectFilter = (filter: string) => {
     let newFilters: string[] = [];
@@ -39,7 +41,12 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
       newFilters = [...curFilters.filter((v) => v !== filter)];
       setCurFilters(newFilters);
     }
-    setSearchFilters(newFilters);
+    if (type === UserTypeEnum.Company) {
+      searchFreelancer.setSearchFilters(newFilters);
+    }
+    if (type === UserTypeEnum.Freelancer) {
+      searchJobs.setSearchFilters(newFilters);
+    }
   };
 
   const handleItemClick = (filter: string) => {
@@ -125,7 +132,12 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
     // Perform any setup or side effects here
 
     return () => {
-      setSearchFilters([]);
+      if (type === UserTypeEnum.Company) {
+        searchFreelancer.setSearchFilters([]);
+      }
+      if (type === UserTypeEnum.Freelancer) {
+        searchJobs.setSearchFilters([]);
+      }
     };
   }, []);
 
@@ -192,7 +204,12 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
             onClick={() => {
               setCurFilters([]);
               setFilters([]);
-              setSearchFilters([]);
+              if (type === UserTypeEnum.Company) {
+                searchFreelancer.setSearchFilters([]);
+              }
+              if (type === UserTypeEnum.Freelancer) {
+                searchJobs.setSearchFilters([]);
+              }
             }}
           >
             Clear filters
