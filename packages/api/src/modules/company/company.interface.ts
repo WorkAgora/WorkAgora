@@ -10,6 +10,6 @@ export interface CreateCompany extends CompanyKey {
   logoUrl?: string;
   websiteUrl?: string;
   createdAt: string;
-  // location: string;
+  location: string;
   // tags: string[];
 }

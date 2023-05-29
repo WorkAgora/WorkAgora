@@ -1,12 +1,12 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
-import { ConfirmJob, CreateJob, JobKey } from '@workagora/utils';
 import { ConfirmJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
-import { encodeJSONForIPFS } from '../../../../utils/src/index';
+import { encodeJSONForIPFS, ConfirmJob, CreateJob, JobKey, Visibility  } from '../../../../utils/src/index';
 import { v4 as uuidv4 } from 'uuid';
 import { ethers } from 'ethers';
 import { DeleteJobDTO } from '../../dtos/job/delete-job.dto';
 import { SortOrder } from 'dynamoose/dist/General';
+import {Condition} from "dynamoose";
 
 @Injectable()
 export class JobService {
@@ -21,11 +21,15 @@ export class JobService {
    */
   async getMyJobs(wallet: string): Promise<CreateJobDTO[]> {
     const jobs = await this.model.scan({ contractorWallet: wallet }).exec();
-    return jobs.sort((a, b) => {
+
+    // Sort jobs by date
+    const jobsSorted = jobs.sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
       return dateB.getTime() - dateA.getTime();
     });
+
+    return this.createJobsToJobsDTO(jobsSorted);
   }
 
   /**
@@ -46,7 +50,8 @@ export class JobService {
         !createJobDto.responsibilities ||
         !createJobDto.requirements ||
         !createJobDto.visibility ||
-        !createJobDto.companyUuid
+        !createJobDto.companyUuid ||
+        !createJobDto.tags
       ) {
         throw new Error('Missing required fields in createJobDto');
       }
@@ -65,7 +70,8 @@ export class JobService {
         uuid: uuidv4(),
         contractorWallet: wallet,
         createdAt: new Date().toISOString(),
-        ...createJobDto
+        ...createJobDto,
+        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join('<<'),
       };
 
       return await this.model.create(job);
@@ -169,7 +175,7 @@ export class JobService {
     try {
       const jobs = await this.model
         .query('visibility')
-        .eq('Public')
+        .eq(Visibility.Public)
         .using('visibilityIndex')
         .sort(SortOrder.descending)
         .limit(limit)
@@ -180,7 +186,7 @@ export class JobService {
         return [];
       }
 
-      return jobs;
+      return this.createJobsToJobsDTO(jobs);
     } catch (error) {
       console.log('Error while getting recent jobs', error);
       throw new UnprocessableEntityException('Error while getting recent jobs: ' + error.message);
@@ -201,9 +207,16 @@ export class JobService {
     limit: number
   ): Promise<{ jobs: CreateJobDTO[]; maxPage: number; totalResult: number }> {
     try {
-      // Query jobs based on title
+      // Query jobs based on title or tags and visibility is public
       const jobs = await this.model
-        .scan({ title: { contains: searchTerm }, visibility: 'public' })
+        .scan()
+        .where('visibility')
+        .eq(Visibility.Public)
+        .filter('title')
+        .contains(searchTerm)
+        .or()
+        .filter('tags')
+        .contains(searchTerm)
         .exec();
 
       // Sort jobs by descending date
@@ -216,12 +229,21 @@ export class JobService {
       const endIndex = page * limit;
 
       return {
-        jobs: jobs.slice(startIndex, endIndex),
+        jobs: this.createJobsToJobsDTO(jobs.slice(startIndex, endIndex)),
         maxPage: maxPage,
         totalResult: jobs.length
       };
     } catch (error) {
       throw new UnprocessableEntityException('Error while searching jobs: ' + error.message);
     }
+  }
+
+  createJobsToJobsDTO(jobs: CreateJob[]): CreateJobDTO[] {
+    return jobs.map((job) => {
+      return {
+        ...job,
+        tags: job.tags.split('<<').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+      }
+    });
   }
 }

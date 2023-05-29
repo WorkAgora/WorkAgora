@@ -50,7 +50,7 @@ export interface CreateJob extends JobKey {
   jobMission: string;
   responsibilities: string;
   requirements: string;
-  tags: string[];
+  tags: string;
   visibility: Visibility;
   createdAt: string;
   companyUuid: string;

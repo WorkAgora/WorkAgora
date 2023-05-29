@@ -57,8 +57,7 @@ export const JobSchema = new Schema({
     required: true
   },
   tags: {
-    type: Array,
-    schema: [String],
+    type: String,
     required: false
   },
   createdAt: {
