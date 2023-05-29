@@ -54,7 +54,7 @@ const OfferDetail: FC<OfferDetailProps> = ({id}) => {
           <Flex>
             <Flex flexDir="column" justifyContent="center">
               <Box textStyle="h3">{curJob?.title}</Box>
-              <Flex mt={4}>
+              <Flex mt={4} alignItems="center">
                 {curJob?.location && (
                   <Badge
                     color="neutral.black"
@@ -110,6 +110,7 @@ const OfferDetail: FC<OfferDetailProps> = ({id}) => {
                     )}
                   </Badge>
                 )}
+                <Box textStyle="h6" ml={2} mt={0.5} color="neutral.dsGray">{curJob?.company?.location}</Box>
               </Flex>
               <Flex mt={4}>
               {curJob?.tags && curJob?.tags.map((skill, k) => {

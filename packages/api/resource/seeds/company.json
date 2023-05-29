@@ -6,7 +6,8 @@
     "name": "SoftUbi",
     "description": "Softubi is a renowned name in the gaming industry, recognized as a leading Game Editor and Game Legend. Our innovative approach has redefined the gaming landscape, offering immersive and engaging experiences for gamers worldwide. Our team of dedicated professionals is constantly pushing boundaries to create visually stunning and intellectually challenging games that captivate our audience. ",
     "title": "Game Editor / Game Legend",
-    "uuid": "1bd05146-0b42-45a7-abc3-e651110faf45"
+    "uuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "location": "Paris, FRANCE"
   },
   {
     "createdAt": "2023-04-15T14:15:38.326Z",
@@ -15,7 +16,8 @@
     "name": "TechTronic",
     "description": "TechTronic is a global innovator in the tech industry, providing cutting-edge solutions in software and hardware. With an emphasis on sustainability, TechTronic is committed to shaping the future of technology.",
     "title": "Innovator in Tech",
-    "uuid": "2be84212-5c51-46e1-9813-61197f501232"
+    "uuid": "2be84212-5c51-46e1-9813-61197f501232",
+    "location": "London, ENGLAND"
   },
   {
     "createdAt": "2023-03-20T08:30:12.421Z",
@@ -24,7 +26,8 @@
     "name": "MedMax",
     "description": "MedMax is a pioneer in medical technology. We design and manufacture advanced medical equipment and devices that help health professionals provide better care to their patients.",
     "title": "Medical Tech Provider",
-    "uuid": "3c105221-5a63-42a5-bb14-45d192c1d456"
+    "uuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "location": "Cape-Town, SOUTH AFRICA"
   },
   {
     "createdAt": "2023-02-28T10:22:44.213Z",
@@ -33,7 +36,8 @@
     "name": "GreenGlobe",
     "description": "GreenGlobe is at the forefront of sustainable energy solutions. We develop renewable energy technology that powers communities and businesses around the world.",
     "title": "Sustainable Energy Provider",
-    "uuid": "4d016432-6a73-49a6-bc12-56d193d1e578"
+    "uuid": "4d016432-6a73-49a6-bc12-56d193d1e578",
+    "location": "Paris, FRANCE"
   },
   {
     "createdAt": "2023-01-16T20:33:33.123Z",
@@ -42,7 +46,8 @@
     "name": "VirtuMind",
     "description": "VirtuMind is a leading developer of artificial intelligence technologies. Our innovative AI solutions enable businesses to transform their operations and gain competitive edge.",
     "title": "AI Tech Innovator",
-    "uuid": "5e127543-7a83-4a9a-bb13-67d193d1f690"
+    "uuid": "5e127543-7a83-4a9a-bb13-67d193d1f690",
+    "location": "Paris, FRANCE"
   },
   {
     "createdAt": "2023-01-05T16:46:22.334Z",
@@ -51,6 +56,7 @@
     "name": "BlueWave",
     "description": "BlueWave is a trailblazer in the field of marine technology. We provide advanced maritime equipment and solutions that enhance ocean exploration and conservation.",
     "title": "Marine Tech Pioneer",
-    "uuid": "6f238654-8a93-4b9a-aa12-78d193d1g712"
+    "uuid": "6f238654-8a93-4b9a-aa12-78d193d1g712",
+    "location": "Berlin, GERMANY"
   }
 ]

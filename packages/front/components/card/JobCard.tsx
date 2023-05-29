@@ -77,7 +77,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           lineHeight="120%"
           color="neutral.dsGray"
         >
-          Location
+          {job.company?.location}
         </Text>
       </Flex>
       <Flex mt={2}>
