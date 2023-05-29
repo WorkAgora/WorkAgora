@@ -40,7 +40,8 @@ export class JobService {
         !createJobDto.jobMission ||
         !createJobDto.responsibilities ||
         !createJobDto.requirements ||
-        !createJobDto.visibility
+        !createJobDto.visibility ||
+        !createJobDto.companyUuid
       ) {
         throw new Error('Missing required fields in createJobDto');
       }

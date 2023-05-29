@@ -74,6 +74,16 @@ export const JobSchema = new Schema({
       throughput: 'ON_DEMAND',
       project: true // ProjectionType: ALL
     }
+  },
+  companyUuid: {
+    type: String,
+    required: true,
+    index: {
+      name: 'companyUuidIndex',
+      rangeKey: 'createdAt',
+      throughput: 'ON_DEMAND',
+      project: true // ProjectionType: ALL
+    }
   }
 });
 

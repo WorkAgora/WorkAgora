@@ -84,6 +84,10 @@ export class CreateJobDTO {
   @ApiProperty({ description: 'The Job Visibility' })
   @IsString()
   visibility: Visibility;
+
+  @ApiProperty({ description: 'Company UUID' })
+  @IsString()
+  companyUuid: string;
 }
 
 export class CompleteJobContractDTO extends ConfirmJobContractDTO {

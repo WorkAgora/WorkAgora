@@ -53,4 +53,5 @@ export interface CreateJob extends JobKey {
   tags: string[];
   visibility: Visibility;
   createdAt: string;
+  companyUuid: string;
 }
