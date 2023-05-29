@@ -1,7 +1,7 @@
 import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useColoredBadges } from '@workagora/front/hooks/useColoredBadges';
 import { useGetCompanyById } from '@workagora/front/hooks/useGetCompanyById';
-import { CreateJob, getDateDiffWithDays, getDateDiffWithDaysAndHours } from '@workagora/utils';
+import { CreateJob, getDateDiffWithDaysAndHours } from '@workagora/utils';
 import { FC, useEffect } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
@@ -27,12 +27,7 @@ const availabilityOptions: { [key: string]: string } = {
 
 const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardProps) => {
   const { getCategoryColorForSkill } = useColoredBadges();
-  const { loading, getCompanyById, curCompany } = useGetCompanyById();
   let skillsLength = 0;
-
-  useEffect(() => {
-    getCompanyById(job.companyUuid);
-  }, []);
 
   return (
     <Box
@@ -54,7 +49,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
             lineHeight="120%"
             color="neutral.black"
           >
-            {curCompany?.name}
+            {job?.company?.name}
           </Text>
           <Text
             fontFamily="Comfortaa"
@@ -63,7 +58,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
             lineHeight="120%"
             color="neutral.dsGray"
           >
-            {curCompany?.title}
+            {job?.company?.title}
           </Text>
         </Flex>
         <Flex flexDir="column" ml="auto">

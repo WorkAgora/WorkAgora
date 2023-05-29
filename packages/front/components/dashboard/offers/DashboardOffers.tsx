@@ -53,7 +53,7 @@ const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
                 <Flex flexDir="column" gap={6}>
                   <FreelanceTop />
                   <SearchBar />
-                  <FreelanceGallery />
+                  <FreelanceGallery scrollbarRef={scrollbarRef} />
                 </Flex>
               </Flex>
             </MotionBox>
