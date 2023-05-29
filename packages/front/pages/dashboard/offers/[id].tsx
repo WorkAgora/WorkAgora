@@ -7,16 +7,11 @@ import OfferDetail from '../../../components/offer/OfferDetail';
 import Footer from '../../../components/landing/footer/Footer';
 import DashboardLayout from '../../../components/layout/DashboardLayout';
 import { useRouter } from 'next/router';
-import { UserTypeEnum } from '@workagora/utils';
 
 const OfferWithId: NextPage = () => {
-  const { type, handleScroll, setHasScroll } = useLanding();
+  const { handleScroll, setHasScroll } = useLanding();
   const router = useRouter();
   const { id } = router.query;
-
-  if (type !== UserTypeEnum.Freelancer) {
-    router.push('/dashboard');
-  }
 
   useEffect(() => {
     setHasScroll(false);

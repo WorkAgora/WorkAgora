@@ -1,8 +1,9 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
 import { shortHash } from '@workagora/utils';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
+import ArrowRightIcon from '../icons/ArrowRightIcon';
 import ProfileCompletedJobs from './ProfileCompletedJob';
 import ProfileExperiences from './ProfileExperiences';
 import ProfileLinks from './ProfileLinks';
@@ -17,7 +18,7 @@ interface ProfileProps {
 
 const Profile: FC<ProfileProps> = ({ wallet }) => {
   const { loading, curUser, getProfile } = useGetUserProfile();
-  const { push } = useRouter();
+  const { push, back } = useRouter();
 
   useEffect(() => {
     if (wallet) {
@@ -52,6 +53,26 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
               {shortHash(curUser.wallet, { padLeft: 6, padRight: 6, separator: '...' })}
             </Box>
           )}
+          <Button
+            variant="outline"
+            ml="auto"
+            color="brand.secondary"
+            borderColor="brand.secondary"
+            _hover={{
+              color: 'brand.secondaryHover',
+              borderColor: 'brand.secondaryHover'
+            }}
+            onClick={() => {
+              back();
+            }}
+            leftIcon={
+              <Box transform="rotate(180deg)">
+                <ArrowRightIcon />
+              </Box>
+            }
+          >
+            Back
+          </Button>
         </Flex>
         {curUser && (
           <>

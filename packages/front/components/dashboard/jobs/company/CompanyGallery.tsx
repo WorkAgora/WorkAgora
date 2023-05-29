@@ -1,10 +1,13 @@
 import { Box, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useJobs } from '@workagora/front-provider';
 import JobCard from '@workagora/front/components/card/JobCard';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 const CompanyGallery: FC = () => {
   const { jobs, jobsFetching } = useJobs();
+  const { push } = useRouter();
+
   return (
     <Flex flexDir="column">
       {!jobsFetching && (
@@ -12,7 +15,7 @@ const CompanyGallery: FC = () => {
           {jobs && jobs?.length > 0 && (
             <SimpleGrid columns={2} spacing={8} w="100%">
               {jobs?.map((j, k) => (
-                <JobCard job={j} key={k} />
+                <JobCard job={j} key={k} onClick={(id) => push(`/dashboard/offers/${id}`)} />
               ))}
             </SimpleGrid>
           )}
