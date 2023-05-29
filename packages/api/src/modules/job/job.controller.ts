@@ -133,16 +133,25 @@ export class JobController {
       throw new BadRequestException('Page and limit must be numbers');
     }
 
+    if (!searchTerm || searchTerm === '') {
+      return await this.jobService.getRecentJobs(pageNumber, limitNumber);
+    }
     return this.jobService.searchJobs(searchTerm, pageNumber, limitNumber);
   }
 
-  @Get('recent/:limit')
+  @Get('recent/:page/:limit')
   @ApiOperation({ summary: 'Get the most recent jobs' })
   @ApiParam({
     name: 'limit',
     description: 'Limit for jobs to return',
     required: true,
     schema: { type: 'integer', default: 8 }
+  })
+  @ApiParam({
+    name: 'page',
+    description: 'Page for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 1 }
   })
   @ApiResponse({
     status: 200,
@@ -157,7 +166,21 @@ export class JobController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getRecentJobs(@Param('limit') limit: number): Promise<CreateJobDTO[]> {
+  async getRecentJobs(
+    @Param('page') page: number,
+    @Param('limit') limit: number
+  ): Promise<{
+    jobs: CreateJobDTO[];
+    maxPage: number;
+    totalResult: number;
+  }> {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    if (isNaN(pageNumber) || isNaN(limitNumber)) {
+      throw new BadRequestException('Page and limit must be numbers');
+    }
+
     return this.jobService.getRecentJobs(limit);
   }
 }

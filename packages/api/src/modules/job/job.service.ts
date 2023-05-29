@@ -178,22 +178,32 @@ export class JobService {
    * @returns The list of recent jobs
    * @throws UnprocessableEntityException
    */
-  async getRecentJobs(limit: number): Promise<CreateJobDTO[]> {
+  async getRecentJobs(
+    page: number,
+    limit: number
+  ): Promise<{ jobs: CreateJobDTO[]; maxPage: number; totalResult: number }> {
     try {
       const jobs = await this.model
         .query('visibility')
         .eq(Visibility.Public)
         .using('visibilityIndex')
         .sort(SortOrder.descending)
-        .limit(limit)
         .exec();
 
       if (!jobs) {
         console.log('No jobs found');
-        return [];
+        return { jobs: [], maxPage: 0, totalResult: 0 };
       }
 
-      return this.createJobsToJobsDTO(jobs);
+      const maxPage = Math.ceil(jobs.length / limit);
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+
+      return {
+        jobs: await this.createJobsToJobsDTO(jobs.slice(startIndex, endIndex)),
+        maxPage: maxPage,
+        totalResult: jobs.length
+      };
     } catch (error) {
       console.log('Error while getting recent jobs', error);
       throw new UnprocessableEntityException('Error while getting recent jobs: ' + error.message);
