@@ -1,4 +1,4 @@
-import { CreateCompany } from "./company";
+import { CreateCompany } from './company';
 
 export interface ConfirmJobKey {
   contractorWallet: string; // PK
@@ -52,7 +52,7 @@ export interface CreateJob extends JobKey {
   jobMission: string;
   responsibilities: string;
   requirements: string;
-  tags: string;
+  tags: string[];
   visibility: Visibility;
   createdAt: string;
   companyUuid: string;
