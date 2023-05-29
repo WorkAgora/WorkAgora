@@ -15,18 +15,20 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
   const { setCompany, setFetching, fetching } = useCurrentCompany();
   const { setJobs, setJobsFetching, jobsFetching } = useJobs();
   const { type } = useLanding();
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const authenticatedCookie = Cookies.get('authenticated');
   const { pathname, push } = useRouter();
 
   const isUserLogged = useCallback(async () => {
-    const res = await checkUserLogged();
-    if (res) {
-      if (!user) {
-        setUser(res);
+    if (!isFetching) {
+      const res = await checkUserLogged();
+      if (res) {
+        if (!user) {
+          setUser(res);
+        }
       }
+      setIsFetching(false);
     }
-    setIsFetching(false);
   }, [setUser, user]);
 
   useEffect(() => {
@@ -57,20 +59,20 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
   }, [setJobs, setJobsFetching]);
 
   useEffect(() => {
-    if (type === UserTypeEnum.Company) {
+    if (type === UserTypeEnum.Company && user) {
       if (!fetching) {
         setFetching(true);
         getCompany();
       }
     }
-  }, [getCompany, setFetching, type]);
+  }, [getCompany, setFetching, type, user]);
 
   useEffect(() => {
-    if (!jobsFetching) {
+    if (type === UserTypeEnum.Company && !jobsFetching && user) {
       setJobsFetching(true);
       getJobs();
     }
-  }, [getJobs, setJobsFetching]);
+  }, [getJobs, setJobsFetching, type, user]);
 
   return (
     <Container

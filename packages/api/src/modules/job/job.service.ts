@@ -20,7 +20,12 @@ export class JobService {
    * @param wallet
    */
   async getMyJobs(wallet: string): Promise<CreateJobDTO[]> {
-    return await this.model.scan({ contractorWallet: wallet }).exec();
+    const jobs = await this.model.scan({ contractorWallet: wallet }).exec();
+    return jobs.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateB.getTime() - dateA.getTime();
+    });
   }
 
   /**
@@ -164,7 +169,7 @@ export class JobService {
     try {
       const jobs = await this.model
         .query('visibility')
-        .eq('public')
+        .eq('Public')
         .using('visibilityIndex')
         .sort(SortOrder.descending)
         .limit(limit)

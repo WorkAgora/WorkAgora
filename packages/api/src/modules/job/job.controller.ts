@@ -12,7 +12,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { CompleteJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { JobService } from './job.service';
 import { CreateJob } from '@workagora/utils';
@@ -119,9 +119,14 @@ export class JobController {
     return this.jobService.searchJobs(searchTerm, pageNumber, limitNumber);
   }
 
-  @Get('recent')
-  @UseGuards(JwtAuthGuard)
+  @Get('recent/:limit')
   @ApiOperation({ summary: 'Get the most recent jobs' })
+  @ApiParam({
+    name: 'limit',
+    description: 'Limit for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 8 }
+  })
   @ApiResponse({
     status: 200,
     description: 'The most recent jobs',
@@ -135,7 +140,7 @@ export class JobController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getRecentJobs(@Query('limit') limit: number): Promise<CreateJobDTO[]> {
+  async getRecentJobs(@Param('limit') limit: number): Promise<CreateJobDTO[]> {
     return this.jobService.getRecentJobs(limit);
   }
 }

@@ -54,7 +54,10 @@ export const skills = [
       'Cocos2d',
       'Django',
       'RESTful API Development',
-      'NLP'
+      'NLP',
+      'Quality Assurance',
+      'Testing',
+      'QA Tools'
     ]
   },
   {
@@ -87,7 +90,11 @@ export const skills = [
       'Illustration',
       'Typography',
       'Visual Design',
-      'Product Design'
+      'Product Design',
+      'Art Design',
+      'Photoshop',
+      'Game Art',
+      'Game Design'
     ]
   },
   {

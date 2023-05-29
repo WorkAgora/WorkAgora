@@ -8,7 +8,7 @@ export const useCreateCompany = () => {
   const { setCompany } = useCurrentCompany();
 
   const createNewCompany = useCallback(
-    async (company: CreateCompany) => {
+    async (company: Partial<CreateCompany>) => {
       setLoading(true);
       const res = await createCompany(company);
       setCompany(res);

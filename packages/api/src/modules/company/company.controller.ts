@@ -64,7 +64,6 @@ export class CompanyController {
   }
 
   @Get('/:uuid')
-  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get a company by its uuid' })
   @ApiResponse({
     status: 200,

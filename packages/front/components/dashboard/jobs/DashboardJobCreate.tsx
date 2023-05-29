@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Flex } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import CreateJobHeader from './create/CreateJobHeader';
@@ -11,9 +11,10 @@ import CreateJobSkills from './create/CreateJobSkills';
 import CreateJobSwitch from './create/CreateJobSwitch';
 import CreateJobTextArea from './create/CreateJobTextArea';
 import CheckIcon from '../../icons/CheckIcon';
-import { CreateJob, Visibility, WorkAvailability } from '@workagora/utils';
+import { CreateJob, UserTypeEnum, Visibility, WorkAvailability } from '@workagora/utils';
 import { useCreateJob } from '@workagora/front/hooks/useCreateJob';
 import { useRouter } from 'next/router';
+import { useLanding } from '@workagora/front-provider';
 
 const MotionBox = motion(Box);
 
@@ -88,11 +89,18 @@ const DashboardJobCreate: FC = () => {
   const [durationUnitOpen, setDurationUnitOpen] = useState(false);
   const { createNewJob, loading } = useCreateJob();
   const { push } = useRouter();
+  const { type } = useLanding();
 
   const contentVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
+
+  useEffect(() => {
+    if (type !== UserTypeEnum.Company) {
+      push('/dashboard/jobs');
+    }
+  }, [type]);
 
   const onSubmit = async (values: FormData) => {
     const {

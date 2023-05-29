@@ -8,6 +8,8 @@ export type GetMyCompanies = () => Promise<CreateCompany | null>;
 
 export type UpdateCompany = (company: Partial<CreateCompany>) => Promise<CreateCompany>;
 
+export type GetCompanyByUUID = (uuid: string) => Promise<CreateCompany | null>;
+
 export const createCompany: CreateNewCompany = async (company) => {
   const res = await privateApi.post('/company/create', { ...company });
   return res.data;
@@ -28,4 +30,9 @@ export const getMyCompanies: GetMyCompanies = async () => {
     }
   }
   return null;
+};
+
+export const getCompanyByUUID: GetCompanyByUUID = async (uuid) => {
+  const res = await privateApi.get(`/company/${uuid}`);
+  return res.data;
 };
