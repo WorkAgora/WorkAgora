@@ -1,3 +1,5 @@
+import { CreateCompany } from "./company";
+
 export interface ConfirmJobKey {
   contractorWallet: string; // PK
   GUID: string; // SK
@@ -54,4 +56,5 @@ export interface CreateJob extends JobKey {
   visibility: Visibility;
   createdAt: string;
   companyUuid: string;
+  company?: CreateCompany;
 }
