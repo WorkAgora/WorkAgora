@@ -1,18 +1,25 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { ConfirmJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
-import { encodeJSONForIPFS, ConfirmJob, CreateJob, JobKey, Visibility  } from '../../../../utils/src/index';
+import {
+  ConfirmJob,
+  CreateJob,
+  encodeJSONForIPFS,
+  JobKey,
+  Visibility
+} from '../../../../utils/src/index';
 import { v4 as uuidv4 } from 'uuid';
 import { ethers } from 'ethers';
 import { DeleteJobDTO } from '../../dtos/job/delete-job.dto';
 import { SortOrder } from 'dynamoose/dist/General';
-import {Condition} from "dynamoose";
+import { CompanyService } from '../company/company.service';
 
 @Injectable()
 export class JobService {
   constructor(
     @InjectModel('Job')
-    private readonly model: Model<CreateJob, JobKey>
+    private readonly model: Model<CreateJob, JobKey>,
+    private readonly companyService: CompanyService
   ) {}
 
   /**
@@ -29,7 +36,7 @@ export class JobService {
       return dateB.getTime() - dateA.getTime();
     });
 
-    return this.createJobsToJobsDTO(jobsSorted);
+    return await this.createJobsToJobsDTO(jobsSorted);
   }
 
   /**
@@ -71,7 +78,7 @@ export class JobService {
         contractorWallet: wallet,
         createdAt: new Date().toISOString(),
         ...createJobDto,
-        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join('<<'),
+        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join('<<')
       };
 
       return await this.model.create(job);
@@ -229,7 +236,7 @@ export class JobService {
       const endIndex = page * limit;
 
       return {
-        jobs: this.createJobsToJobsDTO(jobs.slice(startIndex, endIndex)),
+        jobs: await this.createJobsToJobsDTO(jobs.slice(startIndex, endIndex)),
         maxPage: maxPage,
         totalResult: jobs.length
       };
@@ -238,12 +245,16 @@ export class JobService {
     }
   }
 
-  createJobsToJobsDTO(jobs: CreateJob[]): CreateJobDTO[] {
-    return jobs.map((job) => {
-      return {
-        ...job,
-        tags: job.tags.split('<<').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
-      }
-    });
+  async createJobsToJobsDTO(jobs: CreateJob[]): Promise<CreateJobDTO[]> {
+    return await Promise.all(
+      jobs.map(async (job) => {
+        const company = await this.companyService.getCompany(job.companyUuid);
+        return {
+          ...job,
+          company,
+          tags: job.tags.split('<<').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+        };
+      })
+    );
   }
 }
