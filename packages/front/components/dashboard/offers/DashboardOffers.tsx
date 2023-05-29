@@ -9,6 +9,7 @@ import CompanyTop from './company/CompanyTop';
 import CompanyGallery from './company/CompanyGallery';
 import SearchBar from '../../landing/product/SearchBar';
 import { SearchFreelancerProvider } from '@workagora/front/hooks/useSearchFreelancer';
+import { SearchJobProvider } from '@workagora/front/hooks/useSearchJob';
 
 const MotionBox = motion(Box);
 
@@ -51,9 +52,11 @@ const DashboardOffers: FC<DashboardOffersProps> = ({ scrollbarRef }) => {
                   Find work
                 </Box>
                 <Flex flexDir="column" gap={6}>
-                  <FreelanceTop />
-                  <SearchBar />
-                  <FreelanceGallery scrollbarRef={scrollbarRef} />
+                  <SearchJobProvider>
+                    <FreelanceTop />
+                    <SearchBar />
+                    <FreelanceGallery scrollbarRef={scrollbarRef} />
+                  </SearchJobProvider>
                 </Flex>
               </Flex>
             </MotionBox>

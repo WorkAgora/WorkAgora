@@ -7,3 +7,4 @@ export * from './interfaces/company';
 export * from './interfaces/job';
 export * from './global/skills';
 export * from './lib/get-date-diff';
+export * from './lib/format-date';

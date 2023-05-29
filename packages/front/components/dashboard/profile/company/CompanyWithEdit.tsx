@@ -428,7 +428,6 @@ const CompanyWithEdit: FC = () => {
                   color: 'brand.secondaryHover',
                   borderColor: 'brand.secondaryHover'
                 }}
-                spinnerPlacement="end"
                 onClick={() => {
                   window.open(company?.websiteUrl, '_blank');
                 }}

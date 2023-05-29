@@ -58,3 +58,16 @@ export interface CreateJob extends JobKey {
   companyUuid: string;
   company?: CreateCompany;
 }
+
+export const workLocationOptions: { [key: string]: string } = {
+  fullRemote: 'Full-remote',
+  partialRemote: 'Partial-remote',
+  onSite: 'On site'
+};
+
+export const availabilityOptions: { [key: string]: string } = {
+  fullTime: 'Full-time',
+  partTime: 'Part-time',
+  contract: 'Contract',
+  internship: 'Internship'
+};

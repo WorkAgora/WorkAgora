@@ -38,8 +38,8 @@ export const getRecentFreelancers: GetRecentFreelancers = async ({ limit }) => {
 };
 
 export const getRecentJobs: GetRecentJobs = async ({ limit }) => {
-  const res = await publicApi.get(`/jobs/recent/${limit}`);
-  return res.data;
+  const res = await publicApi.get(`/jobs/recent/1/${limit}`);
+  return res.data.jobs;
 };
 
 export const searchFreelancers: SearchFreelancers = async ({ limit, page, searchTerm }) => {

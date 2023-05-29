@@ -12,6 +12,8 @@ export interface DeleteJobProps {
 
 export type DeleteJob = (args: DeleteJobProps) => Promise<boolean>;
 
+export type GetJobByUUID = (id: string) => Promise<CreateJob>;
+
 export const createJob: CreateNewJob = async (job) => {
   const res = await privateApi.post('/jobs/create', { ...job });
   return res.data;
@@ -24,5 +26,10 @@ export const getMyJobs: GetMyJobs = async () => {
 
 export const deleteJob: DeleteJob = async ({ id, reason }) => {
   const res = await privateApi.delete('/jobs/delete', { data: { id, reason } });
+  return res.data;
+};
+
+export const getJobByUUID: GetJobByUUID = async (id) => {
+  const res = await privateApi.get(`/jobs/${id}`);
   return res.data;
 };

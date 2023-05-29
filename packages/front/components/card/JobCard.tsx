@@ -1,7 +1,12 @@
 import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useColoredBadges } from '@workagora/front/hooks/useColoredBadges';
 import { useGetCompanyById } from '@workagora/front/hooks/useGetCompanyById';
-import { CreateJob, getDateDiffWithDaysAndHours } from '@workagora/utils';
+import {
+  availabilityOptions,
+  CreateJob,
+  getDateDiffWithDaysAndHours,
+  workLocationOptions
+} from '@workagora/utils';
 import { FC, useEffect } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
@@ -11,20 +16,6 @@ interface JobCardProps {
   blurred?: boolean;
   onClick?: (id: string) => void;
 }
-
-const workLocationOptions: { [key: string]: string } = {
-  fullRemote: 'Full-remote',
-  partialRemote: 'Partial-remote',
-  onSite: 'On site'
-};
-
-const availabilityOptions: { [key: string]: string } = {
-  fullTime: 'Full-time',
-  partTime: 'Part-time',
-  contract: 'Contract',
-  internship: 'Internship'
-};
-
 const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardProps) => {
   const { getCategoryColorForSkill } = useColoredBadges();
   let skillsLength = 0;
