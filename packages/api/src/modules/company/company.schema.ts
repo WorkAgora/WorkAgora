@@ -31,6 +31,10 @@ export const CompanySchema = new Schema({
     type: String,
     required: false
   },
+  location: {
+    type: String,
+    required: false
+  },
   createdAt: {
     type: String,
     required: true

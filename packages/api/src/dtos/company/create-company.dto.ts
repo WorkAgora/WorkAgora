@@ -26,4 +26,9 @@ export class CreateCompanyDTO {
   @IsString()
   @IsOptional()
   websiteUrl?: string;
+
+  @ApiProperty({ description: 'Company Location', example: 'Paris FR | Remote' })
+  @IsString()
+  @IsOptional()
+  location?: string;
 }

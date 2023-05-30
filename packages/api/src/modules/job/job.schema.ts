@@ -57,8 +57,7 @@ export const JobSchema = new Schema({
     required: true
   },
   tags: {
-    type: Array,
-    schema: [String],
+    type: String,
     required: false
   },
   createdAt: {
@@ -70,6 +69,16 @@ export const JobSchema = new Schema({
     required: true,
     index: {
       name: 'visibilityIndex',
+      rangeKey: 'createdAt',
+      throughput: 'ON_DEMAND',
+      project: true // ProjectionType: ALL
+    }
+  },
+  companyUuid: {
+    type: String,
+    required: true,
+    index: {
+      name: 'companyUuidIndex',
       rangeKey: 'createdAt',
       throughput: 'ON_DEMAND',
       project: true // ProjectionType: ALL

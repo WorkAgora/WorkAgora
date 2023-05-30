@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {IsNotEmpty, IsNumber, IsObject, IsString} from 'class-validator';
-import { Visibility, WorkAvailability } from '../../modules/job/job.interface';
+import { IsNotEmpty, IsNumber, IsObject, IsString } from 'class-validator';
+import { Visibility, WorkAvailability } from '../../../../utils/src/interfaces/job';
 
 export class ConfirmJobContractDTO {
   @ApiProperty({ description: 'The employer wallet' })
@@ -84,6 +84,10 @@ export class CreateJobDTO {
   @ApiProperty({ description: 'The Job Visibility' })
   @IsString()
   visibility: Visibility;
+
+  @ApiProperty({ description: 'Company UUID' })
+  @IsString()
+  companyUuid: string;
 }
 
 export class CompleteJobContractDTO extends ConfirmJobContractDTO {

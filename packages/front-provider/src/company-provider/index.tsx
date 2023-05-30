@@ -4,7 +4,7 @@ import { CreateCompany } from '@workagora/utils';
 
 type CurrentCompanyContextInterface = {
   company: CreateCompany | null;
-  setCompany: (user: CreateCompany | null) => void;
+  setCompany: (company: CreateCompany | null) => void;
   fetching: boolean;
   setFetching: (fetching: boolean) => void;
 };

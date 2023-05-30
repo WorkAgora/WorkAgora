@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Flex } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import CreateJobHeader from './create/CreateJobHeader';
@@ -11,6 +11,17 @@ import CreateJobSkills from './create/CreateJobSkills';
 import CreateJobSwitch from './create/CreateJobSwitch';
 import CreateJobTextArea from './create/CreateJobTextArea';
 import CheckIcon from '../../icons/CheckIcon';
+import {
+  availabilityOptions,
+  CreateJob,
+  UserTypeEnum,
+  Visibility,
+  WorkAvailability,
+  workLocationOptions
+} from '@workagora/utils';
+import { useCreateJob } from '@workagora/front/hooks/useCreateJob';
+import { useRouter } from 'next/router';
+import { useLanding } from '@workagora/front-provider';
 
 const MotionBox = motion(Box);
 
@@ -27,23 +38,11 @@ export interface FormData {
   requirements: string;
 }
 
-const workLocationOptions: { [key: string]: string } = {
-  fullRemote: 'Full-remote',
-  partialRemote: 'Partial-remote',
-  onSite: 'On site'
-};
-
-const availabilityOptions: { [key: string]: string } = {
-  fullTime: 'Full-time',
-  partTime: 'Part-time'
-};
-
 const durationUnitOptions: { [key: string]: string } = {
-  hours: 'hours',
-  day: 'day',
-  week: 'week',
-  month: 'month',
-  year: 'year'
+  hours: 'Hours',
+  days: 'Days',
+  months: 'Months',
+  years: 'Years'
 };
 
 const validationSchema = Yup.object().shape({
@@ -66,30 +65,85 @@ const validationSchema = Yup.object().shape({
   skills: Yup.array().required('Skills are required').min(1, 'At least one skill is required'),
   introduction: Yup.string()
     .required('Introduction is required')
-    .max(500, 'Introduction must be less than 500 characters'),
+    .max(1000, 'Introduction must be less than 1000 characters'),
   responsibility: Yup.string()
     .required('Responsibility is required')
-    .max(500, 'Responsibility must be less than 500 characters'),
+    .max(2000, 'Responsibility must be less than 2000 characters'),
   requirements: Yup.string()
     .required('Requirements is required')
-    .max(500, 'Requirements must be less than 500 characters')
+    .max(2000, 'Requirements must be less than 2000 characters')
 });
 
 const DashboardJobCreate: FC = () => {
-  const [loading, setLoading] = useState(false);
   const [selectedWorkLocation, setSelectedWorkLocation] = useState('');
   const [selectedAvailability, setSelectedAvailability] = useState('');
   const [selectedDurationUnit, setSelectedDurationUnit] = useState('');
   const [workLocationOpen, setWorkLocationOpen] = useState(false);
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
   const [durationUnitOpen, setDurationUnitOpen] = useState(false);
+  const { createNewJob, loading } = useCreateJob();
+  const { push } = useRouter();
+  const { type } = useLanding();
 
   const contentVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
 
-  const onSubmit = (values: FormData) => {};
+  useEffect(() => {
+    if (type !== UserTypeEnum.Company) {
+      push('/dashboard/jobs');
+    }
+  }, [type]);
+
+  const onSubmit = async (values: FormData) => {
+    const {
+      title,
+      location,
+      situation,
+      introduction,
+      responsibility,
+      requirements,
+      skills,
+      visibility
+    } = values;
+    const updatedValues: Partial<CreateJob> = {
+      title,
+      location: selectedWorkLocation,
+      availability: selectedAvailability as WorkAvailability,
+      duration: {
+        years: 0,
+        months: 0,
+        days: 0,
+        hours: 0
+      },
+      jobMission: introduction,
+      responsibilities: responsibility,
+      requirements,
+      tags: skills,
+      visibility: visibility as Visibility
+    };
+    if (updatedValues.duration) {
+      switch (values.durationUnit) {
+        case 'hours':
+          updatedValues.duration.hours = parseInt(values.duration);
+          break;
+        case 'days':
+          updatedValues.duration.days = parseInt(values.duration);
+          break;
+        case 'months':
+          updatedValues.duration.months = parseInt(values.duration);
+          break;
+        case 'years':
+          updatedValues.duration.years = parseInt(values.duration);
+          break;
+      }
+    }
+    await createNewJob(updatedValues);
+    setTimeout(() => {
+      push('/dashboard/jobs');
+    }, 500);
+  };
 
   return (
     <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">

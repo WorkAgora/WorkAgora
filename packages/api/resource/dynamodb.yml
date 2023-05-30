@@ -40,6 +40,8 @@ Resources:
           AttributeType: S
         - AttributeName: visibility
           AttributeType: S
+        - AttributeName: companyUuid
+          AttributeType: S
         - AttributeName: createdAt
           AttributeType: S
       KeySchema:
@@ -51,6 +53,14 @@ Resources:
         - IndexName: visibilityIndex
           KeySchema:
             - AttributeName: visibility
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: companyUuidIndex
+          KeySchema:
+            - AttributeName: companyUuid
               KeyType: HASH
             - AttributeName: createdAt
               KeyType: RANGE
@@ -79,10 +89,10 @@ Resources:
       TableName: ${self:service}-${self:provider.stage}-experience-table
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
-        - AttributeName: uuid
+        - AttributeName: id
           AttributeType: S
       KeySchema:
-        - AttributeName: uuid
+        - AttributeName: id
           KeyType: HASH
   UserTable:
     Type: AWS::DynamoDB::Table

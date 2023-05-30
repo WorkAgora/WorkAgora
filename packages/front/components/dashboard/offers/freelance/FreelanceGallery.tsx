@@ -1,87 +1,94 @@
-import { Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
-import { FC, useState } from 'react';
-import { SearchBarFilter } from './FreelanceSearchBar';
-import FreelanceCard from '@workagora/front/components/card/FreelanceCard';
+import { Box, Button, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
+import { FC, MutableRefObject } from 'react';
 import { useRouter } from 'next/router';
+import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
+import JobCard from '@workagora/front/components/card/JobCard';
 
-const CompanyGallery: FC = () => {
+interface CompanyGalleryProps {
+  scrollbarRef: MutableRefObject<HTMLElement | null>;
+}
+
+const FreelanceGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
+  const {
+    jobs,
+    loading,
+    maxPage,
+    curPage,
+    totalResult,
+    handleSearch,
+    elementByPage,
+    searchFilters
+  } = useSearchJob(6);
   const { push } = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
-  const elementByPage = 6;
-  const [curResult, setCurResult] = useState<number[]>(
-    Array.from({ length: elementByPage }).map((_, k) => k + (currentPage - 1) * 6)
-  );
-  const totalPages = 5; // Set this to the total number of pages
-
-  const badges: SearchBarFilter[] = [
-    {
-      label: 'Product',
-      bgColor: 'badge.yellow',
-      color: 'neutral.black'
-    },
-    {
-      label: 'Design',
-      bgColor: 'badge.blue',
-      color: 'neutral.white'
-    },
-    {
-      label: 'UI/UX',
-      bgColor: 'badge.red',
-      color: 'neutral.white'
-    },
-    {
-      label: 'Figma',
-      bgColor: 'badge.purple',
-      color: 'neutral.white'
-    }
-  ];
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    setCurResult(Array.from({ length: elementByPage }).map((_, k) => k + (currentPage - 1) * 6));
+    handleSearch(newPage, elementByPage, searchFilters);
+    const element = document.getElementById('total-result');
+    if (element && scrollbarRef.current) {
+      // Calculate the position of the target element relative to the PerfectScrollbar container
+      const topPosition = element.getBoundingClientRect().top;
+      scrollbarRef.current.scrollTop = topPosition + 500;
+    }
   };
 
   const prevPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
+    if (curPage > 1) {
+      handlePageChange(curPage - 1);
     }
   };
 
   const nextPage = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
+    if (curPage < maxPage) {
+      handlePageChange(curPage + 1);
     }
   };
 
   return (
     <Flex flexDir="column">
-      <Flex justifyContent="end">
-        <Text fontSize="16px" fontWeight="700" lineHeight="120%" fontFamily="Comfortaa">
-          X results
-        </Text>
-      </Flex>
-      <Flex flexDir="column" mt={4}>
-        <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
-          {/*curResult.map((v, k) => (
-            <FreelanceCard
-              key={k}
-              badges={badges}
-              onClick={(id: number) => push(`/dashboard/offer/${id}`)}
-            />
-          ))*/}
-        </SimpleGrid>
-      </Flex>
-      <Flex justifyContent="center" alignItems="center" mt={6}>
-        <Button variant="icon" onClick={prevPage} disabled={currentPage === 1}>
-          {`<`}
-        </Button>
-        <Text mx={2}>{`${currentPage} / ${totalPages}`}</Text>
-        <Button variant="icon" onClick={nextPage} disabled={currentPage === totalPages}>
-          {`>`}
-        </Button>
-      </Flex>
+      {loading && (
+        <Flex flexDir="column" justifyContent="center" alignItems="center" my={16}>
+          <Spinner color="brand.primary" size="xl" mx="auto" />
+          <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+            Loading Offers
+          </Box>
+        </Flex>
+      )}
+      {!loading && (
+        <>
+          <Flex justifyContent="end">
+            <Text
+              id="total-result"
+              fontSize="16px"
+              fontWeight="700"
+              lineHeight="120%"
+              fontFamily="Comfortaa"
+            >
+              {totalResult} results
+            </Text>
+          </Flex>
+          <Flex flexDir="column" mt={4}>
+            <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
+              {jobs.length > 0 &&
+                jobs.map((v, k) => (
+                  <JobCard key={k} job={v} onClick={(id) => push(`/dashboard/offers/${id}`)} />
+                ))}
+            </SimpleGrid>
+          </Flex>
+          {maxPage > 1 && (
+            <Flex justifyContent="center" alignItems="center" mt={6}>
+              <Button variant="icon" onClick={prevPage} disabled={curPage === 1}>
+                {`<`}
+              </Button>
+              <Text mx={2}>{`${curPage} / ${maxPage}`}</Text>
+              <Button variant="icon" onClick={nextPage} disabled={curPage === maxPage}>
+                {`>`}
+              </Button>
+            </Flex>
+          )}
+        </>
+      )}
     </Flex>
   );
 };
 
-export default CompanyGallery;
+export default FreelanceGallery;

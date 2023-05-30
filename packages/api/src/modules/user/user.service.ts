@@ -179,7 +179,7 @@ export class UserService {
       }
 
       const term = searchTerm ? searchTerm.toLowerCase() : '';
-      const skillsArray = term.split(',');
+      const skillsArray = term.split(';');
 
       // Calculate score for each user
       users.forEach((user) => {

@@ -3,6 +3,7 @@ import { DynamooseModule } from 'nestjs-dynamoose';
 import { JobController } from './job.controller';
 import { JobService } from './job.service';
 import { JobSchema } from './job.schema';
+import { CompanyModule } from '../company/company.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { JobSchema } from './job.schema';
           tableName: '-job'
         }
       }
-    ])
+    ]),
+    CompanyModule
   ],
   controllers: [JobController],
   providers: [JobService],

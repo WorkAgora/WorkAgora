@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useCurrentUser, useLanding } from '@workagora/front-provider';
-import { User, UserTypeEnum } from '@workagora/utils';
-import { searchFreelancers, searchFreelancersLogged } from '../services/search';
+import { CreateJob, UserTypeEnum } from '@workagora/utils';
+import { searchFreelancers, searchFreelancersLogged, searchJobs } from '../services/search';
 import { createContext, ReactNode, useContext, useState, useCallback, useEffect } from 'react';
 
-type SearchFreelancersContextInterface = {
-  freelancers: User[];
-  setFreelancers: (users: User[]) => void;
+type SearchJobContextInterface = {
+  jobs: CreateJob[];
+  setJobs: (users: CreateJob[]) => void;
   totalResult: number;
   setTotalResult: (result: number) => void;
   searchFilters: string[];
@@ -21,9 +21,9 @@ type SearchFreelancersContextInterface = {
   setLoading: (loading: boolean) => void;
 };
 
-export const SearchFreelancerContext = createContext<SearchFreelancersContextInterface>({
-  freelancers: [],
-  setFreelancers: () => {},
+export const SearchJobContext = createContext<SearchJobContextInterface>({
+  jobs: [],
+  setJobs: () => {},
   totalResult: 0,
   setTotalResult: () => {},
   searchFilters: [],
@@ -38,8 +38,8 @@ export const SearchFreelancerContext = createContext<SearchFreelancersContextInt
   setLoading: () => {}
 });
 
-export const SearchFreelancerProvider = ({ children }: { children: ReactNode }) => {
-  const [freelancers, setFreelancers] = useState<User[]>([]);
+export const SearchJobProvider = ({ children }: { children: ReactNode }) => {
+  const [jobs, setJobs] = useState<CreateJob[]>([]);
   const [totalResult, setTotalResult] = useState(0);
   const [searchFilters, setSearchFilters] = useState<string[]>([]);
   const [elementByPage, setElementByPage] = useState(6);
@@ -48,16 +48,16 @@ export const SearchFreelancerProvider = ({ children }: { children: ReactNode }) 
   const [loading, setLoading] = useState(true);
 
   return (
-    <SearchFreelancerContext.Provider
+    <SearchJobContext.Provider
       value={{
-        freelancers,
+        jobs,
         totalResult,
         searchFilters,
         elementByPage,
         maxPage,
         curPage,
         loading,
-        setFreelancers,
+        setJobs,
         setTotalResult,
         setSearchFilters,
         setElementByPage,
@@ -67,33 +67,34 @@ export const SearchFreelancerProvider = ({ children }: { children: ReactNode }) 
       }}
     >
       {children}
-    </SearchFreelancerContext.Provider>
+    </SearchJobContext.Provider>
   );
 };
 
-export const useSearchFreelancer = (elementToDisplay?: number) => {
+export const useSearchJob = (elementToDisplay?: number) => {
   const {
-    freelancers,
+    jobs,
     totalResult,
     searchFilters,
     elementByPage,
     maxPage,
     curPage,
     loading,
-    setFreelancers,
+    setJobs,
     setTotalResult,
     setSearchFilters,
     setElementByPage,
     setMaxPage,
     setCurPage,
     setLoading
-  } = useContext(SearchFreelancerContext);
+  } = useContext(SearchJobContext);
   const { user } = useCurrentUser();
   const { type } = useLanding();
 
   useEffect(() => {
     if (elementToDisplay) {
       setElementByPage(elementToDisplay);
+      handleSearch(1, elementToDisplay, searchFilters);
     }
   }, [elementToDisplay, setElementByPage]);
 
@@ -101,20 +102,16 @@ export const useSearchFreelancer = (elementToDisplay?: number) => {
     async (page: number, limit: number, searchTerm?: string) => {
       setLoading(true);
       let res = null;
-      if (!user) {
-        res = await searchFreelancers({ page, limit, searchTerm });
-      } else {
-        res = await searchFreelancersLogged({ page, limit, searchTerm });
-      }
+      res = await searchJobs({ page, limit, searchTerm });
       if (res) {
         setCurPage(page);
-        setFreelancers(res.users);
+        setJobs([...res.jobs]);
         setMaxPage(res.maxPage);
         setTotalResult(res.totalResult);
       }
       setLoading(false);
     },
-    [setCurPage, setFreelancers, setLoading, setMaxPage, setTotalResult, user]
+    [setCurPage, setJobs, setLoading, setMaxPage, setTotalResult, user]
   );
 
   const handleSearch = useCallback(
@@ -132,14 +129,8 @@ export const useSearchFreelancer = (elementToDisplay?: number) => {
     [callGet]
   );
 
-  useEffect(() => {
-    if (searchFilters && type === UserTypeEnum.Company) {
-      handleSearch(1, elementByPage, searchFilters);
-    }
-  }, [handleSearch, searchFilters]);
-
   return {
-    freelancers,
+    jobs,
     loading,
     maxPage,
     curPage,

@@ -5,12 +5,17 @@ import FreelanceCard from '../../card/FreelanceCard';
 import { UserTypeEnum } from '@workagora/utils';
 import { useRecentFreelancer } from '@workagora/front/hooks/useRecentFreelancer';
 import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer';
+import { useRecentJob } from '@workagora/front/hooks/useRecentJob';
+import JobCard from '../../card/JobCard';
+import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
   const [caption, setCaption] = useState<string>('');
-  const { freelancers, loading } = useRecentFreelancer({ limit: 8 });
+  const recentFreelancer = useRecentFreelancer({ limit: 8 });
+  const recentJob = useRecentJob({ limit: 8 });
   const searchFreelance = useSearchFreelancer(8);
+  const searchJobs = useSearchJob(8);
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
@@ -23,7 +28,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
 
   return (
     <Flex w="100%" flexDir="column" position="relative" pb={6}>
-      {loading && (
+      {type == UserTypeEnum.Company && recentFreelancer.loading && (
         <Flex
           flexDir="column"
           justifyContent="center"
@@ -38,7 +43,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
           </Box>
         </Flex>
       )}
-      {!loading && (
+      {type == UserTypeEnum.Company && !recentFreelancer.loading && (
         <SimpleGrid
           columns={2}
           spacing={8}
@@ -48,24 +53,63 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
           pb={16}
           {...props}
         >
-          {type == UserTypeEnum.Company && (
-            <>
-              {searchFreelance.searchFilters.length === 0 &&
-                freelancers.map((v, k) => <FreelanceCard key={k} user={v} blurred={k >= 6} />)}
-              {searchFreelance.searchFilters.length > 0 &&
-                searchFreelance.freelancers.map((v, k) => (
-                  <FreelanceCard
-                    key={k}
-                    user={v}
-                    blurred={
-                      searchFreelance.freelancers.length % 2 === 0
-                        ? k >= searchFreelance.freelancers.length - 2
-                        : k >= searchFreelance.freelancers.length - 1
-                    }
-                  />
-                ))}
-            </>
-          )}
+          {searchFreelance.searchFilters.length === 0 &&
+            recentFreelancer.freelancers.map((v, k) => (
+              <FreelanceCard key={k} user={v} blurred={k >= 6} />
+            ))}
+          {searchFreelance.searchFilters.length > 0 &&
+            searchFreelance.freelancers.map((v, k) => (
+              <FreelanceCard
+                key={k}
+                user={v}
+                blurred={
+                  searchFreelance.freelancers.length % 2 === 0
+                    ? k >= searchFreelance.freelancers.length - 2
+                    : k >= searchFreelance.freelancers.length - 1
+                }
+              />
+            ))}
+        </SimpleGrid>
+      )}
+      {type == UserTypeEnum.Freelancer && recentJob.loading && (
+        <Flex
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          my={16}
+          w="100%"
+          position="relative"
+        >
+          <Spinner color="brand.primary" size="xl" mx="auto" />
+          <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+            Loading Jobs
+          </Box>
+        </Flex>
+      )}
+      {type == UserTypeEnum.Freelancer && !recentJob.loading && (
+        <SimpleGrid
+          columns={2}
+          spacing={8}
+          w="100%"
+          position="relative"
+          zIndex="1"
+          pb={16}
+          {...props}
+        >
+          {searchJobs.searchFilters.length === 0 &&
+            recentJob.jobs.map((v, k) => <JobCard key={k} job={v} blurred={k >= 6} />)}
+          {searchJobs.searchFilters.length > 0 &&
+            searchJobs.jobs.map((v, k) => (
+              <JobCard
+                key={k}
+                job={v}
+                blurred={
+                  searchJobs.jobs.length % 2 === 0
+                    ? k >= searchJobs.jobs.length - 2
+                    : k >= searchJobs.jobs.length - 1
+                }
+              />
+            ))}
         </SimpleGrid>
       )}
       <Flex
@@ -76,7 +120,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         w="100%"
         position="absolute"
         zIndex="2"
-        bottom={loading ? '-50' : '0'}
+        bottom={recentFreelancer.loading || recentJob.loading ? '-50' : '0'}
       >
         <Box textStyle="h3" as="h3" w="100%" textAlign="center" cursor="default">
           {caption}

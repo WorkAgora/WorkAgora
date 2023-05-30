@@ -1,9 +1,21 @@
-import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards
+} from '@nestjs/common';
 import { CompleteJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { JobService } from './job.service';
-import { CreateJob } from './job.interface';
+import { CreateJob } from '@workagora/utils';
 import { Request } from 'express';
 import { DeleteJobDTO } from '../../dtos/job/delete-job.dto';
 
@@ -29,7 +41,7 @@ export class JobController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async createJob(@Req() req: Request, @Body() createJobDTO: CreateJobDTO): Promise<CreateJob> {
+  async createJob(@Req() req: Request, @Body() createJobDTO: CreateJobDTO): Promise<CreateJobDTO> {
     return this.jobService.createJob(req.user.wallet, createJobDTO);
   }
 
@@ -76,9 +88,26 @@ export class JobController {
     return this.jobService.deleteJob(req.user.wallet, deleteJobDto);
   }
 
-  @Get('search')
-  @UseGuards(JwtAuthGuard)
+  @Get('search/:page/:limit')
   @ApiOperation({ summary: 'Search for jobs' })
+  @ApiQuery({
+    name: 'searchTerm',
+    required: false,
+    description: 'Term to search jobs. Separate multiple terms with a comma',
+    type: String
+  })
+  @ApiParam({
+    name: 'page',
+    description: 'Page for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 1 }
+  })
+  @ApiParam({
+    name: 'limit',
+    description: 'Limit for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 8 }
+  })
   @ApiResponse({
     status: 200,
     description: 'The jobs matching the search criteria',
@@ -93,9 +122,9 @@ export class JobController {
     description: 'An unexpected error occurred'
   })
   async searchJobs(
-    @Query('searchTerm') searchTerm: string,
     @Param('page') page: string,
-    @Param('limit') limit: string
+    @Param('limit') limit: string,
+    @Query('searchTerm') searchTerm?: string
   ): Promise<{ jobs: CreateJobDTO[]; maxPage: number; totalResult: number }> {
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
@@ -104,12 +133,26 @@ export class JobController {
       throw new BadRequestException('Page and limit must be numbers');
     }
 
+    if (!searchTerm || searchTerm === '') {
+      return await this.jobService.getRecentJobs(pageNumber, limitNumber);
+    }
     return this.jobService.searchJobs(searchTerm, pageNumber, limitNumber);
   }
 
-  @Get('recent')
-  @UseGuards(JwtAuthGuard)
+  @Get('recent/:page/:limit')
   @ApiOperation({ summary: 'Get the most recent jobs' })
+  @ApiParam({
+    name: 'limit',
+    description: 'Limit for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 8 }
+  })
+  @ApiParam({
+    name: 'page',
+    description: 'Page for jobs to return',
+    required: true,
+    schema: { type: 'integer', default: 1 }
+  })
   @ApiResponse({
     status: 200,
     description: 'The most recent jobs',
@@ -123,7 +166,44 @@ export class JobController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getRecentJobs(@Query('limit') limit: number): Promise<CreateJobDTO[]> {
-    return this.jobService.getRecentJobs(limit);
+  async getRecentJobs(
+    @Param('page') page: number,
+    @Param('limit') limit: number
+  ): Promise<{
+    jobs: CreateJobDTO[];
+    maxPage: number;
+    totalResult: number;
+  }> {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    if (isNaN(pageNumber) || isNaN(limitNumber)) {
+      throw new BadRequestException('Page and limit must be numbers');
+    }
+
+    return this.jobService.getRecentJobs(pageNumber, limitNumber);
+  }
+
+  @Get('/:uuid')
+  @ApiOperation({ summary: 'Get a job by its UUID' })
+  @ApiResponse({
+    status: 200,
+    description: 'The job with the given UUID',
+    type: CreateJobDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Job not found'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async getJobByUUID(@Param('uuid') uuid: string): Promise<CreateJobDTO> {
+    return this.jobService.getJobByUUID(uuid);
   }
 }

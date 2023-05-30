@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react';
-import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
+import { useCurrentCompany, useCurrentUser, useJobs, useLanding } from '@workagora/front-provider';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { checkUserLogged } from '../services/user';
@@ -8,23 +8,27 @@ import SignupModal from './modal/SignupModal';
 import { useRouter } from 'next/router';
 import { getMyCompanies } from '../services/company';
 import { UserTypeEnum } from '@workagora/utils';
+import { getMyJobs } from '../services/jobs';
 
 export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const { user, setUser, setFetchingUser } = useCurrentUser();
   const { setCompany, setFetching, fetching } = useCurrentCompany();
+  const { setJobs, setJobsFetching, jobsFetching } = useJobs();
   const { type } = useLanding();
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const authenticatedCookie = Cookies.get('authenticated');
   const { pathname, push } = useRouter();
 
   const isUserLogged = useCallback(async () => {
-    const res = await checkUserLogged();
-    if (res) {
-      if (!user) {
-        setUser(res);
+    if (!isFetching) {
+      const res = await checkUserLogged();
+      if (res) {
+        if (!user) {
+          setUser(res);
+        }
       }
+      setIsFetching(false);
     }
-    setIsFetching(false);
   }, [setUser, user]);
 
   useEffect(() => {
@@ -48,14 +52,27 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
     setFetching(false);
   }, [setCompany, setFetching]);
 
+  const getJobs = useCallback(async () => {
+    const res = await getMyJobs();
+    setJobs(res);
+    setJobsFetching(false);
+  }, [setJobs, setJobsFetching]);
+
   useEffect(() => {
-    if (type === UserTypeEnum.Company) {
+    if (type === UserTypeEnum.Company && user) {
       if (!fetching) {
         setFetching(true);
         getCompany();
       }
     }
-  }, [getCompany, setFetching, type]);
+  }, [getCompany, setFetching, type, user]);
+
+  useEffect(() => {
+    if (type === UserTypeEnum.Company && !jobsFetching && user) {
+      setJobsFetching(true);
+      getJobs();
+    }
+  }, [getJobs, setJobsFetching, type, user]);
 
   return (
     <Container

@@ -1,0 +1,422 @@
+[
+  {
+    "requirements": "- Proven experience as a Fullstack Developer or similar role with proficiency in Typescript and React.\n- Strong understanding of front-end technologies, including HTML5, CSS3, and JavaScript/ES6.\n- Familiarity with server-side languages such as Node.js.\n- In-depth knowledge of relational databases (e.g., PostgreSQL, MySQL) and NoSQL databases (e.g., MongoDB).\n- Familiarity with modern build pipelines and tools (such as Webpack, Babel, npm/yarn).\n- Proficient understanding of code versioning tools, such as Git.\n- Excellent communication and teamwork skills, with a problem-solving attitude.\n- Degree in Computer Science, Statistics or relevant field is a plus.\n- Passion for video games is highly desirable.",
+    "visibility": "Public",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "partTime",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Fullstack Developer expert in Typescript and React",
+    "uuid": "bb797055-87d8-41b9-ae54-50978fd821db",
+    "tags": "React;Web-Development;HTML;CSS;Typescript",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 2
+    },
+    "jobMission": "We are seeking an expert Fullstack Developer proficient in Typescript and React to join our dynamic team at Softubi. The successful candidate will play a pivotal role in developing cutting-edge gaming software and contribute to the continuous evolution of our gaming systems. You will be part of a vibrant team dedicated to delivering high-quality experiences to our global user base. This role provides an excellent opportunity to leverage your technical skills and be part of our innovative journey in the gaming industry.",
+    "createdAt": "2023-05-29T10:32:28.782Z",
+    "responsibilities": "- Design, develop, and maintain efficient, reusable, and reliable Typescript and React code to deliver top-notch gaming experiences.\n- Work collaboratively with a team of developers, designers, and project managers to drive project success.\n- Analyze user requirements and convert them into robust software solutions.\n- Ensure the best possible performance, quality, and responsiveness of the applications.\n- Identify bottlenecks and bugs, and devise solutions to these problems.\n- Engage in peer code reviews, provide constructive feedback, and share best practices.\n- Participate in Agile development practices such as Scrum and Sprint planning.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience as a Game Designer or similar role.\n- Strong understanding of game mechanics and player psychology.\n- Familiarity with game engines such as Unreal or Unity.\n- Excellent communication and teamwork skills, with a problem-solving attitude.\n- Degree in Computer Science, Game Design or relevant field is a plus.\n- Passion for video games is a must.",
+    "visibility": "Public",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "fullTime",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Game Designer",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890a1",
+    "tags": "Game-Design;Unreal-Engine;Unity",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 3
+    },
+    "jobMission": "We are seeking a creative Game Designer to join our dynamic team at Softubi. You will be involved in various aspects of the game's creation from concept to finished product including coding, programming, audio, design, production, and visual arts.",
+    "createdAt": "2023-05-01T10:32:28.782Z",
+    "responsibilities": "- Designing gameplay systems and communicating how they work to the rest of the team.\n- Balancing game pacing and mechanics to deliver the best user experience.\n- Creating and refining game mechanics to improve player engagement.\n- Working closely with artists, programmers, and sound designers to bring ideas to life.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience as a Sound Designer or similar role in the gaming industry.\n- Solid understanding of sound editing software and proprietary game development tools.\n- Strong audio editing skills with a keen ear for sound design and understanding of audio effects.\n- Excellent communication and teamwork skills, with a problem-solving attitude.\n- Degree in Audio Design, Music, or relevant field is a plus.\n- Passion for video games and strong understanding of their audio aesthetic.",
+    "visibility": "Private",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "contract",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Sound Designer",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890b2",
+    "tags": "sound design;audio editing;game development",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 6,
+      "years": 0
+    },
+    "jobMission": "We are seeking a Sound Designer to help create an immersive audio experience for our games. You will work closely with our team to create sound effects and audio assets that elevate our player's gaming experience.",
+    "createdAt": "2023-04-25T14:00:00.000Z",
+    "responsibilities": "- Creating and implementing high-quality sound effects in line with the game's aesthetic.\n- Collaborating with the game development team to create sound strategies and audio systems.\n- Participating in audio technology development and suggesting improvements for audio tools.\n- Meeting project deadlines and handling multiple tasks effectively.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience as a UI/UX Designer or similar role.\n- Strong understanding of UI design principles and techniques.\n- Familiarity with design software like Adobe XD, Sketch, Figma etc.\n- Excellent communication and teamwork skills.\n- Degree in Design, Computer Science or relevant field is a plus.\n- Passion for creating intuitive, user-friendly game interfaces.",
+    "visibility": "Public",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "fullTime",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "UI/UX Designer",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890c3",
+    "tags": "ui/ux design;sketch;figma;adobe xd",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 3
+    },
+    "jobMission": "We are seeking a UI/UX Designer with a knack for creating user-friendly game interfaces. You will collaborate with our design and development teams to create intuitive and engaging game experiences.",
+    "createdAt": "2023-03-15T12:00:00.000Z",
+    "responsibilities": "- Designing user interfaces for our games based on user feedback.\n- Collaborating with the design team to define and implement innovative solutions for product direction, visuals, and experience.\n- Creating wireframes, storyboards, user flows, process flows, and site maps to effectively communicate interaction and design ideas.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience as a Quality Assurance Tester or similar role.\n- Strong understanding of game testing principles and techniques.\n- Familiarity with QA tools and processes.\n- Excellent communication and teamwork skills.\n- Degree in Computer Science or relevant field is a plus.\n- Passion for video games is a must.",
+    "visibility": "Public",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "partTime",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Quality Assurance Tester",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890d4",
+    "tags": "quality assurance;testing;qa tools",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 1
+    },
+    "jobMission": "We are seeking a Quality Assurance Tester to ensure that our games meet the highest standards of quality, reliability, and performance. You will be responsible for identifying and documenting bugs, issues, and glitches.",
+    "createdAt": "2023-02-20T16:00:00.000Z",
+    "responsibilities": "- Playing through the game in a systematic way, analyzing the game's performance against the designer's intentions.\n- Identifying and documenting bugs in the gaming system.\n- Communicating with the game developers to troubleshoot problems and identify solutions.\n- Ensuring the final product is free from issues and is up to the company's standards.",
+    "location": "fullRemote"
+  },
+  {
+    "requirements": "- Proven experience as a Game Developer or similar role.\n- Strong understanding of game programming languages like C++, C#, or Java.\n- Familiarity with Unity or Unreal Engine.\n- Excellent communication and teamwork skills.\n- Degree in Computer Science or relevant field is a plus.\n- Passion for video games is highly desirable.",
+    "visibility": "Public",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "fullTime",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Game Developer",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890e5",
+    "tags": "game development;c++;c#;java;unity;unreal engine",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 4
+    },
+    "jobMission": "We are seeking a passionate Game Developer to join our team. You will be involved in various aspects of the game's creation from concept to finished product including coding, programming, audio design and more.",
+    "createdAt": "2023-04-25T09:00:00.000Z",
+    "responsibilities": "- Developing game software and scripts.\n- Designing gaming systems and game mechanics.\n- Creating game design documents and technical design documents.\n- Implementing and managing game data, like player progress.\n- Collaborating with artists, designers, audio specialists, and other game developers to create an amazing gaming experience.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience as a Game Artist or similar role.\n- Strong understanding of art design principles and techniques relevant to games.\n- Familiarity with design software like Adobe Illustrator, Photoshop, etc.\n- Excellent communication and teamwork skills.\n- Degree in Fine Arts or relevant field is a plus.\n- Passion for video games is highly desirable.",
+    "visibility": "Public",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "contract",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Game Artist",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890f6",
+    "tags": "art design;adobe illustrator;photoshop;game art",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 6,
+      "years": 0
+    },
+    "jobMission": "We are seeking a Game Artist to join our team. You will collaborate with our designers and developers to create visually stunning game characters, environments, and assets.",
+    "createdAt": "2023-02-01T08:00:00.000Z",
+    "responsibilities": "- Creating a wide variety of art assets like characters, environments, and UI items.\n- Collaborating with the game development team to understand the art needs of the project.\n- Using software like Adobe Illustrator and Photoshop to create game art.\n- Contributing to the overall game design and vision.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience as a Data Scientist or similar role.\n- Strong understanding of Machine Learning algorithms and principles.\n- Familiarity with data science tools, languages, and libraries (Python, R, Pandas, Scikit-learn).\n- Excellent communication and teamwork skills.\n- Degree in Computer Science, Mathematics, or relevant field is a plus.\n- Passion for analyzing and interpreting complex data is highly desirable.",
+    "visibility": "Private",
+    "contractorWallet": "0xac688f514468a753894893e5463938896eff81b4",
+    "availability": "fullTime",
+    "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
+    "title": "Data Scientist",
+    "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890g7",
+    "tags": "data science;machine learning;python;r;pandas;scikit-learn",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 3
+    },
+    "jobMission": "We are seeking a Data Scientist to analyze large amounts of raw information to find patterns and use them to optimize our games. You will build data products to extract valuable business insights.",
+    "createdAt": "2023-03-01T14:00:00.000Z",
+    "responsibilities": "- Identify valuable data sources and automate collection processes.\n- Undertake preprocessing of structured and unstructured data.\n- Analyze large amounts of information to discover trends and patterns.\n- Build predictive models and machine-learning algorithms.\n- Combine models through ensemble modeling.\n- Present information using data visualization techniques.\n- Propose solutions and strategies to business challenges.",
+    "location": "fullRemote"
+  },
+  {
+    "requirements": "- Proven experience as a Software Engineer or similar role with proficiency in Python and Java.\n- Strong understanding of algorithms and data structures.\n- Familiarity with AI and Machine Learning technologies.\n- In-depth knowledge of relational databases (e.g., PostgreSQL, MySQL) and NoSQL databases (e.g., MongoDB).\n- Familiarity with modern build pipelines and tools (such as Jenkins, Travis CI).\n- Proficient understanding of code versioning tools, such as Git.\n- Excellent communication and teamwork skills, with a problem-solving attitude.\n- Degree in Computer Science, Statistics or relevant field is a plus.\n",
+    "visibility": "Public",
+    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "availability": "fullTime",
+    "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
+    "title": "Senior Software Engineer - Python/Java",
+    "uuid": "1a2b3c4d5e6f7a8b9c0d1e2f3g4h5i6j7k8l9m0n",
+    "tags": "python;java;software engineering;ai;machine learning",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 3
+    },
+    "jobMission": "Join our innovative team as a Senior Software Engineer. You'll work on exciting projects involving AI and Machine Learning technologies, contributing to our cutting-edge software solutions.",
+    "createdAt": "2023-04-20T08:30:22.782Z",
+    "responsibilities": "- Design and implement efficient, reusable, and reliable Python and Java code.\n- Apply AI and Machine Learning technologies to create innovative solutions.\n- Collaborate with a team of developers and project managers.\n- Analyze user requirements and convert them into robust software solutions.\n- Identify bottlenecks and bugs, and devise solutions to these problems.\n",
+    "location": "fullRemote"
+  },
+  {
+    "requirements": "- Proven experience in Python, Django, and related frameworks.\n- Understanding of front-end technologies, including HTML5, CSS3, JavaScript.\n- Proficiency with server-side languages such as Python.\n- Knowledge of relational databases (e.g., PostgreSQL, MySQL) and NoSQL databases (e.g., MongoDB).\n- Familiarity with modern development pipelines and tools.\n- Proficient understanding of code versioning tools, such as Git.\n- Excellent communication and teamwork skills, with a problem-solving attitude.\n- Degree in Computer Science or relevant field is a plus.",
+    "visibility": "Public",
+    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "availability": "fullTime",
+    "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
+    "title": "Senior Python Developer",
+    "uuid": "8a808080-80f8-4a9a-aa12-78d193d1h913",
+    "tags": "python;web development;django",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 3
+    },
+    "jobMission": "We're seeking a Senior Python Developer to join our team at TechTronic. In this role, you will contribute to building cutting-edge software solutions and shaping the future of technology.",
+    "createdAt": "2023-05-25T10:15:22.782Z",
+    "responsibilities": "- Develop and maintain efficient, reliable Python code.\n- Collaborate with the team to design and launch new features.\n- Ensure the best possible performance, quality, and responsiveness of the applications.\n- Identify and correct bottlenecks and fix bugs.",
+    "location": "fullRemote"
+  },
+  {
+    "requirements": "- Experience in designing and building applications on the Node.js platform.\n- Strong proficiency with JavaScript.\n- In-depth understanding of front-end technologies, such as HTML5 and CSS3.\n- Understanding accessibility and security compliance.\n- User authentication and authorization between multiple systems, servers, and environments.\n- Understanding of fundamental design principles behind a scalable application.\n- Strong unit testing and debugging skills.\n- Proficient understanding of code versioning tools, such as Git.",
+    "visibility": "Public",
+    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "availability": "contract",
+    "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
+    "title": "Node.js Developer",
+    "uuid": "9b909090-91f9-4b9a-bb13-67d193d1i924",
+    "tags": "node.js;javascript;html;css",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 12,
+      "years": 0
+    },
+    "jobMission": "We're looking for a skilled Node.js Developer to join our team at TechTronic. In this role, you will contribute to the development of sustainable tech solutions.",
+    "createdAt": "2023-05-23T12:14:25.123Z",
+    "responsibilities": "- Developing and maintaining all server-side network components.\n- Ensuring optimal performance of the central database and responsiveness to front-end requests.\n- Collaborating with front-end developers on the integration of elements.\n- Designing customer-facing UI and back-end services for various business processes.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Strong proficiency with React.js and its core principles.\n- Experience with popular React.js workflows (such as Flux or Redux).\n- Familiarity with RESTful APIs.\n- Knowledge of modern authorization mechanisms, such as JSON Web Token.\n- Familiarity with modern front-end build pipelines and tools.\n- Ability to understand business requirements and translate them into technical requirements.\n- A knack for benchmarking and optimization.",
+    "visibility": "Public",
+    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "availability": "partTime",
+    "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
+    "title": "React.js Developer",
+    "uuid": "10a0a0a0-10g0-4c9a-cb14-78d193d1j935",
+    "tags": "react.js;javascript;front-end;web development",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 6,
+      "years": 0
+    },
+    "jobMission": "We're hiring a talented React.js Developer to join our team at TechTronic. In this role, you will be developing user interface components and implementing them following well-known React.js workflows.",
+    "createdAt": "2023-05-21T14:13:24.321Z",
+    "responsibilities": "- Developing new user-facing features using React.js.\n- Building reusable components and front-end libraries for future use.\n- Translating designs and wireframes into high-quality code.\n- Optimizing components for maximum performance across a vast array of web-capable devices and browsers.",
+    "location": "fullRemote"
+  },
+  {
+    "requirements": "- Proven experience as a UX Designer, UI Designer or similar role.\n- Strong portfolio of design projects.\n- Familiarity with interaction design and information architecture.\n- Proficient in design software (e.g. UXPin, Balsamiq).\n- Knowledge of HTML/CSS; JavaScript is a plus.\n- Problem-solving aptitude.\n- Analytical mind with a business acumen.\n- Excellent communication skills.",
+    "visibility": "Public",
+    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "availability": "fullTime",
+    "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
+    "title": "UX Designer",
+    "uuid": "11b1b1b1-11h1-4d9a-db15-89d193d1k946",
+    "tags": "ux design;ui design;html;css",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 2
+    },
+    "jobMission": "We're looking for a UX Designer to join our team at TechTronic. In this role, you'll make meaningful and measurable improvements impacting customers by utilizing our data and user research to inform design decisions.",
+    "createdAt": "2023-05-20T15:16:27.456Z",
+    "responsibilities": "- Understand product specifications and user psychology.\n- Conduct concept and usability testing and gather feedback.\n- Create personas through user research and data.\n- Define the right interaction model and evaluate its success.\n- Develop wireframes and prototypes around customer needs.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience as a Biomedical Engineer or similar role.\n- In-depth knowledge of biomedical engineering systems.\n- Familiarity with medical regulations and standards.\n- Strong analytical and problem-solving skills.\n- Excellent physical condition and manual dexterity.\n- Degree in Biomedical Engineering, or a related field.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "contract",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Biomedical Engineer",
+    "uuid": "15a1515-15c15-5d9a-eb16-99d193d1m957",
+    "tags": "biomedical engineering;medical;engineering",
+    "duration": {
+      "days": 0,
+      "hours": 120,
+      "months": 0,
+      "years": 0
+    },
+    "jobMission": "MedMax is looking for a skilled Biomedical Engineer to join our team. The successful candidate will work with a team of professionals to develop and maintain medical equipment.",
+    "createdAt": "2023-05-27T14:13:20.321Z",
+    "responsibilities": "- Design, develop, and maintain biomedical equipment.\n- Install, adjust, maintain, repair, or provide technical support for biomedical equipment.\n- Evaluate the safety, efficiency, and effectiveness of biomedical equipment.\n- Train clinicians and other personnel on the proper use of equipment.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience as a Medical Device Sales Representative or similar role.\n- Excellent knowledge of medical device industry and products.\n- Outstanding communication and negotiation skills.\n- Excellent organizational and time-management skills.\n- Degree in Marketing, Business Administration, or relevant field is a plus.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "fullTime",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Medical Device Sales Representative",
+    "uuid": "16b1616-16d16-6e9a-fb17-aad193d1n968",
+    "tags": "sales;medical devices;marketing",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 0,
+      "years": 2
+    },
+    "jobMission": "We're looking for a results-driven Medical Device Sales Representative to actively seek out and engage customer prospects. You will provide complete and appropriate solutions for every customer in order to boost top-line revenue growth.",
+    "createdAt": "2023-05-25T12:12:24.567Z",
+    "responsibilities": "- Present, promote and sell products/services using solid arguments to existing and prospective customers.\n- Perform cost-benefit and needs analysis of existing/potential customers to meet their needs.\n- Establish, develop and maintain positive business and customer relationships.\n- Reach out to customer leads through cold calling.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience in designing and developing medical devices.\n- Strong knowledge of medical device regulations and standards.\n- Proficiency in CAD software (e.g., SolidWorks, AutoCAD).\n- Familiarity with materials and manufacturing processes used in medical device production.\n- Excellent problem-solving and analytical skills.\n- Ability to collaborate effectively with cross-functional teams.\n- Attention to detail and a commitment to producing high-quality work.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "contract",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Medical Device Engineer",
+    "uuid": "12c2c2c2-12i2-4e9a-eb16-90d193d1l412",
+    "tags": "medical devices;cad;product development;manufacturing",
+    "duration": {
+      "days": 10,
+      "hours": 0,
+      "months": 0,
+      "years": 0
+    },
+    "jobMission": "MedMax is seeking a skilled Medical Device Engineer to join our team. In this role, you will contribute to the design and development of advanced medical devices that improve patient care.",
+    "createdAt": "2023-05-18T13:55:17.654Z",
+    "responsibilities": "- Collaborate with cross-functional teams to define product requirements and specifications.\n- Design and develop prototypes and final medical device products.\n- Conduct testing and validation to ensure compliance with regulations and standards.\n- Participate in design reviews and provide feedback on product improvements.\n- Generate technical documentation and reports.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience in medical equipment sales or a related role.\n- Familiarity with medical equipment and healthcare industry trends.\n- Strong communication and negotiation skills.\n- Ability to build and maintain customer relationships.\n- Results-driven with a proven track record of meeting sales targets.\n- Excellent presentation and interpersonal skills.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "fullTime",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Medical Equipment Sales Representative",
+    "uuid": "13d3d3d3-13j3-4f9a-fb17-91d193d1m713",
+    "tags": "medical equipment;sales;healthcare;relationship building",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 18,
+      "years": 0
+    },
+    "jobMission": "We're hiring a motivated Medical Equipment Sales Representative to join our team at MedMax. In this role, you will be responsible for promoting and selling our innovative medical equipment to healthcare providers.",
+    "createdAt": "2023-05-17T11:20:38.876Z",
+    "responsibilities": "- Identify and pursue sales opportunities in the medical equipment market.\n- Build and maintain strong relationships with healthcare professionals and decision-makers.\n- Conduct product demonstrations and presentations.\n- Negotiate contracts and close sales deals.\n- Provide product training and support to customers.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience in conducting clinical research studies.\n- Familiarity with regulatory requirements and ethical guidelines in clinical research.\n- Excellent knowledge of medical terminology and research methodologies.\n- Strong organizational and project management skills.\n- Attention to detail and accuracy in data collection and analysis.\n- Proficiency in statistical analysis software (e.g., SPSS, SAS).\n- Effective communication and teamwork skills.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "contract",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Clinical Research Coordinator",
+    "uuid": "14e4e4e4-14k4-4g9a-gb18-92d193d1n914",
+    "tags": "clinical research;medical terminology;data collection;statistical analysis",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 6,
+      "years": 0
+    },
+    "jobMission": "Join MedMax as a Clinical Research Coordinator and contribute to the advancement of medical knowledge through well-executed clinical research studies.",
+    "createdAt": "2023-05-16T09:45:56.321Z",
+    "responsibilities": "- Plan, coordinate, and oversee clinical research studies.\n- Ensure compliance with regulatory requirements and ethical guidelines.\n- Recruit and enroll study participants.\n- Collect and analyze data, and prepare reports.\n- Collaborate with investigators and other research staff.\n- Monitor study progress and address any issues that arise.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience in biomedical engineering or a related field.\n- Strong knowledge of medical device design and development processes.\n- Proficiency in CAD software (e.g., SolidWorks, AutoCAD).\n- Familiarity with medical device regulations and standards.\n- Ability to work effectively in cross-functional teams.\n- Excellent problem-solving and analytical skills.\n- Attention to detail and a commitment to quality.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "fullTime",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Biomedical Engineer",
+    "uuid": "15f5f5f5-15l5-4h9a-hb19-93d193d1p115",
+    "tags": "biomedical engineering;medical device design;cad;quality",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 12,
+      "years": 0
+    },
+    "jobMission": "MedMax is seeking a talented Biomedical Engineer to join our team. In this role, you will contribute to the design, development, and testing of innovative medical devices.",
+    "createdAt": "2023-05-15T14:10:20.543Z",
+    "responsibilities": "- Design and develop new medical devices or improve existing ones.\n- Conduct feasibility studies and prototype testing.\n- Collaborate with cross-functional teams to ensure regulatory compliance.\n- Perform risk analysis and assist with quality control processes.\n- Stay updated with the latest advancements in biomedical engineering.",
+    "location": "onSite"
+  },
+  {
+    "requirements": "- Proven experience in managing clinical trials.\n- Strong knowledge of clinical research regulations and guidelines.\n- Excellent organizational and leadership skills.\n- Effective communication and interpersonal skills.\n- Ability to coordinate multiple projects and meet deadlines.\n- Proficiency in relevant software applications.\n- Attention to detail and accuracy in managing trial data.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "fullTime",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Clinical Trial Manager",
+    "uuid": "16g6g6g6-16m6-4i9a-ib20-94d193d1q316",
+    "tags": "clinical trials;regulatory compliance;project management;data management",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 24,
+      "years": 0
+    },
+    "jobMission": "We're hiring a Clinical Trial Manager to oversee and coordinate clinical trials at MedMax. Join our team and contribute to the advancement of medical research.",
+    "createdAt": "2023-05-14T12:30:42.123Z",
+    "responsibilities": "- Plan and coordinate clinical trial activities.\n- Ensure compliance with regulations and guidelines.\n- Develop trial protocols and study materials.\n- Manage trial budgets and timelines.\n- Collaborate with investigators and study teams.\n- Oversee data collection and management.\n- Prepare reports and documentation for regulatory submissions.",
+    "location": "partialRemote"
+  },
+  {
+    "requirements": "- Proven experience in biomedical research or a related field.\n- Strong knowledge of research methodologies and data analysis.\n- Proficiency in statistical analysis software (e.g., SPSS, R).\n- Excellent problem-solving and analytical skills.\n- Ability to work independently and in a team.\n- Effective communication and presentation skills.\n- Attention to detail and accuracy in data collection and analysis.",
+    "visibility": "Public",
+    "contractorWallet": "0x1234567890abcdef1234567890abcdef12347678",
+    "availability": "internship",
+    "companyUuid": "3c105221-5a63-42a5-bb14-45d192c1d456",
+    "title": "Biomedical Research Assistant",
+    "uuid": "17h7h7h7-17n7-4j9a-jb21-95d193d1r517",
+    "tags": "biomedical research;data analysis;statistical analysis;research methodologies",
+    "duration": {
+      "days": 0,
+      "hours": 0,
+      "months": 3,
+      "years": 0
+    },
+    "jobMission": "MedMax is offering an internship opportunity for a Biomedical Research Assistant. Gain valuable experience in biomedical research and contribute to ongoing projects.",
+    "createdAt": "2023-05-13T08:55:59.982Z",
+    "responsibilities": "- Assist in designing and conducting research studies.\n- Collect and analyze data using statistical software.\n- Prepare research reports and presentations.\n- Collaborate with research team members.\n- Ensure adherence to research protocols and ethical guidelines.",
+    "location": "onSite"
+  }
+]

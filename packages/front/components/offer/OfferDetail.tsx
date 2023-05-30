@@ -1,145 +1,304 @@
-import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
-import { FC } from 'react';
+import { Avatar, Badge, Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useCurrentUser } from '@workagora/front-provider';
+import { useColoredBadges } from '@workagora/front/hooks/useColoredBadges';
+import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
+import { availabilityOptions, formatDate, workLocationOptions } from '@workagora/utils';
+import { useRouter } from 'next/router';
+import { FC, useEffect } from 'react';
 import FreelanceCard from '../card/FreelanceCard';
 import ArrowRightIcon from '../icons/ArrowRightIcon';
+import LockIcon from '../icons/LockIcon';
 import StarIcon from '../icons/StarIcon';
-import { SearchBarFilter } from '../landing/product/SearchBar';
-
+import WebsiteIcon from '../icons/WebsiteIcon';
 
 interface OfferDetailProps {
-  badges: SearchBarFilter[];
+  id: string;
 }
 
-const FreelanceBadges: SearchBarFilter[] = [
-  {
-    label: 'Product',
-    bgColor: 'badge.yellow',
-    color: 'neutral.black'
-  },
-  {
-    label: 'Design',
-    bgColor: 'badge.blue',
-    color: 'neutral.white'
-  },
-  {
-    label: 'UI/UX',
-    bgColor: 'badge.red',
-    color: 'neutral.white'
-  },
-  {
-    label: 'Figma',
-    bgColor: 'badge.purple',
-    color: 'neutral.white'
-  }
-];
+const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
+  const { loading, curJob, getJobById } = useGetJobById();
+  const { user } = useCurrentUser();
+  const { push, back } = useRouter();
+  const { getCategoryColorForSkill } = useColoredBadges();
 
-const OfferDetail: FC<OfferDetailProps> = ({badges}: OfferDetailProps) => {
+  useEffect(() => {
+    if (user && id) {
+      getJobById(id);
+    }
+  }, [id]);
+
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH='calc( 100vh - 80px )'>
+    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
       <Flex
         flexDir="column"
         w="100%"
-        flexGrow='1'
+        flexGrow="1"
         bgColor="neutral.white"
         px={8}
         py={6}
         gap={6}
         borderRadius="64px"
       >
-          <Flex textStyle="h2" as="h1" color="neutral.dsGray">
-          <Box color="neutral.dsGray">Find work ></Box> <Box ml={2} color="neutral.black">Job details</Box>
+        <Flex textStyle="h2" as="h1" color="neutral.dsGray">
+          <Box color="neutral.black">Job details</Box>
+          <Button
+            variant="outline"
+            ml="auto"
+            color="brand.secondary"
+            borderColor="brand.secondary"
+            _hover={{
+              color: 'brand.secondaryHover',
+              borderColor: 'brand.secondaryHover'
+            }}
+            onClick={() => {
+              back();
+            }}
+            leftIcon={
+              <Box transform="rotate(180deg)">
+                <ArrowRightIcon />
+              </Box>
+            }
+          >
+            Back
+          </Button>
+        </Flex>
+        {loading && (
+          <Flex flexDir="column" justifyContent="center" alignItems="center" my={16}>
+            <Spinner color="brand.primary" size="xl" mx="auto" />
+            <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+              Loading Offer
+            </Box>
           </Flex>
-          <Flex>
-            <Avatar w="128px" h="128px" borderRadius="28px" />
-            <Flex flexDir="column" ml={8} justifyContent="center">
-              <Box textStyle="h3">API3</Box>
-              <Box textStyle="h4" color="neutral.dsGray">Web3 Society</Box>
-              <Flex alignItems="center" mt={2}>
-                <Text
-                  fontFamily="Montserrat"
-                  fontWeight="700"
-                  fontSize="20px"
-                  lineHeight="150%"
-                  color="neutral.black"
-                >
-                  4,9
-                </Text>
-                <Box color="brand.primary" ml={1}>
-                  <StarIcon />
-                </Box>
+        )}
+        {!loading && (
+          <>
+            <Flex>
+              <Flex flexDir="column" justifyContent="center">
+                <Box textStyle="h3">{curJob?.title}</Box>
+                <Flex mt={4} alignItems="center">
+                  {curJob?.location && (
+                    <Badge
+                      color="neutral.black"
+                      bgColor="neutral.gray"
+                      borderWidth="1px"
+                      borderColor={'none'}
+                      variant="filter"
+                      mr={2}
+                    >
+                      {workLocationOptions[curJob.location]}
+                    </Badge>
+                  )}
+                  {curJob?.availability && (
+                    <Badge
+                      color="neutral.black"
+                      bgColor="neutral.gray"
+                      borderWidth="1px"
+                      borderColor={'none'}
+                      variant="filter"
+                      mr={2}
+                    >
+                      {availabilityOptions[curJob.availability]}
+                    </Badge>
+                  )}
+                  {curJob?.duration && (
+                    <Badge
+                      color="neutral.black"
+                      bgColor="neutral.gray"
+                      borderWidth="1px"
+                      borderColor={'none'}
+                      variant="filter"
+                      mr={2}
+                    >
+                      {curJob?.duration.years !== 0 && (
+                        <>
+                          {curJob?.duration.years} {curJob?.duration?.years > 1 ? 'years' : 'year'}
+                        </>
+                      )}
+                      {curJob?.duration.months !== 0 && (
+                        <>
+                          {curJob?.duration.months}{' '}
+                          {curJob?.duration?.months > 1 ? 'months' : 'month'}
+                        </>
+                      )}
+                      {curJob?.duration.days !== 0 && (
+                        <>
+                          {curJob?.duration.days} {curJob?.duration?.days > 1 ? 'days' : 'day'}
+                        </>
+                      )}
+                      {curJob?.duration.hours !== 0 && (
+                        <>
+                          {curJob?.duration.hours} {curJob?.duration?.hours > 1 ? 'hours' : 'hour'}
+                        </>
+                      )}
+                    </Badge>
+                  )}
+                  <Box textStyle="h6" ml={2} mt={0.5} color="neutral.dsGray">
+                    {curJob?.company?.location}
+                  </Box>
+                </Flex>
+                <Flex mt={4}>
+                  {curJob?.tags &&
+                    curJob?.tags.map((skill, k) => {
+                      const colors = getCategoryColorForSkill(skill);
+                      return (
+                        <Badge
+                          mr={2}
+                          key={k}
+                          color={colors.color}
+                          bgColor={colors.bgColor}
+                          borderWidth="1px"
+                          borderColor={'none'}
+                          variant="filter"
+                        >
+                          {skill}
+                        </Badge>
+                      );
+                    })}
+                </Flex>
               </Flex>
-            </Flex>
-            <Button variant="secondary" ml="auto" minW="340px" rightIcon={<ArrowRightIcon/>}>Apply to this job</Button>
-          </Flex>
-          <Flex flexDir="column">
-            <Flex alignItems="center">
-              <Box textStyle="h4" color="neutral.black">Product designer for Move to earn App</Box>
-              <Text fontWeight="700" fontFamily="Comfortaa" fontSize="16px" lineHeight="120%" color="neutral.dsGray" ml={2}>Rennes, France</Text>
-            </Flex>
-            <Flex mt={1}>
-              {badges.map((v,k) =>
-                <Badge
-                  mr={2}
-                  key={k}
-                  color={v.color}
-                  bgColor={v.bgColor}
-                  borderWidth="1px"
-                  borderColor={'none'}
-                  variant="filter"
+              {curJob?.visibility === 'Private' && (
+                <Button
+                  variant="outline"
+                  color="brand.secondary"
+                  borderColor="neutral.lightGray"
+                  bgColor="neutral.lightGray"
+                  _hover={{
+                    color: 'brand.secondaryHover',
+                    borderColor: 'neutral.lightGray'
+                  }}
+                  ml="auto"
+                  leftIcon={<LockIcon />}
                 >
-                  {v.label}
-                </Badge>
+                  Private job
+                </Button>
               )}
             </Flex>
-          </Flex>
-          <Flex columnGap={6}>
-            <Flex flexDir="column" borderWidth="1px" borderColor="neutral.dsGray" borderRadius="32px" py={6} px={8} gap={4} flexBasis="55%">
-                <Box textStyle="h4" color="neutral.black">Mission</Box>
-                <Box textStyle="body2" color="neutral.dsGray">
-                  We are a leading [industry/sector] company seeking a highly skilled and creative freelance graphic designer to join our team.
-                  As a freelancer, you will have the flexibility to work remotely and collaborate with our dynamic team on exciting projects.
+            <Flex flexDir="column">
+              <Flex alignItems="center">
+                <Box textStyle="body2" fontWeight="700" color="neutral.black">
+                  Created
                 </Box>
-                <Box textStyle="h6" color="neutral.black">Responsibilities</Box>
-                <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
-                  {`- Develop visually appealing designs, including logos, marketing materials, and website graphics, that align with our brand guidelines.\n- Collaborate with cross-functional teams to understand project requirements and deliver high-quality design solutions within specified timelines.\n- Incorporate feedback and revisions to ensure client satisfaction and project success.\n- Stay updated with design trends, tools, and techniques to bring innovative ideas to the table.`}
+                <Box textStyle="body2" color="neutral.dsGray" ml={2}>
+                  {curJob?.createdAt && <>{formatDate(new Date(curJob.createdAt))}</>}
                 </Box>
-                <Box textStyle="h6" color="neutral.black">Requirements</Box>
-                <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
-                  {`- Proven experience as a freelance graphic designer or in a similar role.\n- Proficient in Adobe Creative Suite (Photoshop, Illustrator, InDesign, etc.).\n- Strong portfolio showcasing a diverse range of design projects.\n- Excellent communication and collaboration skills.\n- Ability to work independently, manage multiple projects simultaneously, and meet deadlines.`}
-                </Box>
-                <Box textStyle="body2" color="neutral.dsGray">
-                  If you are a passionate and talented graphic designer looking for exciting freelance opportunities, we'd love to hear from you.
-                  Please submit your portfolio, resume, and hourly rate to [contact email]. Only shortlisted candidates will be contacted.
-                </Box>
+                <Button variant="primary" ml="auto" rightIcon={<ArrowRightIcon />}>
+                  Apply to this job
+                </Button>
+              </Flex>
             </Flex>
-            <Flex flexDir="column" borderWidth="1px" bgColor="neutral.lightGray" borderColor="neutral.lightGray" borderRadius="32px" py={6} px={8} gap={4} alignSelf="flex-start" flexBasis="45%">
-              <Box textStyle="h4" color="neutral.black">The company</Box>
-              <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
-                {`API3 is a pioneering blockchain project at the forefront of the Web3 revolution. Our mission is to bridge the gap between traditional web applications and decentralized applications (dApps) by providing secure and decentralized APIs.
-\n\nBy leveraging blockchain technology and smart contracts, API3 ensures data integrity, immutability, and trustlessness in API interactions. We empower developers to seamlessly integrate real-world data into their dApps, enabling a wide range of use cases across industries.
-\n\nOur decentralized API infrastructure eliminates the need for intermediaries, putting control back in the hands of users and developers. With API3, data providers can securely monetize their APIs, while developers benefit from reliable and tamper-proof data sources.
-                `}
-              </Box>
-              <Button variant="secondary" leftIcon={<ArrowRightIcon/>}>Website</Button>
+            <Flex columnGap={6}>
+              <Flex
+                flexDir="column"
+                borderWidth="1px"
+                borderColor="neutral.dsGray"
+                borderRadius="32px"
+                py={6}
+                px={8}
+                gap={4}
+                flexBasis="75%"
+              >
+                <Box textStyle="h4" color="neutral.black">
+                  Mission
+                </Box>
+                <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
+                  {curJob?.jobMission}
+                </Box>
+                <Box textStyle="h6" color="neutral.black">
+                  Responsibilities
+                </Box>
+                <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
+                  {curJob?.responsibilities}
+                </Box>
+                <Box textStyle="h6" color="neutral.black">
+                  Requirements
+                </Box>
+                <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
+                  {curJob?.requirements}
+                </Box>
+              </Flex>
+              <Flex
+                flexDir="column"
+                borderWidth="1px"
+                bgColor="neutral.lightGray"
+                borderColor="neutral.lightGray"
+                borderRadius="32px"
+                py={6}
+                px={8}
+                gap={4}
+                alignSelf="flex-start"
+                flexBasis="45%"
+              >
+                <Flex alignItems="center">
+                  <Avatar w="96px" h="96px" borderRadius="16px" />
+                  <Flex flexDir="column" ml={6}>
+                    <Box textStyle="h4" color="neutral.black">
+                      {curJob?.company?.name}
+                    </Box>
+                    <Box textStyle="h6" color="neutral.dsGray">
+                      {curJob?.company?.title}
+                    </Box>
+                    <Flex alignItems="center">
+                      <Text
+                        fontFamily="Montserrat"
+                        fontWeight="700"
+                        fontSize="20px"
+                        lineHeight="150%"
+                        color="neutral.black"
+                      >
+                        4,9
+                      </Text>
+                      <Box color="brand.primary" ml={1}>
+                        <StarIcon />
+                      </Box>
+                    </Flex>
+                  </Flex>
+                </Flex>
+                <Box textStyle="body2" color="neutral.dsGray" whiteSpace="pre-wrap">
+                  {curJob?.company?.description}
+                </Box>
+                {curJob?.company?.websiteUrl && (
+                  <Button
+                    variant="outline"
+                    width="100%"
+                    color="brand.secondary"
+                    borderColor="brand.secondary"
+                    _hover={{
+                      color: 'brand.secondaryHover',
+                      borderColor: 'brand.secondaryHover'
+                    }}
+                    onClick={() => {
+                      window.open(curJob?.company?.websiteUrl, '_blank');
+                    }}
+                    rightIcon={
+                      <Box ml={2}>
+                        <WebsiteIcon />
+                      </Box>
+                    }
+                  >
+                    Visit our website
+                  </Button>
+                )}
+              </Flex>
             </Flex>
-          </Flex>
+          </>
+        )}
       </Flex>
 
-      <Flex mt={6}
+      <Flex
+        mt={6}
         flexDir="column"
         w="100%"
-        flexGrow='1'
+        flexGrow="1"
         bgColor="neutral.white"
         px={8}
         py={6}
         gap={4}
         borderRadius="64px"
       >
-        <Box textStyle="h4" color="neutral.black">Other jobs that match your interests</Box>
-        <Flex columnGap={4}>
-          <FreelanceCard badges={FreelanceBadges}/>
-          <FreelanceCard badges={FreelanceBadges}/>
-        </Flex>
+        <Box textStyle="h4" color="neutral.black">
+          Other jobs that match your interests
+        </Box>
+        <Flex columnGap={4}></Flex>
       </Flex>
     </Flex>
   );

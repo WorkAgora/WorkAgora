@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useLanding } from '@workagora/front-provider';
+import { useJobs, useLanding } from '@workagora/front-provider';
 import { UserTypeEnum } from '@workagora/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
