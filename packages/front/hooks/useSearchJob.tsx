@@ -94,6 +94,7 @@ export const useSearchJob = (elementToDisplay?: number) => {
   useEffect(() => {
     if (elementToDisplay) {
       setElementByPage(elementToDisplay);
+      handleSearch(1, elementToDisplay, searchFilters);
     }
   }, [elementToDisplay, setElementByPage]);
 
@@ -104,7 +105,7 @@ export const useSearchJob = (elementToDisplay?: number) => {
       res = await searchJobs({ page, limit, searchTerm });
       if (res) {
         setCurPage(page);
-        setJobs(res.jobs);
+        setJobs([...res.jobs]);
         setMaxPage(res.maxPage);
         setTotalResult(res.totalResult);
       }
@@ -127,12 +128,6 @@ export const useSearchJob = (elementToDisplay?: number) => {
     },
     [callGet]
   );
-
-  useEffect(() => {
-    if (searchFilters && type === UserTypeEnum.Freelancer) {
-      handleSearch(1, elementByPage, searchFilters);
-    }
-  }, [handleSearch, searchFilters]);
 
   return {
     jobs,

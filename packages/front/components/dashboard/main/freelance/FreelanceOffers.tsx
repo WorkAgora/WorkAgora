@@ -1,7 +1,11 @@
-import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 import FreelanceCard from '../../../card/FreelanceCard';
-import { FC } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
+import { useCurrentUser } from '@workagora/front-provider';
+import { useRecentJob } from '@workagora/front/hooks/useRecentJob';
+import JobCard from '@workagora/front/components/card/JobCard';
 
 const offers = [1, 2, 3, 4];
 
@@ -30,10 +34,20 @@ const badges: any[] = [
 
 const FreelanceOffers: FC = () => {
   const { push } = useRouter();
+  const { user } = useCurrentUser();
+  const { jobs, loading, handleSearch } = useSearchJob();
+  const recentJob = useRecentJob({ limit: 2 });
 
-  const handleFreelanceCardClick = (id: number) => {
-    push(`/dashboard/offer/${id}`);
+  const handleJobCardClick = (id: string) => {
+    push(`/dashboard/offers/${id}`);
   };
+
+  useEffect(() => {
+    if (user && user.freelanceProfile?.skills) {
+      handleSearch(1, 2, user.freelanceProfile.skills);
+    }
+  }, [user]);
+
   return (
     <Flex flexDir="column" gap={4}>
       <Flex justifyContent="space-between" alignItems="center">
@@ -46,13 +60,28 @@ const FreelanceOffers: FC = () => {
           </Button>
         </Box>
       </Flex>
-      <Flex flexDir="column">
-        <SimpleGrid columns={2} spacing={8} w="100%">
-          {/*offers.map((v, k) => (
-            <FreelanceCard key={k} badges={badges} onClick={handleFreelanceCardClick} />
-          ))*/}
-        </SimpleGrid>
-      </Flex>
+      {loading && (
+        <Flex flexDir="column" justifyContent="center" alignItems="center" my={16}>
+          <Spinner color="brand.primary" size="xl" mx="auto" />
+          <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+            Loading Offers
+          </Box>
+        </Flex>
+      )}
+      {!loading && (
+        <Flex flexDir="column">
+          <SimpleGrid columns={2} spacing={8} w="100%">
+            {jobs &&
+              jobs?.length > 0 &&
+              jobs.map((j, k) => <JobCard job={j} key={k} onClick={handleJobCardClick} />)}
+            {(jobs && jobs.length === 0) ||
+              (!jobs &&
+                recentJob.jobs.map((j, k) => (
+                  <JobCard job={j} key={k} onClick={handleJobCardClick} />
+                )))}
+          </SimpleGrid>
+        </Flex>
+      )}
     </Flex>
   );
 };

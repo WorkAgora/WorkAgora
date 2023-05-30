@@ -6,9 +6,10 @@ import CompanyOpportunities from './company/CompanyOpportunities';
 import FreelanceInformations from './freelance/FreelanceInformations';
 import FreelanceOffers from './freelance/FreelanceOffers';
 import FreelanceOpportunities from './freelance/FreelanceOpportunities';
-import {UserTypeEnum} from "@workagora/utils";
+import { UserTypeEnum } from '@workagora/utils';
 import CompanyInformations from './company/CompanyInformations';
 import CompanyOffers from './company/CompanyOffers';
+import { SearchJobProvider } from '@workagora/front/hooks/useSearchJob';
 
 const MotionBox = motion(Box);
 
@@ -22,11 +23,11 @@ const DashboardMain: FC = () => {
   };
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH='calc( 100vh - 80px )'>
+    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
       <Flex
         flexDir="column"
         w="100%"
-        flexGrow='1'
+        flexGrow="1"
         bgColor="neutral.white"
         px={8}
         py={6}
@@ -48,9 +49,11 @@ const DashboardMain: FC = () => {
                   Dashboard
                 </Box>
                 <Flex flexDir="column" gap={6}>
-                  <FreelanceOpportunities />
-                  <FreelanceInformations />
-                  <FreelanceOffers />
+                  <SearchJobProvider>
+                    <FreelanceOpportunities />
+                    <FreelanceInformations />
+                    <FreelanceOffers />
+                  </SearchJobProvider>
                 </Flex>
               </Flex>
             </MotionBox>

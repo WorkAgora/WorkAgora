@@ -69,8 +69,8 @@ export function useCurrentUser() {
 
   const logout = async () => {
     disconnect();
-    push('/');
     await privateApi.get('/auth/logout');
+    push('/');
     setTimeout(() => {
       Cookies.remove('authenticated');
       setUser(null);
