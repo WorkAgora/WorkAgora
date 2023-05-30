@@ -1,36 +1,10 @@
 import { Box, Button, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
-import FreelanceCard from '../../../card/FreelanceCard';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
 import { useCurrentUser } from '@workagora/front-provider';
 import { useRecentJob } from '@workagora/front/hooks/useRecentJob';
 import JobCard from '@workagora/front/components/card/JobCard';
-
-const offers = [1, 2, 3, 4];
-
-const badges: any[] = [
-  {
-    label: 'Product',
-    bgColor: 'badge.yellow',
-    color: 'neutral.black'
-  },
-  {
-    label: 'Design',
-    bgColor: 'badge.blue',
-    color: 'neutral.white'
-  },
-  {
-    label: 'UI/UX',
-    bgColor: 'badge.red',
-    color: 'neutral.white'
-  },
-  {
-    label: 'Figma',
-    bgColor: 'badge.purple',
-    color: 'neutral.white'
-  }
-];
 
 const FreelanceOffers: FC = () => {
   const { push } = useRouter();
