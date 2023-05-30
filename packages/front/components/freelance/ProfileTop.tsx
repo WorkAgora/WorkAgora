@@ -16,9 +16,14 @@ const ProfileTop: FC<ProfileTopProps> = ({ curUser }) => {
         <Box textStyle="h3">
           {curUser.firstname} {curUser.lastname}
         </Box>
-        <Box textStyle="h4" color="neutral.dsGray">
-          {curUser.description}
-        </Box>
+        <Flex alignItems="center">
+          <Box textStyle="h4" color="neutral.dsGray">
+            {curUser.description} |
+          </Box>
+          <Box ml={2} mt={0.5} lineHeight="100%" textStyle="h6" color="neutral.dsDarkGray">
+            {curUser.location}
+          </Box>
+        </Flex>
         <Flex mt={2}>
           <Flex
             alignItems="center"
