@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Divider, Flex } from '@chakra-ui/react';
 import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -34,18 +34,22 @@ const DashboardChat: FC = () => {
             exit="hidden"
             variants={contentVariants}
             transition={{ ease: 'easeInOut', duration: 0.3 }}
+            display="flex"
+            flexDir="column"
+            flexGrow="1"
           >
-            <Flex flexDir="column" gap={4}>
+            <Flex flexDir="column" gap={4} flexGrow="1">
               <Box textStyle="h2" as="h1" w="100%" textAlign="left">
                 Messages
               </Box>
-              <Flex mt="8">
-                <Flex flexDir="column" gap={6} flexBasis="20%">
+              <Flex mt="4" h="100%">
+                <Flex flexDir="column" gap={6} flexBasis="15%" mt="4">
                   <Box textStyle="h6" color="neutral.black" fontWeight="400">
                     Profiles
                   </Box>
                 </Flex>
-                <Flex flexDir="column" gap={6} flexBasis="80%"></Flex>
+                <Divider orientation="vertical" h="100%" w="1px" borderColor="neutral.dsGray" />
+                <Flex flexDir="column" gap={6} flexBasis="85%"></Flex>
               </Flex>
             </Flex>
           </MotionBox>
