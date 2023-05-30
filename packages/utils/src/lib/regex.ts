@@ -3,7 +3,7 @@ export const phoneRegex =
   /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/gm;
 
 // Regex to validate a location (allowing only the name of the city, country, or land)
-export const locationRegex = /^[a-zA-Z\s]+,\s[a-zA-Z\s]+(?:,[a-zA-Z\s]+)?$/;
+export const locationRegex = /^[\w\s-]+,\s[\w\s-]+(?:,\s[\w\s-]+)?$/;
 
 // Regex to validate an email address
 export const emailRegex =
