@@ -73,7 +73,7 @@ export class JobService {
         contractorWallet: wallet,
         createdAt: new Date().toISOString(),
         ...createJobDto,
-        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join(';')
+        tags: createJobDto.tags.join(';')
       };
 
       return (await this.createJobsToJobsDTO([await this.model.create(job)]))[0];
@@ -220,17 +220,34 @@ export class JobService {
     limit: number
   ): Promise<{ jobs: CreateJobDTO[]; maxPage: number; totalResult: number }> {
     try {
-      // Query jobs based on title or tags and visibility is public
-      const jobs = await this.model
-        .scan()
-        .where('visibility')
-        .eq(Visibility.Public)
-        .filter('title')
-        .contains(searchTerm)
-        .or()
-        .filter('tags')
-        .contains(searchTerm)
-        .exec();
+      // Split the search term into an array of terms
+      const searchTerms = searchTerm.split(';');
+
+      // Start the scan operation
+      let scanOperation = this.model.scan().where('visibility').eq(Visibility.Public);
+
+      // For each term, add a filter for the title and tags
+      searchTerms.forEach((term, index) => {
+        if (index !== 0) {
+          // If this is not the first term, add an 'or' before the filter
+          scanOperation = scanOperation.or();
+        }
+
+        // Add the filter for the title and tags
+        scanOperation = scanOperation
+          .filter('title')
+          .contains(term)
+          .or()
+          .filter('tags')
+          .contains(term);
+      });
+
+
+      console.log('scanOperation', scanOperation);
+      console.log("JSON.stringify(scanOperation)", JSON.stringify(scanOperation));
+
+      // Execute the scan operation
+      const jobs = await scanOperation.exec();
 
       // Sort jobs by descending date
       jobs.sort((a, b) => {
@@ -273,7 +290,7 @@ export class JobService {
           return {
             ...job,
             company,
-            tags: job.tags.split(';').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+            tags: job.tags.split(';')
           };
         })
       );
