@@ -73,7 +73,7 @@ export class JobService {
         contractorWallet: wallet,
         createdAt: new Date().toISOString(),
         ...createJobDto,
-        tags: createJobDto.tags.map((tag) => tag.toLowerCase()).join(';')
+        tags: createJobDto.tags.join(';')
       };
 
       return (await this.createJobsToJobsDTO([await this.model.create(job)]))[0];
@@ -290,7 +290,7 @@ export class JobService {
           return {
             ...job,
             company,
-            tags: job.tags.split(';').map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+            tags: job.tags.split(';')
           };
         })
       );
