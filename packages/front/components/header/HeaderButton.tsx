@@ -5,10 +5,12 @@ import LoginButton from '../button/LoginButton';
 import NotificationIcon from '../icons/NotificationIcon';
 import MessageIcon from '../icons/MessageIcon';
 import { shortHash } from '@workagora/utils';
+import { useRouter } from 'next/router';
 
 const HeaderButton: FC = () => {
   const { user, logout } = useCurrentUser();
   const { signupModalOpen, setSignupModalOpen } = useLanding();
+  const { push, pathname } = useRouter();
 
   return (
     <Flex>
@@ -25,7 +27,18 @@ const HeaderButton: FC = () => {
       {user && (
         <Flex alignItems="center" columnGap={8}>
           <Flex alignItems="center" columnGap={4}>
-            <IconButton variant="icon" aria-label="Message Icon" icon={<MessageIcon />} />
+            <IconButton
+              variant="icon"
+              bgColor={pathname === '/dashboard/chat' ? 'brand.primary' : ''}
+              transition="all ease-in-out 250ms"
+              _hover={{
+                color: pathname === '/dashboard/chat' ? 'brand.primary' : 'brand.primary',
+                bgColor: pathname === '/dashboard/chat' ? 'neutral.dsDarkGray' : ''
+              }}
+              aria-label="Message Icon"
+              icon={<MessageIcon />}
+              onClick={() => push('/dashboard/chat')}
+            />
             <IconButton variant="icon" aria-label="Message Icon" icon={<NotificationIcon />} />
           </Flex>
           <Text fontFamily="Comfortaa" fontWeight="600" cursor="initial">
