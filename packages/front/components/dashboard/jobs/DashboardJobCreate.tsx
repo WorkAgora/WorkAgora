@@ -11,14 +11,7 @@ import CreateJobSkills from './create/CreateJobSkills';
 import CreateJobSwitch from './create/CreateJobSwitch';
 import CreateJobTextArea from './create/CreateJobTextArea';
 import CheckIcon from '../../icons/CheckIcon';
-import {
-  availabilityOptions,
-  CreateJob,
-  UserTypeEnum,
-  Visibility,
-  WorkAvailability,
-  workLocationOptions
-} from '@workagora/utils';
+import { CreateJob, UserTypeEnum, Visibility, WorkAvailability } from '@workagora/utils';
 import { useCreateJob } from '@workagora/front/hooks/useCreateJob';
 import { useRouter } from 'next/router';
 import { useLanding } from '@workagora/front-provider';
@@ -37,6 +30,19 @@ export interface FormData {
   responsibility: string;
   requirements: string;
 }
+
+const workLocationOptions: { [key: string]: string } = {
+  fullRemote: 'Full-remote',
+  partialRemote: 'Partial-remote',
+  onSite: 'On site'
+};
+
+const availabilityOptions: { [key: string]: string } = {
+  fullTime: 'Full-time',
+  partTime: 'Part-time',
+  contract: 'Contract',
+  internship: 'Internship'
+};
 
 const durationUnitOptions: { [key: string]: string } = {
   hours: 'Hours',

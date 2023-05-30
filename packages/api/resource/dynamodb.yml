@@ -11,6 +11,18 @@ Resources:
       KeySchema:
         - AttributeName: wallet
           KeyType: HASH
+  ChatTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    Properties:
+      TableName: ${self:service}-${self:provider.stage}-chat-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: uuid
+          AttributeType: S
+      KeySchema:
+        - AttributeName: uuid
+          KeyType: HASH
   CompanyTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete

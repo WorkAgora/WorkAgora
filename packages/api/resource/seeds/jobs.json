@@ -7,7 +7,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Fullstack Developer expert in Typescript and React",
     "uuid": "bb797055-87d8-41b9-ae54-50978fd821db",
-    "tags": "React;Web-Development;HTML;CSS;Typescript",
+    "tags": "react;web-development;html;css;typescript",
     "duration": {
       "days": 0,
       "hours": 0,
@@ -27,7 +27,7 @@
     "companyUuid": "1bd05146-0b42-45a7-abc3-e651110faf45",
     "title": "Game Designer",
     "uuid": "1a2b3c4d-5e6f-7890-abcdef-1234567890a1",
-    "tags": "Game-Design;Unreal-Engine;Unity",
+    "tags": "game design;unreal engine;unity",
     "duration": {
       "days": 0,
       "hours": 0,

@@ -134,11 +134,9 @@ const SearchBar: FC<FlexProps> = ({ ...props }: FlexProps) => {
     return () => {
       if (type === UserTypeEnum.Company) {
         searchFreelancer.setSearchFilters([]);
-        searchFreelancer.handleSearch(1, 8, []);
       }
       if (type === UserTypeEnum.Freelancer) {
         searchJobs.setSearchFilters([]);
-        searchJobs.handleSearch(1, 8, []);
       }
     };
   }, []);
