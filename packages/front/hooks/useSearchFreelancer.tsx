@@ -126,7 +126,7 @@ export const useSearchFreelancer = (elementToDisplay?: number) => {
         callGet(page, elementByPage, filters[0]);
       }
       if (filters.length > 1) {
-        callGet(page, elementByPage, filters.join(','));
+        callGet(page, elementByPage, filters.join(';'));
       }
     },
     [callGet]
