@@ -1,5 +1,5 @@
-import {Body, Controller, Get, Post, Req, UseGuards} from '@nestjs/common';
-import {ApiBody, ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
+import {Body, Controller, Get, Post, Query, Req, UseGuards} from '@nestjs/common';
+import {ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
 import { ChatService } from './chat.service';
 import {ChatMessageDTO} from "../../dtos/chat/chat.dto";
 import {JwtAuthGuard} from "../auth/jwt.guard";
@@ -7,6 +7,8 @@ import {CreateChatMessageDTO} from "../../dtos/chat/create-chat.dto";
 import {ChatMessage} from "./chat.interface";
 import {Request} from "express";
 import {ChatInstanceDTO} from "../../dtos/chat/instance.dto";
+import {ToggleVisibilityDto} from "../../dtos/chat/toggle-visibility.dto";
+import {GetMessagesDto} from "../../dtos/chat/get-messages.dto";
 
 @ApiTags('chat')
 @Controller('chat')
@@ -62,5 +64,60 @@ export class ChatController {
   ) {
     // const { wallet } = req.user;
     return this.chatService.getConversations("wallet");
+  }
+
+  @Post('toggle-visibility')
+// @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Toggle the visibility of a chat instance' })
+  @ApiBody({ type: ToggleVisibilityDto }) // specify the appropriate DTO
+  @ApiResponse({
+    status: 200,
+    description: 'Visibility toggled successfully',
+    type: Boolean,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async toggleVisibility(
+    @Req() req: Request,
+    @Body() instance: ToggleVisibilityDto
+  ): Promise<boolean> {
+    // const { wallet } = req.user;
+    return this.chatService.toggleVisibility("wallet", instance);
+  }
+
+  @Get('messages')
+  // @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get chat messages for a specific instance' })
+  @ApiQuery({ name: 'instanceId', required: true, type: String, description: 'InstanceId' })
+  @ApiQuery({ name: 'limit', required: true, type: Number, description: 'Limit' })
+  @ApiQuery({ name: 'page', required: true, type: Number, description: 'Page' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of chat messages',
+    type: [ChatMessageDTO], // or any suitable type
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async getMessages(
+    @Req() req: Request,
+    @Query('instanceId') instanceId: string,
+    @Query('limit') limit: number,
+    @Query('page') page: number
+  ) {
+    // const { wallet } = req.user;
+    const instance: GetMessagesDto = { instanceId, limit, page };
+    return this.chatService.getMessages("wallet", instance);
   }
 }

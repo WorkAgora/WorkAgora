@@ -3,6 +3,9 @@ import {InjectModel, Model} from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
 import {ChatDocument, ChatInstance, ChatItemKey, ChatMessage} from './chat.interface';
 import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
+import {ChatInstanceDTO} from "../../dtos/chat/instance.dto";
+import {ToggleVisibilityDto} from "../../dtos/chat/toggle-visibility.dto";
+import {GetMessagesDto} from "../../dtos/chat/get-messages.dto";
 
 @Injectable()
 export class ChatService {
@@ -118,6 +121,86 @@ export class ChatService {
     } catch (e) {
       console.log(e);
       throw new HttpException('An error occurred while fetching conversations: ' + e.message, 500);
+    }
+  }
+
+  async toggleVisibility(currentWallet: string, instance: ToggleVisibilityDto): Promise<boolean> {
+    try {
+      // Query for chat instance
+      const [queryOneResult, queryTwoResult] = await Promise.all([
+        this.model
+          .query('PK')
+          .eq(`INSTANCE#${currentWallet}#${instance.partnerWallet}`)
+          .exec(),
+        this.model
+          .query('PK')
+          .eq(`INSTANCE#${instance.partnerWallet}#${currentWallet}`)
+          .exec()
+      ]);
+
+      // Combine the results
+      const combinedResults = [...queryOneResult, ...queryTwoResult];
+
+      if (combinedResults.length === 0) {
+        throw new HttpException(
+          'Chat instance not found',
+          404
+        );
+      }
+
+      const chatInstance = combinedResults[0].toJSON() as ChatInstance;
+
+      // Toggle visibility
+      chatInstance.visible = !chatInstance.visible;
+
+      // Update the instance
+      await this.model.update({ PK: chatInstance.PK, SK: chatInstance.SK }, { visible: chatInstance.visible });
+
+      return chatInstance.visible;
+    } catch (e) {
+      console.log(e);
+      throw new HttpException('An error occurred while toggling visibility: ' + e.message, 500);
+    }
+  }
+
+  async getMessages(wallet: string, instance: GetMessagesDto): Promise<{ messages: ChatMessage[]; maxPage: number; totalResult: number }> {
+    try {
+
+      const instanceId = instance.instanceId.startsWith('INSTANCE#') ? instance.instanceId.split('#')[2] : instance.instanceId;
+
+      const messages = await this.model
+        .scan({
+          'PK': {beginsWith: "MESSAGE#"},
+          'SK': {beginsWith: instanceId}
+        })
+        .exec();
+
+      if (messages.length === 0) {
+        throw new HttpException(
+          'Chat instance not found',
+          404
+        );
+      }
+
+      const formattedMessages = messages.map((messageDoc) => messageDoc.toJSON() as ChatMessage);
+
+      // Sort messages by createdAt
+      formattedMessages.sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+
+      const maxPage = Math.ceil(messages.length / instance.limit);
+      const startIndex = (instance.page - 1) * instance.limit;
+      const endIndex = instance.page * instance.limit;
+
+      return {
+        messages: formattedMessages.slice(startIndex, endIndex),
+        maxPage: maxPage,
+        totalResult: messages.length
+      };
+    } catch (e) {
+      console.log(e);
+      throw new HttpException('An error occurred while fetching messages: ' + e.message, 500);
     }
   }
 }
