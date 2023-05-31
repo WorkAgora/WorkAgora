@@ -23,10 +23,10 @@ const ChatPreview: FC<ChatPreviewProps> = ({
 }) => {
   return (
     <Flex
-      bgColor={!isActive ? 'neutral.lightGray' : 'neutral.dsGray'}
+      bgColor={!isActive ? '' : 'neutral.lightGray'}
       cursor="pointer"
       transition="all ease-in-out 250ms"
-      _hover={{ bgColor: 'neutral.dsGray' }}
+      _hover={{ bgColor: 'neutral.lightGray' }}
       borderRadius="8px 0px 0px 8px"
       p={2}
       columnGap={2}
@@ -69,7 +69,7 @@ const ChatPreview: FC<ChatPreviewProps> = ({
         lineHeight="150%"
         fontFamily="Montserrat"
         fontWeight="400"
-        color="neutral.dsDarkGray"
+        color="neutral.dsGray"
       >
         {lastMessageDate.getHours()}:{lastMessageDate.getMinutes()}
       </Text>

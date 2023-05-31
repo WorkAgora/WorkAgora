@@ -4,6 +4,7 @@ import { FC } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import FileIcon from '../../icons/FileIcon';
 import SendMsgIcon from '../../icons/SendMsgIcon';
+import ChatContractProposal from './ChatContractProposal';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
 
@@ -144,6 +145,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
                   : `${(sender as User)?.firstname} ${(sender as User)?.lastname}`
               }
             />
+            <ChatContractProposal />
           </Flex>
         </PerfectScrollbar>
       </Flex>
