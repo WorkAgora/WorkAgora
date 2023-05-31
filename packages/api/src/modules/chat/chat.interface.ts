@@ -23,3 +23,5 @@ export interface ChatInstance extends ChatItemKey {
   partnerType: ChatAuthorType;
   visible: boolean;
 }
+
+export type ChatDocument = ChatMessage | ChatInstance;
