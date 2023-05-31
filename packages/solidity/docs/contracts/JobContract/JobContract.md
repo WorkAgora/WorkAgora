@@ -13,7 +13,7 @@
 ### contracts
 
 ```solidity
-function contracts(string) external view returns (string contractId, enum JobContract.State state, uint256 totalAmountToken, uint8 lockedAmountPct, uint8 deferredAmountPct, enum PaymentToken paymentToken, uint256 durationDays, address contractorAddress, address employerAddress, string ipfsJmiHash, string ipfsJfiHash)
+function contracts(string) external view returns (enum JobContract.State state, uint128 totalAmountUsd, uint256 totalAmountToken, uint8 lockedAmountPct, uint8 deferredAmountPct, enum PaymentToken paymentToken, uint256 endTimestamp, address contractorAddress, address employerAddress, string ipfsJmiHash, string ipfsJfiHash)
 ```
 
 
@@ -30,13 +30,13 @@ function contracts(string) external view returns (string contractId, enum JobCon
 
 | Name | Type | Description |
 |---|---|---|
-| contractId | string | undefined |
 | state | enum JobContract.State | undefined |
+| totalAmountUsd | uint128 | undefined |
 | totalAmountToken | uint256 | undefined |
 | lockedAmountPct | uint8 | undefined |
 | deferredAmountPct | uint8 | undefined |
 | paymentToken | enum PaymentToken | undefined |
-| durationDays | uint256 | undefined |
+| endTimestamp | uint256 | undefined |
 | contractorAddress | address | undefined |
 | employerAddress | address | undefined |
 | ipfsJmiHash | string | undefined |
@@ -76,10 +76,10 @@ function finalize(JobContract.FinalizationParams _params, bytes _signature) exte
 | _params | JobContract.FinalizationParams | undefined |
 | _signature | bytes | undefined |
 
-### initialize
+### getContract
 
 ```solidity
-function initialize(address _user, address _priceController) external nonpayable
+function getContract(string _contractId) external view returns (struct JobContract.Contract)
 ```
 
 
@@ -90,8 +90,33 @@ function initialize(address _user, address _priceController) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| _user | address | undefined |
-| _priceController | address | undefined |
+| _contractId | string | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | JobContract.Contract | undefined |
+
+### initialize
+
+```solidity
+function initialize(contract UserManager _user, contract PriceController _priceController, contract Employer _employer, contract Contractor _contractor, uint8 _feePct) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _user | contract UserManager | undefined |
+| _priceController | contract PriceController | undefined |
+| _employer | contract Employer | undefined |
+| _contractor | contract Contractor | undefined |
+| _feePct | uint8 | undefined |
 
 ### owner
 
