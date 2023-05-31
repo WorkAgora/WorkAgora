@@ -83,7 +83,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
             width: '100%'
           }}
         >
-          <Flex flexDir="column" px={4} gap={2}>
+          <Flex flexDir="column" px={4} gap={2} pb={4}>
             <ReceivedMessage
               message={`Hello, thank you for reaching out. Yes, I'm interested.\nCan you tell me more about the project ?`}
               userType={userType === 'User' ? 'Company' : 'User'}
