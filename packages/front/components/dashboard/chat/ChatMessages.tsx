@@ -3,6 +3,8 @@ import { CreateCompany, CreateJob, User } from '@workagora/utils';
 import { FC } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import SendMsgIcon from '../../icons/SendMsgIcon';
+import ReceivedMessage from './ReceivedMessage';
+import SentMessage from './SentMessage';
 
 interface ChatMessagesProps {
   id: string;
@@ -13,10 +15,14 @@ interface ChatMessagesProps {
 }
 
 const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, jobRelated }) => {
+  const fakeDate = new Date();
+  fakeDate.setHours(fakeDate.getHours() - 1);
+  const fakeDate2 = new Date();
+  fakeDate2.setMinutes(fakeDate2.getMinutes() - 30);
   return (
     <Flex flexDir="column">
       <Flex px={8} py={4}>
-        <Flex>
+        <Flex alignItems="center">
           <Avatar w="64px" h="64px" borderRadius={userType === 'Company' ? '20px' : '50%'} />
           <Flex flexDir="column" ml={8}>
             <Text fontSize="24px" fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
@@ -24,9 +30,21 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
                 ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
                 : (receiver as CreateCompany)?.name}
             </Text>
+            <Text
+              fontSize="16px"
+              lineHeight="120%"
+              fontFamily="Comfortaa"
+              fontWeight="700"
+              color="neutral.dsGray"
+              textAlign="right"
+            >
+              {userType === 'User'
+                ? (receiver as User)?.description
+                : (receiver as CreateCompany)?.title}
+            </Text>
           </Flex>
         </Flex>
-        <Flex ml="auto">
+        <Flex ml="auto" alignItems="center">
           <Flex flexDir="column" mr={4}>
             <Text
               fontSize="20px"
@@ -63,7 +81,70 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
           style={{
             width: '100%'
           }}
-        ></PerfectScrollbar>
+        >
+          <Flex flexDir="column" px={4}>
+            <ReceivedMessage
+              message={`Hello, thank you for reaching out. Yes, I'm interested.\nCan you tell me more about the project ?`}
+              userType={userType === 'User' ? 'Company' : 'User'}
+              date={fakeDate}
+              name={
+                userType === 'User'
+                  ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
+                  : (receiver as CreateCompany)?.name
+              }
+            />
+            <SentMessage
+              message={`Of course. We're creating a series of NFTs that are inspired by nature and the environment. We want to make sure that the collection has a cohesive look and feel, and we think your design skills would be a great asset to the project.`}
+              userType={userType === 'User' ? 'User' : 'Company'}
+              date={fakeDate2}
+              name={
+                userType === 'User'
+                  ? (sender as CreateCompany)?.name
+                  : `${(sender as User)?.firstname} ${(sender as User)?.lastname}`
+              }
+            />
+            <ReceivedMessage
+              message={`Hello, thank you for reaching out. Yes, I'm interested.\nCan you tell me more about the project ?`}
+              userType={userType === 'User' ? 'Company' : 'User'}
+              date={fakeDate}
+              name={
+                userType === 'User'
+                  ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
+                  : (receiver as CreateCompany)?.name
+              }
+            />
+            <SentMessage
+              message={`Of course. We're creating a series of NFTs that are inspired by nature and the environment. We want to make sure that the collection has a cohesive look and feel, and we think your design skills would be a great asset to the project.`}
+              userType={userType === 'User' ? 'User' : 'Company'}
+              date={fakeDate2}
+              name={
+                userType === 'User'
+                  ? (sender as CreateCompany)?.name
+                  : `${(sender as User)?.firstname} ${(sender as User)?.lastname}`
+              }
+            />
+            <ReceivedMessage
+              message={`Hello, thank you for reaching out. Yes, I'm interested.\nCan you tell me more about the project ?`}
+              userType={userType === 'User' ? 'Company' : 'User'}
+              date={fakeDate}
+              name={
+                userType === 'User'
+                  ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
+                  : (receiver as CreateCompany)?.name
+              }
+            />
+            <SentMessage
+              message={`Of course. We're creating a series of NFTs that are inspired by nature and the environment. We want to make sure that the collection has a cohesive look and feel, and we think your design skills would be a great asset to the project.`}
+              userType={userType === 'User' ? 'User' : 'Company'}
+              date={fakeDate2}
+              name={
+                userType === 'User'
+                  ? (sender as CreateCompany)?.name
+                  : `${(sender as User)?.firstname} ${(sender as User)?.lastname}`
+              }
+            />
+          </Flex>
+        </PerfectScrollbar>
       </Flex>
       <Flex bgColor="neutral.lightGray" px={4} py={6} alignItems="center">
         <Input

@@ -53,7 +53,7 @@ const DashboardChat: FC = () => {
                 <Flex
                   flexDir="column"
                   gap={6}
-                  flexBasis="15%"
+                  flexBasis="20%"
                   pt="4"
                   borderRight="solid 1px"
                   borderColor="neutral.dsGray"
@@ -95,7 +95,7 @@ const DashboardChat: FC = () => {
                     </PerfectScrollbar>
                   </Flex>
                 </Flex>
-                <Flex flexDir="column" gap={6} flexBasis="85%">
+                <Flex flexDir="column" gap={6} flexBasis="80%">
                   {activeChat && (
                     <ChatMessages
                       id={activeChat}
