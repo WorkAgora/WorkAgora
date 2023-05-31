@@ -2,7 +2,11 @@ import { Flex, Box, Button, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import FileIcon from '../../icons/FileIcon';
 
-const ChatContractProposal: FC = () => {
+interface ChatContractProposalProps {
+  onClick: (proposalId: string) => void;
+}
+
+const ChatContractProposal: FC<ChatContractProposalProps> = ({ onClick }) => {
   return (
     <Flex flexDir="column" justifyContent="center" alignItems="center" p={4}>
       <Box>
@@ -15,6 +19,7 @@ const ChatContractProposal: FC = () => {
               <FileIcon />
             </Box>
           }
+          onClick={() => onClick('1')}
         >
           Contract proposal
         </Button>

@@ -1,4 +1,4 @@
-import { Box, Divider, Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
