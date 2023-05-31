@@ -69,7 +69,7 @@ export class ChatService {
         // If chat instance already exists, update the lastMessageId with the new message
         await this.model.update(
           { PK: chatInstances[0].PK, SK: chatInstances[0].SK },
-          { lastMessageId: newMessage.SK, lastMessage: newMessage }
+          { lastMessageId: newMessage.PK, lastMessage: newMessage }
         );
       }
 
@@ -82,7 +82,6 @@ export class ChatService {
 
   async getConversations(wallet: string) {
     try {
-      console.log("WalletInput:", wallet);
       const conversations = await this.model
         .scan('PK')
         .beginsWith(`INSTANCE#${wallet}`)
@@ -94,25 +93,28 @@ export class ChatService {
           const doc = item.toJSON() as ChatDocument; // Convert item to ChatDocument
           if (!doc.PK.startsWith('INSTANCE#')) {
             // If doc is not a ChatInstance, return it as is
-            console.log("ChatInstance", JSON.stringify(doc));
             return doc;
           }
 
           const instance = doc as ChatInstance; // Now we know doc is a ChatInstance, we can cast it
-          const lastMessage = await this.model
-            .get({
-              PK: `MESSAGE#${instance.lastMessageId}`,
-              SK: `${instance.myWallet}#${instance.partnerWallet}`,
-            });
+
+          const messsage = await this.model
+            .query('PK')
+            .eq(instance.lastMessageId)
+            .exec();
+
+
+          const lastMessage = messsage[0];
+
 
           return {
             ...instance,
-            lastMessage: lastMessage ? (lastMessage.toJSON() as ChatMessage) : undefined,
+            lastMessage: lastMessage,
           };
         })
       );
 
-      return conversations;
+      return updatedConversations;
     } catch (e) {
       console.log(e);
       throw new HttpException('An error occurred while fetching conversations: ' + e.message, 500);
