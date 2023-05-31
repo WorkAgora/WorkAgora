@@ -2,43 +2,23 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class ChatMessageDTO {
-  @ApiProperty({
-    description: 'UUID of the message',
-    example: '00000000-0000-0000-0000-000000000000',
-    required: true
-  })
+  @ApiProperty({ description: 'Unique identifier of the chat message' })
   @IsString()
   uuid: string;
 
-  @ApiProperty({
-    description: 'Sender wallet address',
-    example: '0x00000',
-    required: true
-  })
+  @ApiProperty({ description: 'Wallet address of the sender' })
   @IsString()
   senderWallet: string;
 
-  @ApiProperty({
-    description: 'Receiver wallet address',
-    example: '0x00001',
-    required: true
-  })
+  @ApiProperty({ description: 'Wallet address of the receiver' })
   @IsString()
   receiverWallet: string;
 
-  @ApiProperty({
-    description: 'Message content',
-    example: 'Hello world!',
-    required: true
-  })
+  @ApiProperty({ description: 'Content of the message' })
   @IsString()
   content: string;
 
-  @ApiProperty({
-    description: 'Message timestamp',
-    example: '2021-01-01T00:00:00.000Z',
-    required: true
-  })
+  @ApiProperty({ description: 'Timestamp when the message was created' })
   @IsString()
   createdAt: string;
 }

@@ -1,91 +1,81 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { InjectModel, Model } from 'nestjs-dynamoose';
-import { ChatMessage, ChatMessageKey, ChatConversation } from './chat.interface';
+import { Injectable, HttpException } from '@nestjs/common';
+import { Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
-import { ChatMessageDTO } from '../../dtos/chat/chat.dto';
+import { ChatInstance, ChatItemKey, ChatMessage } from './chat.interface';
+import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
 
 @Injectable()
 export class ChatService {
   constructor(
-    @InjectModel('Chat')
-    private readonly model: Model<ChatMessage, ChatMessageKey>
+    private readonly chatModel: Model<ChatMessage, ChatItemKey>,
+    private readonly instanceModel: Model<ChatInstance, ChatItemKey>
   ) {}
 
-  async sendMessage(
-    senderWallet: string,
-    receiverWallet: string,
-    content: string
-  ): Promise<ChatMessageDTO> {
+  async sendMessage(currentWallet: string, message: CreateChatMessageDTO) {
     try {
-      const message: ChatMessage = {
-        uuid: uuidv4(),
-        senderWallet: senderWallet,
-        receiverWallet: receiverWallet,
-        content: content,
-        createdAt: new Date().toISOString()
-      };
-
-      return await this.model.create(message);
-    } catch (e) {
-      throw new UnprocessableEntityException('Could not send message: ' + e.message);
-    }
-  }
-
-  async getConversations(userWallet: string): Promise<ChatConversation[]> {
-    try {
-      const sentMessages = await this.model.scan({ senderWallet: userWallet }).exec();
-      const receivedMessages = await this.model.scan({ receiverWallet: userWallet }).exec();
-
-      const allMessages = [...sentMessages, ...receivedMessages];
-      const partnerIds = [
-        ...new Set(
-          allMessages.map((message) =>
-            message.receiverWallet === userWallet ? message.senderWallet : message.receiverWallet
-          )
-        )
-      ];
-
-      const conversations: ChatConversation[] = [];
-
-      for (const partnerId of partnerIds) {
-        const partnerMessages = allMessages.filter(
-          (message) => message.senderWallet === partnerId || message.receiverWallet === partnerId
+      const { senderWallet, receiverWallet, content, partnerType } = message;
+      if (senderWallet !== currentWallet) {
+        throw new HttpException(
+          'You are not allowed to send messages on behalf of another wallet',
+          403
         );
-
-        // Sort messages by timestamp
-        partnerMessages.sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-
-        conversations.push({
-          partnerWallet: partnerId,
-          lastMessage: partnerMessages[0]
-        });
+      }
+      if (senderWallet === receiverWallet) {
+        throw new HttpException('You are not allowed to send messages to yourself', 403);
       }
 
-      return conversations;
-    } catch (e) {
-      throw new UnprocessableEntityException('Could not get conversations: ' + e.message);
-    }
-  }
+      const createdAt = new Date().toISOString();
 
-  async getMessages(userWallet: string, partnerWallet: string): Promise<ChatMessage[]> {
-    try {
-      const sentMessages = await this.model
-        .scan({ senderWallet: userWallet, receiverWallet: partnerWallet })
+      // Create new message
+      const newMessage: ChatMessage = {
+        PK: `MESSAGE#${uuidv4()}`,
+        SK: `${senderWallet}#${receiverWallet}`,
+        content: content,
+        receiverWallet: receiverWallet,
+        senderWallet: senderWallet,
+        createdAt: createdAt,
+      };
+      await this.chatModel.create(newMessage);
+
+      // Query for chat instances where myWallet equals senderWallet and partnerWallet equals receiverWallet
+      const chatInstance1 = await this.instanceModel
+        .query('PK')
+        .eq(`INSTANCE#${senderWallet}#${receiverWallet}`)
         .exec();
-      const receivedMessages = await this.model
-        .scan({ senderWallet: partnerWallet, receiverWallet: userWallet })
+
+      // Query for chat instances where myWallet equals receiverWallet and partnerWallet equals senderWallet
+      const chatInstance2 = await this.instanceModel
+        .query('PK')
+        .eq(`INSTANCE#${receiverWallet}#${senderWallet}`)
         .exec();
 
-      const messages = [...sentMessages, ...receivedMessages];
+      // Combine the results
+      const chatInstances = [...chatInstance1, ...chatInstance2];
+      if (chatInstances.length === 0) {
+        // If chat instance does not exist, create new chat instance
+        const instance: ChatInstance = {
+          PK: `INSTANCE#${senderWallet}#${receiverWallet}`,
+          SK: uuidv4(),
+          myWallet: senderWallet,
+          partnerWallet: receiverWallet,
+          partnerType: partnerType,
+          visible: true,
+          lastMessageId: newMessage.PK,
+        };
 
-      // Sort messages by timestamp
-      messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        await this.instanceModel.create(instance);
+      } else {
+        // If chat instance already exists, update the lastMessageId with the new message
+        await this.instanceModel.update(
+          { PK: chatInstances[0].PK, SK: chatInstances[0].SK },
+          { lastMessageId: newMessage.SK }
+        );
+      }
 
-      return messages;
+      return newMessage;
     } catch (e) {
-      throw new UnprocessableEntityException('Could not get messages: ' + e.message);
+      console.log(e);
+      throw new HttpException('An error occurred while sending a message: ' + e.message, 500);
     }
   }
 }

@@ -1,15 +1,25 @@
-export interface ChatMessageKey {
-  uuid: string;
+export interface ChatItemKey {
+  PK: string;
+  SK: string;
 }
 
-export interface ChatMessage extends ChatMessageKey {
+export interface ChatMessage extends ChatItemKey {
   senderWallet: string;
   receiverWallet: string;
   content: string;
   createdAt: string;
 }
 
-export interface ChatConversation {
+export enum ChatAuthorType {
+  Contractor = 'contractor',
+  Freelancer = 'freelancer'
+}
+
+export interface ChatInstance extends ChatItemKey {
+  myWallet: string;
   partnerWallet: string;
-  lastMessage: ChatMessage;
+  lastMessageId: string;
+  lastMessage?: ChatMessage;
+  partnerType: ChatAuthorType;
+  visible: boolean;
 }

@@ -6,5 +6,3 @@ user:
       sources: [./packages/api/resource/seeds/company.json]
     - table: work-agora-api-dev-job-table
       sources: [./packages/api/resource/seeds/jobs.json]
-    - table:  work-agora-api-dev-chat-table
-      sources: [./packages/api/resource/seeds/chat.json]

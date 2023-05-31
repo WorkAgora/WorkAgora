@@ -6,7 +6,6 @@ import { UserModule } from './modules/user/user.module';
 import { KycModule } from './modules/kyc/kyc.module';
 import { JobModule } from './modules/job/job.module';
 import { CompanyModule } from './modules/company/company.module';
-import { ChatGateway } from './modules/chat/chat.gateway';
 import { ChatModule } from './modules/chat/chat.module';
 
 @Module({

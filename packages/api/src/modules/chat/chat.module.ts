@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { DynamooseModule } from 'nestjs-dynamoose';
 import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
-import { ChatMessageSchema } from './chat.schema';
+import {ChatSchema} from "./chat.schema";
+import {DynamooseModule} from "nestjs-dynamoose";
 
 @Module({
   imports: [
     DynamooseModule.forFeature([
       {
         name: 'Chat',
-        schema: ChatMessageSchema,
+        schema: ChatSchema,
         options: {
           tableName: '-chat'
         }
-      }
+      },
     ])
   ],
   controllers: [ChatController],

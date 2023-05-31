@@ -1,25 +1,38 @@
-// chat-message.schema.ts
 import { Schema } from 'dynamoose';
 
-export const ChatMessageSchema = new Schema({
-  uuid: {
-    type: String,
+export const ChatSchema = new Schema({
+  PK: {
+    type: String, // ChatInstance uuid or ChatMessage senderWallet
     hashKey: true
   },
-  senderWallet: {
-    type: String,
-    required: true
+  SK: {
+    type: String, // 'INSTANCE#' + uuid or 'MESSAGE#' + uuid
+    rangeKey: true
   },
+  // Chat Instance attributes
+  myWallet: {
+    type: String
+  },
+  partnerWallet: {
+    type: String
+  },
+  partnerType: {
+    type: String
+  },
+  visible: {
+    type: Boolean
+  },
+  lastMessageId: {
+    type: String
+  },
+  // Chat Message attributes
   receiverWallet: {
-    type: String,
-    required: true
+    type: String
   },
   content: {
-    type: String,
-    required: true
+    type: String
   },
   createdAt: {
-    type: String,
-    required: true
+    type: String
   }
 });
