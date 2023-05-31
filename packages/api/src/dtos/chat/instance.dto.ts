@@ -3,7 +3,7 @@ import { IsString } from 'class-validator';
 import { ChatMessageDTO } from './chat.dto';
 
 export class ChatInstanceDTO {
-  @ApiProperty({ description: 'Unique identifier of the chat instance' })
+  @ApiProperty({ description: 'Unique identifier of the chat instance (INSTANCE#wallet1#wallet2)' })
   @IsString()
   uuid: string;
 

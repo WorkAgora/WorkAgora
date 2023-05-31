@@ -1,18 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {IsNumber, IsString} from 'class-validator';
-import { ChatMessageDTO } from './chat.dto';
+import { IsNumber, IsString } from 'class-validator';
 
 export class GetMessagesDto {
-  @ApiProperty({description: "InstanceId (PK)"})
+  @ApiProperty({ description: 'InstanceId (INSTANCE#wallet1#wallet2)' })
   @IsString()
   instanceId: string;
 
-  // LIMIT and page
-  @ApiProperty({description: "LIMIT"})
+  @ApiProperty({ description: 'LIMIT', default: 10 })
   @IsNumber()
   limit: number;
 
-  @ApiProperty({description: "Page"})
+  @ApiProperty({ description: 'Page', default: 1 })
   @IsNumber()
   page: number;
 }

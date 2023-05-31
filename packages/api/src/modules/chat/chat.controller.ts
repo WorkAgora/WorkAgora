@@ -1,14 +1,14 @@
-import {Body, Controller, Get, Post, Query, Req, UseGuards} from '@nestjs/common';
-import {ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChatService } from './chat.service';
-import {ChatMessageDTO} from "../../dtos/chat/chat.dto";
-import {JwtAuthGuard} from "../auth/jwt.guard";
-import {CreateChatMessageDTO} from "../../dtos/chat/create-chat.dto";
-import {ChatMessage} from "./chat.interface";
-import {Request} from "express";
-import {ChatInstanceDTO} from "../../dtos/chat/instance.dto";
-import {ToggleVisibilityDto} from "../../dtos/chat/toggle-visibility.dto";
-import {GetMessagesDto} from "../../dtos/chat/get-messages.dto";
+import { ChatMessageDTO } from '../../dtos/chat/chat.dto';
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
+import { ChatMessage } from './chat.interface';
+import { Request } from 'express';
+import { ChatInstanceDTO } from '../../dtos/chat/instance.dto';
+import { ToggleVisibilityDto } from '../../dtos/chat/toggle-visibility.dto';
+import { GetMessagesDto } from '../../dtos/chat/get-messages.dto';
 
 @ApiTags('chat')
 @Controller('chat')
@@ -16,7 +16,7 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Post('create')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Send a chat message' })
   @ApiBody({ type: CreateChatMessageDTO })
   @ApiResponse({
@@ -36,20 +36,20 @@ export class ChatController {
     @Req() req: Request,
     @Body() message: CreateChatMessageDTO
   ): Promise<ChatMessage> {
-    // const { wallet } = req.user;
-    // if (wallet !== message.senderWallet) {
-    //   throw new Error('Sender wallet is required');
-    // }
+    const { wallet } = req.user;
+    if (wallet !== message.senderWallet) {
+      throw new Error('Sender wallet is required');
+    }
     return this.chatService.sendMessage('wallet', message);
   }
 
   @Get('conversations')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all conversations related to a specific wallet' })
   @ApiResponse({
     status: 200,
     description: 'List of conversations',
-    type: [ChatInstanceDTO], // or any suitable type
+    type: [ChatInstanceDTO]
   })
   @ApiResponse({
     status: 400,
@@ -59,21 +59,19 @@ export class ChatController {
     status: 500,
     description: 'An unexpected error occurred'
   })
-  async getConversations(
-    @Req() req: Request,
-  ) {
-    // const { wallet } = req.user;
-    return this.chatService.getConversations("wallet");
+  async getConversations(@Req() req: Request) {
+    const { wallet } = req.user;
+    return this.chatService.getConversations(wallet);
   }
 
   @Post('toggle-visibility')
-// @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Toggle the visibility of a chat instance' })
-  @ApiBody({ type: ToggleVisibilityDto }) // specify the appropriate DTO
+  @ApiBody({ type: ToggleVisibilityDto })
   @ApiResponse({
     status: 200,
     description: 'Visibility toggled successfully',
-    type: Boolean,
+    type: Boolean
   })
   @ApiResponse({
     status: 400,
@@ -88,11 +86,11 @@ export class ChatController {
     @Body() instance: ToggleVisibilityDto
   ): Promise<boolean> {
     // const { wallet } = req.user;
-    return this.chatService.toggleVisibility("wallet", instance);
+    return this.chatService.toggleVisibility(wallet, instance);
   }
 
   @Get('messages')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get chat messages for a specific instance' })
   @ApiQuery({ name: 'instanceId', required: true, type: String, description: 'InstanceId' })
   @ApiQuery({ name: 'limit', required: true, type: Number, description: 'Limit' })
@@ -100,7 +98,7 @@ export class ChatController {
   @ApiResponse({
     status: 200,
     description: 'List of chat messages',
-    type: [ChatMessageDTO], // or any suitable type
+    type: [ChatMessageDTO]
   })
   @ApiResponse({
     status: 400,
@@ -116,8 +114,8 @@ export class ChatController {
     @Query('limit') limit: number,
     @Query('page') page: number
   ) {
-    // const { wallet } = req.user;
+    const { wallet } = req.user;
     const instance: GetMessagesDto = { instanceId, limit, page };
-    return this.chatService.getMessages("wallet", instance);
+    return this.chatService.getMessages(wallet, instance);
   }
 }

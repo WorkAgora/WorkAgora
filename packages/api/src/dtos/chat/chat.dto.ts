@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class ChatMessageDTO {
-  @ApiProperty({ description: 'Unique identifier of the chat message' })
+  @ApiProperty({ description: 'Unique identifier of the chat message (MESSAGE#UUID)' })
   @IsString()
   uuid: string;
 

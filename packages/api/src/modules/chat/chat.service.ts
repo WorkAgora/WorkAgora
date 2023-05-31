@@ -1,17 +1,16 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import {InjectModel, Model} from 'nestjs-dynamoose';
+import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
-import {ChatDocument, ChatInstance, ChatItemKey, ChatMessage} from './chat.interface';
+import { ChatDocument, ChatInstance, ChatItemKey, ChatMessage } from './chat.interface';
 import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
-import {ChatInstanceDTO} from "../../dtos/chat/instance.dto";
-import {ToggleVisibilityDto} from "../../dtos/chat/toggle-visibility.dto";
-import {GetMessagesDto} from "../../dtos/chat/get-messages.dto";
+import { ToggleVisibilityDto } from '../../dtos/chat/toggle-visibility.dto';
+import { GetMessagesDto } from '../../dtos/chat/get-messages.dto';
 
 @Injectable()
 export class ChatService {
   constructor(
     @InjectModel('Chat')
-    private readonly model: Model<ChatDocument, ChatItemKey>,
+    private readonly model: Model<ChatDocument, ChatItemKey>
   ) {}
 
   async sendMessage(currentWallet: string, message: CreateChatMessageDTO) {
@@ -36,7 +35,7 @@ export class ChatService {
         content: content,
         receiverWallet: receiverWallet,
         senderWallet: senderWallet,
-        createdAt: createdAt,
+        createdAt: createdAt
       };
       await this.model.create(newMessage);
 
@@ -85,10 +84,7 @@ export class ChatService {
 
   async getConversations(wallet: string) {
     try {
-      const conversations = await this.model
-        .scan('PK')
-        .beginsWith(`INSTANCE#${wallet}`)
-        .exec();
+      const conversations = await this.model.scan('PK').beginsWith(`INSTANCE#${wallet}`).exec();
 
       // Fetch the last message for each conversation
       const updatedConversations = await Promise.all(
@@ -101,18 +97,13 @@ export class ChatService {
 
           const instance = doc as ChatInstance; // Now we know doc is a ChatInstance, we can cast it
 
-          const messsage = await this.model
-            .query('PK')
-            .eq(instance.lastMessageId)
-            .exec();
-
+          const messsage = await this.model.query('PK').eq(instance.lastMessageId).exec();
 
           const lastMessage = messsage[0];
 
-
           return {
             ...instance,
-            lastMessage: lastMessage,
+            lastMessage: lastMessage
           };
         })
       );
@@ -128,24 +119,15 @@ export class ChatService {
     try {
       // Query for chat instance
       const [queryOneResult, queryTwoResult] = await Promise.all([
-        this.model
-          .query('PK')
-          .eq(`INSTANCE#${currentWallet}#${instance.partnerWallet}`)
-          .exec(),
-        this.model
-          .query('PK')
-          .eq(`INSTANCE#${instance.partnerWallet}#${currentWallet}`)
-          .exec()
+        this.model.query('PK').eq(`INSTANCE#${currentWallet}#${instance.partnerWallet}`).exec(),
+        this.model.query('PK').eq(`INSTANCE#${instance.partnerWallet}#${currentWallet}`).exec()
       ]);
 
       // Combine the results
       const combinedResults = [...queryOneResult, ...queryTwoResult];
 
       if (combinedResults.length === 0) {
-        throw new HttpException(
-          'Chat instance not found',
-          404
-        );
+        throw new HttpException('Chat instance not found', 404);
       }
 
       const chatInstance = combinedResults[0].toJSON() as ChatInstance;
@@ -154,7 +136,10 @@ export class ChatService {
       chatInstance.visible = !chatInstance.visible;
 
       // Update the instance
-      await this.model.update({ PK: chatInstance.PK, SK: chatInstance.SK }, { visible: chatInstance.visible });
+      await this.model.update(
+        { PK: chatInstance.PK, SK: chatInstance.SK },
+        { visible: chatInstance.visible }
+      );
 
       return chatInstance.visible;
     } catch (e) {
@@ -163,23 +148,24 @@ export class ChatService {
     }
   }
 
-  async getMessages(wallet: string, instance: GetMessagesDto): Promise<{ messages: ChatMessage[]; maxPage: number; totalResult: number }> {
+  async getMessages(
+    wallet: string,
+    instance: GetMessagesDto
+  ): Promise<{ messages: ChatMessage[]; maxPage: number; totalResult: number }> {
     try {
-
-      const instanceId = instance.instanceId.startsWith('INSTANCE#') ? instance.instanceId.split('#')[2] : instance.instanceId;
+      const instanceId = instance.instanceId.startsWith('INSTANCE#')
+        ? instance.instanceId.split('#')[2]
+        : instance.instanceId;
 
       const messages = await this.model
         .scan({
-          'PK': {beginsWith: "MESSAGE#"},
-          'SK': {beginsWith: instanceId}
+          PK: { beginsWith: 'MESSAGE#' },
+          SK: { beginsWith: instanceId }
         })
         .exec();
 
       if (messages.length === 0) {
-        throw new HttpException(
-          'Chat instance not found',
-          404
-        );
+        throw new HttpException('Chat instance not found', 404);
       }
 
       const formattedMessages = messages.map((messageDoc) => messageDoc.toJSON() as ChatMessage);
@@ -204,4 +190,3 @@ export class ChatService {
     }
   }
 }
-

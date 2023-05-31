@@ -1,12 +1,12 @@
-import {Schema} from 'dynamoose';
-import {IndexType} from "dynamoose/dist/Schema";
+import { Schema } from 'dynamoose';
+import { IndexType } from 'dynamoose/dist/Schema';
 
 export const ChatSchema = new Schema({
   PK: {
     type: String, // ChatInstance uuid or ChatMessage senderWallet
     hashKey: true,
     index: {
-      name: "PKIndex",
+      name: 'PKIndex',
       type: IndexType.global,
       rangeKey: 'SK',
       project: true
