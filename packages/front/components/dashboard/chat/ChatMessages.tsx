@@ -1,7 +1,8 @@
-import { Avatar, Box, Divider, Flex, Input, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Divider, Flex, Input, Text, Textarea } from '@chakra-ui/react';
 import { CreateCompany, CreateJob, User } from '@workagora/utils';
 import { FC } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import FileIcon from '../../icons/FileIcon';
 import SendMsgIcon from '../../icons/SendMsgIcon';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
@@ -82,7 +83,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
             width: '100%'
           }}
         >
-          <Flex flexDir="column" px={4}>
+          <Flex flexDir="column" px={4} gap={2}>
             <ReceivedMessage
               message={`Hello, thank you for reaching out. Yes, I'm interested.\nCan you tell me more about the project ?`}
               userType={userType === 'User' ? 'Company' : 'User'}
@@ -147,10 +148,13 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
         </PerfectScrollbar>
       </Flex>
       <Flex bgColor="neutral.lightGray" px={4} py={6} alignItems="center">
-        <Input
+        <Textarea
           placeholder="Type your message"
           color="neutral.black"
           _placeholder={{ color: 'neutral.dsDarkGray' }}
+          maxH="40px"
+          minH="40px"
+          resize="none"
         />
         <Flex
           alignItems="center"
@@ -168,6 +172,11 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, receiver, userType, sender, j
           </Text>
         </Flex>
       </Flex>
+      <Box ml="auto" mt={2}>
+        <Button variant="outline" leftIcon={<FileIcon />}>
+          Create new contract
+        </Button>
+      </Box>
     </Flex>
   );
 };

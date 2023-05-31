@@ -20,7 +20,7 @@ const SentMessage: FC<SentMessageProps> = ({ avatar, name, userType, date, messa
       bgColor="rgba(237, 242, 247, 0.5)"
     >
       <Flex alignItems="center">
-        <Avatar w="24px" h="24px" borderRadius={userType === 'User' ? '50%' : '8px'} iconLabel="" />
+        <Avatar w="24px" h="24px" borderRadius={userType === 'User' ? '8px' : '50%'} iconLabel="" />
         <Text
           fontFamily="Montserrat"
           fontSize="14px"
