@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { JobContract, MockV3Aggregator, PriceController, ReputationCard, UserManager } from "../../typechain-types";
+import { JobContract, MockV3Aggregator, PriceController, UserManager, Contractor, Employer } from "../../typechain-types";
 import { Wallet } from "ethers";
 import { Jcc, Jfc } from "./jobContract";
 import { PaymentToken, tokensInfo } from "./priceController";
@@ -10,6 +10,7 @@ import { strict as assert } from "assert";
 // Constants
 export const SIG_AUTHORITY_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
 export const SIG_AUTHORITY_WALLET = new Wallet(SIG_AUTHORITY_PV_KEY);
+export const AUTHORITY_FEE_PCT = 7;
 
 // Types
 export type UserTestInfo = {
@@ -22,7 +23,6 @@ export enum ContractsType {
     UserManager = 'UserManager',
     Contractor = 'Contractor',
     Employer = 'Employer',
-    ReputationCard = 'ReputationCard',
     JobContract = 'JobContract',
     PriceController = 'PriceController',
     // Tests contracts below
@@ -56,7 +56,6 @@ export async function deployBaseContracts() {
     }
 
     const userManager = await deployContract<UserManager>(ContractsType.UserManager);
-    const reputationCard = await deployContract<ReputationCard>(ContractsType.ReputationCard);
     const employer = await deployContract<Employer>(ContractsType.Employer);
     const contractor = await deployContract<Contractor>(ContractsType.Contractor);
     const jobContract = await deployContract<JobContract>(ContractsType.JobContract);
@@ -64,20 +63,20 @@ export async function deployBaseContracts() {
 
     // Init
     await userManager.initialize(SIG_AUTHORITY_WALLET.address,
-        reputationCard.address,
         employer.address,
         contractor.address,
         jobContract.address
     );
-    await jobContract.initialize(userManager.address, priceController.address);
+    await jobContract.initialize(userManager.address, priceController.address, employer.address, contractor.address, AUTHORITY_FEE_PCT);
     await priceController.setToken(PaymentToken.Avax, aggregators.get(PaymentToken.Avax)!.address, wavax.address);
     await priceController.setToken(PaymentToken.Link, aggregators.get(PaymentToken.Link)!.address, link.address);
+    await employer.initialize(jobContract.address);
+    await contractor.initialize(jobContract.address);
 
     return {
         userManager,
         employer,
         contractor,
-        reputationCard,
         jobContract,
         priceController,
         wavax,
@@ -151,4 +150,17 @@ export function toBlockchainParams<T>(data: Jcc | Jfc) {
         result[key] = data[key][1];
     }
     return result as T;
+}
+
+export function isTimestampInRange(days: number, timestampToCheck: number): boolean {
+    const now = new Date();
+    now.setDate(now.getDate() + days);
+    const futureDate = Math.floor(now.getTime() / 1000);
+
+    const toleranceSeconds = 30;
+    const minAllowed = futureDate - toleranceSeconds;
+    const maxAllowed = futureDate + toleranceSeconds;
+
+    const isInRange = timestampToCheck >= minAllowed && timestampToCheck <= maxAllowed;
+    return isInRange;
 }

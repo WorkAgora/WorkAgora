@@ -44,10 +44,54 @@ function employer() external view returns (contract Employer)
 |---|---|---|
 | _0 | contract Employer | undefined |
 
+### getContractorId
+
+```solidity
+function getContractorId(address _address) external view returns (uint256)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _address | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
+
+### getEmployerId
+
+```solidity
+function getEmployerId(address _address) external view returns (uint256)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _address | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
+
 ### getReputation
 
 ```solidity
-function getReputation(address _address, enum UserManager.Role _role) external view returns (uint256)
+function getReputation(address _address, enum UserManager.Role _role) external view returns (int256)
 ```
 
 
@@ -65,12 +109,12 @@ function getReputation(address _address, enum UserManager.Role _role) external v
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined |
+| _0 | int256 | undefined |
 
 ### initialize
 
 ```solidity
-function initialize(address _sigAuthority, contract ReputationCard _reputationCard, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
+function initialize(address _sigAuthority, contract Employer _employer, contract Contractor _contractor, contract JobContract _jobContract) external nonpayable
 ```
 
 
@@ -82,7 +126,6 @@ function initialize(address _sigAuthority, contract ReputationCard _reputationCa
 | Name | Type | Description |
 |---|---|---|
 | _sigAuthority | address | undefined |
-| _reputationCard | contract ReputationCard | undefined |
 | _employer | contract Employer | undefined |
 | _contractor | contract Contractor | undefined |
 | _jobContract | contract JobContract | undefined |
@@ -154,22 +197,23 @@ function renounceOwnership() external nonpayable
 *Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.*
 
 
-### reputationCard
+### setContractFinalized
 
 ```solidity
-function reputationCard() external view returns (contract ReputationCard)
+function setContractFinalized(address _contractor, address _employer, uint128 reputation) external nonpayable
 ```
 
 
 
 
 
-
-#### Returns
+#### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | contract ReputationCard | undefined |
+| _contractor | address | undefined |
+| _employer | address | undefined |
+| reputation | uint128 | undefined |
 
 ### sigAuthority
 

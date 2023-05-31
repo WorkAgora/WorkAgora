@@ -4,9 +4,8 @@
 pragma solidity ^0.8.18;
 
 import '../../JobContract/JobContract.sol';
-import '../Reputation/ReputationCard.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts/access/Ownable.sol';
 
 interface IUserManager {
     // // Event emitted when a user is successfully verified
@@ -37,7 +36,6 @@ contract UserManager is IUserManager, Ownable {
     uint256 private idCounter;
 
     address public sigAuthority;
-    ReputationCard public reputationCard;
     Employer public employer;
     Contractor public contractor;
     JobContract public jobContract;
@@ -59,15 +57,18 @@ contract UserManager is IUserManager, Ownable {
         _;
     }
 
+    modifier onlyJobContract() {
+        require(msg.sender == address(jobContract), 'Caller is not job contract');
+        _;
+    }
+
     function initialize(
         address _sigAuthority,
-        ReputationCard _reputationCard,
         Employer _employer,
         Contractor _contractor,
         JobContract _jobContract
     ) external onlyOwner {
         require(sigAuthority == address(0), 'Already initialized');
-        reputationCard = ReputationCard(_reputationCard);
         employer = Employer(_employer);
         contractor = Contractor(_contractor);
         jobContract = JobContract(_jobContract);
@@ -89,6 +90,14 @@ contract UserManager is IUserManager, Ownable {
         emit UserVerified(_address);
     }
 
+    function setContractFinalized(address _contractor, address _employer, uint128 reputation) external onlyJobContract {
+        int256 reputationChange = int256(uint256(reputation)); // safe since from uint128
+        uint256 contractorId = getContractorId(_contractor);
+        contractor.updateReputation(contractorId, reputationChange);
+        uint256 employerId = getEmployerId(_employer);
+        employer.updateReputation(employerId, reputationChange);
+    }
+
     function isUserVerified(address _address) public view returns (bool) {
         return bytes(verifiedUsers[_address].kycId).length > 0;
     }
@@ -96,14 +105,24 @@ contract UserManager is IUserManager, Ownable {
     function getReputation(
         address _address,
         Role _role
-    ) external view onlyVerifiedUser(_address) returns (uint256) {
-        uint256 id;
+    ) external view onlyVerifiedUser(_address) returns (int256) {
         if (_role == Role.Employer) {
-            id = verifiedUsers[_address].employerId;
+            return employer.getReputation(getEmployerId(_address));
         } else {
-            id = verifiedUsers[_address].contractorId;
+            return contractor.getReputation(getContractorId(_address));
         }
-        return reputationCard.reputation(id);
+    }
+
+    function getEmployerId(
+        address _address
+    ) public view onlyVerifiedUser(_address) returns (uint256) {
+        return verifiedUsers[_address].employerId;
+    }
+
+    function getContractorId(
+        address _address
+    ) public view onlyVerifiedUser(_address) returns (uint256) {
+        return verifiedUsers[_address].contractorId;
     }
 }
 
@@ -124,10 +143,42 @@ contract UserManager is IUserManager, Ownable {
 //     }
 // }
 
-contract Employer is IEmployer {
-    uint256 private tmp1;
+contract Reputable {
+    mapping(uint256 => int256) public reputation;
+
+    function updateReputation(uint256 _userId, int256 _amount) external {
+        reputation[_userId] += _amount;
+    }
+
+    function getReputation(uint256 _userId) external view returns(int256) {
+        return reputation[_userId];
+    }
 }
 
-contract Contractor is IContractor {
-    uint256 private tmp2;
+contract Contractable is Ownable {
+    JobContract jobContract;
+    mapping(uint256 => string) public contractIds;
+
+    modifier onlyJobContract() {
+        require(msg.sender == address(jobContract), 'Caller is not job contract');
+        _;
+    }
+
+    function initialize(JobContract _jobContract) external onlyOwner {
+        require(address(jobContract) == address(0), 'Already initialized');
+        jobContract = JobContract(_jobContract);
+    }
+
+    function setContract(uint256 _userId, string calldata _contractId) external onlyJobContract {
+        require(bytes(contractIds[_userId]).length == 0, 'Contract already set');
+        contractIds[_userId] = _contractId;
+    }
+}
+
+contract Employer is Contractable, Reputable {
+    // employer specific logic here
+}
+
+contract Contractor is Contractable, Reputable {
+    // contractor specific logic here
 }
