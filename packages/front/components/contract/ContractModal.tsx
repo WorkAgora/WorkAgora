@@ -5,7 +5,8 @@ import {
   DrawerCloseButton,
   Flex,
   Avatar,
-  Text
+  Text,
+  DrawerOverlay
 } from '@chakra-ui/react';
 import { useCurrentCompany, useCurrentUser } from '@workagora/front-provider';
 import { CreateCompany, User } from '@workagora/utils';
@@ -26,31 +27,40 @@ const ContractModal: FC<ContractModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl">
-      <DrawerContent p={8}>
-        <Flex alignItems="center">
-          <Avatar w="64px" h="64px" borderRadius={userType === 'Company' ? '20px' : '50%'} />
-          <Flex flexDir="column" ml={8}>
-            <Text fontSize="24px" fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
-              {userType === 'User'
-                ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
-                : (receiver as CreateCompany)?.name}
-            </Text>
-            <Text
-              fontSize="16px"
-              lineHeight="120%"
-              fontFamily="Comfortaa"
-              fontWeight="700"
-              color="neutral.dsGray"
-              textAlign="right"
-            >
-              {userType === 'User'
-                ? (receiver as User)?.description
-                : (receiver as CreateCompany)?.title}
-            </Text>
+      <DrawerOverlay>
+        <DrawerContent p={8}>
+          <Flex alignItems="center" mb={4}>
+            <Avatar w="64px" h="64px" borderRadius={userType === 'Company' ? '20px' : '50%'} />
+            <Flex flexDir="column" ml={8}>
+              <Text fontSize="24px" fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
+                {userType === 'User'
+                  ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
+                  : (receiver as CreateCompany)?.name}
+              </Text>
+              <Text
+                fontSize="16px"
+                lineHeight="120%"
+                fontFamily="Comfortaa"
+                fontWeight="700"
+                color="neutral.dsGray"
+                textAlign="right"
+              >
+                {userType === 'User'
+                  ? (receiver as User)?.description
+                  : (receiver as CreateCompany)?.title}
+              </Text>
+            </Flex>
+            <DrawerCloseButton top="2rem" />
           </Flex>
-          <DrawerCloseButton top="2rem" />
-        </Flex>
-      </DrawerContent>
+          <Flex
+            flexDir="column"
+            borderRadius="16px"
+            border="1px solid"
+            borderColor="brand.primary"
+            p={6}
+          ></Flex>
+        </DrawerContent>
+      </DrawerOverlay>
     </Drawer>
   );
 };
