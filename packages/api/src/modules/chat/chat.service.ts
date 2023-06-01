@@ -1,7 +1,7 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
-import { ChatDocument, ChatInstance, ChatItemKey, ChatMessage } from './chat.interface';
+import { ChatDocument, ChatInstance, ChatItemKey, ChatMessage } from '@workagora/utils';
 import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
 import { ToggleVisibilityDto } from '../../dtos/chat/toggle-visibility.dto';
 import { GetMessagesDto } from '../../dtos/chat/get-messages.dto';

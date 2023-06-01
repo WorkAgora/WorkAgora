@@ -195,7 +195,7 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
                     onClick={() =>
                       push({
                         pathname: '/dashboard/chat',
-                        query: { with: curJob?.company?.companyWallet }
+                        query: { job: curJob?.uuid }
                       })
                     }
                   >
