@@ -1,10 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
-import { FC, useState } from 'react';
+import { useChatInstance, useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
+import { FC, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import ChatPreview from './ChatPreview';
 import ChatMessages from './ChatMessages';
+import { useRouter } from 'next/router';
+import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
+import { UserTypeEnum } from '@workagora/utils';
 
 const MotionBox = motion(Box);
 
@@ -12,12 +15,27 @@ const DashboardChat: FC = () => {
   const { type } = useLanding();
   const { user } = useCurrentUser();
   const { company } = useCurrentCompany();
-  const [activeChat, setActiveChat] = useState('0');
+  const [activeChat, setActiveChat] = useState();
+  const {curJob, getJobById, loading} = useGetJobById();
+  const {fetching, chats} = useChatInstance();
+  const { query } = useRouter();
 
   const contentVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
+
+  useEffect(() => {
+    if (query && query.job && type === UserTypeEnum.Freelancer) {
+      getJobById(query.job as string)
+    }
+  },[getJobById, query, type])
+
+  /*useEffect(() => {
+    if (query && query.job && type === UserTypeEnum.Freelancer && curJob) {
+
+    }
+  }, [])*/
 
   return (
     <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
@@ -76,7 +94,7 @@ const DashboardChat: FC = () => {
                       }}
                     >
                       <Flex flexDir="column" rowGap={2}>
-                        {user &&
+                        {/*user &&
                           Array.from({ length: 20 }).map((_, k) => (
                             <ChatPreview
                               key={k}
@@ -90,7 +108,7 @@ const DashboardChat: FC = () => {
                               lastMessage=""
                               lastMessageDate={new Date()}
                             />
-                          ))}
+                            ))*/}
                       </Flex>
                     </PerfectScrollbar>
                   </Flex>

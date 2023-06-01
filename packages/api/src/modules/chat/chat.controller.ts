@@ -4,7 +4,7 @@ import { ChatService } from './chat.service';
 import { ChatMessageDTO } from '../../dtos/chat/chat.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
-import { ChatMessage } from './chat.interface';
+import { ChatMessage } from '@workagora/utils';
 import { Request } from 'express';
 import { ChatInstanceDTO } from '../../dtos/chat/instance.dto';
 import { ToggleVisibilityDto } from '../../dtos/chat/toggle-visibility.dto';
@@ -85,7 +85,7 @@ export class ChatController {
     @Req() req: Request,
     @Body() instance: ToggleVisibilityDto
   ): Promise<boolean> {
-    // const { wallet } = req.user;
+    const { wallet } = req.user;
     return this.chatService.toggleVisibility(wallet, instance);
   }
 

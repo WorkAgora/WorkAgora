@@ -18,7 +18,7 @@ export enum ChatAuthorType {
 export interface ChatInstance extends ChatItemKey {
   myWallet: string;
   partnerWallet: string;
-  lastMessageId: string;
+  lastMessageId?: string;
   lastMessage?: ChatMessage;
   partnerType: ChatAuthorType;
   visible: boolean;
