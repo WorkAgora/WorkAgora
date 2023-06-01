@@ -1,16 +1,22 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
-import { ChatDocument, ChatInstance, ChatItemKey, ChatMessage } from '@workagora/utils';
+import { ChatDocument, ChatInstance, ChatItemKey, ChatMessage } from '../../../../utils/src/index';
 import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
 import { ToggleVisibilityDto } from '../../dtos/chat/toggle-visibility.dto';
 import { GetMessagesDto } from '../../dtos/chat/get-messages.dto';
+import { UserService } from '../user/user.service';
+import { UpdateJobRelatedDTO } from '../../dtos/chat/update-jobRelated';
+import { UserDTO } from '../../dtos/user/user.dto';
+import { CompanyService } from '../company/company.service';
 
 @Injectable()
 export class ChatService {
   constructor(
     @InjectModel('Chat')
-    private readonly model: Model<ChatDocument, ChatItemKey>
+    private readonly model: Model<ChatDocument, ChatItemKey>,
+    private readonly userService: UserService,
+    private readonly companyService: CompanyService
   ) {}
 
   async sendMessage(currentWallet: string, message: CreateChatMessageDTO) {
@@ -97,16 +103,36 @@ export class ChatService {
 
           const instance = doc as ChatInstance; // Now we know doc is a ChatInstance, we can cast it
 
-          const messsage = await this.model.query('PK').eq(instance.lastMessageId).exec();
+          const message = await this.model.query('PK').eq(instance.lastMessageId).exec();
 
-          const lastMessage = messsage[0];
+          const lastMessage = message[0];
+
+          const partnerUser: UserDTO = await this.userService.findUserByWallet(
+            instance.partnerWallet
+          );
+
+          const partnerCompany = await this.companyService.getMyCompanies(instance.partnerWallet);
 
           return {
             ...instance,
-            lastMessage: lastMessage
+            lastMessage: lastMessage,
+            partnerUser: partnerUser ? partnerUser : null,
+            partnerCompany: partnerCompany.length === 1 ? partnerCompany[0] : null
           };
         })
       );
+
+      // Sort conversations by lastMessage.createdAt
+      updatedConversations.sort((a: any, b: any) => {
+        if ('lastMessage' in a && 'lastMessage' in b) {
+          return (
+            new Date(b.lastMessage.createdAt).getTime() -
+            new Date(a.lastMessage.createdAt).getTime()
+          );
+        } else {
+          return 0;
+        }
+      });
 
       return updatedConversations;
     } catch (e) {
@@ -187,6 +213,39 @@ export class ChatService {
     } catch (e) {
       console.log(e);
       throw new HttpException('An error occurred while fetching messages: ' + e.message, 500);
+    }
+  }
+
+  async updateJobRelated(wallet: string, dto: UpdateJobRelatedDTO): Promise<ChatInstance> {
+    try {
+      // Query for chat instance
+      const [queryOneResult, queryTwoResult] = await Promise.all([
+        this.model.query('PK').eq(`INSTANCE#${wallet}#${dto.partnerWallet}`).exec(),
+        this.model.query('PK').eq(`INSTANCE#${dto.partnerWallet}#${wallet}`).exec()
+      ]);
+
+      // Combine the results
+      const combinedResults = [...queryOneResult, ...queryTwoResult];
+
+      if (combinedResults.length === 0) {
+        throw new HttpException('Chat instance not found', 404);
+      }
+
+      const chatInstance = combinedResults[0].toJSON() as ChatInstance;
+
+      // Update the jobRelated field
+      chatInstance.jobRelated = dto.jobRelated;
+
+      // Update the instance
+      await this.model.update(
+        { PK: chatInstance.PK, SK: chatInstance.SK },
+        { jobRelated: chatInstance.jobRelated }
+      );
+
+      return chatInstance;
+    } catch (e) {
+      console.log(e);
+      throw new HttpException('An error occurred while updating job related: ' + e.message, 500);
     }
   }
 }

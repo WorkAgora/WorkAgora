@@ -3,6 +3,8 @@ import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
 import { ChatSchema } from './chat.schema';
 import { DynamooseModule } from 'nestjs-dynamoose';
+import { UserModule } from '../user/user.module';
+import { CompanyModule } from '../company/company.module';
 
 @Module({
   imports: [
@@ -14,7 +16,9 @@ import { DynamooseModule } from 'nestjs-dynamoose';
           tableName: '-chat'
         }
       }
-    ])
+    ]),
+    UserModule,
+    CompanyModule
   ],
   controllers: [ChatController],
   providers: [ChatService],

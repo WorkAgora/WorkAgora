@@ -32,6 +32,9 @@ export const ChatSchema = new Schema({
   lastMessageId: {
     type: String
   },
+  jobRelated: {
+    type: String
+  },
   // Chat Message attributes
   receiverWallet: {
     type: String

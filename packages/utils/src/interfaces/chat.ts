@@ -22,6 +22,7 @@ export interface ChatInstance extends ChatItemKey {
   lastMessage?: ChatMessage;
   partnerType: ChatAuthorType;
   visible: boolean;
+  jobRelated?: string;
 }
 
 export type ChatDocument = ChatMessage | ChatInstance;

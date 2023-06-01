@@ -4,11 +4,12 @@ import { ChatService } from './chat.service';
 import { ChatMessageDTO } from '../../dtos/chat/chat.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CreateChatMessageDTO } from '../../dtos/chat/create-chat.dto';
-import { ChatMessage } from '@workagora/utils';
+import { ChatInstance, ChatMessage } from '../../../../utils/src/index';
 import { Request } from 'express';
 import { ChatInstanceDTO } from '../../dtos/chat/instance.dto';
 import { ToggleVisibilityDto } from '../../dtos/chat/toggle-visibility.dto';
 import { GetMessagesDto } from '../../dtos/chat/get-messages.dto';
+import { UpdateJobRelatedDTO } from '../../dtos/chat/update-jobRelated';
 
 @ApiTags('chat')
 @Controller('chat')
@@ -40,7 +41,7 @@ export class ChatController {
     if (wallet !== message.senderWallet) {
       throw new Error('Sender wallet is required');
     }
-    return this.chatService.sendMessage('wallet', message);
+    return this.chatService.sendMessage(wallet, message);
   }
 
   @Get('conversations')
@@ -117,5 +118,30 @@ export class ChatController {
     const { wallet } = req.user;
     const instance: GetMessagesDto = { instanceId, limit, page };
     return this.chatService.getMessages(wallet, instance);
+  }
+
+  @Post('update-job-related')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Update the jobRelated string of a chat instance' })
+  @ApiBody({ type: UpdateJobRelatedDTO })
+  @ApiResponse({
+    status: 200,
+    description: 'Updated chat instance',
+    type: ChatInstanceDTO
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'An unexpected error occurred'
+  })
+  async updateJobRelated(
+    @Req() req: Request,
+    @Body() dto: UpdateJobRelatedDTO
+  ): Promise<ChatInstance> {
+    const { wallet } = req.user;
+    return this.chatService.updateJobRelated(wallet, dto);
   }
 }
