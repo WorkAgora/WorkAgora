@@ -11,8 +11,8 @@ export interface ChatMessage extends ChatItemKey {
 }
 
 export enum ChatAuthorType {
-  Contractor = 'contractor',
-  Freelancer = 'freelancer'
+  Company = 'Company',
+  User = 'User'
 }
 
 export interface ChatInstance extends ChatItemKey {
