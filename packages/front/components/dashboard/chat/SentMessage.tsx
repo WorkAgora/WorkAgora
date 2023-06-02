@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 interface SentMessageProps {
   avatar?: string;
-  name: string;
+  name?: string;
   userType: 'User' | 'Company';
   date: Date;
   message: string;
@@ -29,7 +29,7 @@ const SentMessage: FC<SentMessageProps> = ({ avatar, name, userType, date, messa
           ml={2}
           color="neutral.dsDarkGray"
         >
-          {name}
+          {name !== undefined && name !== '' && <>{name}</>}
         </Text>
         <Text
           fontFamily="Montserrat"

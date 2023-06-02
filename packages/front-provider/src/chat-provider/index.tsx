@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { ChatInstance } from '@workagora/utils';
 
@@ -39,6 +39,7 @@ export function useChatInstance() {
     } else {
       setChats([chat]);
     }
+    return chats?.length ? chats?.length : 0;
   }
 
   return { chats, setChats, addNewChat, fetching, setFetching };

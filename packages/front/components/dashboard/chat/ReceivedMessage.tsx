@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 interface ReceivedMessageProps {
   avatar?: string;
-  name: string;
+  name?: string;
   userType: 'User' | 'Company';
   date: Date;
   message: string;
@@ -23,7 +23,7 @@ const ReceivedMessage: FC<ReceivedMessageProps> = ({ avatar, name, userType, dat
           ml={2}
           color="neutral.dsDarkGray"
         >
-          {name}
+          {name !== undefined && name !== '' && <>{name}</>}
         </Text>
         <Text
           fontFamily="Montserrat"

@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useChatInstance, useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -7,7 +7,8 @@ import ChatPreview from './ChatPreview';
 import ChatMessages from './ChatMessages';
 import { useRouter } from 'next/router';
 import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
-import { UserTypeEnum } from '@workagora/utils';
+import { ChatAuthorType, UserTypeEnum } from '@workagora/utils';
+import { useGetMyChats } from '@workagora/front/hooks/useGetMyChats';
 
 const MotionBox = motion(Box);
 
@@ -15,10 +16,11 @@ const DashboardChat: FC = () => {
   const { type } = useLanding();
   const { user } = useCurrentUser();
   const { company } = useCurrentCompany();
-  const [activeChat, setActiveChat] = useState();
+  const [activeChat, setActiveChat] = useState('');
   const {curJob, getJobById, loading} = useGetJobById();
-  const {fetching, chats} = useChatInstance();
+  const {fetching, chats, addNewChat} = useChatInstance();
   const { query } = useRouter();
+  useGetMyChats();
 
   const contentVariants = {
     hidden: { opacity: 0 },
@@ -31,11 +33,22 @@ const DashboardChat: FC = () => {
     }
   },[getJobById, query, type])
 
-  /*useEffect(() => {
-    if (query && query.job && type === UserTypeEnum.Freelancer && curJob) {
-
+  useEffect(() => {
+    if (query && query.job && type === UserTypeEnum.Freelancer && curJob && user && curJob.company?.companyWallet && !fetching) {
+      if (!chats || (chats && !chats.find((v) => v.partnerWallet === curJob.company?.companyWallet))) {
+        const chatId = addNewChat({
+          PK: '',
+          SK: '',
+          myWallet: user?.wallet,
+          partnerWallet: curJob.company?.companyWallet,
+          partnerType: ChatAuthorType.Company,
+          partnerCompany: curJob.company,
+          visible: true
+        });
+        setActiveChat(chatId.toString());
+      }
     }
-  }, [])*/
+  }, [curJob, query, type, user])
 
   return (
     <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
@@ -67,7 +80,7 @@ const DashboardChat: FC = () => {
               <Box textStyle="h2" as="h1" w="100%" textAlign="left">
                 Messages
               </Box>
-              <Flex mt="4" h="100%" flexGrow="1" maxHeight="calc(100vh - 100px)">
+              {!fetching && <Flex mt="4" h="100%" flexGrow="1" maxHeight="calc(100vh - 100px)">
                 <Flex
                   flexDir="column"
                   gap={6}
@@ -94,36 +107,45 @@ const DashboardChat: FC = () => {
                       }}
                     >
                       <Flex flexDir="column" rowGap={2}>
-                        {/*user &&
-                          Array.from({ length: 20 }).map((_, k) => (
-                            <ChatPreview
-                              key={k}
-                              id={k.toString()}
-                              receiver={company}
-                              userType="Company"
-                              isActive={activeChat === k.toString()}
+                        {user && chats && chats.map((v,k) => 
+                        <ChatPreview 
+                          key={k} id={k.toString()}
+                          lastMessage={v.lastMessage?.content}
+                          lastMessageDate={v.lastMessage?.createdAt ? new Date(v.lastMessage.createdAt) : undefined}
+                          receiver={type === UserTypeEnum.Freelancer ? v.partnerCompany : v.partnerUser}
+                          userType={v.partnerType}
+                          isActive={activeChat === k.toString()}
                               onClick={(id: string) => {
-                                console.log(id);
-                              }}
-                              lastMessage=""
-                              lastMessageDate={new Date()}
-                            />
-                            ))*/}
+                                setActiveChat(id);
+                              }}/>)}
                       </Flex>
                     </PerfectScrollbar>
                   </Flex>
                 </Flex>
                 <Flex flexDir="column" gap={6} flexBasis="80%">
-                  {activeChat && (
+                  {activeChat && chats && (
                     <ChatMessages
                       id={activeChat}
-                      receiver={company}
-                      userType="Company"
-                      sender={user}
+                      chat={chats[parseInt(activeChat)]}
                     />
                   )}
                 </Flex>
-              </Flex>
+              </Flex>}
+              {fetching &&  <Flex
+                flexDir="column"
+                justifyContent="center"
+                alignItems="center"
+                my={16}
+                position="absolute"
+                top="50%"
+                left="50%"
+                transform="translate(-50%;-50%)"
+              >
+                <Spinner color="brand.primary" size="xl" mx="auto" />
+                <Box textStyle="h6" as="span" color="brand.secondary" mt={8}>
+                  Loading Messages
+                </Box>
+              </Flex>}
             </Flex>
           </MotionBox>
         </AnimatePresence>

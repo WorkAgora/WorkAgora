@@ -1,3 +1,6 @@
+import { CreateCompany } from "./company";
+import { User } from "./user";
+
 export interface ChatItemKey {
   PK: string;
   SK: string;
@@ -21,6 +24,8 @@ export interface ChatInstance extends ChatItemKey {
   lastMessageId?: string;
   lastMessage?: ChatMessage;
   partnerType: ChatAuthorType;
+  partnerUser?: User;
+  partnerCompany?: CreateCompany;
   visible: boolean;
   jobRelated?: string;
 }

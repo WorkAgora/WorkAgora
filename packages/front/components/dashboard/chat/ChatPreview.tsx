@@ -4,10 +4,10 @@ import { FC } from 'react';
 
 interface ChatPreviewProps {
   id: string;
-  receiver: User | CreateCompany;
+  receiver?: User | CreateCompany;
   userType: 'User' | 'Company';
-  lastMessage: string;
-  lastMessageDate: Date;
+  lastMessage?: string;
+  lastMessageDate?: Date;
   isActive: boolean;
   onClick: (id: string) => void;
 }
@@ -47,9 +47,11 @@ const ChatPreview: FC<ChatPreviewProps> = ({
           fontWeight="700"
           color="neutral.black"
         >
-          {userType === 'User'
-            ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
-            : (receiver as CreateCompany)?.name}
+          {receiver && <>
+            {userType === 'User'
+              ? `${(receiver as User)?.firstname} ${(receiver as User)?.lastname}`
+              : (receiver as CreateCompany)?.name}
+            </>}
         </Text>
         <Text
           fontSize="14px"
@@ -58,10 +60,10 @@ const ChatPreview: FC<ChatPreviewProps> = ({
           fontWeight="400"
           color="neutral.black"
         >
-          {lastMessage !== '' ? lastMessage : 'New discussion'}
+          {lastMessage && lastMessage !== '' ? lastMessage : 'New discussion'}
         </Text>
       </Flex>
-      <Text
+      {lastMessageDate && <Text
         ml="auto"
         mt={0.1}
         mr={1}
@@ -72,7 +74,7 @@ const ChatPreview: FC<ChatPreviewProps> = ({
         color="neutral.dsGray"
       >
         {lastMessageDate.getHours()}:{lastMessageDate.getMinutes()}
-      </Text>
+      </Text>}
     </Flex>
   );
 };
