@@ -35,8 +35,8 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
   const { user } = useCurrentUser();
   const { company } = useCurrentCompany();
   const { type } = useLanding();
-  const { sendMessage } = useSendMessage(chat.myWallet, chat.partnerWallet, chat.partnerType);
-  const { loading, curMessages, setCurMessages } = useGetChatMessages(chat.PK.replace('INSTANCE#',''));
+  const { sendMessage } = useSendMessage();
+  const { loading, curMessages, setCurMessages } = useGetChatMessages(chat?.PK?.replace('INSTANCE#',''));
 
   const openContractModal = (proposalId: string) => {
     onOpen();
@@ -50,10 +50,14 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
   const handleMessageKeyDown = async (event: KeyboardEvent) => {
     if (event.key === 'Enter' && !event.shiftKey && curMessage) {
       event.preventDefault();
-      const newMessage = await sendMessage(curMessage);
-      setCurMessage('');
-      setCurMessages([...curMessages, newMessage]);
+      await messageSendHandler();
     }
+  };
+
+  const messageSendHandler = async () => {
+    const newMessage = await sendMessage(curMessage, chat.myWallet, chat.partnerWallet, chat.partnerType);
+    setCurMessage('');
+    setCurMessages([...curMessages, newMessage]);
   };
 
   useEffect(() => {console.log(chat)}, [])
@@ -169,8 +173,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
             _hover={{ color: 'neutral.dsDarkGray' }}
             onClick={() => {
               if (curMessage) {
-                sendMessage(curMessage);
-                setCurMessage(undefined);
+                messageSendHandler();
               }
             }}
           >

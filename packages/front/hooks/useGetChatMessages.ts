@@ -14,7 +14,7 @@ export const useGetChatMessages = (id: string) => {
     }, [id])
 
     useEffect(() => {
-        if (id) {
+        if (id && id !== '') {
             setLoading(true);
             getMessages();
             const intervalId = setInterval(() => {
