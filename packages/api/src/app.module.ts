@@ -7,6 +7,7 @@ import { KycModule } from './modules/kyc/kyc.module';
 import { JobModule } from './modules/job/job.module';
 import { CompanyModule } from './modules/company/company.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { ChatModule } from './modules/chat/chat.module';
     KycModule,
     JobModule,
     CompanyModule,
-    ChatModule
+    ChatModule,
+    NotificationsModule
   ],
   controllers: [],
   providers: []

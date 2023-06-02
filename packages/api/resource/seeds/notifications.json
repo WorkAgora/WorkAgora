@@ -1,0 +1,38 @@
+[
+  {
+    "userWallet": "wallet1",
+    "id": "1",
+    "title": "Job Created",
+    "message": "Job 'Backend Developer' has been created.",
+    "read": false,
+    "type": "JOB_CREATED",
+    "createdAt": "2023-06-01T00:00:00Z"
+  },
+  {
+    "userWallet": "wallet1",
+    "id": "2",
+    "title": "Job Edited",
+    "message": "Job 'Backend Developer' has been edited.",
+    "read": false,
+    "type": "JOB_EDITED",
+    "createdAt": "2023-06-02T00:00:00Z"
+  },
+  {
+    "userWallet": "wallet2",
+    "id": "3",
+    "title": "Job Completed",
+    "message": "Job 'Frontend Developer' has been completed.",
+    "read": false,
+    "type": "JOB_COMPLETED",
+    "createdAt": "2023-06-03T00:00:00Z"
+  },
+  {
+    "userWallet": "wallet3",
+    "id": "4",
+    "title": "Job Closed",
+    "message": "Job 'Data Scientist' has been closed.",
+    "read": true,
+    "type": "JOB_CLOSED",
+    "createdAt": "2023-06-04T00:00:00Z"
+  }
+]
