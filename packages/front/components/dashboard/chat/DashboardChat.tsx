@@ -7,7 +7,7 @@ import ChatPreview from './ChatPreview';
 import ChatMessages from './ChatMessages';
 import { useRouter } from 'next/router';
 import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
-import { ChatAuthorType, UserTypeEnum } from '@workagora/utils';
+import { ChatAuthorType, ChatInstance, UserTypeEnum } from '@workagora/utils';
 import { useGetMyChats } from '@workagora/front/hooks/useGetMyChats';
 
 const MotionBox = motion(Box);
@@ -18,7 +18,8 @@ const DashboardChat: FC = () => {
   const { company } = useCurrentCompany();
   const [activeChat, setActiveChat] = useState('');
   const {curJob, getJobById, loading} = useGetJobById();
-  const {fetching, chats, addNewChat} = useChatInstance();
+  const {fetching, chats } = useChatInstance();
+  const [newChat, setNewChat] = useState<ChatInstance>();
   const { query } = useRouter();
   useGetMyChats();
 
@@ -34,18 +35,24 @@ const DashboardChat: FC = () => {
   },[getJobById, query, type])
 
   useEffect(() => {
-    if (query && query.job && type === UserTypeEnum.Freelancer && curJob && user && curJob.company?.companyWallet && !fetching) {
-      if (!chats || (chats && !chats.find((v) => v.partnerWallet === curJob.company?.companyWallet))) {
-        const chatId = addNewChat({
+    if (query && query.job && type === UserTypeEnum.Freelancer && curJob && user && curJob.company?.companyWallet) {
+      if (!chats || (chats && !chats.find((v) => v.user2 === curJob.company?.companyWallet || v.user1 === curJob.company?.companyWallet))) {
+        setNewChat({
           PK: '',
           SK: '',
-          myWallet: user?.wallet,
-          partnerWallet: curJob.company?.companyWallet,
-          partnerType: ChatAuthorType.Company,
+          user1: user?.wallet,
+          user2: curJob.company?.companyWallet,
+          jobRelated: curJob.uuid,
+          user1Type: ChatAuthorType.User,
           partnerCompany: curJob.company,
           visible: true
         });
-        setActiveChat(chatId.toString());
+        setActiveChat('newChat');
+      } else {
+        const index = chats.findIndex((v) => v.user2 === curJob.company?.companyWallet || v.user1 === curJob.company?.companyWallet);
+        if (index !== -1) {
+          setActiveChat(index.toString());
+        }
       }
     }
   }, [curJob, query, type, user])
@@ -107,13 +114,23 @@ const DashboardChat: FC = () => {
                       }}
                     >
                       <Flex flexDir="column" rowGap={2}>
+                        {user && newChat && <ChatPreview 
+                          id={'newChat'}
+                          lastMessage={newChat.lastMessage?.content}
+                          lastMessageDate={newChat.lastMessage?.createdAt ? new Date(newChat.lastMessage.createdAt) : undefined}
+                          receiver={newChat.user1Type === 'User' && newChat.user1 === user?.wallet.toLowerCase() ? newChat.partnerCompany : newChat.partnerUser}
+                          userType={newChat.user1Type === 'User' && newChat.user1 === user?.wallet.toLowerCase() ? 'Company' : 'User'}
+                          isActive={activeChat === 'newChat'}
+                              onClick={(id: string) => {
+                                setActiveChat('newChat');
+                              }}/>}
                         {user && chats && chats.map((v,k) => 
                         <ChatPreview 
                           key={k} id={k.toString()}
                           lastMessage={v.lastMessage?.content}
                           lastMessageDate={v.lastMessage?.createdAt ? new Date(v.lastMessage.createdAt) : undefined}
-                          receiver={type === UserTypeEnum.Freelancer ? v.partnerCompany : v.partnerUser}
-                          userType={v.partnerType}
+                          receiver={v.user1Type === 'User' && v.user1 === user?.wallet.toLowerCase() ? v.partnerCompany : v.partnerUser}
+                          userType={v.user1Type === 'User' && v.user1 === user?.wallet.toLowerCase() ? 'Company' : 'User'}
                           isActive={activeChat === k.toString()}
                               onClick={(id: string) => {
                                 setActiveChat(id);
@@ -126,7 +143,9 @@ const DashboardChat: FC = () => {
                   {activeChat && chats && (
                     <ChatMessages
                       id={activeChat}
-                      chat={chats[parseInt(activeChat)]}
+                      chat={activeChat === 'newChat' ? newChat : chats[parseInt(activeChat)]}
+                      isNewChat={activeChat === 'newChat'}
+                      onNewChatMessage={() => {setTimeout(() => {setNewChat(undefined); setActiveChat('0')}, 5000)}}
                     />
                   )}
                 </Flex>

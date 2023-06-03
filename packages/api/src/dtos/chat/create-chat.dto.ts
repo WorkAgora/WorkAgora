@@ -19,5 +19,5 @@ export class CreateChatMessageDTO {
   @IsString()
   @IsOptional()
   @IsEnum(ChatAuthorType)
-  partnerType?: ChatAuthorType;
+  user1Type?: ChatAuthorType;
 }

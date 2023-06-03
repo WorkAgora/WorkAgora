@@ -1,4 +1,4 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable, HttpException, Logger } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
 import { ChatDocument, ChatInstance, ChatItemKey, ChatMessage } from '../../../../utils/src/index';
@@ -21,7 +21,7 @@ export class ChatService {
 
   async sendMessage(currentWallet: string, message: CreateChatMessageDTO) {
     try {
-      const { senderWallet, receiverWallet, content, partnerType } = message;
+      const { senderWallet, receiverWallet, content, user1Type } = message;
       if (senderWallet !== currentWallet) {
         throw new HttpException(
           'You are not allowed to send messages on behalf of another wallet',
@@ -35,53 +35,63 @@ export class ChatService {
       const createdAt = new Date().toISOString();
 
       // Create new message
-      const newMessage: ChatMessage = {
-        PK: `MESSAGE#${uuidv4()}`,
-        SK: `${senderWallet}#${receiverWallet}`,
-        content: content,
-        receiverWallet: receiverWallet,
-        senderWallet: senderWallet,
-        createdAt: createdAt
-      };
-      await this.model.create(newMessage);
-
-      // Query for chat instances where myWallet equals senderWallet and partnerWallet equals receiverWallet
-      const chatInstance1 = await this.model
-        .query('PK')
-        .eq(`INSTANCE#${senderWallet}#${receiverWallet}`)
-        .exec();
-
-      // Query for chat instances where myWallet equals receiverWallet and partnerWallet equals senderWallet
-      const chatInstance2 = await this.model
-        .query('PK')
-        .eq(`INSTANCE#${receiverWallet}#${senderWallet}`)
-        .exec();
-
-      // Combine the results
-      const chatInstances = [...chatInstance1, ...chatInstance2];
-      if (chatInstances.length === 0) {
+      const chatExist = await this.model.query('PK').eq(`GLOBAL_INSTANCE#${senderWallet}`).exec();
+  
+      if (chatExist.length === 0) {
         // If chat instance does not exist, create new chat instance
+        const id = uuidv4();
+
         const instance: ChatInstance = {
-          PK: `INSTANCE#${senderWallet}#${receiverWallet}`,
-          SK: uuidv4(),
-          myWallet: senderWallet,
-          partnerWallet: receiverWallet,
-          partnerType: partnerType,
+          PK: `INSTANCE#${id}`,
+          SK: createdAt,
+          user1: senderWallet,
+          user2: receiverWallet,
+          user1Type: user1Type,
           visible: true,
-          lastMessageId: newMessage.PK,
-          lastMessage: newMessage
+          lastMessageId: ''
         };
 
         await this.model.create(instance);
-      } else {
-        // If chat instance already exists, update the lastMessageId with the new message
-        await this.model.update(
-          { PK: chatInstances[0].PK, SK: chatInstances[0].SK },
-          { lastMessageId: newMessage.PK, lastMessage: newMessage }
-        );
-      }
 
-      return newMessage;
+        const globalInstance1 = {PK: `GLOBAL_INSTANCE#${senderWallet}`, SK: `INSTANCE#${id}`}
+        await this.model.create(globalInstance1);
+        const globalInstance2 = {PK: `GLOBAL_INSTANCE#${receiverWallet}`, SK: `INSTANCE#${id}`}
+        await this.model.create(globalInstance2);
+
+        const newMessage: ChatMessage = {
+          PK: `MESSAGE#${uuidv4()}`,
+          SK: `INSTANCE#${id}`,
+          content: content,
+          receiverWallet: receiverWallet,
+          senderWallet: senderWallet,
+          createdAt: createdAt
+        };
+        await this.model.create(newMessage);
+        await this.model.update(
+          { PK: `INSTANCE#${id}`, SK: createdAt },
+          { lastMessageId: newMessage.PK }
+        );
+        return newMessage;
+      } else {
+        const curChat = await this.model.query('PK').eq(chatExist[0].SK).exec();
+        // If chat instance already exists, update the lastMessageId with the new message
+    
+        const newMessage: ChatMessage = {
+          PK: `MESSAGE#${uuidv4()}`,
+          SK: curChat[0].PK,
+          content: content,
+          receiverWallet: receiverWallet,
+          senderWallet: senderWallet,
+          createdAt: createdAt
+        };
+        await this.model.create(newMessage);
+
+        await this.model.update(
+          { PK: curChat[0].PK, SK: curChat[0].SK },
+          { lastMessageId: newMessage.PK }
+        );
+        return newMessage;
+      }
     } catch (e) {
       console.log(e);
       throw new HttpException('An error occurred while sending a message: ' + e.message, 500);
@@ -90,7 +100,14 @@ export class ChatService {
 
   async getConversations(wallet: string) {
     try {
-      const conversations = await this.model.scan('PK').beginsWith(`INSTANCE#${wallet}`).exec();
+      const chatInstances = await this.model.query('PK').eq(`GLOBAL_INSTANCE#${wallet}`).exec();
+
+      const conversations = [];
+
+      for(let i =0; i < chatInstances.length; i++) {
+        const curChat = await this.model.query('PK').eq(chatInstances[i].SK).exec();
+        conversations.push(curChat[0])
+      }
 
       // Fetch the last message for each conversation
       const updatedConversations = await Promise.all(
@@ -106,12 +123,19 @@ export class ChatService {
           const message = await this.model.query('PK').eq(instance.lastMessageId).exec();
 
           const lastMessage = message[0];
+          let userToReturn = null;
 
+          if (wallet === instance.user1) {
+            userToReturn = instance.user2;
+          }
+          if (wallet === instance.user2) {
+            userToReturn = instance.user1;
+          }
           const partnerUser: UserDTO = await this.userService.findUserByWallet(
-            instance.partnerWallet
+            userToReturn
           );
 
-          const partnerCompany = await this.companyService.getMyCompanies(instance.partnerWallet);
+          const partnerCompany = await this.companyService.getMyCompanies(userToReturn);
 
           return {
             ...instance,
@@ -179,14 +203,14 @@ export class ChatService {
     instance: GetMessagesDto
   ): Promise<{ messages: ChatMessage[]; maxPage: number; totalResult: number }> {
     try {
-      const instanceId = instance.instanceId.startsWith('INSTANCE#')
-        ? instance.instanceId.split('#')[2]
-        : instance.instanceId;
+      const instanceId = instance.instanceId
+
+      Logger.log(instanceId)
 
       const messages = await this.model
         .scan({
           PK: { beginsWith: 'MESSAGE#' },
-          SK: { beginsWith: instanceId }
+          SK: { beginsWith: `INSTANCE#${instanceId}` }
         })
         .exec();
 

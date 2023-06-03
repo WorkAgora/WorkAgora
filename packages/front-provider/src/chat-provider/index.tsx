@@ -33,14 +33,6 @@ export const ChatInstanceProvider = ({ children }: { children: ReactNode }) => {
 export function useChatInstance() {
   const { chats, setChats, fetching, setFetching } = useContext(ChatInstanceContext);
   
-  const addNewChat = (chat: ChatInstance) => {
-    if (chats) {
-    setChats([...chats, chat])
-    } else {
-      setChats([chat]);
-    }
-    return chats?.length ? chats?.length : 0;
-  }
 
-  return { chats, setChats, addNewChat, fetching, setFetching };
+  return { chats, setChats, fetching, setFetching };
 }

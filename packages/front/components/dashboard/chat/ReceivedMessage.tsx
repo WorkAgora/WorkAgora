@@ -14,7 +14,7 @@ const ReceivedMessage: FC<ReceivedMessageProps> = ({ avatar, name, userType, dat
   return (
     <Flex flexDir="column" p={4} mr={8}>
       <Flex alignItems="center">
-        <Avatar w="24px" h="24px" borderRadius={userType === 'User' ? '8px' : '50%'} iconLabel="" />
+        <Avatar w="24px" h="24px" borderRadius={userType === 'User' ?  '50%' : '8px'} iconLabel="" />
         <Text
           fontFamily="Montserrat"
           fontSize="14px"

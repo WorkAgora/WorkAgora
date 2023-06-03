@@ -5,7 +5,7 @@ export interface SendChatMessageProps {
     senderWallet: string;
     receiverWallet: string;
     content: string;
-    partnerType: string;
+    user1Type: string;
 }
 
 export type SendChatMessage = (props: SendChatMessageProps) => Promise<ChatMessage>
@@ -14,8 +14,8 @@ export type GetChatConversations = () => Promise<ChatInstance[]>
 
 export type GetMessagesInChat = (id: string) => Promise<ChatMessage[]>
 
-export const sendChatMessage: SendChatMessage = async ({senderWallet, receiverWallet, content, partnerType}) => {
-    const res = await privateApi.post('/chat/create', {senderWallet, receiverWallet, content, partnerType});
+export const sendChatMessage: SendChatMessage = async ({senderWallet, receiverWallet, content, user1Type}) => {
+    const res = await privateApi.post('/chat/create', {senderWallet, receiverWallet, content, user1Type});
     return res.data;
 }
 

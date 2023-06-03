@@ -27,9 +27,11 @@ interface ChatMessagesProps {
   id: string;
   chat: ChatInstance;
   jobRelated?: CreateJob;
+  isNewChat: boolean;
+  onNewChatMessage?: () => void;
 }
 
-const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
+const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat = false, onNewChatMessage }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [curMessage, setCurMessage] = useState<string>();
   const { user } = useCurrentUser();
@@ -55,9 +57,23 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
   };
 
   const messageSendHandler = async () => {
-    const newMessage = await sendMessage(curMessage, chat.myWallet, chat.partnerWallet, chat.partnerType);
-    setCurMessage('');
-    setCurMessages([...curMessages, newMessage]);
+    if (curMessage && user) {
+      if (chat.partnerUser?.wallet) {
+      const newMessage = await sendMessage(curMessage, user?.wallet, chat.partnerUser?.wallet, chat.user1Type);
+      setCurMessage('');
+      setCurMessages([...curMessages, newMessage]);
+        if (isNewChat) {
+          onNewChatMessage()
+        }
+      } else if (chat.partnerCompany?.companyWallet) {
+        const newMessage = await sendMessage(curMessage, user?.wallet, chat.partnerCompany?.companyWallet, chat.user1Type);
+        setCurMessage('');
+        setCurMessages([...curMessages, newMessage]);
+        if (isNewChat) {
+          onNewChatMessage()
+        }
+      }
+    }
   };
 
   useEffect(() => {console.log(chat)}, [])
@@ -67,10 +83,10 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
       <Flex flexDir="column">
         <Flex px={8} py={4}>
           <Flex alignItems="center">
-            <Avatar w="64px" h="64px" borderRadius={chat.partnerType === 'User' ? '50%' : '20px'} />
+            <Avatar w="64px" h="64px" borderRadius={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? '20px' : '50%' } />
             <Flex flexDir="column" ml={8}>
               <Text fontSize="24px" fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
-                {chat.partnerType === 'User' ? `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}` : chat.partnerCompany?.name}
+                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? chat.partnerCompany?.name : `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}`}
               </Text>
               <Text
                 fontSize="16px"
@@ -80,7 +96,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
                 color="neutral.dsGray"
                 textAlign="right"
               >
-                {chat.partnerType === 'User' ? chat.partnerUser?.description : chat.partnerCompany?.title}
+                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? chat.partnerCompany?.title : chat.partnerUser?.description}
               </Text>
             </Flex>
           </Flex>
@@ -94,7 +110,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
                 color="neutral.black"
                 textAlign="right"
               >
-                {type === UserTypeEnum.Freelancer ? `${user?.firstname} ${user?.lastname}` : company?.name}
+                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? `${user?.firstname} ${user?.lastname}` : company?.name}
               </Text>
               <Text
                 fontSize="16px"
@@ -104,10 +120,10 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
                 color="neutral.dsGray"
                 textAlign="right"
               >
-                {type === UserTypeEnum.Freelancer ? user?.description : company?.title}
+                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? user?.description : company?.title}
               </Text>
             </Flex>
-            <Avatar w="64px" h="64px" borderRadius={chat.partnerType === 'User' ? '20px' : '50%'} />
+            <Avatar w="64px" h="64px" borderRadius={chat.user1Type === 'User' ? '50%' : '20px' } />
           </Flex>
         </Flex>
         <Divider borderColor="neutral.dsGray" />
@@ -120,19 +136,19 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated }) => {
           >
             {!loading && <Flex flexDir="column" px={4} gap={2} pb={4}>
               {curMessages && curMessages?.map((m, k) => {
-               if(m.receiverWallet.toLowerCase() === chat.partnerWallet.toLowerCase()) {
+               if(m.receiverWallet.toLowerCase() !== user?.wallet.toLowerCase()) {
                 return <SentMessage 
                       key={k}
-                      name={chat.partnerType === 'User' ? company?.name : `${user?.firstname} ${user?.lastname}`}
-                      userType={chat.partnerType} 
+                      name={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? `${user?.firstname} ${user?.lastname}` : company?.name }
+                      userType={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? 'User' : 'Company'} 
                       date={new Date(m.createdAt)}
                       message={m.content}
                       />
                } else {
                 return <ReceivedMessage 
                         key={k} 
-                        name={chat.partnerType === 'User' ? `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}` : chat.partnerCompany?.name}
-                        userType={chat.partnerType === 'User' ? 'Company' : 'User'}
+                        name={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ?  chat.partnerCompany?.name : `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}`}
+                        userType={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? 'Company' : 'User'}
                         date={new Date(m.createdAt)}
                         message={m.content}
                         />
