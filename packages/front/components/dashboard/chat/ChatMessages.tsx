@@ -76,17 +76,49 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
     }
   };
 
-  useEffect(() => {console.log(chat)}, [])
+  const getUserName = (me: boolean) => {
+    if (!me) {
+      if (chat.user1 === user?.wallet.toLowerCase()) {
+        if (chat.user1Type === 'User') {
+          return {name: chat.partnerCompany?.name, type: 'Company', title: chat.partnerCompany?.title}
+        } else {
+          return {name: `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}`, type: 'User', title: chat.partnerUser?.description}
+        }
+      }
+      if (chat.user2 === user?.wallet.toLowerCase()) {
+        if (chat.user1Type === 'User') {
+          return {name: `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}` , type: 'User', title: chat.partnerUser?.description}
+        } else {
+          return {name: chat.partnerCompany?.name , type: 'Company', title: chat.partnerCompany?.title}
+        }
+      }
+    } else {
+      if (chat.user1 === user?.wallet.toLowerCase()) {
+        if (chat.user1Type === 'User') {
+          return {name: `${user.firstname} ${user.lastname}`, type: 'User', title: user.description}
+        } else {
+          return {name: company?.name, type: 'Company', title: company?.title}
+        }
+      }
+      if (chat.user2 === user?.wallet.toLowerCase()) {
+        if (chat.user1Type === 'User') {
+          return {name: company?.name, type: 'Company', title: company?.title}
+        } else {
+          return {name: `${user.firstname} ${user.lastname}`, type: 'User', title: user.description}
+        }
+      }
+    }
+  }
 
   return (
     <>
       <Flex flexDir="column">
         <Flex px={8} py={4}>
           <Flex alignItems="center">
-            <Avatar w="64px" h="64px" borderRadius={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? '20px' : '50%' } />
+            <Avatar w="64px" h="64px" borderRadius={getUserName(false).type === 'Company' ? '20px' : '50%' } />
             <Flex flexDir="column" ml={8}>
               <Text fontSize="24px" fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
-                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? chat.partnerCompany?.name : `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}`}
+                {getUserName(false)?.name}
               </Text>
               <Text
                 fontSize="16px"
@@ -96,7 +128,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
                 color="neutral.dsGray"
                 textAlign="right"
               >
-                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? chat.partnerCompany?.title : chat.partnerUser?.description}
+                {getUserName(false)?.title}
               </Text>
             </Flex>
           </Flex>
@@ -110,7 +142,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
                 color="neutral.black"
                 textAlign="right"
               >
-                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? `${user?.firstname} ${user?.lastname}` : company?.name}
+                {getUserName(true)?.name}
               </Text>
               <Text
                 fontSize="16px"
@@ -120,10 +152,10 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
                 color="neutral.dsGray"
                 textAlign="right"
               >
-                {chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? user?.description : company?.title}
+                {getUserName(true)?.title}
               </Text>
             </Flex>
-            <Avatar w="64px" h="64px" borderRadius={chat.user1Type === 'User' ? '50%' : '20px' } />
+            <Avatar w="64px" h="64px" borderRadius={getUserName(true)?.type === 'User' ? '50%' : '20px' } />
           </Flex>
         </Flex>
         <Divider borderColor="neutral.dsGray" />
@@ -139,16 +171,16 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
                if(m.receiverWallet.toLowerCase() !== user?.wallet.toLowerCase()) {
                 return <SentMessage 
                       key={k}
-                      name={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? `${user?.firstname} ${user?.lastname}` : company?.name }
-                      userType={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? 'User' : 'Company'} 
+                      name={getUserName(true)?.name}
+                      userType={getUserName(true)?.type} 
                       date={new Date(m.createdAt)}
                       message={m.content}
                       />
                } else {
                 return <ReceivedMessage 
                         key={k} 
-                        name={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ?  chat.partnerCompany?.name : `${chat.partnerUser?.firstname} ${chat.partnerUser?.lastname}`}
-                        userType={chat.user1Type === 'User' && chat.user1 === user?.wallet.toLowerCase() ? 'Company' : 'User'}
+                        name={getUserName(false)?.name}
+                        userType={getUserName(false)?.type}
                         date={new Date(m.createdAt)}
                         message={m.content}
                         />
