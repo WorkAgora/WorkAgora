@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
 import { ChatAuthorType, ChatInstance, UserTypeEnum } from '@workagora/utils';
 import { useGetMyChats } from '@workagora/front/hooks/useGetMyChats';
+import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
 
 const MotionBox = motion(Box);
 
@@ -18,6 +19,7 @@ const DashboardChat: FC = () => {
   const { company } = useCurrentCompany();
   const [activeChat, setActiveChat] = useState('');
   const {curJob, getJobById, loading} = useGetJobById();
+  const { curUser, getProfile } = useGetUserProfile();
   const {fetching, chats } = useChatInstance();
   const [newChat, setNewChat] = useState<ChatInstance>();
   const { query } = useRouter();
@@ -32,7 +34,11 @@ const DashboardChat: FC = () => {
     if (query && query.job && type === UserTypeEnum.Freelancer) {
       getJobById(query.job as string)
     }
-  },[getJobById, query, type])
+    if (query && query.freelance && type === UserTypeEnum.Company) {
+      getProfile(query.freelance as string);
+    }
+  },[getJobById, getProfile, query, type])
+  
 
   useEffect(() => {
     if (query && query.job && type === UserTypeEnum.Freelancer && curJob && user && curJob.company?.companyWallet) {
@@ -55,7 +61,57 @@ const DashboardChat: FC = () => {
         }
       }
     }
-  }, [curJob, query, type, user])
+    if (query && query.freelance && type === UserTypeEnum.Company && curUser && company && curUser.wallet && user) {
+      if (!chats || (chats && !chats.find((v) => v.user2 === curUser.wallet || v.user1 === curUser.wallet))) {
+        setNewChat({
+          PK: '',
+          SK: '',
+          user1: user?.wallet,
+          user2: curUser.wallet,
+          user1Type: ChatAuthorType.Company,
+          partnerUser: curUser,
+          visible: true,
+        })
+        setActiveChat('newChat');
+      }
+    }
+  }, [curJob, curUser, query, type, user, company])
+
+  const getChatReceiver = (v: ChatInstance) => {
+    if (v.user1 === user?.wallet.toLowerCase()) {
+      if (v.user1Type === 'User') {
+        return v.partnerCompany
+      } else {
+        return v.partnerUser
+      }
+    }
+    if (v.user2 === user?.wallet.toLowerCase()) {
+      if (v.user1Type === 'User') {
+        return v.partnerUser
+      } else {
+        return v.partnerCompany
+      }
+    }
+    return v.partnerUser
+  };
+
+  const getChatReceiverUserType = (v: ChatInstance) => {
+    if (v.user1 === user?.wallet.toLowerCase()) {
+      if (v.user1Type === 'User') {
+        return 'Company';
+      } else {
+        return 'User';
+      }
+    }
+    if (v.user2 === user?.wallet.toLowerCase()) {
+      if (v.user1Type === 'User') {
+        return 'User';
+      } else {
+        return 'Company';
+      }
+    }
+    return 'User';
+  }
 
   return (
     <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
@@ -129,8 +185,8 @@ const DashboardChat: FC = () => {
                           key={k} id={k.toString()}
                           lastMessage={v.lastMessage?.content}
                           lastMessageDate={v.lastMessage?.createdAt ? new Date(v.lastMessage.createdAt) : undefined}
-                          receiver={v.user1Type === 'User' && v.user1 === user?.wallet.toLowerCase() ? v.partnerCompany : v.partnerUser}
-                          userType={v.user1Type === 'User' && v.user1 === user?.wallet.toLowerCase() ? 'Company' : 'User'}
+                          receiver={getChatReceiver(v)}
+                          userType={getChatReceiverUserType(v)}
                           isActive={activeChat === k.toString()}
                               onClick={(id: string) => {
                                 setActiveChat(id);

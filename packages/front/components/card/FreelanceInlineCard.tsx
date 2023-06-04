@@ -5,6 +5,7 @@ import DollarIcon from '../icons/DollarIcon';
 import SendMsgIcon from '../icons/SendMsgIcon';
 import StarIcon from '../icons/StarIcon';
 import { User } from '@workagora/utils';
+import { useRouter } from 'next/router';
 
 interface FreelanceInlineCardProps {
   user: User;
@@ -12,6 +13,7 @@ interface FreelanceInlineCardProps {
 
 const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceInlineCardProps) => {
   const { getCategoryColorForSkill } = useColoredBadges();
+  const { push } = useRouter();
   let skillsLength = 0;
 
   return (
@@ -110,7 +112,7 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
           </Box>
         </Flex>
         <Box>
-          <Button variant="icon">
+          <Button variant="icon" onClick={() => push({pathname: '/dashboard/chat', query: {freelance: user.wallet}})}>
             <SendMsgIcon />
           </Button>
         </Box>

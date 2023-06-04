@@ -201,11 +201,11 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
             </Text>
           </Flex>
         </Flex>
-        <Box ml="auto" mt={2}>
-          <Button variant="outline" leftIcon={<FileIcon />}>
+        {chat.user1Type === 'Company' && chat.user1 === user?.wallet.toLowerCase() && <Box ml="auto" mt={2}>
+           <Button variant="outline" leftIcon={<FileIcon />}>
             Create new contract
           </Button>
-        </Box>
+        </Box>}
       </Flex>
       <ContractModal isOpen={isOpen} onClose={onClose} />
     </>
