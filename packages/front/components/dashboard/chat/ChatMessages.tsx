@@ -39,6 +39,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
   const { type } = useLanding();
   const { sendMessage } = useSendMessage();
   const { loading, curMessages, setCurMessages } = useGetChatMessages(chat?.PK?.replace('INSTANCE#',''));
+  const [ contractIsForm, setContractIsForm] = useState(false);
 
   const openContractModal = (proposalId: string) => {
     onOpen();
@@ -233,13 +234,16 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
             </Text>
           </Flex>
         </Flex>
-        {chat.user1Type === 'Company' && chat.user1 === user?.wallet.toLowerCase() && <Box ml="auto" mt={2}>
-           <Button variant="outline" leftIcon={<FileIcon />}>
+        {getUserName(true)?.type === 'Company' && <Box ml="auto" mt={2}>
+           <Button variant="outline" leftIcon={<FileIcon />} onClick={() => {
+            setContractIsForm(true);
+            onOpen();
+           }}>
             Create new contract
           </Button>
         </Box>}
       </Flex>
-      <ContractModal isOpen={isOpen} onClose={onClose} />
+      <ContractModal isOpen={isOpen} onClose={onClose} sender={company} receiver={chat.partnerUser} isForm={contractIsForm}/>
     </>
   );
 };

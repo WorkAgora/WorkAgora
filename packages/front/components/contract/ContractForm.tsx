@@ -4,7 +4,7 @@ import { FC } from "react";
 const ContractForm: FC = () => {
     return <Flex>
         
-    </Flex>
-}:
+    </Flex>;
+}
 
 export default ContractForm;
