@@ -10,6 +10,7 @@ import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
 import { ChatAuthorType, ChatInstance, UserTypeEnum } from '@workagora/utils';
 import { useGetMyChats } from '@workagora/front/hooks/useGetMyChats';
 import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
+import { updateRelatedJob } from '@workagora/front/services/chat';
 
 const MotionBox = motion(Box);
 
@@ -58,6 +59,9 @@ const DashboardChat: FC = () => {
         const index = chats.findIndex((v) => v.user2 === curJob.company?.companyWallet || v.user1 === curJob.company?.companyWallet);
         if (index !== -1) {
           setActiveChat(index.toString());
+          if (!chats[index].jobRelated) {
+            updateRelatedJob({instanceId: chats[index].PK, jobRelated: query.job as string});
+          }
         }
       }
     }
@@ -201,7 +205,7 @@ const DashboardChat: FC = () => {
                       id={activeChat}
                       chat={activeChat === 'newChat' ? newChat : chats[parseInt(activeChat)]}
                       isNewChat={activeChat === 'newChat'}
-                      onNewChatMessage={() => {setTimeout(() => {setNewChat(undefined); setActiveChat('0')}, 5000)}}
+                      onNewChatMessage={() => {setTimeout(() => {setNewChat(undefined); setActiveChat('0');}, 5000)}}
                     />
                   )}
                 </Flex>

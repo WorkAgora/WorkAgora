@@ -9,7 +9,7 @@ import {
   DrawerOverlay,
   Divider
 } from '@chakra-ui/react';
-import { CreateCompany, User } from '@workagora/utils';
+import { CreateCompany, CreateJob, User } from '@workagora/utils';
 import { FC } from 'react';
 import ContractTop from './ContratTop';
 import ContractForm from './ContractForm';
@@ -18,11 +18,13 @@ interface ContractModalProps {
   isOpen: boolean;
   sender?: CreateCompany;
   receiver?: User;
+  relatedJob?: string;
   isForm: boolean;
   onClose: () => void;
 }
 
-const ContractModal: FC<ContractModalProps> = ({ isOpen, onClose, sender, receiver, isForm }) => {
+const ContractModal: FC<ContractModalProps> = ({ isOpen, onClose, sender, receiver, isForm, relatedJob }) => {
+
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl">
       <DrawerOverlay>
@@ -42,7 +44,7 @@ const ContractModal: FC<ContractModalProps> = ({ isOpen, onClose, sender, receiv
           </Flex>
           <ContractTop sender={sender} receiver={receiver} />
           <Divider borderColor="neutral.black" my={4}/>
-          {isForm && <ContractForm />}
+          {isForm && <ContractForm relatedJob={relatedJob}/>}
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>

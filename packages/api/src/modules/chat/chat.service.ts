@@ -205,8 +205,6 @@ export class ChatService {
     try {
       const instanceId = instance.instanceId
 
-      Logger.log(instanceId)
-
       const messages = await this.model
         .scan({
           PK: { beginsWith: 'MESSAGE#' },
@@ -242,20 +240,20 @@ export class ChatService {
 
   async updateJobRelated(wallet: string, dto: UpdateJobRelatedDTO): Promise<ChatInstance> {
     try {
+      const isInInstance = await this.model.query('PK').eq(`GLOBAL_INSTANCE#${wallet}`).exec();
+      const instanceFromId = isInInstance.find((i) => i.SK === dto.instanceId);
+      
+      if (!instanceFromId) {
+        throw new HttpException('User not in chat instance', 404);
+      }
       // Query for chat instance
-      const [queryOneResult, queryTwoResult] = await Promise.all([
-        this.model.query('PK').eq(`INSTANCE#${wallet}#${dto.partnerWallet}`).exec(),
-        this.model.query('PK').eq(`INSTANCE#${dto.partnerWallet}#${wallet}`).exec()
-      ]);
+      const instance = await this.model.query('PK').eq(dto.instanceId).exec();
 
-      // Combine the results
-      const combinedResults = [...queryOneResult, ...queryTwoResult];
-
-      if (combinedResults.length === 0) {
+      if (instance.length === 0) {
         throw new HttpException('Chat instance not found', 404);
       }
 
-      const chatInstance = combinedResults[0].toJSON() as ChatInstance;
+      const chatInstance = instance[0].toJSON() as ChatInstance;
 
       // Update the jobRelated field
       chatInstance.jobRelated = dto.jobRelated;

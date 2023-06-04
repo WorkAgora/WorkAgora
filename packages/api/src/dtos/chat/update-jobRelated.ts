@@ -6,7 +6,7 @@ export class UpdateJobRelatedDTO {
   @IsString()
   jobRelated: string;
 
-  @ApiProperty({ description: 'Chat Partner Wallet' })
+  @ApiProperty({ description: 'Chat instance Id' })
   @IsString()
-  partnerWallet: string;
+  instanceId: string;
 }

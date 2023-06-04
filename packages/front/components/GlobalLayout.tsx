@@ -59,20 +59,20 @@ export const GlobalLayout: FC<PropsWithChildren> = ({ children }: PropsWithChild
   }, [setJobs, setJobsFetching]);
 
   useEffect(() => {
-    if (type === UserTypeEnum.Company && user) {
+    if (user) {
       if (!fetching) {
         setFetching(true);
         getCompany();
       }
     }
-  }, [getCompany, setFetching, type, user]);
+  }, [getCompany, setFetching, user]);
 
   useEffect(() => {
-    if (type === UserTypeEnum.Company && !jobsFetching && user) {
+    if (!jobsFetching && user) {
       setJobsFetching(true);
       getJobs();
     }
-  }, [getJobs, setJobsFetching, type, user]);
+  }, [getJobs, setJobsFetching, user]);
 
   return (
     <Container

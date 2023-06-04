@@ -24,7 +24,7 @@ const ContractTop: FC<ContractTopProps> = ({sender, receiver}) => {
             <Avatar w="29px" h="29px" borderRadius="8px"/>
         </Flex>
         <Divider borderColor="brand.primary" borderWidth="2px" w="40%" />
-        <Flex bgColor="brand.primary" w="32px" h="32px" border="solid 2px" borderColor="brand.primary" borderRadius="8px" justifyContent="center" alignItems="center">
+        <Flex bgColor="brand.primary" w="42px" h="32px" border="solid 2px" borderColor="brand.primary" borderRadius="8px" justifyContent="center" alignItems="center">
             <Box ><FileIcon/></Box>
         </Flex>
         <Divider borderColor="brand.primary" borderWidth="2px" w="40%" />

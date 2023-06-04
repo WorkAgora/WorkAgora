@@ -22,16 +22,17 @@ import SendMsgIcon from '../../icons/SendMsgIcon';
 import ChatContractProposal from './ChatContractProposal';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
+import { updateRelatedJob } from '@workagora/front/services/chat';
+import { useRouter } from 'next/router';
 
 interface ChatMessagesProps {
   id: string;
   chat: ChatInstance;
-  jobRelated?: CreateJob;
   isNewChat: boolean;
   onNewChatMessage?: () => void;
 }
 
-const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat = false, onNewChatMessage }) => {
+const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNewChatMessage }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [curMessage, setCurMessage] = useState<string>();
   const { user } = useCurrentUser();
@@ -40,12 +41,8 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
   const { sendMessage } = useSendMessage();
   const { loading, curMessages, setCurMessages } = useGetChatMessages(chat?.PK?.replace('INSTANCE#',''));
   const [ contractIsForm, setContractIsForm] = useState(false);
+  const { query } = useRouter();
 
-  const openContractModal = (proposalId: string) => {
-    onOpen();
-  };
-
-  
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCurMessage(event.target.value);
   };
@@ -76,6 +73,12 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
       }
     }
   };
+
+  useEffect(() => {
+    if (!chat.jobRelated && chat.PK != '' && query.job) {
+      updateRelatedJob({instanceId: chat.PK, jobRelated: query.job as string});
+    } 
+  }, [chat, query.job])
 
   const getUserName = (me: boolean) => {
     if (!me) {
@@ -243,7 +246,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, jobRelated, isNewChat =
           </Button>
         </Box>}
       </Flex>
-      <ContractModal isOpen={isOpen} onClose={onClose} sender={company} receiver={chat.partnerUser} isForm={contractIsForm}/>
+      <ContractModal isOpen={isOpen} onClose={onClose} sender={company} receiver={chat.partnerUser} isForm={contractIsForm} relatedJob={chat.jobRelated}/>
     </>
   );
 };
