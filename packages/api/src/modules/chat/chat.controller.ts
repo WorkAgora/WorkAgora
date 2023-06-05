@@ -37,6 +37,7 @@ export class ChatController {
     @Req() req: Request,
     @Body() message: CreateChatMessageDTO
   ): Promise<ChatMessage> {
+    // @ts-ignore
     const { wallet } = req.user;
     if (wallet !== message.senderWallet) {
       throw new Error('Sender wallet is required');
@@ -61,6 +62,7 @@ export class ChatController {
     description: 'An unexpected error occurred'
   })
   async getConversations(@Req() req: Request) {
+    // @ts-ignore
     const { wallet } = req.user;
     return this.chatService.getConversations(wallet);
   }
@@ -86,6 +88,7 @@ export class ChatController {
     @Req() req: Request,
     @Body() instance: ToggleVisibilityDto
   ): Promise<boolean> {
+    // @ts-ignore
     const { wallet } = req.user;
     return this.chatService.toggleVisibility(wallet, instance);
   }
@@ -115,6 +118,7 @@ export class ChatController {
     @Query('limit') limit: number,
     @Query('page') page: number
   ) {
+    // @ts-ignore
     const { wallet } = req.user;
     const instance: GetMessagesDto = { instanceId, limit, page };
     return this.chatService.getMessages(wallet, instance);
@@ -141,6 +145,7 @@ export class ChatController {
     @Req() req: Request,
     @Body() dto: UpdateJobRelatedDTO
   ): Promise<ChatInstance> {
+    // @ts-ignore
     const { wallet } = req.user;
     return this.chatService.updateJobRelated(wallet, dto);
   }

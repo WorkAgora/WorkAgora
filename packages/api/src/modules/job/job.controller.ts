@@ -42,6 +42,7 @@ export class JobController {
     description: 'An unexpected error occurred'
   })
   async createJob(@Req() req: Request, @Body() createJobDTO: CreateJobDTO): Promise<CreateJobDTO> {
+    // @ts-ignore
     return this.jobService.createJob(req.user.wallet, createJobDTO);
   }
 
@@ -62,6 +63,7 @@ export class JobController {
     description: 'An unexpected error occurred'
   })
   async getMyJobs(@Req() req: Request): Promise<CreateJobDTO[]> {
+    // @ts-ignore
     return this.jobService.getMyJobs(req.user.wallet);
   }
 
@@ -85,6 +87,7 @@ export class JobController {
     @Req() req: Request,
     @Body() deleteJobDto: DeleteJobDTO
   ): Promise<{ message: string }> {
+    // @ts-ignore
     return this.jobService.deleteJob(req.user.wallet, deleteJobDto);
   }
 

@@ -52,6 +52,7 @@ export class NotificationController {
     description: 'An unexpected error occurred'
   })
   async getUnread(@Req() req: Request) {
+    // @ts-ignore
     const { wallet } = req.user;
     return await this.notificationService.getUnreadNotifications(wallet);
   }
@@ -77,6 +78,7 @@ export class NotificationController {
     @Req() req: Request,
     @Body() toggleReadStatusDto: ToggleReadStatusDTO
   ): Promise<NotificationInterface> {
+    // @ts-ignore
     const { wallet } = req.user;
     return await this.notificationService.toggleReadStatus(wallet, toggleReadStatusDto);
   }
@@ -102,6 +104,7 @@ export class NotificationController {
     @Query('page') page: number,
     @Query('limit') limit: number
   ): Promise<{ notifications: NotificationInterface[]; maxPage: number; totalResult: number }> {
+    // @ts-ignore
     const { wallet } = req.user;
     return await this.notificationService.getNotifications(wallet, { page, limit });
   }

@@ -44,6 +44,7 @@ export class CompanyController {
     @Req() req: Request,
     @Body() createCompanyDTO: CreateCompanyDTO
   ): Promise<CreateCompany> {
+    // @ts-ignore
     return this.companyService.createCompany(req.user.wallet, createCompanyDTO);
   }
 
@@ -60,6 +61,7 @@ export class CompanyController {
     description: 'An unexpected error occurred'
   })
   async getMyCompanies(@Req() req: Request): Promise<CreateCompanyDTO[]> {
+    // @ts-ignore
     return this.companyService.getMyCompanies(req.user.wallet);
   }
 
@@ -102,6 +104,7 @@ export class CompanyController {
     @Req() req: Request,
     @Body() deleteCompanyDto: DeleteCompanyDTO
   ): Promise<{ message: string; deleted: boolean }> {
+    // @ts-ignore
     return this.companyService.deleteCompany(req.user.wallet, deleteCompanyDto);
   }
 
@@ -126,6 +129,7 @@ export class CompanyController {
     @Param('uuid') uuid: string,
     @Body() updateCompanyDto: CreateCompanyDTO
   ): Promise<CreateCompanyDTO> {
+    // @ts-ignore
     return this.companyService.updateCompany(req.user.wallet, uuid, updateCompanyDto);
   }
 }

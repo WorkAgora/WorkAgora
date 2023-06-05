@@ -55,6 +55,7 @@ export class UserController {
     description: 'An unexpected error occurred'
   })
   async getCurrentUser(@Req() req: Request): Promise<UserDTO> {
+    // @ts-ignore
     return req.user;
   }
 
@@ -121,6 +122,7 @@ export class UserController {
     @Req() req: Request,
     @Body() updatedProfile: UpdateProfileDTO
   ): Promise<UserDTO> {
+    // @ts-ignore
     if (updatedProfile.wallet.toLowerCase() !== req.user.wallet.toLowerCase()) {
       throw new HttpException('Invalid wallet address', 403);
     }
@@ -178,6 +180,7 @@ export class UserController {
       throw new HttpException('Invalid user type', 400);
     }
     try {
+      // @ts-ignore
       return await this.userService.changeUserType(req.user.wallet.toLowerCase(), userType);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
@@ -279,6 +282,7 @@ export class UserController {
     @Query('searchTerm') searchTerm?: string
   ): Promise<{ users: UserDTO[]; maxPage: number; totalResult: number }> {
     try {
+      // @ts-ignore
       return await this.userService.searchUsers(searchTerm, page, limit, req.user.wallet);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
@@ -331,6 +335,7 @@ export class UserController {
   })
   async addExperience(@Req() req: Request, @Body() experience: ExperienceDTO): Promise<UserDTO> {
     try {
+      // @ts-ignore
       return await this.userService.addExperience(req.user.wallet, experience);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
@@ -351,6 +356,7 @@ export class UserController {
   })
   async deleteExperience(@Req() req: Request, @Body() body: DeleteExperienceDTO): Promise<UserDTO> {
     try {
+      // @ts-ignore
       return await this.userService.removeExperience(req.user.wallet, body.id);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
@@ -371,6 +377,7 @@ export class UserController {
   })
   async updateExperience(@Req() req: Request, @Body() body: UpdateExperienceDTO): Promise<UserDTO> {
     try {
+      // @ts-ignore
       return await this.userService.updateExperience(req.user.wallet, body);
     } catch (e) {
       throw new HttpException('An unexpected error occurred:' + e.message, e.status || 500);
