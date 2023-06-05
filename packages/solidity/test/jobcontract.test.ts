@@ -1,22 +1,25 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { AUTHORITY_FEE_PCT, SIG_AUTHORITY_PV_KEY, UserTestInfo, deployBaseContracts, expectThrowsAsync, getSignersInfo, isTimestampInRange, signMessage } from "./utils";
+import { SIG_AUTHORITY_PV_KEY, UserTestInfo, expectThrowsAsync, getSignersInfo, isTimestampInRange, signMessage } from "./utils";
 import { Jcc, Jfc, JobContractState, createJobContract, finalizeJobContract, getOnChainParams } from "./utils/jobContract";
 import { verifyUsers } from "./utils/userManager";
-import { PaymentToken } from "./utils/priceController";
 import BigNumber from "bignumber.js";
-import { Contractor, Employer, JobContract, UserManager, WrappedAvaxToken } from "../typechain-types";
+import { Contractor, Employer, JobContract, LinkToken, UserManager } from "../typechain-types";
+import { deployAllContracts, getContractAt } from "../scripts/utils/contracts";
+import { PaymentToken, TestContractsType, TokenConfig } from "../scripts/utils/types";
 
 const WRONG_SIG_AUTHORITY_PV_KEY = '0x4747474747474747474747474747474747474747474747474747474747474747';
-const AVAX_PRICE = new BigNumber('68000000000000000000');
+const AVAX_PRICE = new BigNumber('68000000000000000000'); // TODO
+const LINK_PRICE = new BigNumber('154000000000000000000');
+const AUTHORITY_FEE_PCT = 7;
 
 type JobContractCreateFixtureParams = {
     usersToVerify: UserTestInfo[],
-    wavaxTransfer?: {
+    linkTransfer?: {
         user: UserTestInfo,
         price: BigNumber,
     },
-    wavaxApproval?: {
+    lnikApproval?: {
         user: UserTestInfo,
         price: BigNumber,
     },
@@ -36,7 +39,8 @@ describe("Job contracts", () => {
     let employer: Employer;
     let userManager: UserManager;
     let jobContract: JobContract;
-    let wavax: WrappedAvaxToken;
+    let link: LinkToken;
+    let tokensConfig: TokenConfig[];
     let defaultFixtureCreateParams: JobContractCreateFixtureParams;
 
     async function initCreateFixture(_params?: Partial<JobContractCreateFixtureParams>) {
@@ -44,26 +48,27 @@ describe("Job contracts", () => {
             ...defaultFixtureCreateParams,
             ..._params,
         };
-        ({ userManager, jobContract, wavax, employer, contractor } = await loadFixture(deployBaseContracts));
-        const { usersToVerify, wavaxTransfer, wavaxApproval } = params;
+        ({ userManager, jobContract, employer, contractor, tokensConfig } = await loadFixture(deployAllContracts));
+        link = await getContractAt<LinkToken>(TestContractsType.LinkToken, tokensConfig.find(t => t.type === PaymentToken.Link)!.tokenAddress);
+        const { usersToVerify, linkTransfer: linkTransfer, lnikApproval: linkApproval } = params;
         await verifyUsers(userManager, ...usersToVerify);
-        if (wavaxTransfer) {
-            await wavax.transfer(wavaxTransfer!.user.pubKey, wavaxTransfer!.price.toFixed());
+        if (linkTransfer) {
+            await link.transfer(linkTransfer!.user.pubKey, linkTransfer!.price.toFixed());
         }
-        if (wavaxApproval) {
-            await wavax.connect(wavaxApproval.user.signer).approve(jobContract.address, wavaxApproval.price.toFixed());
+        if (linkApproval) {
+            await link.connect(linkApproval.user.signer).approve(jobContract.address, linkApproval.price.toFixed());
         }
         jccSignature = await signMessage(SIG_AUTHORITY_PV_KEY, ...Object.values(_params?.jcc || baseJcc));
     }
 
     async function expectBalances(params: { contractBalance: string, employerBalance: string, contractorBalance: string }) {
-        expect(await wavax.balanceOf(jobContract.address)).eq(params.contractBalance);
-        expect(await wavax.balanceOf(employerUser.pubKey)).eq(params.employerBalance);
-        expect(await wavax.balanceOf(contractorUser.pubKey)).eq(params.contractorBalance);
+        expect(await link.balanceOf(jobContract.address)).eq(params.contractBalance);
+        expect(await link.balanceOf(employerUser.pubKey)).eq(params.employerBalance);
+        expect(await link.balanceOf(contractorUser.pubKey)).eq(params.contractorBalance);
     }
 
     function getMinTransferApprovalAmount(jcc: Jcc) {
-        return AVAX_PRICE.times(jcc.initialDepositPct[1] + jcc.lockedAmountPct[1]).div(100);
+        return LINK_PRICE.times(jcc.initialDepositPct[1] + jcc.lockedAmountPct[1]).div(100);
     }
 
     function getJccCustomPct(baseJcc: Jcc, percentages: { initialDepositPct: number, lockedAmountPct: number, deferredAmountPct: number }) {
@@ -80,7 +85,7 @@ describe("Job contracts", () => {
         baseJcc = {
             contractId: ['string', 'contract-id'],
             totalAmountUsd: ['uint128', 1000],
-            paymentToken: ['uint8', PaymentToken.Avax],
+            paymentToken: ['uint8', PaymentToken.Link],
             initialDepositPct: ['uint8', 30],
             lockedAmountPct: ['uint8', 50],
             deferredAmountPct: ['uint8', 20],
@@ -92,8 +97,8 @@ describe("Job contracts", () => {
         };
         defaultFixtureCreateParams = {
             usersToVerify: [employerUser, contractorUser],
-            wavaxTransfer: { user: employerUser, price: AVAX_PRICE },
-            wavaxApproval: { user: employerUser, price: getMinTransferApprovalAmount(baseJcc) },
+            linkTransfer: { user: employerUser, price: LINK_PRICE },
+            lnikApproval: { user: employerUser, price: getMinTransferApprovalAmount(baseJcc) },
         };
     });
 
@@ -101,26 +106,26 @@ describe("Job contracts", () => {
 
         it("Should create a contract", async () => {
             await initCreateFixture();
-            expect(await wavax.balanceOf(jobContract.address)).eq('0');
-            expect(await wavax.balanceOf(employerUser.pubKey)).eq(AVAX_PRICE.toFixed());
-            expect(await wavax.balanceOf(contractorUser.pubKey)).eq('0');
+            expect(await link.balanceOf(jobContract.address)).eq('0');
+            expect(await link.balanceOf(employerUser.pubKey)).eq(LINK_PRICE.toFixed());
+            expect(await link.balanceOf(contractorUser.pubKey)).eq('0');
 
             await createJobContract(baseJcc, jccSignature, jobContract);
 
             // Validate balances
-            expect(await wavax.balanceOf(jobContract.address)).eq('34000000000000000000'); // 50% - locked
-            expect(await wavax.balanceOf(employerUser.pubKey)).eq('13600000000000000000'); // 20% - deferred
-            expect(await wavax.balanceOf(contractorUser.pubKey)).eq('20400000000000000000'); // 30% - initial deposit
+            expect(await link.balanceOf(jobContract.address)).eq('77000000000000000000'); // 50% - locked
+            expect(await link.balanceOf(employerUser.pubKey)).eq('30800000000000000000'); // 20% - deferred
+            expect(await link.balanceOf(contractorUser.pubKey)).eq('46200000000000000000'); // 30% - initial deposit
 
             // Validate created contract
             const contract = await jobContract.contracts(baseJcc.contractId[1]);
             expect(contract.length).to.equal(11);
             expect(contract[0]).to.equal(JobContractState.Started);
             expect(contract[1]).to.equal(baseJcc.totalAmountUsd[1]);
-            expect(contract[2]).to.equal(AVAX_PRICE.toFixed());
+            expect(contract[2]).to.equal(LINK_PRICE.toFixed());
             expect(contract[3]).to.equal(baseJcc.lockedAmountPct[1]);
             expect(contract[4]).to.equal(baseJcc.deferredAmountPct[1]);
-            expect(contract[5]).to.equal(PaymentToken.Avax);
+            expect(contract[5]).to.equal(PaymentToken.Link);
             expect(isTimestampInRange(baseJcc.durationDays[1], contract[6].toNumber())).to.be.true;
             expect(contract[7]).to.equal(baseJcc.contractorAddress[1]);
             expect(contract[8]).to.equal(baseJcc.employerAddress[1]);
@@ -199,12 +204,12 @@ describe("Job contracts", () => {
         });
 
         it("Should fail creation if token transfer allowance is insufficient", async () => {
-            await initCreateFixture({ wavaxApproval: { user: employerUser, price: getMinTransferApprovalAmount(baseJcc).minus(1) } });
+            await initCreateFixture({ lnikApproval: { user: employerUser, price: getMinTransferApprovalAmount(baseJcc).minus(1) } });
             await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'ERC20: insufficient allowance');
         });
 
         it("Should fail creation if token balance is insufficient", async () => {
-            await initCreateFixture({ wavaxTransfer: { user: employerUser, price: AVAX_PRICE.minus(1) } });
+            await initCreateFixture({ linkTransfer: { user: employerUser, price: LINK_PRICE.minus(1) } });
             await expectThrowsAsync(() => createJobContract(baseJcc, jccSignature, jobContract), 'Insufficient balance');
         });
 
@@ -222,7 +227,7 @@ describe("Job contracts", () => {
             };
             defaultFixtureCreateParams = {
                 ...defaultFixtureCreateParams,
-                wavaxApproval: { user: employerUser, price: AVAX_PRICE },
+                lnikApproval: { user: employerUser, price: LINK_PRICE },
             };
         });
 
@@ -238,14 +243,14 @@ describe("Job contracts", () => {
 
             // Validate finalized contract
             const contract = await jobContract.contracts(baseJfc.contractId[1]);
-            expect(contract[0]).to.equal(JobContractState.CompleteWithSuccess);
-            expect(contract[10]).to.equal(baseJfc.ipfsJfiHash[1]);
+            expect(contract.state).to.equal(JobContractState.CompleteWithSuccess);
+            expect(contract.ipfsJfiHash).to.equal(baseJfc.ipfsJfiHash[1]);
 
             // Validate balances
             await expectBalances({
-                contractBalance: AVAX_PRICE.times(AUTHORITY_FEE_PCT).div(100).toFixed(),
+                contractBalance: LINK_PRICE.times(AUTHORITY_FEE_PCT).div(100).toFixed(),
                 employerBalance: '0',
-                contractorBalance: AVAX_PRICE.times(100 - AUTHORITY_FEE_PCT).div(100).toFixed()
+                contractorBalance: LINK_PRICE.times(100 - AUTHORITY_FEE_PCT).div(100).toFixed()
             });
 
             {
@@ -270,15 +275,15 @@ describe("Job contracts", () => {
             await initFinalizationFixture({ jcc });
 
             await expectBalances({
-                contractBalance: AVAX_PRICE.toFixed(),
+                contractBalance: LINK_PRICE.toFixed(),
                 employerBalance: '0',
                 contractorBalance: '0'
             });
             await finalizeJobContract(baseJfc, baseJfcSignature, jobContract);
             await expectBalances({
-                contractBalance: AVAX_PRICE.times(AUTHORITY_FEE_PCT).div(100).toFixed(),
+                contractBalance: LINK_PRICE.times(AUTHORITY_FEE_PCT).div(100).toFixed(),
                 employerBalance: '0',
-                contractorBalance: AVAX_PRICE.times(100 - AUTHORITY_FEE_PCT).div(100).toFixed()
+                contractorBalance: LINK_PRICE.times(100 - AUTHORITY_FEE_PCT).div(100).toFixed()
             });
         });
 
@@ -296,7 +301,7 @@ describe("Job contracts", () => {
         });
 
         it("Should fail finalization if deferred token transfer allowance is insufficient", async () => {
-            await initFinalizationFixture({ wavaxApproval: { user: employerUser, price: getMinTransferApprovalAmount(baseJcc) } });
+            await initFinalizationFixture({ lnikApproval: { user: employerUser, price: getMinTransferApprovalAmount(baseJcc) } });
             await expectThrowsAsync(() => finalizeJobContract(baseJfc, baseJfcSignature, jobContract), 'ERC20: insufficient allowance');
         });
 

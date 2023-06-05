@@ -1,16 +1,13 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { JobContract, MockV3Aggregator, PriceController, UserManager, Contractor, Employer } from "../../typechain-types";
 import { Wallet } from "ethers";
 import { Jcc, Jfc } from "./jobContract";
-import { PaymentToken, tokensInfo } from "./priceController";
 import { strict as assert } from "assert";
 
 // Constants
 export const SIG_AUTHORITY_PV_KEY = '0x113ea374c34d11b617168b48aef9b29997684291a7c318fefb2ea5fff99d1776';
 export const SIG_AUTHORITY_WALLET = new Wallet(SIG_AUTHORITY_PV_KEY);
-export const AUTHORITY_FEE_PCT = 7;
 
 // Types
 export type UserTestInfo = {
@@ -18,75 +15,6 @@ export type UserTestInfo = {
     pubKey: string;
     kycId: string;
 };
-
-export enum ContractsType {
-    UserManager = 'UserManager',
-    Contractor = 'Contractor',
-    Employer = 'Employer',
-    JobContract = 'JobContract',
-    PriceController = 'PriceController',
-    // Tests contracts below
-    WrappedAvaxToken = 'WrappedAvaxToken',
-    LinkToken = 'LinkToken',
-    MockV3Aggregator = 'MockV3Aggregator'
-}
-
-// Methods
-export async function deployContract<T>(name: string) {
-    const factory = await ethers.getContractFactory(name);
-    const contract = await factory.deploy();
-    return await contract.deployed() as T;
-}
-
-export async function deployBaseContracts() {
-    const wavaxFactory = await ethers.getContractFactory(ContractsType.WrappedAvaxToken);
-    const linkFactory = await ethers.getContractFactory(ContractsType.LinkToken);
-    const aggregatorFactory = await ethers.getContractFactory(ContractsType.MockV3Aggregator);
-
-    // ERC20 Tokens
-    const wavax = await wavaxFactory.deploy(ethers.utils.parseEther("1000"));
-    const link = await linkFactory.deploy(ethers.utils.parseEther("1000"));
-
-    // Chainlink aggregators
-    const aggregators = new Map<PaymentToken, MockV3Aggregator>();
-    for (const { token, decimals, price } of tokensInfo) {
-        aggregators.set(token,
-            await aggregatorFactory.deploy(decimals, price.times(10 ** decimals).toFixed())
-        );
-    }
-
-    const userManager = await deployContract<UserManager>(ContractsType.UserManager);
-    const employer = await deployContract<Employer>(ContractsType.Employer);
-    const contractor = await deployContract<Contractor>(ContractsType.Contractor);
-    const jobContract = await deployContract<JobContract>(ContractsType.JobContract);
-    const priceController = await deployContract<PriceController>(ContractsType.PriceController);
-
-    // Init
-    await userManager.initialize(SIG_AUTHORITY_WALLET.address,
-        employer.address,
-        contractor.address,
-        jobContract.address
-    );
-    await jobContract.initialize(userManager.address, priceController.address, employer.address, contractor.address, AUTHORITY_FEE_PCT);
-    await priceController.setToken(PaymentToken.Avax, aggregators.get(PaymentToken.Avax)!.address, wavax.address);
-    await priceController.setToken(PaymentToken.Link, aggregators.get(PaymentToken.Link)!.address, link.address);
-    await employer.initialize(jobContract.address);
-    await contractor.initialize(jobContract.address);
-
-    return {
-        userManager,
-        employer,
-        contractor,
-        jobContract,
-        priceController,
-        wavax,
-        link,
-    };
-}
-
-export async function getContractAt<T>(type: ContractsType, address: string) {
-    return await ethers.getContractAt(type, address) as T;
-}
 
 export async function getSignersInfo() {
     const signers = await ethers.getSigners();

@@ -10,33 +10,10 @@ Network: Avax From: https://docs.chain.link/data-feeds/price-feeds/addresses?net
 
 ## Methods
 
-### contracts
-
-```solidity
-function contracts(enum PaymentToken) external view returns (contract PriceConsumer priceConsumer, contract IERC20 tokenAddress)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | enum PaymentToken | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| priceConsumer | contract PriceConsumer | undefined |
-| tokenAddress | contract IERC20 | undefined |
-
 ### getTokenData
 
 ```solidity
-function getTokenData(enum PaymentToken _token) external view returns (contract PriceConsumer, contract IERC20)
+function getTokenData(enum PaymentToken _token) external view returns (struct PriceController.TokenData)
 ```
 
 
@@ -53,13 +30,12 @@ function getTokenData(enum PaymentToken _token) external view returns (contract 
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | contract PriceConsumer | undefined |
-| _1 | contract IERC20 | undefined |
+| _0 | PriceController.TokenData | undefined |
 
 ### getTokenPriceFromUsd
 
 ```solidity
-function getTokenPriceFromUsd(enum PaymentToken _paymentToken, uint256 _amountUsd) external view returns (uint256)
+function getTokenPriceFromUsd(enum PaymentToken _paymentToken, uint256 _amountUsd) external view returns (uint256, uint8)
 ```
 
 
@@ -78,6 +54,23 @@ function getTokenPriceFromUsd(enum PaymentToken _paymentToken, uint256 _amountUs
 | Name | Type | Description |
 |---|---|---|
 | _0 | uint256 | undefined |
+| _1 | uint8 | undefined |
+
+### initialize
+
+```solidity
+function initialize(contract AggregatorV3Interface _avaxAggregator) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _avaxAggregator | contract AggregatorV3Interface | undefined |
 
 ### isTokenSet
 
@@ -109,7 +102,7 @@ function owner() external view returns (address)
 
 
 
-*Returns the address of the current owner.*
+
 
 
 #### Returns
@@ -118,21 +111,10 @@ function owner() external view returns (address)
 |---|---|---|
 | _0 | address | undefined |
 
-### renounceOwnership
-
-```solidity
-function renounceOwnership() external nonpayable
-```
-
-
-
-*Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.*
-
-
 ### setToken
 
 ```solidity
-function setToken(enum PaymentToken _token, address _aggregator, address _tokenAddress) external nonpayable
+function setToken(enum PaymentToken _token, contract AggregatorV3Interface _aggregator, contract IERC20 _tokenAddress) external nonpayable
 ```
 
 
@@ -144,33 +126,13 @@ function setToken(enum PaymentToken _token, address _aggregator, address _tokenA
 | Name | Type | Description |
 |---|---|---|
 | _token | enum PaymentToken | undefined |
-| _aggregator | address | undefined |
-| _tokenAddress | address | undefined |
+| _aggregator | contract AggregatorV3Interface | undefined |
+| _tokenAddress | contract IERC20 | undefined |
 
-### transferOwnership
-
-```solidity
-function transferOwnership(address newOwner) external nonpayable
-```
-
-
-
-*Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| newOwner | address | undefined |
-
-
-
-## Events
-
-### OwnershipTransferred
+### tokens
 
 ```solidity
-event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+function tokens(enum PaymentToken) external view returns (contract PriceConsumer priceConsumer, contract IERC20 token)
 ```
 
 
@@ -181,8 +143,15 @@ event OwnershipTransferred(address indexed previousOwner, address indexed newOwn
 
 | Name | Type | Description |
 |---|---|---|
-| previousOwner `indexed` | address | undefined |
-| newOwner `indexed` | address | undefined |
+| _0 | enum PaymentToken | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| priceConsumer | contract PriceConsumer | undefined |
+| token | contract IERC20 | undefined |
+
 
 
 

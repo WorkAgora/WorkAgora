@@ -6,8 +6,8 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract PriceConsumer {
     AggregatorV3Interface private immutable _aggregator;
 
-    constructor(address feedAddress) {
-        _aggregator = AggregatorV3Interface(feedAddress);
+    constructor(AggregatorV3Interface feedAddress) {
+        _aggregator = feedAddress;
     }
 
     /**
