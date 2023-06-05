@@ -2,9 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { getRefreshToken } from '../../front/services/auth';
 
-export const API_URL = `${
-  process.env.NEXT_PUBLIC_BC_ENV !== 'production' ? 'http://' : 'https://'
-}${process.env.NEXT_PUBLIC_API_URL}`;
+export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
 let publicApiHeader: any = {
   'Content-Type': 'application/json',
