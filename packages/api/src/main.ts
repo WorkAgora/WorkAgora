@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
-  app.enableCors({origin: '*'});
+  app.enableCors({origin: ['http://localhost:3000','https://work-agora.vercel.app/']});
 
   // setup Swagger
   const options = new DocumentBuilder()
