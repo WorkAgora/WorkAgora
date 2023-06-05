@@ -54,3 +54,5 @@ typechain-types
 .dynamodb
 .build
 .serverless/
+
+pnpm-lock.yaml
