@@ -14,7 +14,7 @@ import { useCurrentUser } from '@workagora/front-provider';
 import StarIcon from '../../../icons/StarIcon';
 import { FC, useState } from 'react';
 import PencilIcon from '@workagora/front/components/icons/PencilIcon';
-import { User } from '@workagora/utils';
+import { locationRegex, User } from '@workagora/utils';
 import DollarIcon from '@workagora/front/components/icons/DollarIcon';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -27,6 +27,7 @@ interface FormData {
   lastname: string;
   remuneration: string;
   description: string;
+  location: string;
 }
 
 const validationSchema = Yup.object().shape({
@@ -37,7 +38,10 @@ const validationSchema = Yup.object().shape({
     .required('Remuneration required'),
   description: Yup.string()
     .max(55, 'Description must be at most 55 characters')
-    .required('Description required')
+    .required('Description required'),
+  location: Yup.string()
+    .required('Location required')
+    .matches(locationRegex, 'Invalid format. Please use "City, Country"')
 });
 
 const FreelanceTopProfile: FC = () => {
@@ -80,7 +84,8 @@ const FreelanceTopProfile: FC = () => {
             firstname: user.firstname ?? '',
             lastname: user.lastname ?? '',
             remuneration: user.freelanceProfile?.remuneration ?? '',
-            description: user.description ?? ''
+            description: user.description ?? '',
+            location: user.location ?? ''
           }}
           validationSchema={validationSchema}
           isInitialValid={false}
@@ -97,9 +102,21 @@ const FreelanceTopProfile: FC = () => {
                     <Box textStyle="h3">
                       {user.firstname} {user.lastname}
                     </Box>
-                    <Box textStyle="h4" color="neutral.dsGray">
-                      {user.description}
-                    </Box>
+                    <Flex alignItems="center">
+                      <Box textStyle="h4" color="neutral.dsGray">
+                        {user.description} |
+                      </Box>
+                      <Box
+                        ml={2}
+                        mt={0.5}
+                        lineHeight="100%"
+                        textStyle="h6"
+                        color="neutral.dsDarkGray"
+                      >
+                        {user.location}
+                      </Box>
+                    </Flex>
+
                     <Flex mt={2}>
                       <Flex
                         alignItems="center"
@@ -237,36 +254,51 @@ const FreelanceTopProfile: FC = () => {
                           </ErrorMessage>
                         </FormControl>
                       </Flex>
-                      <FormControl id="description" isRequired>
-                        <FormLabel>Profile title</FormLabel>
-                        <Field name="description">
-                          {({ field, form }: any) => (
-                            <InputGroup>
-                              <Input
-                                {...field}
-                                placeholder="Write an attractive title"
-                                isInvalid={errors.description && touched.description}
-                              />
-                              <InputRightElement mr={4} fontWeight="700">
-                                <Box
-                                  color={field.value.length <= 55 ? 'green.500' : 'red.500'}
-                                  mr={1}
-                                >
-                                  {field.value.length}
-                                </Box>
-                                /<Box mx={1}>55</Box>
-                              </InputRightElement>
-                            </InputGroup>
-                          )}
-                        </Field>
-                        <ErrorMessage name="description">
-                          {(msg) => (
-                            <Text mt={1} textStyle="errorMessage">
-                              {msg}
-                            </Text>
-                          )}
-                        </ErrorMessage>
-                      </FormControl>
+                      <Flex>
+                        <FormControl id="description" isRequired>
+                          <FormLabel>Profile title</FormLabel>
+                          <Field name="description">
+                            {({ field, form }: any) => (
+                              <InputGroup>
+                                <Input
+                                  {...field}
+                                  placeholder="Write an attractive title"
+                                  isInvalid={errors.description && touched.description}
+                                />
+                                <InputRightElement mr={4} fontWeight="700">
+                                  <Box
+                                    color={field.value.length <= 55 ? 'green.500' : 'red.500'}
+                                    mr={1}
+                                  >
+                                    {field.value.length}
+                                  </Box>
+                                  /<Box mx={1}>55</Box>
+                                </InputRightElement>
+                              </InputGroup>
+                            )}
+                          </Field>
+                          <ErrorMessage name="description">
+                            {(msg) => (
+                              <Text mt={1} textStyle="errorMessage">
+                                {msg}
+                              </Text>
+                            )}
+                          </ErrorMessage>
+                        </FormControl>
+                        <FormControl id="location" isRequired ml={6}>
+                          <FormLabel>Location</FormLabel>
+                          <Field
+                            name="location"
+                            placeholder="Enter your location"
+                            as={Input}
+                            type="text"
+                            isInvalid={errors.location && touched.location}
+                          />
+                          <ErrorMessage name="location">
+                            {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+                          </ErrorMessage>
+                        </FormControl>
+                      </Flex>
                     </Flex>
                     <Flex ml="auto" alignItems="start">
                       <Box mt={8}>

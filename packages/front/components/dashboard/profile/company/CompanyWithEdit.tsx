@@ -20,12 +20,14 @@ import CloseIcon from '@workagora/front/components/icons/CloseIcon';
 import CheckIcon from '@workagora/front/components/icons/CheckIcon';
 import WebsiteIcon from '@workagora/front/components/icons/WebsiteIcon';
 import { useUpdateCompany } from '@workagora/front/hooks/useUpdateCompany';
+import { locationRegex } from '@workagora/utils';
 
 interface FormData {
   name: string;
   title: string;
   description: string;
   websiteUrl: string;
+  location: string;
 }
 
 const validationSchema = Yup.object().shape({
@@ -38,7 +40,8 @@ const validationSchema = Yup.object().shape({
   description: Yup.string()
     .required('Description is required')
     .max(2000, 'Description must be less than 2000 characters'),
-  websiteUrl: Yup.string().url('Website URL must be a valid URL')
+  websiteUrl: Yup.string().url('Website URL must be a valid URL'),
+  location: Yup.string().matches(locationRegex, 'Invalid format. Please use "City, Country"')
 });
 
 const CompanyWithEdit: FC = () => {
@@ -55,6 +58,7 @@ const CompanyWithEdit: FC = () => {
   const [titleEdit, setTitleEdit] = useState(false);
   const [descEdit, setDescEdit] = useState(false);
   const [linkEdit, setLinkEdit] = useState(false);
+  const [locationEdit, setLocationEdit] = useState(false);
 
   return (
     <Formik
@@ -62,7 +66,8 @@ const CompanyWithEdit: FC = () => {
         name: company?.name ?? '',
         title: company?.title ?? '',
         description: company?.description ?? '',
-        websiteUrl: company?.websiteUrl ?? ''
+        websiteUrl: company?.websiteUrl ?? '',
+        location: company?.location ?? ''
       }}
       validationSchema={validationSchema}
       isInitialValid={false}
@@ -320,126 +325,209 @@ const CompanyWithEdit: FC = () => {
               </Box>
             )}
           </Flex>
-          <Flex
-            flexDir="column"
-            justifyContent="center"
-            p={6}
-            borderRadius="32px"
-            borderWidth="1px"
-            borderColor="neutral.gray"
-            w="35%"
-            gap={4}
-          >
-            <Flex alignItems="center">
-              <Box textStyle="h4" as="span">
-                Company website
-              </Box>
-              {!linkEdit && (
-                <Box
-                  color="neutral.dsGray"
-                  p={2}
-                  ml="auto"
-                  cursor="pointer"
-                  borderRadius="8px"
-                  transition="all ease-in-out 250ms"
-                  _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
-                  alignSelf="start"
-                  onClick={() => setLinkEdit(true)}
-                >
-                  <PencilIcon />
+          <Flex>
+            <Flex
+              flexDir="column"
+              justifyContent="center"
+              p={6}
+              borderRadius="32px"
+              borderWidth="1px"
+              borderColor="neutral.gray"
+              w="35%"
+              gap={4}
+            >
+              <Flex alignItems="center">
+                <Box textStyle="h4" as="span">
+                  Company website
                 </Box>
-              )}
-              {linkEdit && (
-                <Flex ml="auto" alignItems="center" alignSelf="start">
-                  <Button
-                    variant={!isValid ? 'outline' : 'primary'}
-                    type="submit"
-                    width="100%"
-                    isDisabled={!isValid}
-                    isLoading={loading}
-                    loadingText="Updating company"
-                    spinnerPlacement="end"
-                    rightIcon={<CheckIcon />}
-                  >
-                    Save link
-                  </Button>
+                {!linkEdit && (
                   <Box
-                    color="red.500"
+                    color="neutral.dsGray"
+                    p={2}
+                    ml="auto"
+                    cursor="pointer"
+                    borderRadius="8px"
+                    transition="all ease-in-out 250ms"
+                    _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
+                    alignSelf="start"
+                    onClick={() => setLinkEdit(true)}
+                  >
+                    <PencilIcon />
+                  </Box>
+                )}
+                {linkEdit && (
+                  <Flex ml="auto" alignItems="center" alignSelf="start">
+                    <Button
+                      variant={!isValid ? 'outline' : 'primary'}
+                      type="submit"
+                      width="100%"
+                      isDisabled={!isValid}
+                      isLoading={loading}
+                      loadingText="Updating company"
+                      spinnerPlacement="end"
+                      rightIcon={<CheckIcon />}
+                    >
+                      Save link
+                    </Button>
+                    <Box
+                      color="red.500"
+                      p={2}
+                      cursor="pointer"
+                      borderRadius="8px"
+                      ml={2}
+                      transition="all ease-in-out 250ms"
+                      _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
+                      onClick={() => {
+                        setLinkEdit(false);
+                        resetForm();
+                      }}
+                    >
+                      <CloseIcon />
+                    </Box>
+                  </Flex>
+                )}
+              </Flex>
+              {linkEdit && (
+                <Flex alignItems="center">
+                  <FormControl
+                    id="websiteUrl"
+                    isInvalid={errors.websiteUrl !== undefined && touched.websiteUrl}
+                  >
+                    <Field
+                      name="websiteUrl"
+                      placeholder="https://"
+                      as={Input}
+                      onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
+                        console.log(e.target.value.includes('https://'));
+                        if (!e.target.value.includes('https://')) {
+                          setFieldValue('websiteUrl', 'https://');
+                        }
+                      }}
+                    />
+                    <ErrorMessage name="websiteUrl">
+                      {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+                    </ErrorMessage>
+                  </FormControl>
+                  <Box
+                    color="neutral.black"
                     p={2}
                     cursor="pointer"
                     borderRadius="8px"
                     ml={2}
                     transition="all ease-in-out 250ms"
-                    _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
+                    _hover={{ bgColor: 'neutral.lightGray' }}
                     onClick={() => {
-                      setLinkEdit(false);
-                      resetForm();
+                      setFieldValue('websiteUrl', '');
                     }}
                   >
                     <CloseIcon />
                   </Box>
                 </Flex>
               )}
-            </Flex>
-            {linkEdit && (
-              <Flex alignItems="center">
-                <FormControl
-                  id="websiteUrl"
-                  isInvalid={errors.websiteUrl !== undefined && touched.websiteUrl}
-                >
-                  <Field
-                    name="websiteUrl"
-                    placeholder="https://"
-                    as={Input}
-                    onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
-                      console.log(e.target.value.includes('https://'));
-                      if (!e.target.value.includes('https://')) {
-                        setFieldValue('websiteUrl', 'https://');
-                      }
-                    }}
-                  />
-                  <ErrorMessage name="websiteUrl">
-                    {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
-                  </ErrorMessage>
-                </FormControl>
-                <Box
-                  color="neutral.black"
-                  p={2}
-                  cursor="pointer"
-                  borderRadius="8px"
-                  ml={2}
-                  transition="all ease-in-out 250ms"
-                  _hover={{ bgColor: 'neutral.lightGray' }}
-                  onClick={() => {
-                    setFieldValue('websiteUrl', '');
+              {!linkEdit && company?.websiteUrl !== '' && (
+                <Button
+                  variant="outline"
+                  width="100%"
+                  color="brand.secondary"
+                  borderColor="brand.secondary"
+                  _hover={{
+                    color: 'brand.secondaryHover',
+                    borderColor: 'brand.secondaryHover'
                   }}
+                  onClick={() => {
+                    window.open(company?.websiteUrl, '_blank');
+                  }}
+                  rightIcon={
+                    <Box ml={2}>
+                      <WebsiteIcon />
+                    </Box>
+                  }
                 >
-                  <CloseIcon />
+                  Visit our website
+                </Button>
+              )}
+            </Flex>
+            <Flex
+              flexDir="column"
+              justifyContent="center"
+              p={6}
+              borderRadius="32px"
+              borderWidth="1px"
+              borderColor="neutral.gray"
+              gap={4}
+              ml={4}
+            >
+              <Flex alignItems="center">
+                <Box textStyle="h4" as="span">
+                  Company location
                 </Box>
-              </Flex>
-            )}
-            {!linkEdit && company?.websiteUrl !== '' && (
-              <Button
-                variant="outline"
-                width="100%"
-                color="brand.secondary"
-                borderColor="brand.secondary"
-                _hover={{
-                  color: 'brand.secondaryHover',
-                  borderColor: 'brand.secondaryHover'
-                }}
-                onClick={() => {
-                  window.open(company?.websiteUrl, '_blank');
-                }}
-                rightIcon={
-                  <Box ml={2}>
-                    <WebsiteIcon />
+                {!locationEdit && (
+                  <Box
+                    color="neutral.dsGray"
+                    p={2}
+                    ml={4}
+                    cursor="pointer"
+                    borderRadius="8px"
+                    transition="all ease-in-out 250ms"
+                    _hover={{ bgColor: 'neutral.lightGray', color: 'neutral.black' }}
+                    alignSelf="start"
+                    onClick={() => setLocationEdit(true)}
+                  >
+                    <PencilIcon />
                   </Box>
-                }
-              >
-                Visit our website
-              </Button>
-            )}
+                )}
+                {locationEdit && (
+                  <Flex ml={4} alignItems="center" alignSelf="start">
+                    <Button
+                      variant={!isValid ? 'outline' : 'primary'}
+                      type="submit"
+                      width="100%"
+                      isDisabled={!isValid}
+                      isLoading={loading}
+                      loadingText="Updating company"
+                      spinnerPlacement="end"
+                      rightIcon={<CheckIcon />}
+                    >
+                      Save location
+                    </Button>
+                    <Box
+                      color="red.500"
+                      p={2}
+                      cursor="pointer"
+                      borderRadius="8px"
+                      ml={2}
+                      transition="all ease-in-out 250ms"
+                      _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
+                      onClick={() => {
+                        setLocationEdit(false);
+                        resetForm();
+                      }}
+                    >
+                      <CloseIcon />
+                    </Box>
+                  </Flex>
+                )}
+              </Flex>
+              {locationEdit && (
+                <Flex alignItems="center">
+                  <FormControl
+                    id="location"
+                    isInvalid={errors.location !== undefined && touched.location}
+                    isRequired
+                  >
+                    <Field name="location" placeholder="City, Country" as={Input} />
+                    <ErrorMessage name="location">
+                      {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
+              )}
+              {!locationEdit && (
+                <Box textStyle="h4" color="neutral.dsGray">
+                  {company?.location}
+                </Box>
+              )}
+            </Flex>
           </Flex>
         </Form>
       )}

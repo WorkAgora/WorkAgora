@@ -182,7 +182,7 @@
   {
     "requirements": "- Proven experience in Python, Django, and related frameworks.\n- Understanding of front-end technologies, including HTML5, CSS3, JavaScript.\n- Proficiency with server-side languages such as Python.\n- Knowledge of relational databases (e.g., PostgreSQL, MySQL) and NoSQL databases (e.g., MongoDB).\n- Familiarity with modern development pipelines and tools.\n- Proficient understanding of code versioning tools, such as Git.\n- Excellent communication and teamwork skills, with a problem-solving attitude.\n- Degree in Computer Science or relevant field is a plus.",
     "visibility": "Public",
-    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "contractorWallet": "0x4e92cccffb3789060c4b1d8270f6cb0e63e31974",
     "availability": "fullTime",
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "Senior Python Developer",
@@ -202,7 +202,7 @@
   {
     "requirements": "- Experience in designing and building applications on the Node.js platform.\n- Strong proficiency with JavaScript.\n- In-depth understanding of front-end technologies, such as HTML5 and CSS3.\n- Understanding accessibility and security compliance.\n- User authentication and authorization between multiple systems, servers, and environments.\n- Understanding of fundamental design principles behind a scalable application.\n- Strong unit testing and debugging skills.\n- Proficient understanding of code versioning tools, such as Git.",
     "visibility": "Public",
-    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "contractorWallet": "0x4e92cccffb3789060c4b1d8270f6cb0e63e31974",
     "availability": "contract",
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "Node.js Developer",
@@ -222,7 +222,7 @@
   {
     "requirements": "- Strong proficiency with React.js and its core principles.\n- Experience with popular React.js workflows (such as Flux or Redux).\n- Familiarity with RESTful APIs.\n- Knowledge of modern authorization mechanisms, such as JSON Web Token.\n- Familiarity with modern front-end build pipelines and tools.\n- Ability to understand business requirements and translate them into technical requirements.\n- A knack for benchmarking and optimization.",
     "visibility": "Public",
-    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "contractorWallet": "0x4e92cccffb3789060c4b1d8270f6cb0e63e31974",
     "availability": "partTime",
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "React.js Developer",
@@ -242,7 +242,7 @@
   {
     "requirements": "- Proven experience as a UX Designer, UI Designer or similar role.\n- Strong portfolio of design projects.\n- Familiarity with interaction design and information architecture.\n- Proficient in design software (e.g. UXPin, Balsamiq).\n- Knowledge of HTML/CSS; JavaScript is a plus.\n- Problem-solving aptitude.\n- Analytical mind with a business acumen.\n- Excellent communication skills.",
     "visibility": "Public",
-    "contractorWallet": "0xabcdef1234567890abcdef1234567890abcdef14",
+    "contractorWallet": "0x4e92cccffb3789060c4b1d8270f6cb0e63e31974",
     "availability": "fullTime",
     "companyUuid": "2be84212-5c51-46e1-9813-61197f501232",
     "title": "UX Designer",

@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { User } from '@workagora/utils';
+import { User } from '../../../../utils/src/index'
 import { UserDTO } from '../../dtos/user/user.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';

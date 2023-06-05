@@ -16,12 +16,14 @@ import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
 import CheckIcon from '@workagora/front/components/icons/CheckIcon';
 import { useCreateCompany } from '@workagora/front/hooks/useCreateCompany';
 import { useCurrentUser } from '@workagora/front-provider';
+import { locationRegex } from '@workagora/utils';
 
 interface FormData {
   name: string;
   title: string;
   description: string;
   websiteUrl: string;
+  location: string;
 }
 
 const validationSchema = Yup.object().shape({
@@ -34,7 +36,10 @@ const validationSchema = Yup.object().shape({
   description: Yup.string()
     .required('Description is required')
     .max(2000, 'Description must be less than 2000 characters'),
-  websiteUrl: Yup.string().url('Website URL must be a valid URL')
+  websiteUrl: Yup.string().url('Website URL must be a valid URL'),
+  location: Yup.string()
+    .required()
+    .matches(locationRegex, 'Invalid format. Please use "City, Country"')
 });
 
 const CompanyForm: FC = () => {
@@ -52,7 +57,8 @@ const CompanyForm: FC = () => {
         name: '',
         title: '',
         description: '',
-        websiteUrl: ''
+        websiteUrl: '',
+        location: ''
       }}
       validationSchema={validationSchema}
       isInitialValid={false}
@@ -154,40 +160,69 @@ const CompanyForm: FC = () => {
               </ErrorMessage>
             </FormControl>
           </Flex>
-          <Flex
-            flexDir="column"
-            justifyContent="center"
-            p={6}
-            borderRadius="32px"
-            borderWidth="1px"
-            borderColor="neutral.gray"
-            w="35%"
-            gap={4}
-          >
-            <Flex alignItems="center">
-              <Box textStyle="h4" as="span">
-                Company website
-              </Box>
-            </Flex>
-            <FormControl
-              id="websiteUrl"
-              isInvalid={errors.websiteUrl !== undefined && touched.websiteUrl}
+          <Flex>
+            <Flex
+              flexDir="column"
+              justifyContent="center"
+              p={6}
+              borderRadius="32px"
+              borderWidth="1px"
+              borderColor="neutral.gray"
+              w="35%"
+              gap={4}
             >
-              <Field
-                name="websiteUrl"
-                placeholder="https://"
-                as={Input}
-                onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
-                  console.log(e.target.value.includes('https://'));
-                  if (!e.target.value.includes('https://')) {
-                    setFieldValue('websiteUrl', 'https://');
-                  }
-                }}
-              />
-              <ErrorMessage name="websiteUrl">
-                {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
-              </ErrorMessage>
-            </FormControl>
+              <Flex alignItems="center">
+                <Box textStyle="h4" as="span">
+                  Company website
+                </Box>
+              </Flex>
+              <FormControl
+                id="websiteUrl"
+                isInvalid={errors.websiteUrl !== undefined && touched.websiteUrl}
+              >
+                <Field
+                  name="websiteUrl"
+                  placeholder="https://"
+                  as={Input}
+                  onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
+                    console.log(e.target.value.includes('https://'));
+                    if (!e.target.value.includes('https://')) {
+                      setFieldValue('websiteUrl', 'https://');
+                    }
+                  }}
+                />
+                <ErrorMessage name="websiteUrl">
+                  {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+                </ErrorMessage>
+              </FormControl>
+            </Flex>
+            <Flex
+              flexDir="column"
+              justifyContent="center"
+              p={6}
+              borderRadius="32px"
+              borderWidth="1px"
+              borderColor="neutral.gray"
+              w="35%"
+              ml={4}
+              gap={4}
+            >
+              <Flex alignItems="center">
+                <Box textStyle="h4" as="span">
+                  Company location
+                </Box>
+              </Flex>
+              <FormControl
+                id="location"
+                isInvalid={errors.location !== undefined && touched.location}
+                isRequired
+              >
+                <Field name="location" placeholder="City, Country" as={Input} />
+                <ErrorMessage name="location">
+                  {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
+                </ErrorMessage>
+              </FormControl>
+            </Flex>
           </Flex>
           <Box mt={4}>
             <Button

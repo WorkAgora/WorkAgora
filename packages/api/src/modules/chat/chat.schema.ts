@@ -17,13 +17,13 @@ export const ChatSchema = new Schema({
     rangeKey: true
   },
   // Chat Instance attributes
-  myWallet: {
+  user1: {
     type: String
   },
-  partnerWallet: {
+  user2: {
     type: String
   },
-  partnerType: {
+  user1Type: {
     type: String
   },
   visible: {
@@ -32,8 +32,14 @@ export const ChatSchema = new Schema({
   lastMessageId: {
     type: String
   },
+  jobRelated: {
+    type: String
+  },
   // Chat Message attributes
   receiverWallet: {
+    type: String
+  },
+  senderWallet: {
     type: String
   },
   content: {

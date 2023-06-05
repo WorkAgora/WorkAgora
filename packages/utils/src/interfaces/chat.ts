@@ -1,3 +1,6 @@
+import { CreateCompany } from "./company";
+import { User } from "./user";
+
 export interface ChatItemKey {
   PK: string;
   SK: string;
@@ -11,17 +14,20 @@ export interface ChatMessage extends ChatItemKey {
 }
 
 export enum ChatAuthorType {
-  Contractor = 'contractor',
-  Freelancer = 'freelancer'
+  Company = 'Company',
+  User = 'User'
 }
 
 export interface ChatInstance extends ChatItemKey {
-  myWallet: string;
-  partnerWallet: string;
-  lastMessageId: string;
+  user1: string;
+  user2: string;
+  lastMessageId?: string;
   lastMessage?: ChatMessage;
-  partnerType: ChatAuthorType;
+  user1Type: ChatAuthorType;
+  partnerUser?: User;
+  partnerCompany?: CreateCompany;
   visible: boolean;
+  jobRelated?: string;
 }
 
 export type ChatDocument = ChatMessage | ChatInstance;

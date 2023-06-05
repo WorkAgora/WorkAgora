@@ -1,8 +1,13 @@
 import { Avatar, Badge, Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
-import { useCurrentUser } from '@workagora/front-provider';
+import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { useColoredBadges } from '@workagora/front/hooks/useColoredBadges';
 import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
-import { availabilityOptions, formatDate, workLocationOptions } from '@workagora/utils';
+import {
+  availabilityOptions,
+  formatDate,
+  UserTypeEnum,
+  workLocationOptions
+} from '@workagora/utils';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import FreelanceCard from '../card/FreelanceCard';
@@ -20,6 +25,7 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
   const { user } = useCurrentUser();
   const { push, back } = useRouter();
   const { getCategoryColorForSkill } = useColoredBadges();
+  const { type } = useLanding();
 
   useEffect(() => {
     if (user && id) {
@@ -181,9 +187,21 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
                 <Box textStyle="body2" color="neutral.dsGray" ml={2}>
                   {curJob?.createdAt && <>{formatDate(new Date(curJob.createdAt))}</>}
                 </Box>
-                <Button variant="primary" ml="auto" rightIcon={<ArrowRightIcon />}>
-                  Apply to this job
-                </Button>
+                {type === UserTypeEnum.Freelancer && (
+                  <Button
+                    variant="primary"
+                    ml="auto"
+                    rightIcon={<ArrowRightIcon />}
+                    onClick={() =>
+                      push({
+                        pathname: '/dashboard/chat',
+                        query: { job: curJob?.uuid }
+                      })
+                    }
+                  >
+                    Apply to this job
+                  </Button>
+                )}
               </Flex>
             </Flex>
             <Flex columnGap={6}>

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { ChatAuthorType } from '../../modules/chat/chat.interface';
+import { ChatAuthorType } from '../../../../utils/src/interfaces/chat';
 
 export class CreateChatMessageDTO {
   @ApiProperty({ description: 'Wallet address of the sender' })
@@ -19,5 +19,5 @@ export class CreateChatMessageDTO {
   @IsString()
   @IsOptional()
   @IsEnum(ChatAuthorType)
-  partnerType?: ChatAuthorType;
+  user1Type?: ChatAuthorType;
 }

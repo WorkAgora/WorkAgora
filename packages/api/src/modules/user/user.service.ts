@@ -1,27 +1,26 @@
 import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { UserDTO } from '../../dtos/user/user.dto';
-import { User, UserKey } from '@workagora/utils';
+import { User, UserKey, Experience } from '../../../../utils/src/index';
 import { CreateUserDTO } from '../../dtos/auth/create-user.dto';
 import { UpdateFreelanceProfileDTO } from '../../dtos/user/update-freelance.dto';
 import { UpdateEmployerProfileDTO } from '../../dtos/user/update-employer.dto';
 import { SortOrder } from 'dynamoose/dist/General';
 import { UpdateProfileDTO } from '../../dtos/user/update-profile.dto';
 import { ExperienceDTO, UpdateExperienceDTO } from '../../dtos/user/experience.dto';
-import { Experience } from '../../../../utils/src/index';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel('User')
-    private readonly model: Model<User, UserKey>
+    private readonly userModel: Model<User, UserKey>
   ) {}
 
   public async findUserByWallet(wallet: string): Promise<UserDTO> {
     try {
       // DynamoDB query to find the user with the given wallet address
-      const response = await this.model.query('wallet').eq(wallet).exec();
+      const response = await this.userModel.query('wallet').eq(wallet).exec();
 
       // Check if a user was found
       if (response.count > 0) {
@@ -43,7 +42,7 @@ export class UserService {
       if (userExist) {
         throw new UnprocessableEntityException('User with this address already exist');
       }
-      await this.model.create({
+      await this.userModel.create({
         ...user,
         hasFreelanceProfile: 'false',
         tosAcceptedOn: user.tosAcceptedOn.toString()
@@ -65,7 +64,7 @@ export class UserService {
     };
 
     // Save the updated user to the database
-    await this.model.update(updatedUser);
+    await this.userModel.update(updatedUser);
 
     return updatedUser;
   }
@@ -90,7 +89,7 @@ export class UserService {
     };
 
     // Save the updated user to the database
-    await this.model.update(updatedUser);
+    await this.userModel.update(updatedUser);
 
     return updatedUser;
   }
@@ -114,7 +113,7 @@ export class UserService {
     };
 
     // Save the updated user to the database
-    await this.model.update(updatedUser);
+    await this.userModel.update(updatedUser);
 
     return updatedUser;
   }
@@ -137,7 +136,7 @@ export class UserService {
     };
 
     // Save the updated user to the database
-    await this.model.update(updatedUser);
+    await this.userModel.update(updatedUser);
 
     return updatedUser;
   }
@@ -162,13 +161,13 @@ export class UserService {
       let users = null;
       Logger.log(wallet);
       if (!wallet) {
-        users = await this.model
+        users = await this.userModel
           .query('hasFreelanceProfile')
           .eq('true')
           .using('HasFreelanceProfileIndex')
           .exec();
       } else {
-        users = await this.model
+        users = await this.userModel
           .query('hasFreelanceProfile')
           .eq('true')
           .where('wallet')
@@ -227,7 +226,7 @@ export class UserService {
    */
   async getRecentFreelancers(limit: number): Promise<UserDTO[]> {
     try {
-      const users = await this.model
+      const users = await this.userModel
         .query('hasFreelanceProfile')
         .eq('true')
         .using('HasFreelanceProfileIndex')
@@ -245,7 +244,7 @@ export class UserService {
   }
 
   async addExperience(wallet: string, experience: ExperienceDTO): Promise<UserDTO> {
-    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const userDTO = await this.userModel.query('wallet').eq(wallet.toLowerCase()).exec();
     const user = userDTO[0];
 
     if (!user) {
@@ -278,13 +277,13 @@ export class UserService {
       return dateB.getTime() - dateA.getTime();
     });
 
-    await this.model.update(user);
+    await this.userModel.update(user);
 
     return user;
   }
 
   async removeExperience(wallet: string, id: string): Promise<UserDTO> {
-    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const userDTO = await this.userModel.query('wallet').eq(wallet.toLowerCase()).exec();
     const user = userDTO[0];
 
     if (!user) {
@@ -299,13 +298,13 @@ export class UserService {
       (experience) => experience.id !== id
     );
 
-    await this.model.update(user);
+    await this.userModel.update(user);
 
     return user;
   }
 
   async updateExperience(wallet: string, experience: UpdateExperienceDTO): Promise<UserDTO> {
-    const userDTO = await this.model.query('wallet').eq(wallet.toLowerCase()).exec();
+    const userDTO = await this.userModel.query('wallet').eq(wallet.toLowerCase()).exec();
     const user = userDTO[0];
 
     if (!user) {
@@ -334,7 +333,7 @@ export class UserService {
         : experienceItem
     );
 
-    await this.model.update(user);
+    await this.userModel.update(user);
     return user;
   }
 }

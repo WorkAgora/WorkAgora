@@ -1,14 +1,18 @@
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { User } from '@workagora/utils';
 import { FC } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
+import SendMsgIcon from '../icons/SendMsgIcon';
+import { useRouter } from 'next/router';
 
 interface ProfileTopProps {
   curUser: User;
 }
 
 const ProfileTop: FC<ProfileTopProps> = ({ curUser }) => {
+  const { push } = useRouter();
+
   return (
     <Flex alignItems={'center'} p={6}>
       <Avatar w="128px" h="128px" borderRadius="100%" />
@@ -16,9 +20,14 @@ const ProfileTop: FC<ProfileTopProps> = ({ curUser }) => {
         <Box textStyle="h3">
           {curUser.firstname} {curUser.lastname}
         </Box>
-        <Box textStyle="h4" color="neutral.dsGray">
-          {curUser.description}
-        </Box>
+        <Flex alignItems="center">
+          <Box textStyle="h4" color="neutral.dsGray">
+            {curUser.description} |
+          </Box>
+          <Box ml={2} mt={0.5} lineHeight="100%" textStyle="h6" color="neutral.dsDarkGray">
+            {curUser.location}
+          </Box>
+        </Flex>
         <Flex mt={2}>
           <Flex
             alignItems="center"
@@ -83,6 +92,11 @@ const ProfileTop: FC<ProfileTopProps> = ({ curUser }) => {
               /day
             </Text>
           </Flex>
+          <Box ml={2}>
+          <Button variant="icon" onClick={() => push({pathname: '/dashboard/chat', query: {freelance: curUser.wallet}})}>
+            <SendMsgIcon />
+          </Button>
+        </Box>
         </Flex>
       </Flex>
     </Flex>
