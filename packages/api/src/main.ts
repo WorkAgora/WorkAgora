@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({origin: ['http://localhost:3000','https://work-agora.vercel.app']});
+  app.enableCors({origin: ['http://localhost:3000','https://work-agora.vercel.app'], credentials: true});
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
