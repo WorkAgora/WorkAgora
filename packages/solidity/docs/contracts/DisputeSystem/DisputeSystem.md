@@ -10,43 +10,10 @@
 
 ## Methods
 
-### addJuryMember
+### castVote
 
 ```solidity
-function addJuryMember(address member) external nonpayable
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| member | address | undefined |
-
-### contractInstance
-
-```solidity
-function contractInstance() external view returns (contract JobContract)
-```
-
-
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | contract JobContract | undefined |
-
-### createDispute
-
-```solidity
-function createDispute(string _contractId) external nonpayable
+function castVote(string _contractId, uint256 _contractorPct, uint256 _employerPct) external nonpayable
 ```
 
 
@@ -58,11 +25,30 @@ function createDispute(string _contractId) external nonpayable
 | Name | Type | Description |
 |---|---|---|
 | _contractId | string | undefined |
+| _contractorPct | uint256 | undefined |
+| _employerPct | uint256 | undefined |
+
+### disputeExpiryTime
+
+```solidity
+function disputeExpiryTime() external view returns (uint256)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
 
 ### disputes
 
 ```solidity
-function disputes(string) external view returns (uint256 totalVotes, bool resolved)
+function disputes(string) external view returns (bool ongoing, uint256 disputeExpiryTimestamp)
 ```
 
 
@@ -79,13 +65,29 @@ function disputes(string) external view returns (uint256 totalVotes, bool resolv
 
 | Name | Type | Description |
 |---|---|---|
-| totalVotes | uint256 | undefined |
-| resolved | bool | undefined |
+| ongoing | bool | undefined |
+| disputeExpiryTimestamp | uint256 | undefined |
+
+### finalizeDispute
+
+```solidity
+function finalizeDispute(string _contractId) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _contractId | string | undefined |
 
 ### initialize
 
 ```solidity
-function initialize(contract JobContract _contract, contract UserManager _userManager) external nonpayable
+function initialize(contract JobContract _contract, contract UserManager _userManager, address[] _juryMembers, uint256 _minReputationToVote, uint256 _juryVotesCount, uint256 _userVotesCount) external nonpayable
 ```
 
 
@@ -98,6 +100,43 @@ function initialize(contract JobContract _contract, contract UserManager _userMa
 |---|---|---|
 | _contract | contract JobContract | undefined |
 | _userManager | contract UserManager | undefined |
+| _juryMembers | address[] | undefined |
+| _minReputationToVote | uint256 | undefined |
+| _juryVotesCount | uint256 | undefined |
+| _userVotesCount | uint256 | undefined |
+
+### initiateDispute
+
+```solidity
+function initiateDispute(string _contractId) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _contractId | string | undefined |
+
+### jobContract
+
+```solidity
+function jobContract() external view returns (contract JobContract)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | contract JobContract | undefined |
 
 ### juryMembers
 
@@ -120,6 +159,40 @@ function juryMembers(address) external view returns (bool)
 | Name | Type | Description |
 |---|---|---|
 | _0 | bool | undefined |
+
+### juryVotesCount
+
+```solidity
+function juryVotesCount() external view returns (uint256)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
+
+### minReputationToVote
+
+```solidity
+function minReputationToVote() external view returns (uint256)
+```
+
+
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
 
 ### owner
 
@@ -182,21 +255,22 @@ function userManager() external view returns (contract UserManager)
 |---|---|---|
 | _0 | contract UserManager | undefined |
 
-### vote
+### userVotesCount
 
 ```solidity
-function vote(string _contractId) external nonpayable
+function userVotesCount() external view returns (uint256)
 ```
 
 
 
 
 
-#### Parameters
+
+#### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _contractId | string | undefined |
+| _0 | uint256 | undefined |
 
 
 
@@ -205,7 +279,7 @@ function vote(string _contractId) external nonpayable
 ### DisputeCreated
 
 ```solidity
-event DisputeCreated(string indexed contractId)
+event DisputeCreated(string indexed contractId, uint256 disputeExpiryTimestamp)
 ```
 
 
@@ -217,6 +291,7 @@ event DisputeCreated(string indexed contractId)
 | Name | Type | Description |
 |---|---|---|
 | contractId `indexed` | string | undefined |
+| disputeExpiryTimestamp  | uint256 | undefined |
 
 ### JuryMemberAdded
 

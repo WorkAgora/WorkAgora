@@ -1,6 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import '../DisputeSystem/DisputeSystem.sol';
 import '../UserSystem/UserManager/UserManager.sol';
 import '../PriceController/PriceController.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
@@ -55,14 +56,21 @@ contract JobContract is Ownable {
     Employer employer;
     Contractor contractor;
     PriceController priceController;
+    DisputeSystem disputeSystem;
     uint8 feePct;
     mapping(string => Contract) public contracts;
+
+    modifier onlyDisputeSystem() {
+        require(msg.sender == address(disputeSystem), 'Caller is not dispute system');
+        _;
+    }
 
     function initialize(
         UserManager _user,
         PriceController _priceController,
         Employer _employer,
         Contractor _contractor,
+        DisputeSystem _disputeSystem,
         uint8 _feePct
     ) external onlyOwner {
         require(address(user) == address(0), 'Already initialized');
@@ -72,6 +80,7 @@ contract JobContract is Ownable {
         employer = _employer;
         contractor = _contractor;
         feePct = _feePct;
+        disputeSystem = _disputeSystem;
     }
 
     function create(CreateParams calldata _params, bytes calldata _signature) external {
@@ -98,12 +107,12 @@ contract JobContract is Ownable {
         );
 
         // Transfer funds
-        (, IERC20 token) = priceController.getTokenData(_params.paymentToken);
-        uint256 totalAmountToken = priceController.getTokenPriceFromUsd(
+        PriceController.TokenData memory data = priceController.getTokenData(_params.paymentToken);
+        (uint256 totalAmountToken,) = priceController.getTokenPriceFromUsd(
             _params.paymentToken,
             _params.totalAmountUsd
         );
-        transferCreationFunds(_params, token, totalAmountToken);
+        transferCreationFunds(_params, data.token, totalAmountToken);
 
         // Store contract
         uint256 endTimestamp = block.timestamp + (_params.durationDays * 1 days);
@@ -129,14 +138,13 @@ contract JobContract is Ownable {
     }
 
     function finalize(FinalizationParams calldata _params, bytes calldata _signature) external {
-        require(verifyFinalizationSignature(_params, _signature), 'Invalid signature');
-        require(contracts[_params.contractId].state == State.Started, 'Invalid contract state');
-
         Contract storage record = contracts[_params.contractId];
+        require(verifyFinalizationSignature(_params, _signature), 'Invalid signature');
+        require(record.state == State.Started, 'Invalid contract state');
 
         // Transfer funds
-        (, IERC20 token) = priceController.getTokenData(record.paymentToken);
-        transferFinalizationFunds(record, token);
+        PriceController.TokenData memory data = priceController.getTokenData(record.paymentToken);
+        transferFinalizationFunds(record, data.token);
 
         // Update contract
         record.state = State.CompleteWithSuccess;
@@ -144,7 +152,7 @@ contract JobContract is Ownable {
 
         // Set reputation
         uint128 reputation = record.totalAmountUsd / 100 + 1;
-        user.setContractFinalized(record.contractorAddress, record.employerAddress, reputation);
+        user.finalize(record.contractorAddress, record.employerAddress, reputation);
     }
 
     function transferCreationFunds(
@@ -233,5 +241,16 @@ contract JobContract is Ownable {
 
     function getContract(string calldata _contractId) public view returns (Contract memory) {
         return contracts[_contractId];
+    }
+
+    // Disputes
+    function initiateDispute(string calldata _contractId) external onlyDisputeSystem {
+        Contract storage record = contracts[_contractId];
+        record.state = State.OngoingDispute;
+    }
+
+    function finalizeDispute(string calldata _contractId, uint256 contractorPct, uint256 employerPct) external onlyDisputeSystem {
+        Contract storage record = contracts[_contractId];
+        record.state = State.CompleteWithDispute;
     }
 }

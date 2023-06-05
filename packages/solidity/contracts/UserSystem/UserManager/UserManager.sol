@@ -75,6 +75,19 @@ contract UserManager is IUserManager, Ownable {
         sigAuthority = _sigAuthority;
     }
 
+    function finalize(
+        address _contractor,
+        address _employer,
+        uint128 reputation
+    ) external onlyJobContract {
+        int256 reputationChange = int256(uint256(reputation)); // safe since from uint128
+        uint256 contractorId = getContractorId(_contractor);
+        contractor.updateReputation(contractorId, reputationChange);
+        uint256 employerId = getEmployerId(_employer);
+        employer.updateReputation(employerId, reputationChange);
+    }
+
+    // Verification
     function verifyUser(
         address _address,
         string calldata _kycId,
@@ -90,22 +103,15 @@ contract UserManager is IUserManager, Ownable {
         emit UserVerified(_address);
     }
 
-    function setContractFinalized(address _contractor, address _employer, uint128 reputation) external onlyJobContract {
-        int256 reputationChange = int256(uint256(reputation)); // safe since from uint128
-        uint256 contractorId = getContractorId(_contractor);
-        contractor.updateReputation(contractorId, reputationChange);
-        uint256 employerId = getEmployerId(_employer);
-        employer.updateReputation(employerId, reputationChange);
-    }
-
     function isUserVerified(address _address) public view returns (bool) {
         return bytes(verifiedUsers[_address].kycId).length > 0;
     }
 
+    // Reputation
     function getReputation(
         address _address,
         Role _role
-    ) external view onlyVerifiedUser(_address) returns (int256) {
+    ) public view onlyVerifiedUser(_address) returns (int256) {
         if (_role == Role.Employer) {
             return employer.getReputation(getEmployerId(_address));
         } else {
@@ -113,6 +119,21 @@ contract UserManager is IUserManager, Ownable {
         }
     }
 
+    function getTotalReputation(
+        address _address
+    ) external view onlyVerifiedUser(_address) returns (int256) {
+        return getReputation(_address, Role.Contractor) + getReputation(_address, Role.Employer);
+    }
+
+    function hasNegativeReputation(
+        address _address
+    ) external view onlyVerifiedUser(_address) returns (bool) {
+        return
+            getReputation(_address, Role.Contractor) < 0 ||
+            getReputation(_address, Role.Employer) < 0;
+    }
+
+    // IDs
     function getEmployerId(
         address _address
     ) public view onlyVerifiedUser(_address) returns (uint256) {
@@ -126,23 +147,6 @@ contract UserManager is IUserManager, Ownable {
     }
 }
 
-// contract Reputable {
-//     User public user;
-//     ReputationCard public reputationCard;
-
-//     modifier onlyVerifiedUser(address _address) {
-//         require(user.isUserVerified(_address), 'user not verified');
-//         _;
-//     }
-
-//     function initialize(User _user, ReputationCard _reputationCard) public {
-//         require(user == address(0), 'Already initialized');
-//         require(reputationCard == address(0), 'Already initialized');
-//         user = _user;
-//         reputationCard = _reputationCard;
-//     }
-// }
-
 contract Reputable {
     mapping(uint256 => int256) public reputation;
 
@@ -150,7 +154,7 @@ contract Reputable {
         reputation[_userId] += _amount;
     }
 
-    function getReputation(uint256 _userId) external view returns(int256) {
+    function getReputation(uint256 _userId) external view returns (int256) {
         return reputation[_userId];
     }
 }
@@ -176,9 +180,9 @@ contract Contractable is Ownable {
 }
 
 contract Employer is Contractable, Reputable {
-    // employer specific logic here
+    // TODO: employer secondary features here
 }
 
 contract Contractor is Contractable, Reputable {
-    // contractor specific logic here
+    // TODO: contractor secondary features here
 }

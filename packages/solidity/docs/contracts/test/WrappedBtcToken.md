@@ -1,4 +1,4 @@
-# WrappedAvaxToken
+# WrappedBtcToken
 
 
 
