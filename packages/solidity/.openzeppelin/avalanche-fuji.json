@@ -1,0 +1,239 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x7451e715DaC83527A97D925a190e9D5C26063560",
+    "txHash": "0x616871e0dc42456fa6e9c2498a53c65fe286b035aa5a4f85ca9061b7ce45696e"
+  },
+  "proxies": [
+    {
+      "address": "0xa68a95eE84b2282025c3c00c0d7bF48D36Bf59d6",
+      "txHash": "0x77eefaa6dcfc93432eb3541b6be43d4f41b6679609331f76d74b760d40267d74",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x805Edf577C311Cf42Bb317e08Aa07e8fD94D48Ba",
+      "txHash": "0xb5ee1311c671581d022bc9d2daa715a632eed5e0f25f5463faf64a15769856ab",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4abD762D0943C3e7DdA5CaaB3B7B6FB7bB093747",
+      "txHash": "0x1d6854f0888857e6086123a74bcee68a7eef7c0101135cde2f9565206c674119",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x618f9c437f68B9d44054247b9F9376334a5E8859",
+      "txHash": "0xbc981c6e4b3354e1d9555dade11593e97f7478686c1e6e66c06da847190d6de9",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "23368f163dbf331c7e20b9c3282bfbcdd17dbeb7d66f82515354565677d10ef4": {
+      "address": "0xB45Fc24BEbc69861B8Ba34C1b698E54779953c90",
+      "txHash": "0x486e4e6c6f9a0d58eca0ce94e47734b60bdc8f050232f05a5dac0ed09d0cbe1f",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:31"
+          },
+          {
+            "label": "contracts",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_enum(PaymentToken)2988,t_struct(TokenData)2996_storage)",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:32"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IERC20)236": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(PriceConsumer)1703": {
+            "label": "contract PriceConsumer",
+            "numberOfBytes": "20"
+          },
+          "t_enum(PaymentToken)2988": {
+            "label": "enum PaymentToken",
+            "members": [
+              "Avax",
+              "Link"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_enum(PaymentToken)2988,t_struct(TokenData)2996_storage)": {
+            "label": "mapping(enum PaymentToken => struct PriceController.TokenData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TokenData)2996_storage": {
+            "label": "struct PriceController.TokenData",
+            "members": [
+              {
+                "label": "priceConsumer",
+                "type": "t_contract(PriceConsumer)1703",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenAddress",
+                "type": "t_contract(IERC20)236",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          }
+        }
+      }
+    },
+    "8b39d2b68cf90e5a4e4f94ee2ff12d30dead4ba64ffe4fdeab240d9a77a960e2": {
+      "address": "0x775A2B9BEC1d678ed09bC8144c6997d4Af42E36B",
+      "txHash": "0x652e5470f9c40287fdbccd3ed096f5226c819263ceda5fbaf2bcc375841f5a64",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:31"
+          },
+          {
+            "label": "contracts",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_enum(PaymentToken)2988,t_struct(TokenData)2996_storage)",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:32"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IERC20)236": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(PriceConsumer)1703": {
+            "label": "contract PriceConsumer",
+            "numberOfBytes": "20"
+          },
+          "t_enum(PaymentToken)2988": {
+            "label": "enum PaymentToken",
+            "members": [
+              "Avax",
+              "Link"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_enum(PaymentToken)2988,t_struct(TokenData)2996_storage)": {
+            "label": "mapping(enum PaymentToken => struct PriceController.TokenData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TokenData)2996_storage": {
+            "label": "struct PriceController.TokenData",
+            "members": [
+              {
+                "label": "priceConsumer",
+                "type": "t_contract(PriceConsumer)1703",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenAddress",
+                "type": "t_contract(IERC20)236",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          }
+        }
+      }
+    },
+    "c8c8f11da375e79025b86a0765d45ca094276e89402e98624580f158ed856381": {
+      "address": "0x1b4dBC0Ed8612E2452Ab47c8e538c581A2D10cfe",
+      "txHash": "0xf58c92cebafd63b264abfa8508428fbb088cb36240aa50cf3df4b1478d32b951",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:34"
+          },
+          {
+            "label": "tokens",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_enum(PaymentToken)3884,t_struct(TokenData)3892_storage)",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:35"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IERC20)1086": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(PriceConsumer)2578": {
+            "label": "contract PriceConsumer",
+            "numberOfBytes": "20"
+          },
+          "t_enum(PaymentToken)3884": {
+            "label": "enum PaymentToken",
+            "members": [
+              "Avax",
+              "Link",
+              "Wbtc"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_enum(PaymentToken)3884,t_struct(TokenData)3892_storage)": {
+            "label": "mapping(enum PaymentToken => struct PriceController.TokenData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TokenData)3892_storage": {
+            "label": "struct PriceController.TokenData",
+            "members": [
+              {
+                "label": "priceConsumer",
+                "type": "t_contract(PriceConsumer)2578",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "token",
+                "type": "t_contract(IERC20)1086",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          }
+        }
+      }
+    }
+  }
+}

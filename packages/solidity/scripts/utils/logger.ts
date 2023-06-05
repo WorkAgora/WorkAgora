@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
 class Logger {
-  logInfo(...args: unknown[]) {
+  log(...args: unknown[]) {
     console.log(...args);
   }
 
@@ -13,8 +13,8 @@ class Logger {
     console.error(...args);
   }
 
-  logInfoTitle(title: string, ...args: [string, string][]) {
-    this.logInfo(`${Logger.titleLog(title)}\n`
+  logTitle(title: string, ...args: [string, string][]) {
+    this.log(`${Logger.titleLog(title)}\n`
       + `${args.map(([key, value]) => Logger.keyValueLog(key, value)).join('\n')}`)
   }
 

@@ -44,6 +44,24 @@ function employer() external view returns (contract Employer)
 |---|---|---|
 | _0 | contract Employer | undefined |
 
+### finalize
+
+```solidity
+function finalize(address _contractor, address _employer, uint128 reputation) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _contractor | address | undefined |
+| _employer | address | undefined |
+| reputation | uint128 | undefined |
+
 ### getContractorId
 
 ```solidity
@@ -110,6 +128,50 @@ function getReputation(address _address, enum UserManager.Role _role) external v
 | Name | Type | Description |
 |---|---|---|
 | _0 | int256 | undefined |
+
+### getTotalReputation
+
+```solidity
+function getTotalReputation(address _address) external view returns (int256)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _address | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | int256 | undefined |
+
+### hasNegativeReputation
+
+```solidity
+function hasNegativeReputation(address _address) external view returns (bool)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _address | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### initialize
 
@@ -196,24 +258,6 @@ function renounceOwnership() external nonpayable
 
 *Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.*
 
-
-### setContractFinalized
-
-```solidity
-function setContractFinalized(address _contractor, address _employer, uint128 reputation) external nonpayable
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _contractor | address | undefined |
-| _employer | address | undefined |
-| reputation | uint128 | undefined |
 
 ### sigAuthority
 

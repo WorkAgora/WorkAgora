@@ -76,6 +76,24 @@ function finalize(JobContract.FinalizationParams _params, bytes _signature) exte
 | _params | JobContract.FinalizationParams | undefined |
 | _signature | bytes | undefined |
 
+### finalizeDispute
+
+```solidity
+function finalizeDispute(string _contractId, uint256 contractorPct, uint256 employerPct) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _contractId | string | undefined |
+| contractorPct | uint256 | undefined |
+| employerPct | uint256 | undefined |
+
 ### getContract
 
 ```solidity
@@ -101,7 +119,7 @@ function getContract(string _contractId) external view returns (struct JobContra
 ### initialize
 
 ```solidity
-function initialize(contract UserManager _user, contract PriceController _priceController, contract Employer _employer, contract Contractor _contractor, uint8 _feePct) external nonpayable
+function initialize(contract UserManager _user, contract PriceController _priceController, contract Employer _employer, contract Contractor _contractor, contract DisputeSystem _disputeSystem, uint8 _feePct) external nonpayable
 ```
 
 
@@ -116,7 +134,24 @@ function initialize(contract UserManager _user, contract PriceController _priceC
 | _priceController | contract PriceController | undefined |
 | _employer | contract Employer | undefined |
 | _contractor | contract Contractor | undefined |
+| _disputeSystem | contract DisputeSystem | undefined |
 | _feePct | uint8 | undefined |
+
+### initiateDispute
+
+```solidity
+function initiateDispute(string _contractId) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _contractId | string | undefined |
 
 ### owner
 

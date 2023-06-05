@@ -1,7 +1,8 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { SIG_AUTHORITY_PV_KEY, UserTestInfo, deployBaseContracts, expectThrowsAsync, getSignersInfo, signMessage } from "./utils";
+import { SIG_AUTHORITY_PV_KEY, UserTestInfo, expectThrowsAsync, getSignersInfo, signMessage } from "./utils";
 import { Role, verifyUsers } from "./utils/userManager";
+import { deployAllContracts } from "../scripts/utils/contracts";
 
 describe("User", () => {
 
@@ -15,7 +16,7 @@ describe("User", () => {
   describe("Verification", () => {
 
     it("Should allow a user to verify themselves with a valid signature and emit an event", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       const signature = await signMessage(SIG_AUTHORITY_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
 
       expect(await userManager.isUserVerified(employer.pubKey)).to.equal(false);
@@ -26,7 +27,7 @@ describe("User", () => {
     });
 
     it("Should reject a user with an invalid signature", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       const signature = await signMessage(SIG_AUTHORITY_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
 
       expect(await userManager.isUserVerified(employer.pubKey)).to.equal(false);
@@ -34,7 +35,7 @@ describe("User", () => {
     });
 
     it("Should retrieve the kycId of a user after verification", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       await verifyUsers(userManager, employer);
 
       const kycId = (await userManager.verifiedUsers(employer.pubKey)).kycId;
@@ -42,7 +43,7 @@ describe("User", () => {
     });
 
     it("Should properly assign ids to users", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       await verifyUsers(userManager, employer, contractor);
       const employer1Id = (await userManager.verifiedUsers(employer.pubKey)).employerId;
       const contractor1Id = (await userManager.verifiedUsers(employer.pubKey)).contractorId;
@@ -55,7 +56,7 @@ describe("User", () => {
     });
 
     it("Should not allow a user to verify themselves twice", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       const [{ signature }] = await verifyUsers(userManager, employer);
       await expectThrowsAsync(() => userManager.verifyUser(employer.pubKey, employer.kycId, signature), 'Already verified');
     });
@@ -64,7 +65,7 @@ describe("User", () => {
   describe("Reputation", () => {
 
     it("Fresh accounts should have 0 reviews and 0 reputation", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       await verifyUsers(userManager, employer);
 
       const employerRep = await userManager.getReputation(employer.pubKey, Role.Employer);
@@ -74,7 +75,7 @@ describe("User", () => {
     });
 
     it("Should not allow getting unverified users reputation", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       await verifyUsers(userManager, employer);
 
       await expectThrowsAsync(() => userManager.getReputation(contractor.pubKey, Role.Employer), 'User not verified');
@@ -82,7 +83,7 @@ describe("User", () => {
     });
 
     it("Should not allow getting reputation with an invalid role", async () => {
-      const { userManager } = await loadFixture(deployBaseContracts);
+      const { userManager } = await loadFixture(deployAllContracts);
       await verifyUsers(userManager, employer);
 
       await expect(userManager.getReputation(employer.pubKey, 0)).not.to.be.reverted;
