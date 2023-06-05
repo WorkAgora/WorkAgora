@@ -2,25 +2,66 @@ import { Box, Button, Flex, FormControl, FormLabel, Text } from "@chakra-ui/reac
 import { ErrorMessage, Field, FieldProps, useFormikContext } from "formik";
 import { FC } from "react";
 import LockIcon from "../icons/LockIcon";
+import { usePriceFeed } from "@workagora/front/hooks/usePriceFeed";
+import { MainnetTokens, TestnetTokens } from "@workagora/utils";
+import { useBalance } from "wagmi";
+import { useCurrentUser } from "@workagora/front-provider";
+import { utils } from "ethers";
 
 interface ContractDefferedAmountSelectorProps {
     id: string;
     label: string;
     snapshotDone: boolean;
+    onSnapshot: (isGood: boolean) => void;
 }
 
 const options = [
     "0", "20", "40", "60", "80"
 ]
 
-const ContractDefferedAmountSelector: FC<ContractDefferedAmountSelectorProps> = ({id, label, snapshotDone}) => {
+const ContractDefferedAmountSelector: FC<ContractDefferedAmountSelectorProps> = ({id, label, snapshotDone, onSnapshot}) => {
     const { values, errors, setFieldValue, setFieldTouched} = useFormikContext();
+    const { user } = useCurrentUser();
+    const { bigNumberPrice } = usePriceFeed(values?.amountCurrency ?? 0, values?.globalAmount.toString() ?? '0');
+
+    let tokens = TestnetTokens;
+    if (process.env.NEXT_PUBLIC_BC_ENV === 'production') {
+        tokens = MainnetTokens;
+    }
+
+    const mainBalance = useBalance({
+        address: user?.wallet as `0x${string}`,
+      });
+
+    const tokenBalance = useBalance({
+        address: user?.wallet as `0x${string}`,
+        token: tokens[values?.amountCurrency] as `0x${string}` ?? '',
+      })
+
+    const snapshotCurrency = async () => {
+        if (values.amountCurrency && values.globalAmount && bigNumberPrice) {
+            if (values.amountCurrency === 'avax' && mainBalance.data) {
+                if (mainBalance.data.value.gte(bigNumberPrice)) {
+                    onSnapshot(true);
+                } else {
+                    onSnapshot(false);
+                }
+            } else if (tokenBalance.data) {
+                if (tokenBalance.data.value.gte(bigNumberPrice)) {
+                    onSnapshot(true);
+                } else {
+                    onSnapshot(false);
+                }
+            }
+        }
+        onSnapshot(false);
+    };
 
     return (
     <FormControl id={id}>
         <Flex>
             <FormLabel mr={8} mt={2}><Text fontFamily="Montserrat" fontSize="16px" lineHeight="150%" fontWeight="400">{label}</Text></FormLabel>
-                {!snapshotDone && <Box ml={12}><Button variant="secondary" leftIcon={<Box mt={-1} mr={2}><LockIcon/></Box>}>Verified funding</Button></Box>}
+                {!snapshotDone && <Box ml={12}><Button variant="secondary" leftIcon={<Box mt={-1} mr={2}><LockIcon/></Box>} onClick={() => snapshotCurrency()}>Verified funding</Button></Box>}
                 {snapshotDone && <>
                     <Flex mx="auto">
                         <Field name={id} display="flex" flexDir="row">

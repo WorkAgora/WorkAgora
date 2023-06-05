@@ -3,7 +3,6 @@ import { Form, Formik } from "formik";
 import { FC } from "react";
 import * as Yup from 'yup';
 import ContractRelatedJob from "./ContractRelatedJob";
-import { CreateJob } from "@workagora/utils";
 import ContractStartDate from "./ContractStartDate";
 import ContractDuration from "./ContractDuration";
 import ContractCurrency from "./ContractCurrency";
@@ -43,6 +42,7 @@ interface ContractFormProps {
 }
 
 const ContractForm: FC<ContractFormProps> = ({relatedJob}) => {
+    const [snapshotDone, setSnapshotDone] = useState(false);
     const onSubmit = () => {}
 
     return <Flex>
@@ -107,7 +107,7 @@ const ContractForm: FC<ContractFormProps> = ({relatedJob}) => {
                     <ContractCurrency handleSelection={handleSelection} />
                     <ContractAmountSelector id="initialDeposit" label="Initial deposit" />
                     <ContractAmountSelector id="lockedAmount" label="Locked amount" />
-                    <ContractDefferedAmountSelector id="defferedAmount" label="Deffered amount" snapshotDone={false}/>
+                    <ContractDefferedAmountSelector id="defferedAmount" label="Deffered amount" snapshotDone={snapshotDone} onSnapshot={(isGood: boolean) => {setSnapshotDone(isGood)}}/>
                     <Box ml="auto" mt="auto">
                         <Button variant={!isValid ? 'outline' : 'primary'} leftIcon={<Box><FileIcon/></Box>}>
                             Send this contract

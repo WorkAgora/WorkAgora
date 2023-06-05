@@ -5,6 +5,7 @@ import { useContractRead } from 'wagmi'
 
 export const usePriceFeed = (amountCurrency: string, globalAmount: string) => {
     const [cryptoPrice, setCryptoPrice] = useState<string>()
+    const [bigNumberPrice, setBigNumberPrice] = useState<BigNumber>()
     const idForToken: Record<string,number | null> = {
         'avax': 0,
         'usdt': null
@@ -21,15 +22,17 @@ export const usePriceFeed = (amountCurrency: string, globalAmount: string) => {
     useEffect(() => {
         if (globalAmount === '0') {
             setCryptoPrice(undefined);
+            setBigNumberPrice(undefined);
         } else {
             if (data && !isError) {
                 if (data.toNumber() > 0) {
                     console.log(utils.formatUnits(data.toString(), BigNumber.from(18)).toString());
                     setCryptoPrice(utils.formatUnits(data.toString(), BigNumber.from(18)).toString());
+                    setBigNumberPrice(data);
                 }
             }
         }
     }, [data, isError])
 
-    return {cryptoPrice}
+    return {cryptoPrice, bigNumberPrice}
 };
