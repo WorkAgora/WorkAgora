@@ -7,11 +7,12 @@ import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({origin: ['http://localhost:3000','https://work-agora.vercel.app']});
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
-  app.enableCors({origin: ['http://localhost:3000','https://work-agora.vercel.app/']});
 
   // setup Swagger
   const options = new DocumentBuilder()
