@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Flex, FormControl, FormLabel, Text } from "@chakra-ui/react";
 import { usePriceFeed } from "@workagora/front/hooks/usePriceFeed";
 import { ErrorMessage, Field, FieldProps, useFormikContext } from "formik";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
+import { FormData } from "./ContractForm";
 
 interface ContractAmountSelectorProps {
     id: string;
@@ -14,7 +16,7 @@ const options = [
 
 const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) => {
     const { values, errors, setFieldValue, setFieldTouched} = useFormikContext();
-    const { cryptoPrice } = usePriceFeed(values.amountCurrency, (values.globalAmount * values[id] / 100).toString());
+    const { cryptoPrice } = usePriceFeed((values as FormData).amountCurrency, (parseInt((values as FormData).globalAmount) * (values as any)[id] / 100).toString());
 
     return (
     <FormControl id={id}>
@@ -30,7 +32,7 @@ const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) =>
                                         py={2}
                                         px={4}
                                         cursor="pointer"
-                                        bgColor={values[id] === o ? "brand.primary" : "neutral.lightGray"}
+                                        bgColor={(values as any)[id] === o ? "brand.primary" : "neutral.lightGray"}
                                         borderTopLeftRadius={k === 0 ? '8px' : '0'}
                                         borderBottomLeftRadius={k === 0 ? '8px' : '0'}
                                         borderTopRightRadius={k === options.length - 1 ? '8px' : '0'}
@@ -50,15 +52,15 @@ const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) =>
                 </Flex>
             <Flex flexDir="column" ml="auto">
                 <Flex>
-                    {values.globalAmount && values[id] &&  values[id] !== '0' && cryptoPrice && <Text fontSize="16px" fontFamily="Montserrat" fontWeight="700" lineHeight="150%">
+                    {(values as FormData).globalAmount && (values as any)[id] &&  (values as any)[id] !== '0' && cryptoPrice && <Text fontSize="16px" fontFamily="Montserrat" fontWeight="700" lineHeight="150%">
                         {cryptoPrice}
                     </Text>}
-                    {values.amountCurrency && values[id] &&  values[id] !== '0' && <Text ml={2} fontSize="16px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" textTransform="uppercase">
-                        {values.amountCurrency}
+                    {(values as FormData).amountCurrency && (values as any)[id] &&  (values as any)[id] !== '0' && <Text ml={2} fontSize="16px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" textTransform="uppercase">
+                        {(values as FormData).amountCurrency}
                     </Text>}
                 </Flex>
-                {values.globalAmount && values[id] &&  values[id] !== '0' && <Text fontSize="12px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" color="neutral.dsGray">
-                   $ {values.globalAmount * values[id] / 100}
+                {(values as FormData).globalAmount && (values as any)[id] &&  (values as any)[id] !== '0' && <Text fontSize="12px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" color="neutral.dsGray">
+                   $ {parseInt((values as FormData).globalAmount) * (values as any)[id] / 100}
                 </Text>}
             </Flex>
         </Flex>

@@ -62,7 +62,7 @@ const KycButton: FC = () => {
           <ModalHeader>KYC</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Synaps
+            {kycSession && <Synaps
               sessionId={kycSession}
               service={'individual'}
               lang={'en'}
@@ -72,7 +72,7 @@ const KycButton: FC = () => {
                 primary: '212b39',
                 secondary: 'ffffff'
               }}
-            />
+            />}
           </ModalBody>
         </ModalContent>
       </Modal>
