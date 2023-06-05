@@ -1,6 +1,7 @@
 import { Box, Flex, FormControl, FormLabel, Text } from "@chakra-ui/react";
+import { usePriceFeed } from "@workagora/front/hooks/usePriceFeed";
 import { ErrorMessage, Field, FieldProps, useFormikContext } from "formik";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface ContractAmountSelectorProps {
     id: string;
@@ -13,6 +14,7 @@ const options = [
 
 const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) => {
     const { values, errors, setFieldValue, setFieldTouched} = useFormikContext();
+    const { cryptoPrice } = usePriceFeed(values.amountCurrency, (values.globalAmount * values[id] / 100).toString());
 
     return (
     <FormControl id={id}>
@@ -48,14 +50,14 @@ const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) =>
                 </Flex>
             <Flex flexDir="column" ml="auto">
                 <Flex>
-                    {values.globalAmount && values[id] && <Text fontSize="16px" fontFamily="Montserrat" fontWeight="700" lineHeight="150%">
-                        {values.globalAmount * values[id] / 100}
+                    {values.globalAmount && values[id] &&  values[id] !== '0' && cryptoPrice && <Text fontSize="16px" fontFamily="Montserrat" fontWeight="700" lineHeight="150%">
+                        {cryptoPrice}
                     </Text>}
-                    {values.amountCurrency && values[id] && <Text ml={2} fontSize="16px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" textTransform="uppercase">
+                    {values.amountCurrency && values[id] &&  values[id] !== '0' && <Text ml={2} fontSize="16px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" textTransform="uppercase">
                         {values.amountCurrency}
                     </Text>}
                 </Flex>
-                {values.globalAmount && values[id] && <Text fontSize="12px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" color="neutral.dsGray">
+                {values.globalAmount && values[id] &&  values[id] !== '0' && <Text fontSize="12px" fontFamily="Montserrat" fontWeight="400" lineHeight="150%" color="neutral.dsGray">
                    $ {values.globalAmount * values[id] / 100}
                 </Text>}
             </Flex>

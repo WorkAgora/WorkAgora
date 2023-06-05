@@ -24,7 +24,7 @@ const ContractCurrency: FC<SelectorProps> = ({handleSelection, ...props}) => {
 
     return (<Flex alignItems="end" columnGap={6}>
            <FormControl id="globalAmount" isRequired>
-                <FormLabel>Global amount</FormLabel>
+                <FormLabel>Global amount in $</FormLabel>
                 <Field name="globalAmount">
                     {({ field, form }: FieldProps) => (
                     <NumberInput
