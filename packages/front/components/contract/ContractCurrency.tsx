@@ -110,7 +110,7 @@ const ContractCurrency: FC<SelectorProps> = ({handleSelection, ...props}) => {
         </MenuList>
         <Field name="amountCurrency" type="hidden" />
         </Menu>
-        {errors.amountCurrency && touched.amountCurrency && <Text textStyle="errorMessage">{error}</Text>}
+        {errors.amountCurrency && touched.amountCurrency && <Text textStyle="errorMessage">{errors.amountCurrency}</Text>}
     </FormControl>
         </Flex>);
 };
