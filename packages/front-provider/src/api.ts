@@ -4,20 +4,13 @@ import { getRefreshToken } from '../../front/services/auth';
 
 export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
-let publicApiHeader: any = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json'
-}
-
-if (process.env.NEXT_PUBLIC_API_URL?.includes('localhost')) {
-  publicApiHeader = {...publicApiHeader, 'Access-Control-Allow-Origin': '*'}
-}
-
 export const publicApi = axios.create({
   baseURL: API_URL,
   timeout: 5000,
   headers: {
-   ...publicApiHeader
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   }
 });
 

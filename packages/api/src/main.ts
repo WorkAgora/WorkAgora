@@ -11,6 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
+  app.enableCors({origin: '*'});
 
   // setup Swagger
   const options = new DocumentBuilder()
