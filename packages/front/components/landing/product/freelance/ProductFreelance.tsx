@@ -13,12 +13,12 @@ const ProductFreelance: FC = () => {
     <Flex
       w="100%"
       justifyContent="space-between"
-      minH={{lg: "500px"}}
+      minH={{md: '300px', lg: "500px"}}
       maxH="500px"
       position="relative"
       my={16}
     >
-      {desktopDisplay && <>
+      {(desktopDisplay || tabletDisplay) && <>
         <Box
           position="absolute"
           w="calc(100% - 3.4rem)"
@@ -40,28 +40,28 @@ const ProductFreelance: FC = () => {
           right="0"
         />
       </>}
-      <Flex flexDir="column" alignItems={{base: 'center', lg: "end"}} zIndex="2" position="relative" ml="auto" mr={{base: 'auto', lg: 0}}>
-        <Flex flexDir={{base: 'column', lg: 'row'}} alignItems="center" mt={{base: 6, lg: '20%'}}>
+      <Flex flexDir="column" alignItems={{base: 'center', md: "end"}} zIndex="2" position="relative" ml="auto" mr={{base: 'auto', md: 0}}>
+        <Flex flexDir={{base: 'column', md: 'row'}} alignItems="center" mt={{base: 6, md: '10%', lg: '20%'}}>
           <Box
-            mr={{base: 0, lg:6}}
-            mb={{base: 4, lg: 0}}
+            mr={{base: 0, md:6}}
+            mb={{base: 4, md: 0}}
             color="brand.secondary"
             textStyle="h1"
             as="h1"
             display="inline"
             whiteSpace="pre-wrap"
-            textAlign={{base: 'center', lg: 'right'}}
+            textAlign={{base: 'center', md: 'right'}}
             cursor="default"
             textShadow="0px 4px 8px rgba(0, 0, 0, 0.25)"
           >
-            {desktopDisplay || tabletDisplay  && `Find a mission has\nnever been easier`}
+            {(desktopDisplay || tabletDisplay)  && `Find a mission has\nnever been easier`}
             {mobileDisplay && `Find a mission has never been easier`}
           </Box>
           <Box maxW="162px" maxH="162px" w="100%" h="100%">
             <DarkBrandLogo />
           </Box>
         </Flex>
-        <Box mt={12} mr="auto" ml={{base: 'auto', lg: 0}}>
+        <Box mt={{base: 12, md: 6, lg: 12}} mr="auto" ml={{base: 'auto', md: 0}}>
           <Button
             variant="primary"
             rightIcon={<ArrowRightIcon />}

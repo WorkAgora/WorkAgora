@@ -36,7 +36,7 @@ const HeaderButton: FC<HeaderButtonProps> = ({onCloseMenu}) => {
     <Flex justifyContent={{base: 'center', lg: 'normal'}}>
       {!user && (
         <>
-          <LoginButton signupModalOpen={signupModalOpen} mr={{base: 0, lg: 8}}>
+          <LoginButton signupModalOpen={signupModalOpen} mr={{base: 0, md: 4, xl: 8}}>
             Login
           </LoginButton>
           <Button variant="primary" size="md" onClick={() => setSignupModalOpen(true)}>
@@ -45,7 +45,7 @@ const HeaderButton: FC<HeaderButtonProps> = ({onCloseMenu}) => {
         </>
       )}
       {user && (
-        <Flex alignItems="center" columnGap={8} flexDir={{base: 'column', lg: 'row'}} rowGap={4}>
+        <Flex alignItems="center" columnGap={{base: 8, md: 4, xl: 8}} flexDir={{base: 'column', lg: 'row'}} rowGap={4}>
           <Flex display={{base: 'none', lg: 'flex'}} alignItems="center" columnGap={4}>
             <IconButton
               variant="icon"

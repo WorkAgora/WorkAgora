@@ -34,12 +34,12 @@ const Technology: FC = () => {
       onChange={handleViewChange}
       threshold={[0.5, 0.6, 0.7, 0.8, 0.9, 1]}
     >
-      <Flex flexDir="column" py={16}>
-        <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
+      <Flex flexDir="column" py={{base: 8, lg: 16}}>
+        <Flex mx="auto" width={{base: '90%', md: "80%"}} maxW="1280px" flexDir="column">
           <Box textStyle="h2" textAlign="center" whiteSpace="pre-wrap" cursor="default">
             {`Here is why you need\nWorkAgora`}
           </Box>
-          <Flex columnGap={8} mt={12}>
+          <Flex columnGap={8} mt={12} flexWrap={{base: 'wrap', lg: 'nowrap'}} rowGap={4}>
             {cards.map((v, k) => (
               <TechnologyCard key={k} {...v} />
             ))}

@@ -33,7 +33,7 @@ const HeaderMenu: FC<HeaderMenuProps> = ({ onCloseMenu, noActive = false }) => {
   };
 
   return (
-    <Flex flexDir={{base: 'column', lg: 'row'}} justifyContent="center" alignItems="center" columnGap={16} rowGap={8}>
+    <Flex flexDir={{base: 'column', lg: 'row'}} ml={{base: 0, md: 4, xl: 0}} justifyContent="center" alignItems="center" columnGap={{md: 8, xl: 16}} rowGap={8}>
       {menuElement.map((v, k) => {
         const active = !noActive && currentView === v.id;
         return (
