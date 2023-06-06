@@ -118,14 +118,14 @@ export class AuthController {
       maxAge: 300 * 1000, // 300scd
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/'
     });
     res.cookie('refreshToken', jwt.refreshToken, {
       maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/auth/refresh'
     });
     res.status(200).json(user);
@@ -146,7 +146,7 @@ export class AuthController {
       maxAge: 300 * 1000, // 300scd
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/'
     });
     res.status(200).send('TOKEN_REFRESHED');
@@ -160,14 +160,14 @@ export class AuthController {
       maxAge: -1,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/'
     });
     res.cookie('refreshToken', '', {
       maxAge: -1,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/auth/refresh'
     });
     res.status(200).send('LOGOUT_SUCCESS');
