@@ -6,8 +6,6 @@ export const useResponsive = () => {
     const mobileDisplay = breakpoint === 'base' || breakpoint === 'sm';
     const tabletDisplay = breakpoint === 'md';
 
-    console.log(breakpoint)
-
     return {desktopDisplay, mobileDisplay, tabletDisplay};
 };
 

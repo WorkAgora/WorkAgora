@@ -39,7 +39,10 @@ const HeaderButton: FC<HeaderButtonProps> = ({onCloseMenu}) => {
           <LoginButton signupModalOpen={signupModalOpen} mr={{base: 0, md: 4, xl: 8}}>
             Login
           </LoginButton>
-          <Button variant="primary" size="md" onClick={() => setSignupModalOpen(true)}>
+          <Button variant="primary" size="md" onClick={() => { if (mobileDisplay && onCloseMenu) {
+      onCloseMenu();
+    }
+    setSignupModalOpen(true);}}>
             Sign up
           </Button>
         </>
