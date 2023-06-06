@@ -83,6 +83,7 @@ export function useLanding() {
     hasScroll,
     setType,
     handleViewChange,
+    setCurrentView,
     setSignupModalOpen,
     handleScroll,
     setHasScroll

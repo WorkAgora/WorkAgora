@@ -32,7 +32,7 @@ const Product: FC = () => {
       threshold={[0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
     >
       <Flex flexDir="column" pt={16}>
-        <Flex mx="auto" width="80%" maxW="1280px" flexDir="column">
+        <Flex mx="auto" width={{base: '90%', lg:"80%"}} maxW="1280px" flexDir="column">
           {topContent}
           <SearchFreelancerProvider>
             <SearchJobProvider>

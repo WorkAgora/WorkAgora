@@ -82,7 +82,7 @@ const ContactForm: FC = () => {
         };
         return (
           <Form>
-            <Flex columnGap={12}>
+            <Flex columnGap={12} flexDir={{base: 'column', md: 'row'}}>
               <FormControl id="name" isRequired mb={6}>
                 <FormLabel>Name</FormLabel>
                 <Field

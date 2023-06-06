@@ -20,7 +20,7 @@ const Newsletter: FC = () => {
             {`Don't miss any offer !`}
           </Text>
         </Flex>
-        <Flex mt={4} columnGap={8}>
+        <Flex mt={4} columnGap={8} flexDir={{base: 'column', md: 'row'}} rowGap={4}>
           <Input
             placeholder="Your mail"
             bgColor="neutral.white"

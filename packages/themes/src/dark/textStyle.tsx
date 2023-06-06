@@ -8,24 +8,24 @@ const textStyles = {
   h1: {
     fontFamily: 'Comfortaa',
     fontWeight: '700',
-    fontSize: '48px',
+    fontSize: {base: '36px', lg: '48px'},
     lineHeight: '100%'
   },
   h2: {
     fontFamily: 'Comfortaa',
-    fontSize: '36px',
+    fontSize: {base: '30px', lg: '36px'},
     lineHeight: '133%',
     fontWeight: '700'
   },
   h3: {
     fontFamily: 'Comfortaa',
-    fontSize: '30px',
+    fontSize: {base: '24px', lg: '30px'},
     lineHeight: '120%',
     fontWeight: '700'
   },
   h4: {
     fontFamily: 'Comfortaa',
-    fontSize: '20px',
+    fontSize: {base: '18px', lg: '20px'},
     lineHeight: '120%',
     fontWeight: '700'
   },

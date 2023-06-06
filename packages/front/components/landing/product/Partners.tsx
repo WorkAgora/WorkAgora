@@ -3,9 +3,13 @@ import { Autoplay } from 'swiper';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FC } from 'react';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
+import { table } from 'console';
 
 const Partners: FC<FlexProps> = ({ ...props }: FlexProps) => {
   const partnersLogo = [1, 2, 4, 6, 1, 2, 4, 6, 1, 2, 4, 6];
+  const {mobileDisplay , tabletDisplay, desktopDisplay} = useResponsive();
+  const slidesPerView = desktopDisplay ? 6 : tabletDisplay ? 4 : mobileDisplay ? 2 : 6;
 
   return (
     <Flex flexDir="column" alignItems="center" {...props}>
@@ -35,7 +39,7 @@ const Partners: FC<FlexProps> = ({ ...props }: FlexProps) => {
       >
         <Swiper
           spaceBetween={64}
-          slidesPerView={6}
+          slidesPerView={slidesPerView}
           loopedSlides={6}
           autoplay={{
             delay: 4000,
