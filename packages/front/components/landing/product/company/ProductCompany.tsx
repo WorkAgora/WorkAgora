@@ -48,7 +48,7 @@ const ProductCompany: FC = () => {
           </Box>
           <Box
             ml={{base: 0, md:6}}
-            mb={{base: 4, md: 0}}
+            mt={{base: 4, md: 0}}
             color="brand.secondary"
             textStyle="h1"
             as="h1"
