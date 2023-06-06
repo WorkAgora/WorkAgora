@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { Wallet } from "ethers";
+import { ContractReceipt, ContractTransaction, Wallet } from "ethers";
 import { Jcc, Jfc } from "./jobContract";
 import { strict as assert } from "assert";
 
@@ -91,4 +91,12 @@ export function isTimestampInRange(days: number, timestampToCheck: number): bool
 
     const isInRange = timestampToCheck >= minAllowed && timestampToCheck <= maxAllowed;
     return isInRange;
+}
+
+export async function getNativeBalance(address: string) {
+    return await ethers.provider.getBalance(address);
+}
+
+export async function getTxFee(tx: ContractTransaction, receipt: ContractReceipt) {
+    return receipt.gasUsed.mul(tx.gasPrice!);
 }

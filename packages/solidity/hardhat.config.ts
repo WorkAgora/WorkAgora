@@ -7,10 +7,11 @@ import "@nomicfoundation/hardhat-foundry";
 import * as tdly from '@tenderly/hardhat-tenderly';
 import { HardhatNetworkAccountUserConfig } from 'hardhat/types';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 tdly.setup();
 dotenv.config({ path: '../../.env' });
 
+export const TEST_INIT_AMOUNT = BigNumber.from("10000").mul(BigNumber.from(10).pow(18));
 const accounts = process.env.HARDHAT_PRIVATE_KEYS ? process.env.HARDHAT_PRIVATE_KEYS.split(',') : [];
 const config: HardhatUserConfig = {
   solidity: {
@@ -30,7 +31,7 @@ const config: HardhatUserConfig = {
       accounts: accounts.map(account => {
         const config: HardhatNetworkAccountUserConfig = {
           privateKey: account,
-          balance: ethers.utils.parseUnits("10000", "ether").toString(),
+          balance: TEST_INIT_AMOUNT.toString(),
         }
         return config;
       })

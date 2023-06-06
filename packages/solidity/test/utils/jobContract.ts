@@ -1,6 +1,7 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { JobContract } from "packages/solidity/typechain-types";
-import { getSignersInfo, toBlockchainParams } from ".";
+import { getSignersInfo, getTxFee, toBlockchainParams } from ".";
+import BigNumber from "bignumber.js";
 
 export enum JobContractState {
     None,
@@ -42,25 +43,59 @@ export function getOnChainParams<T extends Jcc | Jfc>(params: T, newParams: Part
     return edited;
 }
 
-export async function createJobContract(jcc: Jcc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
+export type CreateJobContractParams = {
+    jcc: Jcc,
+    signature: string,
+    jobContract: JobContract,
+    sender?: SignerWithAddress,
+    wei?: BigNumber,
+};
+
+export async function createJobContract(defaultParams: CreateJobContractParams, overrides?: Partial<CreateJobContractParams>) {
+    const { jcc, signature, jobContract, sender, wei } = {
+        ...defaultParams,
+        ...overrides,
+    };
     let deployer: SignerWithAddress;
-    if(sender) {
+    if (sender) {
         deployer = sender;
     } else {
         deployer = (await getSignersInfo()).employer.signer;
     }
+    const jobContractReady = jobContract.connect(deployer);
     const params = toBlockchainParams<JobContract.CreateParamsStruct>(jcc);
-    await jobContract.connect(deployer).create(params, signature);
+    const tx = wei ? await jobContractReady.create(params, signature, { value: wei.toFixed() })
+        : await jobContractReady.create(params, signature);
+    return {
+        txFee: await getTxFee(tx, await tx.wait()),
+    };
 }
 
-export async function finalizeJobContract(jfc: Jfc, signature: string, jobContract: JobContract, sender?: SignerWithAddress) {
+export type FinalizeJobContractParams = {
+    jfc: Jfc,
+    signature: string,
+    jobContract: JobContract,
+    sender?: SignerWithAddress,
+    wei?: BigNumber,
+};
+
+export async function finalizeJobContract(defaultParams: FinalizeJobContractParams, overrides?: Partial<FinalizeJobContractParams>) {
+    const { jfc, signature, jobContract, sender, wei } = {
+        ...defaultParams,
+        ...overrides,
+    };
     let deployer: SignerWithAddress;
-    if(sender) {
+    if (sender) {
         deployer = sender;
     } else {
         deployer = (await getSignersInfo()).employer.signer;
     }
+    const jobContractReady = jobContract.connect(deployer);
     const params = toBlockchainParams<JobContract.FinalizationParamsStruct>(jfc);
-    await jobContract.connect(deployer).finalize(params, signature);
+    const tx = wei ? await jobContractReady.finalize(params, signature, { value: wei.toFixed() })
+        : await jobContractReady.finalize(params, signature);
+    return {
+        txFee: await getTxFee(tx, await tx.wait()),
+    };
 }
 

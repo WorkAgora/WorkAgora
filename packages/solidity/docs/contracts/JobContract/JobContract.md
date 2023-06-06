@@ -45,7 +45,7 @@ function contracts(string) external view returns (enum JobContract.State state, 
 ### create
 
 ```solidity
-function create(JobContract.CreateParams _params, bytes _signature) external nonpayable
+function create(JobContract.CreateParams _params, bytes _signature) external payable
 ```
 
 
@@ -62,7 +62,7 @@ function create(JobContract.CreateParams _params, bytes _signature) external non
 ### finalize
 
 ```solidity
-function finalize(JobContract.FinalizationParams _params, bytes _signature) external nonpayable
+function finalize(JobContract.FinalizationParams _params, bytes _signature) external payable
 ```
 
 
