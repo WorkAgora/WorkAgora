@@ -4,6 +4,7 @@ import { User } from '@workagora/utils';
 import { FC } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface FreelanceCardProps {
   user: User;
@@ -17,6 +18,10 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
   onClick
 }: FreelanceCardProps) => {
   const { getCategoryColorForSkill } = useColoredBadges();
+  const {desktopDisplay, mobileDisplay} = useResponsive();
+
+  const skillLimit = desktopDisplay ? 45 : mobileDisplay ? 25 : 35
+
   let skillsLength = 0;
   return (
     <Box
@@ -161,7 +166,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
             const skill = user.freelanceProfile?.skills[k];
             skillsLength += skill.length;
-            if (skillsLength <= 45) {
+            if (skillsLength <= skillLimit) {
               const colors = getCategoryColorForSkill(skill);
 
               return (
@@ -180,7 +185,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
             }
           }
         })}
-        <Button
+        {!mobileDisplay && <Button
           ml="auto"
           variant="outline"
           px="12px !important"
@@ -194,8 +199,23 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           onClick={() => onClick?.(user.wallet)}
         >
           See more
-        </Button>
+        </Button>}
       </Flex>
+      {mobileDisplay && <Button
+          mt={2}
+          variant="outline"
+          px="12px !important"
+          py="2px !important"
+          bgColor="white"
+          borderColor="neutral.gray"
+          fontSize="14px"
+          fontWeight="400"
+          lineHeight="100%"
+          maxH="26px"
+          onClick={() => onClick?.(user.wallet)}
+        >
+          See more
+        </Button>}
       {blurred && (
         <Box
           position="absolute"

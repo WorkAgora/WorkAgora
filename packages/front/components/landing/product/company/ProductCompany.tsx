@@ -4,9 +4,11 @@ import { FC } from 'react';
 import ArrowRightIcon from '../../../icons/ArrowRightIcon';
 import Image from 'next/image';
 import DarkBrandLogo from '../../../logo/DarkBrandLogo';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 const ProductCompany: FC = () => {
   const { setSignupModalOpen } = useLanding();
+  const {mobileDisplay, desktopDisplay} = useResponsive();
 
   return (
     <Flex
@@ -17,6 +19,7 @@ const ProductCompany: FC = () => {
       position="relative"
       my={16}
     >
+      {desktopDisplay && <>
       <Box
         position="absolute"
         w="calc(100% - 3.4rem)"
@@ -37,26 +40,28 @@ const ProductCompany: FC = () => {
         zIndex="1"
         left="0"
       />
+      </>}
       <Flex flexDir="column" alignItems="start" zIndex="2" position="relative">
-        <Flex alignItems="center" mt="20%">
+        <Flex flexDir={{base: 'column', lg: 'row'}} alignItems="center" mt={{base: 6, lg: '20%'}}>
           <Box maxW="162px" maxH="162px" w="100%" h="100%">
             <DarkBrandLogo />
           </Box>
           <Box
-            ml={6}
+            ml={{base: 0, lg:6}}
+            mb={{base: 4, lg: 0}}
             color="brand.secondary"
             textStyle="h1"
             as="h1"
             display="inline"
             whiteSpace="pre-wrap"
-            textAlign="left"
+            textAlign={{base: 'center', lg: 'left'}}
             cursor="default"
             textShadow="0px 4px 8px rgba(0, 0, 0, 0.25)"
           >
             {`Welcome to the\nkingdom of talents`}
           </Box>
         </Flex>
-        <Box mt={12} ml="auto">
+        <Box mt={12} ml="auto" mr={{base: 'auto', lg: 0}}>
           <Button
             variant="primary"
             rightIcon={<ArrowRightIcon />}
