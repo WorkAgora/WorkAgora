@@ -8,13 +8,13 @@ import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 const ProductCompany: FC = () => {
   const { setSignupModalOpen } = useLanding();
-  const {mobileDisplay, desktopDisplay} = useResponsive();
+  const {mobileDisplay, desktopDisplay, tabletDisplay} = useResponsive();
 
   return (
     <Flex
       w="100%"
       justifyContent="space-between"
-      minH="500px"
+      minH={{lg: "500px"}}
       maxH="500px"
       position="relative"
       my={16}
@@ -41,7 +41,7 @@ const ProductCompany: FC = () => {
         left="0"
       />
       </>}
-      <Flex flexDir="column" alignItems="start" zIndex="2" position="relative">
+      <Flex flexDir="column" alignItems={{base: 'center', lg: "start"}} zIndex="2" position="relative">
         <Flex flexDir={{base: 'column', lg: 'row'}} alignItems="center" mt={{base: 6, lg: '20%'}}>
           <Box maxW="162px" maxH="162px" w="100%" h="100%">
             <DarkBrandLogo />
@@ -58,7 +58,8 @@ const ProductCompany: FC = () => {
             cursor="default"
             textShadow="0px 4px 8px rgba(0, 0, 0, 0.25)"
           >
-            {`Welcome to the\nkingdom of talents`}
+            {desktopDisplay || tabletDisplay  && `Welcome to the\nkingdom of talents`}
+            {mobileDisplay && `Welcome to the kingdom of talents`}
           </Box>
         </Flex>
         <Box mt={12} ml="auto" mr={{base: 'auto', lg: 0}}>

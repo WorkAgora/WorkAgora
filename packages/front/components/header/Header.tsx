@@ -43,7 +43,7 @@ const Header: FC = () => {
           </Flex>
         )}
       </>}
-      {mobileDisplay && <>
+      {(mobileDisplay || tabletDisplay) && <>
         <Flex direction="row" alignItems="center" w="100%" position="relative">
           <HeaderMobile />
           <Box position="absolute" left="50%" top="50%" transform="translate(-50%, -50%)"><BrandLogo /></Box>

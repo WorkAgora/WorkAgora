@@ -18,9 +18,9 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const searchFreelance = useSearchFreelancer(8);
   const searchJobs = useSearchJob(8);
 
-  const {mobileDisplay } = useResponsive();
+  const {mobileDisplay , tabletDisplay} = useResponsive();
 
-  const blurredAt = mobileDisplay ? 7 : 6;
+  const blurredAt = mobileDisplay || tabletDisplay ? 7 : 6;
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
@@ -68,7 +68,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
                 key={k}
                 user={v}
                 blurred={
-                  mobileDisplay ? k >= searchFreelance.freelancers.length - 1 : searchFreelance.freelancers.length % 2 === 0
+                  mobileDisplay || tabletDisplay ? k >= searchFreelance.freelancers.length - 1 : searchFreelance.freelancers.length % 2 === 0
                     ? k >= searchFreelance.freelancers.length - 2
                     : k >= searchFreelance.freelancers.length - 1
                 }
@@ -109,7 +109,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
                 key={k}
                 job={v}
                 blurred={
-                  mobileDisplay ? k >= searchJobs.jobs.length - 1 : searchJobs.jobs.length % 2 === 0
+                  mobileDisplay || tabletDisplay ? k >= searchJobs.jobs.length - 1 : searchJobs.jobs.length % 2 === 0
                     ? k >= searchJobs.jobs.length - 2
                     : k >= searchJobs.jobs.length - 1
                 }
