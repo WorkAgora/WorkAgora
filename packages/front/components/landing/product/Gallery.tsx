@@ -8,6 +8,7 @@ import { useSearchFreelancer } from '@workagora/front/hooks/useSearchFreelancer'
 import { useRecentJob } from '@workagora/front/hooks/useRecentJob';
 import JobCard from '../../card/JobCard';
 import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const { type, setSignupModalOpen } = useLanding();
@@ -16,6 +17,10 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
   const recentJob = useRecentJob({ limit: 8 });
   const searchFreelance = useSearchFreelancer(8);
   const searchJobs = useSearchJob(8);
+
+  const {mobileDisplay , tabletDisplay} = useResponsive();
+
+  const blurredAt = mobileDisplay || tabletDisplay ? 7 : 6;
 
   useEffect(() => {
     if (type === UserTypeEnum.Freelancer) {
@@ -45,7 +50,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
       )}
       {type == UserTypeEnum.Company && !recentFreelancer.loading && (
         <SimpleGrid
-          columns={2}
+          columns={{base: 1, lg: 2}}
           spacing={8}
           w="100%"
           position="relative"
@@ -55,7 +60,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
         >
           {searchFreelance.searchFilters.length === 0 &&
             recentFreelancer.freelancers.map((v, k) => (
-              <FreelanceCard key={k} user={v} blurred={k >= 6} />
+              <FreelanceCard key={k} user={v} blurred={k >= blurredAt} />
             ))}
           {searchFreelance.searchFilters.length > 0 &&
             searchFreelance.freelancers.map((v, k) => (
@@ -63,7 +68,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
                 key={k}
                 user={v}
                 blurred={
-                  searchFreelance.freelancers.length % 2 === 0
+                  mobileDisplay || tabletDisplay ? k >= searchFreelance.freelancers.length - 1 : searchFreelance.freelancers.length % 2 === 0
                     ? k >= searchFreelance.freelancers.length - 2
                     : k >= searchFreelance.freelancers.length - 1
                 }
@@ -88,7 +93,7 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
       )}
       {type == UserTypeEnum.Freelancer && !recentJob.loading && (
         <SimpleGrid
-          columns={2}
+          columns={{base: 1, lg: 2}}
           spacing={8}
           w="100%"
           position="relative"
@@ -97,14 +102,14 @@ const Gallery: FC<SimpleGridProps> = ({ ...props }: SimpleGridProps) => {
           {...props}
         >
           {searchJobs.searchFilters.length === 0 &&
-            recentJob.jobs.map((v, k) => <JobCard key={k} job={v} blurred={k >= 6} />)}
+            recentJob.jobs.map((v, k) => <JobCard key={k} job={v} blurred={k >= blurredAt} />)}
           {searchJobs.searchFilters.length > 0 &&
             searchJobs.jobs.map((v, k) => (
               <JobCard
                 key={k}
                 job={v}
                 blurred={
-                  searchJobs.jobs.length % 2 === 0
+                  mobileDisplay || tabletDisplay ? k >= searchJobs.jobs.length - 1 : searchJobs.jobs.length % 2 === 0
                     ? k >= searchJobs.jobs.length - 2
                     : k >= searchJobs.jobs.length - 1
                 }

@@ -25,6 +25,7 @@ const Footer: FC = () => {
         maxW="1340px"
         justifyContent="space-between"
         alignItems="center"
+        flexDir={{base: 'column', md: 'row'}}
       >
         <Text
           fontFamily="Montserrat"
@@ -35,7 +36,7 @@ const Footer: FC = () => {
         >
           @WorkAgora 2023, All rights reserved
         </Text>
-        <Flex columnGap={12}>
+        <Flex columnGap={12} flexWrap="wrap" justifyContent={{base: 'center', md: 'initial'}} rowGap={4} pb={{base: 4, md: 0}} mt={{base: 4, md: 0}}>
           {socialIcons.map((v, k) => (
             <Box
               key={k}

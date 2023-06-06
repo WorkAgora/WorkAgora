@@ -10,6 +10,7 @@ import {
 import { FC, useEffect } from 'react';
 import DollarIcon from '../icons/DollarIcon';
 import StarIcon from '../icons/StarIcon';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface JobCardProps {
   job: CreateJob;
@@ -18,8 +19,10 @@ interface JobCardProps {
 }
 const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardProps) => {
   const { getCategoryColorForSkill } = useColoredBadges();
-  let skillsLength = 0;
+  const {desktopDisplay, mobileDisplay} = useResponsive();
 
+  let skillsLength = 0;
+  const skillLimit = desktopDisplay ? 45 : mobileDisplay ? 25 : 35
   return (
     <Box
       p={6}
@@ -80,7 +83,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           {job.company?.location}
         </Text>
       </Flex>
-      <Flex mt={2}>
+      <Flex mt={2} flexWrap='wrap' rowGap={4}>
         {job.location && (
           <Badge
             color="neutral.black"
@@ -149,12 +152,12 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           {job.jobMission.slice(0, 380)} {job.jobMission.length > 380 && '...'}
         </Text>
       </Flex>
-      <Flex mt={4}>
+      <Flex mt={4} flexWrap="wrap" rowGap={4}>
         {Array.from({ length: 6 }).map((_, k) => {
           if (job.tags && job.tags[k]) {
             const skill = job.tags[k];
             skillsLength += skill.length;
-            if (skillsLength <= 45) {
+            if (skillsLength <= skillLimit) {
               const colors = getCategoryColorForSkill(skill);
 
               return (
@@ -173,7 +176,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
             }
           }
         })}
-        <Button
+        {!mobileDisplay && <Button
           ml="auto"
           variant="outline"
           px="12px !important"
@@ -187,8 +190,23 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           onClick={() => onClick?.(job.uuid)}
         >
           See more
-        </Button>
+        </Button>}
       </Flex>
+      {mobileDisplay && <Button
+          mt={2}
+          variant="outline"
+          px="12px !important"
+          py="2px !important"
+          bgColor="white"
+          borderColor="neutral.gray"
+          fontSize="14px"
+          fontWeight="400"
+          lineHeight="100%"
+          maxH="26px"
+          onClick={() => onClick?.(job.uuid)}
+        >
+          See more
+        </Button>}
       {blurred && (
         <Box
           position="absolute"

@@ -2,6 +2,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 import Link from 'next/link';
 import { useLanding } from '@workagora/front-provider';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface MenuElement {
   id: string;
@@ -17,17 +18,26 @@ const menuElement: MenuElement[] = [
 
 interface HeaderMenuProps {
   noActive?: boolean;
+  onCloseMenu?: () => void
 }
 
-const HeaderMenu: FC<HeaderMenuProps> = ({ noActive = false }: HeaderMenuProps) => {
-  const { currentView } = useLanding();
+const HeaderMenu: FC<HeaderMenuProps> = ({ onCloseMenu, noActive = false }) => {
+  const { currentView, setCurrentView } = useLanding();
+  const { mobileDisplay } = useResponsive();
+
+  const handleClick = (id: string) => {
+    if (mobileDisplay && onCloseMenu) {
+      setCurrentView(id);
+      onCloseMenu();
+    }
+  };
 
   return (
-    <Flex justifyContent="center" alignItems="center" columnGap={16}>
+    <Flex flexDir={{base: 'column', lg: 'row'}} ml={{base: 0, md: 4, xl: 0}} justifyContent="center" alignItems="center" columnGap={{md: 8, xl: 16}} rowGap={8}>
       {menuElement.map((v, k) => {
         const active = !noActive && currentView === v.id;
         return (
-          <Link key={k} href={`#${v.id}`} passHref>
+          <Link key={k} href={`#${v.id}`} passHref onClick={() => handleClick(v.id)}>
             <Box
               fontFamily="Comfortaa"
               fontSize="md"

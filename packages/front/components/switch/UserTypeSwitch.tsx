@@ -3,14 +3,23 @@ import { useCurrentUser, useLanding } from '@workagora/front-provider';
 import { changeUserType } from '../../services/user';
 import { FC, useState } from 'react';
 import { UserTypeEnum } from '@workagora/utils';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
-const UserTypeSwitch: FC<FlexProps> = ({ ...props }: FlexProps) => {
+interface UserTypeSwitchProps extends FlexProps{
+  onCloseMenu?: () => void
+}
+
+const UserTypeSwitch: FC<UserTypeSwitchProps> = ({ onCloseMenu, ...props }) => {
   const { setType, type } = useLanding();
   const { user, setUser } = useCurrentUser();
   const [isPuting, setIsPuting] = useState(false);
+  const {mobileDisplay} = useResponsive();
 
   const setUserType = async (newType: UserTypeEnum) => {
     setType(newType);
+    if (mobileDisplay && onCloseMenu !== undefined) {
+      onCloseMenu();
+    }
     if (user && !isPuting) {
       if (user.currentUserType.toLowerCase() !== newType.toLowerCase()) {
         setIsPuting(true);
