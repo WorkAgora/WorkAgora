@@ -24,9 +24,9 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
       px={6}
       py={3}
       alignItems="center"
-      flexDir={{base: 'column', md: 'row'}}
+      flexDir={{base: 'column', lg: 'row'}}
     >
-      <Flex alignItems="center" w={{base: "100%", md: "auto"}} justifyContent={{base: 'center', md: 'initial'}}>
+      <Flex alignItems="center" w={{base: "100%", lg: "auto"}} justifyContent={{base: 'center', lg: 'initial'}}>
         <Avatar w="56px" h="56px" />
         <Flex flexDir="column" ml={4} justifyContent="center" flexBasis="50%">
           <Text
@@ -49,8 +49,8 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
           </Text>
         </Flex>
       </Flex>
-      <Flex ml={{base: '0', md: 'auto'}} mt={{base: 2, md: 0}} justifyContent={{base: 'center', md: 'space-between'}} flexBasis="80%" flexDir={{base: 'column', md: 'row'}}>
-        <Flex columnGap={2} rowGap={2} alignItems="center" flexBasis="60%" flexWrap={{base: 'wrap', md: 'nowrap'}}>
+      <Flex ml={{base: '0', lg: 'auto'}} mt={{base: 2, lg: 0}} justifyContent={{base: 'center', lg: 'space-between'}} flexBasis="80%" flexDir={{base: 'column', lg: 'row'}}>
+        <Flex columnGap={2} rowGap={2} alignItems="center" flexBasis="60%" flexWrap={{base: 'wrap', xl: 'nowrap'}}>
           {Array.from({ length: 6 }).map((_, k) => {
             if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
               const skill = user.freelanceProfile?.skills[k];
@@ -74,7 +74,7 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
             }
           })}
         </Flex>
-        <Flex alignItems="center" columnGap={2} mt={{base: 2, md: 0}} justifyContent={{base: 'center', md: 'initial'}}>
+        <Flex alignItems="center" columnGap={2} mt={{base: 2, lg: 0}} justifyContent={{base: 'center', lg: 'initial'}}>
         <Flex alignItems="center">
           <Flex w="20px" color="#38A169" justifyContent="center">
             <DollarIcon />
