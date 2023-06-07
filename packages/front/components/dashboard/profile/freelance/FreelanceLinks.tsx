@@ -96,7 +96,7 @@ const FreelanceLinks: FC = () => {
               <Form
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '16px' }}
               >
-                <Flex alignItems="center">
+                <Flex alignItems="center" flexDir={{base: edit ? 'column' : 'row', lg: 'row'}}>
                   <Flex alignItems="center">
                     <Box textStyle="h4" as="span">
                       Links
@@ -131,7 +131,7 @@ const FreelanceLinks: FC = () => {
                     </Box>
                   )}
                   {edit && (
-                    <Flex ml="auto" alignItems="center">
+                    <Flex ml="auto" mr={{base: 'auto', lg: 0}} mt={{base: 4, lg: 0}} alignItems="center">
                       <Box>
                         <Button
                           variant={!isValid ? 'outline' : 'primary'}

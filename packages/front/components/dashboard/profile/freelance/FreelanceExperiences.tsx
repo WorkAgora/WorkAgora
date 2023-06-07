@@ -28,11 +28,11 @@ const FreelanceExperiences: FC = () => {
       gap={4}
       flexBasis="40%"
     >
-      <Flex alignItems="center">
+      <Flex alignItems="center" flexDir={{base: 'column', lg: 'row'}}>
         <Box textStyle="h4" as="span">
           Experiences
         </Box>
-        <Box ml="auto">
+        <Box ml={{base: 0, lg: "auto"}} mt={{base: 4, lg: 0}}>
           <Button
             variant="outline"
             leftIcon={
@@ -58,7 +58,7 @@ const FreelanceExperiences: FC = () => {
       {user &&
         user.freelanceProfile?.experiences &&
         user.freelanceProfile?.experiences?.length > 0 && (
-          <Flex flexDir="column" gap={4}>
+          <Flex flexDir="column" gap={4} w="100%">
             {user.freelanceProfile.experiences
               .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
               .map((v, k) => (

@@ -21,6 +21,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import CheckIcon from '@workagora/front/components/icons/CheckIcon';
 import { useUpdateProfile } from '@workagora/front/hooks/useUpdateProfile';
 import CloseIcon from '@workagora/front/components/icons/CloseIcon';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface FormData {
   firstname: string;
@@ -48,6 +49,7 @@ const FreelanceTopProfile: FC = () => {
   const { user } = useCurrentUser();
   const [edit, setEdit] = useState(false);
   const { loading, updateProfile } = useUpdateProfile();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
 
   const onSubmit = async (values: FormData) => {
     if (user) {
@@ -94,20 +96,23 @@ const FreelanceTopProfile: FC = () => {
           validateOnBlur={true}
         >
           {({ isValid, errors, touched, resetForm }) => (
-            <Flex alignItems={edit ? 'start' : 'center'} p={6}>
-              <Avatar w="128px" h="128px" borderRadius="100%" />
+            <Flex alignItems={{base: 'center', lg: edit ? 'start' : 'center'}} p={6} flexDir={{base: !edit ? 'row' : 'column', lg: 'row'}}>
+              <Avatar w={{base: '64px', lg: "128px"}} h={{base: '64px', lg: "128px"}} borderRadius="100%" mr={{base: 0, lg: '32px'}} />
               {!edit && (
                 <>
-                  <Flex flexDir="column" ml={8} justifyContent="center">
+                  <Flex flexDir="column" ml={{base: 4, lg: 8}} justifyContent="center">
                     <Box textStyle="h3">
                       {user.firstname} {user.lastname}
                     </Box>
-                    <Flex alignItems="center">
+                    <Flex alignItems="center" flexDir={{base: 'column', lg: 'row'}}>
                       <Box textStyle="h4" color="neutral.dsGray">
-                        {user.description} |
+                        {user.description}
                       </Box>
+                      {desktopDisplay && user.location && <Box textStyle="h4" color="neutral.dsGray" mx={1}>
+                        |
+                      </Box>}
                       <Box
-                        ml={2}
+                        ml={{base: 0, lg: 2}}
                         mt={0.5}
                         lineHeight="100%"
                         textStyle="h6"
@@ -199,10 +204,10 @@ const FreelanceTopProfile: FC = () => {
                 </>
               )}
               {edit && (
-                <Form style={{ width: '100%', marginLeft: '32px' }}>
-                  <Flex>
+                <Form style={{ width: '100%' }}>
+                  <Flex flexDir={{base: !edit ? 'row' : 'column', lg: 'row'}}>
                     <Flex flexDir="column" gap={4}>
-                      <Flex columnGap={8}>
+                      <Flex columnGap={8} rowGap={4} flexDir={{base: 'column', lg: 'row'}}>
                         <FormControl id="firstname" isRequired>
                           <FormLabel>Firstname</FormLabel>
                           <Field
@@ -254,7 +259,7 @@ const FreelanceTopProfile: FC = () => {
                           </ErrorMessage>
                         </FormControl>
                       </Flex>
-                      <Flex>
+                      <Flex flexDir={{base: 'column', lg: 'row'}}>
                         <FormControl id="description" isRequired>
                           <FormLabel>Profile title</FormLabel>
                           <Field name="description">
@@ -285,7 +290,7 @@ const FreelanceTopProfile: FC = () => {
                             )}
                           </ErrorMessage>
                         </FormControl>
-                        <FormControl id="location" isRequired ml={6}>
+                        <FormControl id="location" isRequired ml={{base: 0, lg: 6}}>
                           <FormLabel>Location</FormLabel>
                           <Field
                             name="location"
@@ -300,7 +305,7 @@ const FreelanceTopProfile: FC = () => {
                         </FormControl>
                       </Flex>
                     </Flex>
-                    <Flex ml="auto" alignItems="start">
+                    <Flex ml="auto" mr={{base: 'auto', lg: 0}} alignItems="start">
                       <Box mt={8}>
                         <Button
                           variant={!isValid ? 'outline' : 'primary'}

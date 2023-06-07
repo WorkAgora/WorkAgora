@@ -20,6 +20,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import CheckIcon from '@workagora/front/components/icons/CheckIcon';
 import { useUpdateProfile } from '@workagora/front/hooks/useUpdateProfile';
 import CloseIcon from '@workagora/front/components/icons/CloseIcon';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface FormData {
   longDesc: string;
@@ -35,6 +36,7 @@ const FreelanceResume: FC = () => {
   const { user } = useCurrentUser();
   const [edit, setEdit] = useState(false);
   const { loading, updateProfile } = useUpdateProfile();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
 
   const onSubmit = async (values: FormData) => {
     if (user) {
@@ -82,7 +84,7 @@ const FreelanceResume: FC = () => {
               <Form
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '16px' }}
               >
-                <Flex alignItems="center">
+                <Flex alignItems="center" flexDir={{base: edit ? 'column' : 'row', lg: 'row'}}>
                   <Box textStyle="h4" as="span">
                     Resume
                   </Box>
@@ -103,7 +105,7 @@ const FreelanceResume: FC = () => {
                     </Box>
                   )}
                   {edit && (
-                    <Flex ml="auto" alignItems="center">
+                    <Flex ml="auto" mr={{base: 'auto', lg: 0}} mt={{base: 4, lg: 0}} alignItems="center">
                       <Box>
                         <Button
                           variant={!isValid ? 'outline' : 'primary'}
@@ -137,7 +139,7 @@ const FreelanceResume: FC = () => {
                   )}
                 </Flex>
                 {!edit && (
-                  <Box textStyle="body2" color="neutral.dsDarkGray" pl={4} pr={16}>
+                  <Box textStyle="body2" color="neutral.dsDarkGray" pl={4} pr={{base: 0, lg: 16}}>
                     {user.freelanceProfile?.longDesc}
                   </Box>
                 )}
@@ -149,8 +151,8 @@ const FreelanceResume: FC = () => {
                       as={Textarea}
                       isInvalid={errors.longDesc && touched.longDesc}
                       resize="vertical"
-                      minH="100px"
-                      maxH="200px"
+                      minH={(mobileDisplay || tabletDisplay) ? "200px" : "100px"}
+                      maxH={(mobileDisplay || tabletDisplay) ? "300px" : "200px"}
                       fontWeight="500"
                     />
                     <ErrorMessage name="longDesc">

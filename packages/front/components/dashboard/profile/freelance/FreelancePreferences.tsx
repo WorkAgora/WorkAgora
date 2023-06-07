@@ -225,7 +225,7 @@ const FreelancePreferences: FC = () => {
                     rowGap: '16px'
                   }}
                 >
-                  <Flex alignItems="center">
+                  <Flex alignItems="center" flexDir={{base: edit ? 'column' : 'row', lg: 'row'}}>
                     <Box textStyle="h4" as="span">
                       Preferences
                     </Box>
@@ -243,7 +243,7 @@ const FreelancePreferences: FC = () => {
                       </Box>
                     )}
                     {edit && (
-                      <Flex ml="auto" alignItems="center">
+                      <Flex ml="auto" mr={{base: 'auto', lg: 0}} mt={{base: 4, lg: 0}} alignItems="center">
                         <Box>
                           <Button
                             variant={isValid ? 'primary' : 'outline'}
@@ -277,7 +277,7 @@ const FreelancePreferences: FC = () => {
                     )}
                   </Flex>
                   {!edit && (
-                    <Flex gap={2}>
+                    <Flex gap={2} flexWrap={{base: 'wrap', lg: 'nowrap'}}>
                       {user.freelanceProfile?.workLocation && (
                         <Badge
                           color="neutral.black"

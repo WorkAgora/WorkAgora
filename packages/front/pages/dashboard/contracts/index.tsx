@@ -23,7 +23,7 @@ const DashboardContractsPage: NextPage = () => {
         }}
         onScrollY={handleScroll}
       >
-        <Flex w="calc(100vw - 245px)" ml="auto">
+        <Flex w={{base: "100vw", lg: "calc(100vw - 245px)"}} ml="auto">
           <DashboardContracts />
         </Flex>
         <Flex bgColor="neutral.white" mt={8}>

@@ -34,18 +34,18 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
   }, [id]);
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
+    <Flex px={{base: 0, lg: 6}} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
       <Flex
         flexDir="column"
         w="100%"
         flexGrow="1"
         bgColor="neutral.white"
-        px={8}
-        py={6}
-        gap={6}
-        borderRadius="64px"
+        px={{base: 4, lg: 8}}
+        py={{base: 2, lg: 6}}
+        gap={{base: 4, lg: 8}}
+        borderRadius={{base: '32px', lg: "64px"}}
       >
-        <Flex textStyle="h2" as="h1" color="neutral.dsGray">
+        <Flex textStyle="h2" as="h1" color="neutral.dsGray" flexDir={{base: 'column', lg: 'row'}}>
           <Box color="neutral.black">Job details</Box>
           <Button
             variant="outline"
@@ -78,10 +78,10 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
         )}
         {!loading && (
           <>
-            <Flex>
+            <Flex flexDir={{base: 'column', lg: 'row'}}>
               <Flex flexDir="column" justifyContent="center">
                 <Box textStyle="h3">{curJob?.title}</Box>
-                <Flex mt={4} alignItems="center">
+                <Flex mt={4} alignItems="center" flexWrap="wrap">
                   {curJob?.location && (
                     <Badge
                       color="neutral.black"
@@ -142,7 +142,7 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
                     {curJob?.company?.location}
                   </Box>
                 </Flex>
-                <Flex mt={4}>
+                <Flex mt={4} flexWrap="wrap" rowGap={2}>
                   {curJob?.tags &&
                     curJob?.tags.map((skill, k) => {
                       const colors = getCategoryColorForSkill(skill);
@@ -180,17 +180,21 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
               )}
             </Flex>
             <Flex flexDir="column">
-              <Flex alignItems="center">
-                <Box textStyle="body2" fontWeight="700" color="neutral.black">
-                  Created
-                </Box>
-                <Box textStyle="body2" color="neutral.dsGray" ml={2}>
-                  {curJob?.createdAt && <>{formatDate(new Date(curJob.createdAt))}</>}
-                </Box>
+              <Flex alignItems={{base: "start", lg: "center"}} flexDir={{base: 'column', lg: 'row'}}>
+                <Flex alignItems="center">
+                  <Box textStyle="body2" fontWeight="700" color="neutral.black">
+                    Created
+                  </Box>
+                  <Box textStyle="body2" color="neutral.dsGray" ml={2}>
+                    {curJob?.createdAt && <>{formatDate(new Date(curJob.createdAt))}</>}
+                  </Box>
+                </Flex>
                 {type === UserTypeEnum.Freelancer && (
                   <Button
                     variant="primary"
                     ml="auto"
+                    mr={{base: "auto", lg: '0'}}
+                    mt={{base: 4, lg: 0}}
                     rightIcon={<ArrowRightIcon />}
                     onClick={() =>
                       push({
@@ -204,7 +208,7 @@ const OfferDetail: FC<OfferDetailProps> = ({ id }) => {
                 )}
               </Flex>
             </Flex>
-            <Flex columnGap={6}>
+            <Flex columnGap={6} flexDir={{base: 'column', lg: 'row'}} rowGap={4}>
               <Flex
                 flexDir="column"
                 borderWidth="1px"

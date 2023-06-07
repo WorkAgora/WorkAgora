@@ -134,7 +134,7 @@ const FreelanceSkills: FC = () => {
           w="100%"
           gap={4}
         >
-          <Flex alignItems="center">
+          <Flex alignItems="center" flexDir={{base: 'column', lg: 'row'}}>
             <Box textStyle="h4" as="span">
               Skills & Expertise
             </Box>
@@ -152,7 +152,7 @@ const FreelanceSkills: FC = () => {
               </Box>
             )}
             {edit && (
-              <Flex ml="auto" alignItems="center">
+              <Flex ml="auto" mr={{base: 'auto', lg: 0}} mt={{base: 4, lg: 0}} alignItems="center">
                 <Box>
                   <Button
                     variant={
@@ -187,7 +187,7 @@ const FreelanceSkills: FC = () => {
               </Flex>
             )}
           </Flex>
-          <Flex flexWrap="wrap" gap={2}>
+          <Flex flexWrap="wrap" flexDir={{base: edit ? 'column' : 'row', lg: 'row'}} gap={2}>
             {edit && (
               <>
                 <Flex flexDir="column">

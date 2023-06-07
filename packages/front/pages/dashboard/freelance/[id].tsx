@@ -20,7 +20,6 @@ const FreelanceProfile: NextPage = () => {
 
   return (
     <DashboardLayout>
-      <DashboardMenu />
       <PerfectScrollbar
         options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
         style={{
@@ -28,7 +27,7 @@ const FreelanceProfile: NextPage = () => {
         }}
         onScrollY={handleScroll}
       >
-        <Flex w="calc(100vw - 245px)" ml="auto">
+        <Flex w={{base: "100vw", lg: "calc(100vw - 245px)"}} ml="auto">
           {id && typeof id === 'string' && <Profile wallet={id} />}
         </Flex>
         <Flex bgColor="neutral.white" mt={8}>

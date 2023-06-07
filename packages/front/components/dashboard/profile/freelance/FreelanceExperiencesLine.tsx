@@ -13,10 +13,10 @@ const FreelanceExperiencesLine: FC<FreelanceExperiencesLineProps> = ({
   onEditExperience
 }) => {
   return (
-    <Flex p={4} alignItems="start">
+    <Flex p={{base: 2, lg: 4}} alignItems="start">
       <Avatar w="48px" h="48px" borderRadius="16px" my="auto" />
       <Flex flexDir="column" ml={4}>
-        <Flex alignItems="center" columnGap={4}>
+        <Flex alignItems={{base: 'initial', lg: "center"}} columnGap={4} flexDir={{base: 'column', lg: 'row'}}>
           <Box textStyle="body2">
             {experience.role} at {experience.company}
           </Box>
@@ -24,7 +24,7 @@ const FreelanceExperiencesLine: FC<FreelanceExperiencesLineProps> = ({
             {getDateDiff(experience.startDate, experience.endDate)}
           </Box>
         </Flex>
-        <Box textStyle="body2" fontSize="14px" color="neutral.dsGray" mt={1} pr={4}>
+        <Box textStyle="body2" fontSize="14px" color="neutral.dsGray" mt={1} pr={4} maxW="100%" whiteSpace="pre-wrap" overflow="hidden" overflowWrap="break-word" wordBreak="break-all">
           {experience.description}
         </Box>
       </Flex>

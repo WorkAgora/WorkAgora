@@ -13,7 +13,7 @@ const CompanyGallery: FC = () => {
       {!jobsFetching && (
         <>
           {jobs && jobs?.length > 0 && (
-            <SimpleGrid columns={2} spacing={8} w="100%">
+            <SimpleGrid columns={{base: 1, lg: 2}} spacing={8} w="100%">
               {jobs?.map((j, k) => (
                 <JobCard job={j} key={k} onClick={(id) => push(`/dashboard/offers/${id}`)} />
               ))}
@@ -28,7 +28,7 @@ const CompanyGallery: FC = () => {
                 position="absolute"
                 top="50%"
                 left="50%"
-                transform="translate(-50%; -50%)"
+                transform="translate(-50%, -50%)"
               >
                 No jobs available
               </Box>

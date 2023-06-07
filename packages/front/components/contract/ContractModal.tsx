@@ -13,6 +13,8 @@ import { CreateCompany, CreateJob, User } from '@workagora/utils';
 import { FC } from 'react';
 import ContractTop from './ContratTop';
 import ContractForm from './ContractForm';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 interface ContractModalProps {
   isOpen: boolean;
@@ -24,12 +26,14 @@ interface ContractModalProps {
 }
 
 const ContractModal: FC<ContractModalProps> = ({ isOpen, onClose, sender, receiver, isForm, relatedJob }) => {
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
+
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl">
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl" blockScrollOnMount={false}>
       <DrawerOverlay>
-        <DrawerContent p={8}>
-          <Flex alignItems="center" mb={4}>
+        <DrawerContent px={{base:0, lg: 8}} py={{base: 4, lg: 8}}>
+          <Flex alignItems="center" mb={4} ml={{base: 4, lg: 0}}>
               <Text
                 fontSize="16px"
                 lineHeight="120%"
@@ -40,11 +44,27 @@ const ContractModal: FC<ContractModalProps> = ({ isOpen, onClose, sender, receiv
               >
                 New contract proposal
               </Text>
-            <DrawerCloseButton top="1.75rem" />
+            <DrawerCloseButton top={{base: '.5rem', lg: "1.75rem"}} />
           </Flex>
-          <ContractTop sender={sender} receiver={receiver} />
-          <Divider borderColor="neutral.black" my={4}/>
-          {isForm && <ContractForm relatedJob={relatedJob}/>}
+          {desktopDisplay && <>
+            <ContractTop sender={sender} receiver={receiver} />
+            <Divider borderColor="neutral.black" my={4}/>
+            {isForm && <ContractForm relatedJob={relatedJob}/>}
+          </>}
+          {!desktopDisplay && <Flex maxH="95vh" position="relative" pb={6}>
+          <PerfectScrollbar
+          options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
+          style={{
+            width: '100%'
+          }}
+        >
+            <Flex flexDir="column" px={2}>
+            <ContractTop sender={sender} receiver={receiver} />
+              <Divider borderColor="neutral.black" my={4}/>
+              {isForm && <ContractForm relatedJob={relatedJob}/>}
+            </Flex>
+          </PerfectScrollbar>
+            </Flex>}
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>

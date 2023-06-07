@@ -25,16 +25,16 @@ const DashboardProfile: FC = () => {
   };
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )" gap={6} pb={6}>
+    <Flex px={{base: 0, lg: 6}} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )" gap={6} pb={6}>
       <Flex
         flexDir="column"
         w="100%"
         flexGrow="1"
         bgColor="neutral.white"
-        px={8}
-        py={6}
-        gap={8}
-        borderRadius="64px"
+        px={{base: 4, lg: 8}}
+        py={{base: 2, lg: 6}}
+        gap={{base: 4, lg: 8}}
+        borderRadius={{base: '32px', lg: "64px"}}
       >
         <AnimatePresence mode="wait">
           {type === UserTypeEnum.Freelancer && (
@@ -50,7 +50,7 @@ const DashboardProfile: FC = () => {
                 <FreelanceTopProfile />
                 <FreelanceSkills />
                 <FreelanceResume />
-                <Flex columnGap={6} alignItems="start">
+                <Flex columnGap={6} rowGap={6} alignItems="start" flexDir={{base: 'column', lg: 'row'}}>
                   <FreelancePreferences />
                   <FreelanceLinks />
                 </Flex>

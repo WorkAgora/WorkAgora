@@ -3,12 +3,15 @@ import { FC } from 'react';
 import Image from 'next/image';
 import SearchIcon from '@workagora/front/components/icons/SearchIcon';
 import { useRouter } from 'next/router';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 const CompanyOpportunities: FC = () => {
   const { push } = useRouter();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
 
   return (
-    <Flex
+    <>
+    {desktopDisplay && <Flex
       bgColor="brand.secondary"
       position="relative"
       borderRadius="24px"
@@ -90,7 +93,47 @@ const CompanyOpportunities: FC = () => {
           </Button>
         </Box>
       </Flex>
-    </Flex>
+    </Flex>}
+    {(mobileDisplay || tabletDisplay) && <Flex
+      bgColor="brand.secondary"
+      position="relative"
+      borderRadius="24px"
+      overflow="hidden"
+      flexDir="column"
+      px={2}
+      py={4}
+      rowGap={4}
+    >
+           <Box
+          w="100%"
+          textStyle="h3"
+          as="h2"
+          color="neutral.white"
+          textAlign="center"
+          zIndex="4"
+        >{`Begin your research`}</Box>
+        <Box
+          w="100%"
+          textStyle="body"
+          as="span"
+          color="neutral.white"
+          textAlign="center"
+          whiteSpace="pre-wrap"
+          zIndex="4"
+        >
+          {`Whether you are a designer, a community manager, or a corgi,\nyou will find what you are looking for.`}
+        </Box>
+        <Box mx="auto">
+          <Button
+            variant="primary"
+            rightIcon={<SearchIcon />}
+            onClick={() => push('/dashboard/offers')}
+          >
+            Start to hire
+          </Button>
+        </Box>
+        </Flex>}
+    </>
   );
 };
 

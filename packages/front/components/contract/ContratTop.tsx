@@ -14,13 +14,14 @@ const ContractTop: FC<ContractTopProps> = ({sender, receiver}) => {
     borderRadius="16px"
     border="1px solid"
     borderColor="brand.primary"
-    p={6}
+    px={{base: 2, lg: 6}}
+    py={{base: 3, lg: 6}}
   >
     <Flex alignItems="center">
         <Text fontFamily="Comfortaa" fontSize="14px" fontWeight="700" lineHeight="120%" textDecoration="underline">
             {shortHash(sender?.companyWallet, { padLeft: 5, padRight: 3, separator: '...' })}
         </Text>
-        <Flex ml={4} w="32px" h="32px" border="solid 2px" borderColor="brand.primary" borderRadius="8px" justifyContent="center" alignItems="center">
+        <Flex ml={{base:2,lg: 4}} w="32px" h="32px" border="solid 2px" borderColor="brand.primary" borderRadius="8px" justifyContent="center" alignItems="center">
             <Avatar w="29px" h="29px" borderRadius="8px"/>
         </Flex>
         <Divider borderColor="brand.primary" borderWidth="2px" w="40%" />
@@ -31,7 +32,7 @@ const ContractTop: FC<ContractTopProps> = ({sender, receiver}) => {
         <Flex w="32px" h="32px" border="solid 2px" borderColor="brand.primary" borderRadius="50%" justifyContent="center" alignItems="center">
             <Avatar w="29px" h="29px" borderRadius="50%"/>
         </Flex>
-        <Text ml={4} fontFamily="Comfortaa" fontSize="14px" fontWeight="700" lineHeight="120%" textDecoration="underline">
+        <Text ml={{base:2,lg: 4}} fontFamily="Comfortaa" fontSize="14px" fontWeight="700" lineHeight="120%" textDecoration="underline">
             {shortHash(receiver?.wallet, { padLeft: 5, padRight: 3, separator: '...' })}
         </Text>
     </Flex>

@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import { useChatInstance, useCurrentCompany, useCurrentUser, useLanding } from '@workagora/front-provider';
 import { FC, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -10,7 +10,9 @@ import { useGetJobById } from '@workagora/front/hooks/useGetJobById';
 import { ChatAuthorType, ChatInstance, UserTypeEnum } from '@workagora/utils';
 import { useGetMyChats } from '@workagora/front/hooks/useGetMyChats';
 import { useGetUserProfile } from '@workagora/front/hooks/useGetUserProfile';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 import { updateRelatedJob } from '@workagora/front/services/chat';
+import { ArrowLeftIcon } from '@chakra-ui/icons';
 
 const MotionBox = motion(Box);
 
@@ -25,6 +27,9 @@ const DashboardChat: FC = () => {
   const [newChat, setNewChat] = useState<ChatInstance>();
   const { query } = useRouter();
   useGetMyChats();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
+  const [chatOpen, setChatOpen] = useState(false);
+
 
   const contentVariants = {
     hidden: { opacity: 0 },
@@ -118,18 +123,18 @@ const DashboardChat: FC = () => {
   }
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
+    <Flex px={{base: 0, lg: 6}} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
       <Flex
         flexDir="column"
         w="100%"
         flexGrow="1"
         maxHeight="calc(100vh - 100px)"
         bgColor="neutral.white"
-        px={8}
-        py={6}
-        gap={8}
+        px={{base: 0, lg: 8}}
+        py={{base: 2, lg: 6}}
+        gap={{base: 4, lg: 8}}
+        borderRadius={{base: '32px', lg: "64px"}}
         mb={6}
-        borderRadius="64px"
       >
         <AnimatePresence mode="wait">
           <MotionBox
@@ -141,13 +146,16 @@ const DashboardChat: FC = () => {
             display="flex"
             flexDir="column"
             flexGrow="1"
-            maxHeight="calc(100vh - 100px)"
+            maxHeight={{base: "calc(100vh -20px)", lg: "calc(100vh - 100px)"}}
           >
-            <Flex flexDir="column" gap={4} flexGrow="1" maxHeight="calc(100vh - 100px)">
-              <Box textStyle="h2" as="h1" w="100%" textAlign="left">
-                Messages
-              </Box>
-              {!fetching && <Flex mt="4" h="100%" flexGrow="1" maxHeight="calc(100vh - 100px)">
+            <Flex flexDir="column" gap={4} flexGrow="1" maxHeight={{base: "calc(100vh -20px)", lg: "calc(100vh - 100px)"}}>
+              <Flex>
+                <Box textStyle="h2" as="h1" w="100%" textAlign="left" ml={{base: 4, lg: 0}}>
+                  Messages
+                </Box>
+                {!desktopDisplay && chatOpen && <Box><Button variant="icon" onClick={() => setChatOpen(false)}><ArrowLeftIcon/></Button></Box>}
+              </Flex>
+              {!fetching && desktopDisplay && <Flex mt="4" h="100%" flexGrow="1" maxHeight={{base: "calc(100vh -20px)", lg: "calc(100vh - 100px)"}}>
                 <Flex
                   flexDir="column"
                   gap={6}
@@ -210,6 +218,60 @@ const DashboardChat: FC = () => {
                   )}
                 </Flex>
               </Flex>}
+              {!fetching && (mobileDisplay || tabletDisplay) && <Flex mt="4" h="100%" flexGrow="1" maxHeight="calc(100vh - 100px)">
+              {!chatOpen && <Flex
+                    flexDir="column"
+                    w="100%"
+                    h="100%"
+                    overflow="hidden"
+                    maxHeight="calc(100vh - 290px)"
+                    position="relative"
+                    px={{base: 2, lg: 0}}
+                  >
+                    <PerfectScrollbar
+                      options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
+                      style={{
+                        width: '100%'
+                      }}
+                    >
+                      <Flex flexDir="column" rowGap={2}>
+                        {user && newChat && <ChatPreview 
+                          id={'newChat'}
+                          lastMessage={newChat.lastMessage?.content}
+                          lastMessageDate={newChat.lastMessage?.createdAt ? new Date(newChat.lastMessage.createdAt) : undefined}
+                          receiver={newChat.user1Type === 'User' && newChat.user1 === user?.wallet.toLowerCase() ? newChat.partnerCompany : newChat.partnerUser}
+                          userType={newChat.user1Type === 'User' && newChat.user1 === user?.wallet.toLowerCase() ? 'Company' : 'User'}
+                          isActive={activeChat === 'newChat'}
+                              onClick={(id: string) => {
+                                setActiveChat('newChat');
+                                setChatOpen(true);
+                              }}/>}
+                        {user && chats && chats.map((v,k) => 
+                        <ChatPreview 
+                          key={k} id={k.toString()}
+                          lastMessage={v.lastMessage?.content}
+                          lastMessageDate={v.lastMessage?.createdAt ? new Date(v.lastMessage.createdAt) : undefined}
+                          receiver={getChatReceiver(v)}
+                          userType={getChatReceiverUserType(v)}
+                          isActive={activeChat === k.toString()}
+                              onClick={(id: string) => {
+                                setActiveChat(id);
+                                setChatOpen(true);
+                              }}/>)}
+                      </Flex>
+                    </PerfectScrollbar>
+                  </Flex>}
+              {chatOpen &&    <Flex flexDir="column" gap={6} flexBasis="100%">
+                  {activeChat && chats && (
+                    <ChatMessages
+                      id={activeChat}
+                      chat={activeChat === 'newChat' ? newChat : chats[parseInt(activeChat)]}
+                      isNewChat={activeChat === 'newChat'}
+                      onNewChatMessage={() => {setTimeout(() => {setNewChat(undefined); setActiveChat('0');}, 5000)}}
+                    />
+                  )}
+                </Flex>}
+                </Flex>}
               {fetching &&  <Flex
                 flexDir="column"
                 justifyContent="center"

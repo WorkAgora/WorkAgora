@@ -8,7 +8,7 @@ const DashboardChatPage: NextPage = () => {
 
   return (
     <DashboardLayout>
-      <Flex w="calc(100vw - 245px)" ml="auto">
+      <Flex w={{base: "100vw", lg: "calc(100vw - 245px)"}} ml="auto">
         <ChatInstanceProvider>
           <DashboardChat />
         </ChatInstanceProvider>

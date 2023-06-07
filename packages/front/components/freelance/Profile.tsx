@@ -27,35 +27,39 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
   }, [getProfile, wallet]);
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )" gap={6} pb={6}>
+    <Flex px={{base: 0, lg: 6}} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )" gap={6} pb={6}>
       <Flex
         flexDir="column"
         w="100%"
         flexGrow="1"
         bgColor="neutral.white"
-        px={8}
-        py={6}
-        gap={4}
-        borderRadius="64px"
+        px={{base: 4, lg: 8}}
+        py={{base: 2, lg: 6}}
+        gap={{base: 4, lg: 8}}
+        borderRadius={{base: '32px', lg: "64px"}}
       >
-        <Flex textStyle="h4" as="h1" color="neutral.dsGray" ml={4}>
-          <Box
-            color="neutral.dsGray"
-            cursor="pointer"
-            _hover={{ color: 'neutral.dsDarkGray', transition: 'all ease-in-out 250ms' }}
-            onClick={() => push('/dashboard/offers')}
-          >
-            Find Profiles{' '}
-          </Box>{' '}
-          <Box ml={2}>{'>'}</Box>{' '}
-          {curUser && (
-            <Box ml={2} color="neutral.black">
-              {shortHash(curUser.wallet, { padLeft: 6, padRight: 6, separator: '...' })}
-            </Box>
-          )}
+        <Flex textStyle="h4" as="h1" color="neutral.dsGray" ml={{base:0, lg: 4}} flexDir={{base: 'column', lg: 'row'}}>
+          <Flex>
+            <Box
+              color="neutral.dsGray"
+              cursor="pointer"
+              _hover={{ color: 'neutral.dsDarkGray', transition: 'all ease-in-out 250ms' }}
+              onClick={() => push('/dashboard/offers')}
+            >
+              Find Profiles{' '}
+            </Box>{' '}
+            <Box ml={2}>{'>'}</Box>{' '}
+            {curUser && (
+              <Box ml={2} color="neutral.black">
+                {shortHash(curUser.wallet, { padLeft: 6, padRight: 6, separator: '...' })}
+              </Box>
+            )}
+          </Flex>
           <Button
             variant="outline"
             ml="auto"
+            mr={{base: "auto", lg: 0}}
+            mt={{base: 4, lg: 0}}
             color="brand.secondary"
             borderColor="brand.secondary"
             _hover={{
@@ -79,7 +83,7 @@ const Profile: FC<ProfileProps> = ({ wallet }) => {
             <ProfileTop curUser={curUser} />
             <ProfileSkills curUser={curUser} />
             <ProfileResume curUser={curUser} />
-            <Flex gap={6}>
+            <Flex gap={6} flexDir={{base: 'column', lg: 'row'}}>
               <ProfilePreferences curUser={curUser} />
               <ProfileLinks curUser={curUser} />
             </Flex>

@@ -24,30 +24,33 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
       px={6}
       py={3}
       alignItems="center"
+      flexDir={{base: 'column', lg: 'row'}}
     >
-      <Avatar w="56px" h="56px" />
-      <Flex flexDir="column" ml={4} justifyContent="center" flexBasis="50%">
-        <Text
-          fontFamily="Comfortaa"
-          fontWeight="700"
-          fontSize="20px"
-          lineHeight="120%"
-          color="neutral.black"
-        >
-          {user.firstname} {user.lastname}
-        </Text>
-        <Text
-          fontFamily="Comfortaa"
-          fontWeight="700"
-          fontSize="16px"
-          lineHeight="120%"
-          color="neutral.dsGray"
-        >
-          {user.description}
-        </Text>
+      <Flex alignItems="center" w={{base: "100%", lg: "auto"}} justifyContent={{base: 'center', lg: 'initial'}}>
+        <Avatar w="56px" h="56px" />
+        <Flex flexDir="column" ml={4} justifyContent="center" flexBasis="50%">
+          <Text
+            fontFamily="Comfortaa"
+            fontWeight="700"
+            fontSize="20px"
+            lineHeight="120%"
+            color="neutral.black"
+          >
+            {user.firstname} {user.lastname}
+          </Text>
+          <Text
+            fontFamily="Comfortaa"
+            fontWeight="700"
+            fontSize="16px"
+            lineHeight="120%"
+            color="neutral.dsGray"
+          >
+            {user.description}
+          </Text>
+        </Flex>
       </Flex>
-      <Flex ml="auto" justifyContent="space-between" flexBasis="80%">
-        <Flex columnGap={2} alignItems="center" flexBasis="60%">
+      <Flex ml={{base: '0', lg: 'auto'}} mt={{base: 2, lg: 0}} justifyContent={{base: 'center', lg: 'space-between'}} flexBasis="80%" flexDir={{base: 'column', lg: 'row'}}>
+        <Flex columnGap={2} rowGap={2} alignItems="center" flexBasis="60%" flexWrap={{base: 'wrap', xl: 'nowrap'}}>
           {Array.from({ length: 6 }).map((_, k) => {
             if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
               const skill = user.freelanceProfile?.skills[k];
@@ -71,6 +74,7 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
             }
           })}
         </Flex>
+        <Flex alignItems="center" columnGap={2} mt={{base: 2, lg: 0}} justifyContent={{base: 'center', lg: 'initial'}}>
         <Flex alignItems="center">
           <Flex w="20px" color="#38A169" justifyContent="center">
             <DollarIcon />
@@ -116,6 +120,7 @@ const FreelanceInlineCard: FC<FreelanceInlineCardProps> = ({ user }: FreelanceIn
             <SendMsgIcon />
           </Button>
         </Box>
+        </Flex>
       </Flex>
     </Flex>
   );

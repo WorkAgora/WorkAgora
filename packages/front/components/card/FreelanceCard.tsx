@@ -46,18 +46,34 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
             {user.firstname} {user.lastname}
           </Text>
           <Flex alignItems="center">
-            <Text
-              fontFamily="Montserrat"
-              fontWeight="400"
-              fontSize="14px"
-              lineHeight="150%"
-              color="neutral.black"
-            >
-              4,9/5
-            </Text>
-            <Box color="brand.primary" ml={1}>
-              <StarIcon />
-            </Box>
+            <Flex alignItems="center">
+              <Text
+                fontFamily="Montserrat"
+                fontWeight="400"
+                fontSize="14px"
+                lineHeight="150%"
+                color="neutral.black"
+              >
+                4,9/5
+              </Text>
+              <Box color="brand.primary" ml={1}>
+                <StarIcon />
+              </Box>
+            </Flex>
+            <Flex alignItems="center" ml={2}>
+              <Text
+                fontFamily="Montserrat"
+                fontWeight="400"
+                fontSize="14px"
+                lineHeight="150%"
+                color="neutral.black"
+              >
+                {user.freelanceProfile?.remuneration} /hr
+              </Text>
+              <Box color="brand.green" ml={1}>
+                <DollarIcon />
+              </Box>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
@@ -81,7 +97,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           {user.location}
         </Text>
       </Flex>
-      <Flex mt={2} flexWrap='wrap' rowGap={4}>
+      <Flex mt={2} flexWrap='wrap' rowGap={2}>
         {user.freelanceProfile?.situation && (
           <Badge
             color="neutral.black"
@@ -161,7 +177,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           {user.freelanceProfile?.longDesc}
         </Text>
       </Flex>
-      <Flex mt={4} flexWrap="wrap" rowGap={4}>
+      <Flex mt={4} flexWrap="wrap" rowGap={2}>
         {Array.from({ length: 6 }).map((_, k) => {
           if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
             const skill = user.freelanceProfile?.skills[k];

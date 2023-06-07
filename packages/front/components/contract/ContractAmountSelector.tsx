@@ -20,8 +20,8 @@ const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) =>
 
     return (
     <FormControl id={id}>
-        <Flex>
-            <FormLabel mr={8} mt={2}><Text fontFamily="Montserrat" fontSize="16px" lineHeight="150%" fontWeight="400">{label}</Text></FormLabel>
+        <Flex alignItems={{base: 'center', lg: 'initial'}} flexDir={{base: 'column', lg: 'row'}}>
+            <FormLabel mr={{base: 2, lg: 8}} mt={2}><Text fontFamily="Montserrat" fontSize="16px" lineHeight="150%" fontWeight="400">{label}</Text></FormLabel>
                 <Flex mx="auto">
                     <Field name={id} display="flex" flexDir="row">
                         {({ field, form }: FieldProps) => (
@@ -30,7 +30,7 @@ const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) =>
                                     <Box 
                                         key={k}
                                         py={2}
-                                        px={4}
+                                        px={{base: 2, lg: 4}}
                                         cursor="pointer"
                                         bgColor={(values as any)[id] === o ? "brand.primary" : "neutral.lightGray"}
                                         borderTopLeftRadius={k === 0 ? '8px' : '0'}
@@ -50,7 +50,7 @@ const ContractAmountSelector: FC<ContractAmountSelectorProps> = ({id, label}) =>
                         )}
                     </Field>
                 </Flex>
-            <Flex flexDir="column" ml="auto">
+            <Flex flexDir="column" ml="auto" mr={{base: 'auto', lg: 0}}>
                 <Flex>
                     {(values as FormData).globalAmount && (values as any)[id] &&  (values as any)[id] !== '0' && cryptoPrice && <Text fontSize="16px" fontFamily="Montserrat" fontWeight="700" lineHeight="150%">
                         {cryptoPrice}

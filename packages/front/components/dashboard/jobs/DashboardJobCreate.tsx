@@ -146,16 +146,16 @@ const DashboardJobCreate: FC = () => {
   };
 
   return (
-    <Flex px={6} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
+    <Flex px={{base: 0, lg: 6}} flexDir="column" w="100%" h="100%" minH="calc( 100vh - 80px )">
       <Flex
         flexDir="column"
         w="100%"
         flexGrow="1"
         bgColor="neutral.white"
-        px={8}
-        py={6}
-        gap={8}
-        borderRadius="64px"
+        px={{base: 4, lg: 8}}
+        py={{base: 2, lg: 6}}
+        gap={{base: 4, lg: 8}}
+        borderRadius={{base: '32px', lg: "64px"}}
       >
         <AnimatePresence mode="wait">
           <MotionBox
@@ -168,7 +168,7 @@ const DashboardJobCreate: FC = () => {
           >
             <Flex flexDir="column" gap={4}>
               <CreateJobHeader />
-              <Flex flexDir="column" gap={6} px={8}>
+              <Flex flexDir="column" gap={6} px={{base: 2, lg: 8}}>
                 <Formik
                   initialValues={{
                     title: '',
@@ -222,7 +222,7 @@ const DashboardJobCreate: FC = () => {
                         }}
                       >
                         <CreateJobTitle errors={errors} touched={touched} />
-                        <Flex gap={6}>
+                        <Flex gap={6} flexDir={{base: 'column', xl: 'row'}}>
                           <CreateJobSelector
                             id="location"
                             label="Work location"
@@ -251,7 +251,7 @@ const DashboardJobCreate: FC = () => {
                             touched={touched.situation}
                             flexBasis="33.3%"
                           />
-                          <Flex gap={4} flexBasis="33.3%">
+                          <Flex gap={4} flexBasis="33.3%" flexDir={{base: 'column', lg: 'row'}}>
                             <CreateJobNumber
                               id="duration"
                               label="Work duration"
