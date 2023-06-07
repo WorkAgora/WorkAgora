@@ -3,7 +3,7 @@ export interface CompanyKey {
   companyWallet: string; // SK - from the user that created the company
 }
 
-export interface CreateCompany extends CompanyKey {
+export interface Company extends CompanyKey {
   name: string;
   title: string;
   description?: string;

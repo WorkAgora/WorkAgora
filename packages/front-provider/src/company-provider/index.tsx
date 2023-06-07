@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { CreateCompany } from '@workagora/utils';
+import { Company } from '@workagora/utils';
 
 type CurrentCompanyContextInterface = {
-  company: CreateCompany | null;
-  setCompany: (company: CreateCompany | null) => void;
+  company: Company | null;
+  setCompany: (company: Company | null) => void;
   fetching: boolean;
   setFetching: (fetching: boolean) => void;
 };
@@ -19,7 +19,7 @@ export const CurrentCompanyContext = createContext<CurrentCompanyContextInterfac
 });
 
 export const CurrentCompanyProvider = ({ children }: { children: ReactNode }) => {
-  const [company, setCompany] = useState<CreateCompany | null>(null);
+  const [company, setCompany] = useState<Company | null>(null);
   const [fetching, setFetching] = useState(false);
 
   return (

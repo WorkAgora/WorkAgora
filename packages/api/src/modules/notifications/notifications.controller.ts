@@ -13,26 +13,6 @@ import { NotificationDTO } from '../../dtos/notifications/notification-dto';
 export class NotificationController {
   constructor(private notificationService: NotificationService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Send a chat message' })
-  @ApiBody({ type: CreateNotificationDTO })
-  @ApiResponse({
-    status: 200,
-    description: 'The Notification',
-    type: CreateNotificationDTO
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Bad Request'
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'An unexpected error occurred'
-  })
-  async create(@Body() createNotificationDto: CreateNotificationDTO) {
-    return await this.notificationService.createNotification(createNotificationDto);
-  }
-
   @Get('unread')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({

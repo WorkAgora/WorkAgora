@@ -1,15 +1,16 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
-import { CompanyKey, CreateCompany } from '../../../../utils/src/index';
+import { CompanyKey, Company } from '@workagora/utils';
 import { CreateCompanyDTO } from '../../dtos/company/create-company.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { DeleteCompanyDTO } from '../../dtos/company/delete-company.dto';
+import {CompanyDTO} from "../../dtos/company/company.dto";
 
 @Injectable()
 export class CompanyService {
   constructor(
     @InjectModel('Company')
-    private readonly model: Model<CreateCompany, CompanyKey>
+    private readonly model: Model<Company, CompanyKey>
   ) {}
 
   /**
@@ -19,9 +20,9 @@ export class CompanyService {
    * @returns The company metadata
    * @throws UnprocessableEntityException
    */
-  async createCompany(wallet: string, createCompanyDto: CreateCompanyDTO): Promise<CreateCompany> {
+  async createCompany(wallet: string, createCompanyDto: CreateCompanyDTO): Promise<Company> {
     try {
-      const company: CreateCompany = {
+      const company: Company = {
         uuid: uuidv4(),
         companyWallet: wallet,
         createdAt: new Date().toISOString(),
@@ -41,7 +42,7 @@ export class CompanyService {
    * @throws UnprocessableEntityException
    * @throws NotFoundException
    */
-  async getCompany(uuid: string): Promise<CreateCompanyDTO> {
+  async getCompany(uuid: string): Promise<CompanyDTO> {
     try {
       const company = await this.model.query('uuid').eq(uuid).exec();
       return company[0];
@@ -56,7 +57,7 @@ export class CompanyService {
    * @returns The company metadata
    * @throws UnprocessableEntityException
    */
-  async getMyCompanies(wallet: string): Promise<CreateCompanyDTO[]> {
+  async getMyCompanies(wallet: string): Promise<CompanyDTO[]> {
     try {
       const companies = await this.model.scan({ companyWallet: { eq: wallet } }).exec();
       if (!companies) {
@@ -110,7 +111,7 @@ export class CompanyService {
     wallet: string,
     companyUuid: string,
     updateCompanyDto: CreateCompanyDTO
-  ): Promise<CreateCompany> {
+  ): Promise<Company> {
     try {
       // Check if the company exists
       const company = await this.model.query('uuid').eq(companyUuid).exec();

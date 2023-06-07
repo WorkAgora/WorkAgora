@@ -16,15 +16,13 @@ export class NotificationService {
 
   async createNotification(createNotificationDto: CreateNotificationDTO) {
     try {
-      const query = await this.model.create({
+      return await this.model.create({
         ...createNotificationDto,
         id: uuidv4(),
         read: false,
         createdAt: new Date().toISOString(),
         type: createNotificationDto.type
       });
-
-      return query;
     } catch (e) {
       console.log('Error while creating notification', e);
       throw new UnprocessableEntityException('Error while creating notification: ' + e.message);
@@ -41,7 +39,7 @@ export class NotificationService {
         .exec();
 
       if (!notification) {
-        throw new Error('Notification not found');
+        throw new UnprocessableEntityException('Notification not found');
       }
 
       notification[0].read = !notification[0].read;

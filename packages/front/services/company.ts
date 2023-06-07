@@ -1,14 +1,14 @@
 import { privateApi } from '@workagora/front-provider';
-import { CreateCompany } from '@workagora/utils';
+import { Company } from '@workagora/utils';
 import { omit } from 'lodash';
 
-export type CreateNewCompany = (company: Partial<CreateCompany>) => Promise<CreateCompany>;
+export type CreateNewCompany = (company: Partial<Company>) => Promise<Company>;
 
-export type GetMyCompanies = () => Promise<CreateCompany | null>;
+export type GetMyCompanies = () => Promise<Company | null>;
 
-export type UpdateCompany = (company: Partial<CreateCompany>) => Promise<CreateCompany>;
+export type UpdateCompany = (company: Partial<Company>) => Promise<Company>;
 
-export type GetCompanyByUUID = (uuid: string) => Promise<CreateCompany | null>;
+export type GetCompanyByUUID = (uuid: string) => Promise<Company | null>;
 
 export const createCompany: CreateNewCompany = async (company) => {
   const res = await privateApi.post('/company/create', { ...company });
