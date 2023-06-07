@@ -59,9 +59,9 @@ const ContractDefferedAmountSelector: FC<ContractDefferedAmountSelectorProps> = 
 
     return (
     <FormControl id={id}>
-        <Flex>
-            <FormLabel mr={8} mt={2}><Text fontFamily="Montserrat" fontSize="16px" lineHeight="150%" fontWeight="400">{label}</Text></FormLabel>
-                {!snapshotDone && <Box ml={12}><Button variant="secondary" leftIcon={<Box mt={-1} mr={2}><LockIcon/></Box>} onClick={() => snapshotCurrency()}>Verified funding</Button></Box>}
+        <Flex alignItems={{base: 'center', lg: 'initial'}} flexDir={{base: 'column', lg: 'row'}}>
+            <FormLabel mr={{base: 2, lg: 8}} mt={2}><Text fontFamily="Montserrat" fontSize="16px" lineHeight="150%" fontWeight="400">{label}</Text></FormLabel>
+                {!snapshotDone && <Box ml={{base: 'auto', lg: 12}} mr={{base: 'auto', lg: 0}}><Button variant="secondary" leftIcon={<Box mt={-1} mr={2}><LockIcon/></Box>} onClick={() => snapshotCurrency()}>Verified funding</Button></Box>}
                 {snapshotDone && <>
                     <Flex mx="auto">
                         <Field name={id} display="flex" flexDir="row">
@@ -91,7 +91,7 @@ const ContractDefferedAmountSelector: FC<ContractDefferedAmountSelectorProps> = 
                             )}
                         </Field>
                     </Flex>
-                    <Flex flexDir="column" ml="auto">
+                    <Flex flexDir="column" ml="auto" mr={{base: 'auto', lg: 0}}>
                         <Flex>
                             {values.globalAmount && values[id] && <Text fontSize="16px" fontFamily="Montserrat" fontWeight="700" lineHeight="150%">
                                 {values.globalAmount * values[id] / 100}

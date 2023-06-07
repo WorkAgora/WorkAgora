@@ -108,7 +108,7 @@ const ContractForm: FC<ContractFormProps> = ({relatedJob}) => {
                     <ContractAmountSelector id="initialDeposit" label="Initial deposit" />
                     <ContractAmountSelector id="lockedAmount" label="Locked amount" />
                     <ContractDefferedAmountSelector id="defferedAmount" label="Deffered amount" snapshotDone={snapshotDone} onSnapshot={(isGood: boolean) => {setSnapshotDone(isGood)}}/>
-                    <Box ml="auto" mt="auto">
+                    <Box ml="auto" mt="auto" mr={{base: 'auto', lg: 0}}>
                         <Button variant={!isValid ? 'outline' : 'primary'} leftIcon={<Box><FileIcon/></Box>}>
                             Send this contract
                         </Button>
