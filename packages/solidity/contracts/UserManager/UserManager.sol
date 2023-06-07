@@ -3,9 +3,9 @@
 // compilation error: "Definition of base has to precede definition of derived contract."
 pragma solidity ^0.8.18;
 
-import '../../JobContract/JobContract.sol';
+import '../JobContract/JobContract.sol';
+import '../Ownable/Ownable.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
 
 interface IUserManager {
     // // Event emitted when a user is successfully verified
@@ -33,13 +33,12 @@ interface IContractor {
 contract UserManager is IUserManager, Ownable {
     using ECDSA for bytes32;
 
-    uint256 private idCounter;
-
     address public sigAuthority;
     Employer public employer;
     Contractor public contractor;
     JobContract public jobContract;
     mapping(address => UserInfo) public verifiedUsers;
+    uint256 private idCounter;
 
     enum Role {
         Employer,
@@ -68,7 +67,7 @@ contract UserManager is IUserManager, Ownable {
         Contractor _contractor,
         JobContract _jobContract
     ) external onlyOwner {
-        require(sigAuthority == address(0), 'Already initialized');
+        require(address(employer) == address(0), 'Already initialized');
         employer = Employer(_employer);
         contractor = Contractor(_contractor);
         jobContract = JobContract(_jobContract);

@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import '../Ownable/Ownable.sol';
 import '../Chainlink/PriceConsumer.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
 
 enum PaymentToken {
     // Native
@@ -25,23 +25,17 @@ enum PaymentToken {
  *      Address (mainnet): 0x49ccd9ca821EfEab2b98c60dC60F518E765EDe9a
  *      Address (testnet): 0x34C4c526902d88a3Aa98DB8a9b802603EB1E3470
  */
-contract PriceController {
+
+contract PriceController is Ownable {
     struct TokenData {
         PriceConsumer priceConsumer;
         IERC20 token;
     }
 
-    address public owner;
     mapping(PaymentToken => TokenData) public tokens;
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, 'Caller is not the owner');
-        _;
-    }
-
     function initialize(AggregatorV3Interface _avaxAggregator) external {
-        require(owner == address(0), 'Owner already set');
-        owner = msg.sender;
+        require(address(tokens[PaymentToken.Avax].priceConsumer) == address(0), 'Already initialized');
         tokens[PaymentToken.Avax] = TokenData(
             new PriceConsumer(_avaxAggregator),
             IERC20(address(0)) // Native asset, no token address

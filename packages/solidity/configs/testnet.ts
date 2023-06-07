@@ -1,7 +1,7 @@
 import { deployTestnetTokens } from "../scripts/utils/testnet/tokens";
 import { DeployConfig, PaymentToken } from "../scripts/utils/types";
 
-export async function getConfig(): Promise<DeployConfig> {
+export async function deployTokensAndGetConfig(): Promise<DeployConfig> {
     const { link, wbtc } = await deployTestnetTokens();
     return {
         sigAuthorityPvKey: process.env.BACKEND_PV_KEY!,

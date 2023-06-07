@@ -1,13 +1,31 @@
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 import { Contractor, DisputeSystem, Employer, JobContract, PriceController, UserManager } from "packages/solidity/typechain-types";
 import { getDeployConfig } from "../utils/configs";
 import { logger } from "../utils/logger";
 import { ContractsType, PaymentToken } from "./types";
+import { ContractTransaction } from "ethers";
 
-export async function deployContract<T>(name: string) {
+export async function deployContractProxy<T>(name: string) {
+    const [deployer] = await ethers.getSigners();
     const factory = await ethers.getContractFactory(name);
-    const contract = await factory.deploy();
-    return await contract.deployed() as T;
+    const proxy = await upgrades.deployProxy(factory, [deployer.address], { initializer: 'setOwner' });
+    await proxy.deployed();
+    try {
+        logger.logTitle(name, [
+            'Proxy address', proxy.address
+        ], [
+            'Proxy Admin address', await upgrades.erc1967.getAdminAddress(proxy.address)
+        ], [
+            'Implementation address', await upgrades.erc1967.getImplementationAddress(proxy.address)
+        ]);
+    } catch (error) {
+        logger.logTitle(name, [
+            'Proxy address', proxy.address
+        ], [
+            'Getting admin/implementation addresses failed', `${error}`
+        ]);
+    }
+    return proxy as T;
 }
 
 // Deploy function shared between test, dev, prod env
@@ -18,36 +36,37 @@ export async function deployAllContracts() {
     logger.log('Deploying all contracts');
 
     const sigAuthorityWallet = new ethers.Wallet(config.sigAuthorityPvKey);
-    const userManager = await deployContract<UserManager>(ContractsType.UserManager);
-    const employer = await deployContract<Employer>(ContractsType.Employer);
-    const contractor = await deployContract<Contractor>(ContractsType.Contractor);
-    const jobContract = await deployContract<JobContract>(ContractsType.JobContract);
-    const priceController = await deployContract<PriceController>(ContractsType.PriceController);
-    const disputeSystem = await deployContract<DisputeSystem>(ContractsType.DisputeSystem);
+    const userManager = await deployContractProxy<UserManager>(ContractsType.UserManager);
+    const employer = await deployContractProxy<Employer>(ContractsType.Employer);
+    const contractor = await deployContractProxy<Contractor>(ContractsType.Contractor);
+    const jobContract = await deployContractProxy<JobContract>(ContractsType.JobContract);
+    const priceController = await deployContractProxy<PriceController>(ContractsType.PriceController);
+    // const disputeSystem = await deployContractProxy<DisputeSystem>(ContractsType.DisputeSystem);
 
-    // Init
-    await userManager.initialize(sigAuthorityWallet.address,
+    // Initialize
+    await waitForTx(await userManager.initialize(
+        sigAuthorityWallet.address,
         employer.address,
         contractor.address,
         jobContract.address
-    );
-    await jobContract.initialize(userManager.address, priceController.address, employer.address, contractor.address, disputeSystem.address, config.authorityFeePct);
-    await employer.initialize(jobContract.address);
-    await contractor.initialize(jobContract.address);
-    await priceController.initialize(config.tokensConfig.find(t => t.type === PaymentToken.Avax)!.aggregatorAddress);
+    ));
+    await waitForTx(await jobContract.initialize(userManager.address, priceController.address, employer.address, contractor.address, '0x0000000000000000000000000000000000000000', config.authorityFeePct));
+    await waitForTx(await employer.initialize(jobContract.address));
+    await waitForTx(await contractor.initialize(jobContract.address));
+    await waitForTx(await priceController.initialize(config.tokensConfig.find(t => t.type === PaymentToken.Avax)!.aggregatorAddress));
 
     // Set ERC20 tokens
     for (const token of config.tokensConfig.filter(t => t.type !== PaymentToken.Avax)) {
-        await priceController.setToken(token.type, token.aggregatorAddress, token.tokenAddress);
+        await waitForTx(await priceController.setToken(token.type, token.aggregatorAddress, token.tokenAddress));
     }
-    
+
     logger.logTitle('Contracts deployed',
         [ContractsType.UserManager, userManager.address],
         [ContractsType.Employer, employer.address],
         [ContractsType.Contractor, contractor.address],
         [ContractsType.JobContract, jobContract.address],
         [ContractsType.PriceController, priceController.address],
-        [ContractsType.DisputeSystem, disputeSystem.address]
+        // [ContractsType.DisputeSystem, disputeSystem.address]
     );
     logger.logTitle('Contracts initialized',
         [ContractsType.UserManager, userManager.address],
@@ -68,6 +87,10 @@ export async function deployAllContracts() {
         priceController,
         tokensConfig: config.tokensConfig,
     };
+}
+
+export async function waitForTx(tx: ContractTransaction) {
+    await tx.wait();
 }
 
 export async function getContractAt<T>(type: ContractsType | string, address: string) {

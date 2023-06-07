@@ -2,12 +2,13 @@
 pragma solidity ^0.8.18;
 
 import '../DisputeSystem/DisputeSystem.sol';
-import '../UserSystem/UserManager/UserManager.sol';
+import '../UserManager/UserManager.sol';
+import '../Ownable/Ownable.sol';
 import '../PriceController/PriceController.sol';
 import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
 
+// Proxied
 contract JobContract is Ownable {
     using ECDSA for bytes32;
 
@@ -64,7 +65,7 @@ contract JobContract is Ownable {
         require(msg.sender == address(disputeSystem), 'Caller is not dispute system');
         _;
     }
-
+    
     function initialize(
         UserManager _user,
         PriceController _priceController,

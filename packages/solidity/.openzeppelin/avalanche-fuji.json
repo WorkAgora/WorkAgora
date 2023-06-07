@@ -24,6 +24,56 @@
       "address": "0x618f9c437f68B9d44054247b9F9376334a5E8859",
       "txHash": "0xbc981c6e4b3354e1d9555dade11593e97f7478686c1e6e66c06da847190d6de9",
       "kind": "transparent"
+    },
+    {
+      "address": "0xA338cC17FC52ecc0912D45d0aC6DEe68ec7B08B8",
+      "txHash": "0x6b6e128c4faf189377d20dfb08c78b3fac5e03e486723093188b9375f3998bf2",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xB1E2634e7a66aED99bFA07911518E203c8505F37",
+      "txHash": "0xb64ec238804100673d91c7a76cd4ddc919b2798c3b38bbde83a164b4159ec029",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7Caa78f0b843d8189CA8996EEaAB1081bf32D924",
+      "txHash": "0x42cb10f3b1189d2f000dff045de010e5db89e52b6e112cdffbfe52a45fa944fe",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xAC428F979713a31123975C316712BC2C13B218F5",
+      "txHash": "0xa22504f727d669549d620172240e0c5f1e10e37c995bfecd09ee7e536b39bfc1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x97A9b370c6509C63CEEd18ed9813ffbdfFF8Ed74",
+      "txHash": "0x61833fcf67fccbb54ba45f2e9005f4251b6e7a71f53f40808782333f6251f629",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7B65bc50A65122d7Fa409841Ed4779b1506c4646",
+      "txHash": "0x517ba3873843ea79acc4f53da04fec62a614ded6efbd73ae692880245cd6f882",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xc71C4E93B70B9D1973E740928B0Fdf1161fa8b54",
+      "txHash": "0x14ba3d6877a873c85634cc800cf2f438a3a5834a81c8cdba03b197d64dd45cf3",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4e3b6a5131524301C7919fE99d1fA7bF6Ec4cEf6",
+      "txHash": "0xdd90ddc3855c4f317b70ff331fe635ae9659121ea9203bcc53ab92c5747ace34",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xC53D8A765da6D36332198900Beca4C686782662f",
+      "txHash": "0x9e62a4f123b78deea07f3a21cd37676ad608d450f5a800dc91b3ec6c48ec1d3c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x54c647Be0DE8Bd6EC72E7B8114435653BE858e22",
+      "txHash": "0x1e2d4fe3dbfd5519eed86b6ab890d41a5afc9b7228e9f29ba969ef6f4a452934",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -226,6 +276,481 @@
               {
                 "label": "token",
                 "type": "t_contract(IERC20)1086",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          }
+        }
+      }
+    },
+    "6f1fd764207d91c3682c148a3b9a948d1d700e3b7b6e00200c9b35bd7860c7aa": {
+      "address": "0x8F20352C5d6ef0aB4ff9db65a7786D41Ad3294f8",
+      "txHash": "0x39dd6ee61c7c3a05d8d02a4b6ce41a1bf1a7a89c4a1c4e46a1aa6705a004038c",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "Ownable",
+            "src": "contracts/Ownable/Ownable.sol:6"
+          },
+          {
+            "label": "sigAuthority",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "UserManager",
+            "src": "contracts/UserManager/UserManager.sol:36"
+          },
+          {
+            "label": "employer",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_contract(Employer)3686",
+            "contract": "UserManager",
+            "src": "contracts/UserManager/UserManager.sol:37"
+          },
+          {
+            "label": "contractor",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_contract(Contractor)3691",
+            "contract": "UserManager",
+            "src": "contracts/UserManager/UserManager.sol:38"
+          },
+          {
+            "label": "jobContract",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_contract(JobContract)2979",
+            "contract": "UserManager",
+            "src": "contracts/UserManager/UserManager.sol:39"
+          },
+          {
+            "label": "verifiedUsers",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_mapping(t_address,t_struct(UserInfo)3247_storage)",
+            "contract": "UserManager",
+            "src": "contracts/UserManager/UserManager.sol:40"
+          },
+          {
+            "label": "idCounter",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_uint256",
+            "contract": "UserManager",
+            "src": "contracts/UserManager/UserManager.sol:41"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(Contractor)3691": {
+            "label": "contract Contractor",
+            "numberOfBytes": "20"
+          },
+          "t_contract(Employer)3686": {
+            "label": "contract Employer",
+            "numberOfBytes": "20"
+          },
+          "t_contract(JobContract)2979": {
+            "label": "contract JobContract",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_struct(UserInfo)3247_storage)": {
+            "label": "mapping(address => struct UserManager.UserInfo)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(UserInfo)3247_storage": {
+            "label": "struct UserManager.UserInfo",
+            "members": [
+              {
+                "label": "kycId",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "employerId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "contractorId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "3940523791d8d632ae243b509c4bf43f91bd7a66aba87c41ab1f29bfb378ff6e": {
+      "address": "0xc86087AE7F9D04679e0339e163376dC5ea54671B",
+      "txHash": "0xbd209e506cff3047d6f2f0520954722262eb3784e2563fff9123708a0aca5507",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "Ownable",
+            "src": "contracts/Ownable/Ownable.sol:6"
+          },
+          {
+            "label": "jobContract",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(JobContract)2979",
+            "contract": "Contractable",
+            "src": "contracts/UserManager/UserManager.sol:162"
+          },
+          {
+            "label": "contractIds",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_uint256,t_string_storage)",
+            "contract": "Contractable",
+            "src": "contracts/UserManager/UserManager.sol:163"
+          },
+          {
+            "label": "reputation",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_int256)",
+            "contract": "Reputable",
+            "src": "contracts/UserManager/UserManager.sol:150"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(JobContract)2979": {
+            "label": "contract JobContract",
+            "numberOfBytes": "20"
+          },
+          "t_int256": {
+            "label": "int256",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_int256)": {
+            "label": "mapping(uint256 => int256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "0caed944040d9dbe31a6dcb750ac7936b839dd3285445da310b545276de62809": {
+      "address": "0xd233b8b7Cb31410AD6E658E88A53F4cC5dcf53F2",
+      "txHash": "0x834baf785760dacea110193cd5f1591bafd6884d389034d439ef98dee8ab1972",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "Ownable",
+            "src": "contracts/Ownable/Ownable.sol:6"
+          },
+          {
+            "label": "user",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(UserManager)3568",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:56"
+          },
+          {
+            "label": "employer",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_contract(Employer)3686",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:57"
+          },
+          {
+            "label": "contractor",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_contract(Contractor)3691",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:58"
+          },
+          {
+            "label": "priceController",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_contract(PriceController)3200",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:59"
+          },
+          {
+            "label": "disputeSystem",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_contract(DisputeSystem)2091",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:60"
+          },
+          {
+            "label": "feePct",
+            "offset": 20,
+            "slot": "5",
+            "type": "t_uint8",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:61"
+          },
+          {
+            "label": "contracts",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_string_memory_ptr,t_struct(Contract)2129_storage)",
+            "contract": "JobContract",
+            "src": "contracts/JobContract/JobContract.sol:62"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(Contractor)3691": {
+            "label": "contract Contractor",
+            "numberOfBytes": "20"
+          },
+          "t_contract(DisputeSystem)2091": {
+            "label": "contract DisputeSystem",
+            "numberOfBytes": "20"
+          },
+          "t_contract(Employer)3686": {
+            "label": "contract Employer",
+            "numberOfBytes": "20"
+          },
+          "t_contract(PriceController)3200": {
+            "label": "contract PriceController",
+            "numberOfBytes": "20"
+          },
+          "t_contract(UserManager)3568": {
+            "label": "contract UserManager",
+            "numberOfBytes": "20"
+          },
+          "t_enum(PaymentToken)3025": {
+            "label": "enum PaymentToken",
+            "members": [
+              "Avax",
+              "Link",
+              "Wbtc"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_enum(State)2164": {
+            "label": "enum JobContract.State",
+            "members": [
+              "None",
+              "Started",
+              "CompleteWithSuccess",
+              "OngoingDispute",
+              "CompleteWithDispute"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_string_memory_ptr,t_struct(Contract)2129_storage)": {
+            "label": "mapping(string => struct JobContract.Contract)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Contract)2129_storage": {
+            "label": "struct JobContract.Contract",
+            "members": [
+              {
+                "label": "state",
+                "type": "t_enum(State)2164",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "totalAmountUsd",
+                "type": "t_uint128",
+                "offset": 1,
+                "slot": "0"
+              },
+              {
+                "label": "totalAmountToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "lockedAmountPct",
+                "type": "t_uint8",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "deferredAmountPct",
+                "type": "t_uint8",
+                "offset": 1,
+                "slot": "2"
+              },
+              {
+                "label": "paymentToken",
+                "type": "t_enum(PaymentToken)3025",
+                "offset": 2,
+                "slot": "2"
+              },
+              {
+                "label": "endTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "contractorAddress",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "employerAddress",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "ipfsJmiHash",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "ipfsJfiHash",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_uint128": {
+            "label": "uint128",
+            "numberOfBytes": "16"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "54c0203110dc94dc142ef46ad692a45ed924fddeb66dc58bb250ac1b7fb9673d": {
+      "address": "0x2ba7070f2cC7A17A9CDB3b5ba737438a7Ff8bCbb",
+      "txHash": "0x40e32cb8f0fd549396a28a5fb48ad0d2c01f2cff408c4fa092c860f6f9bc1d86",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "Ownable",
+            "src": "contracts/Ownable/Ownable.sol:6"
+          },
+          {
+            "label": "tokens",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_enum(PaymentToken)3025,t_struct(TokenData)3035_storage)",
+            "contract": "PriceController",
+            "src": "contracts/PriceController/PriceController.sol:35"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IERC20)123": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(PriceConsumer)1568": {
+            "label": "contract PriceConsumer",
+            "numberOfBytes": "20"
+          },
+          "t_enum(PaymentToken)3025": {
+            "label": "enum PaymentToken",
+            "members": [
+              "Avax",
+              "Link",
+              "Wbtc"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_enum(PaymentToken)3025,t_struct(TokenData)3035_storage)": {
+            "label": "mapping(enum PaymentToken => struct PriceController.TokenData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TokenData)3035_storage": {
+            "label": "struct PriceController.TokenData",
+            "members": [
+              {
+                "label": "priceConsumer",
+                "type": "t_contract(PriceConsumer)1568",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "token",
+                "type": "t_contract(IERC20)123",
                 "offset": 0,
                 "slot": "1"
               }

@@ -1,8 +1,6 @@
 import { ContractsType } from '../utils/types';
-import { getContractAt } from '../utils/contracts';
+import { getContractAt, waitForTx } from '../utils/contracts';
 import { PriceController } from 'packages/solidity/typechain-types';
-import { logger } from '../utils/logger';
-import { sleep } from '../utils/helper';
 import { logTokenData } from './price-controller-get';
 
 /*
@@ -21,15 +19,11 @@ async function main() {
         process.env.PRICE_CONTROLLER_PROXY!
     );
 
-    await priceController.setToken(
+    await waitForTx(await priceController.setToken(
         process.env.PAYMENT_TOKEN!,
         process.env.AGGREGATOR!,
         process.env.TOKEN_ADDRESS!,
-    );
-
-    // Wait a bit
-    await sleep(10 * 1000);
-
+    ));
     await logTokenData(priceController, process.env.PAYMENT_TOKEN!);
 }
 

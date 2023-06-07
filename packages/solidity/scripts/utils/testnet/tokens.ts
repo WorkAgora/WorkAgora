@@ -9,7 +9,9 @@ export async function deployTestnetTokens() {
 
     // ERC20 Tokens
     const link = await linkFactory.deploy(new BigNumber("1000").times(10 ** tokensDecimals.find(t => t.token === PaymentToken.Link)!.decimals).toFixed());
+    await link.deployed();
     const wbtc = await wbtcFactory.deploy(new BigNumber("1000").times(10 ** tokensDecimals.find(t => t.token === PaymentToken.Wbtc)!.decimals).toFixed());
+    await wbtc.deployed();
 
     return {
         link,

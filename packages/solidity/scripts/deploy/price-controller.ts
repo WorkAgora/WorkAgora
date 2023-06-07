@@ -21,6 +21,7 @@ async function main() {
         [process.env.AVAX_AGGREGATOR],
         { initializer: 'initialize' }
     );
+    await proxy.deployed();
     logger.logTitle('PriceController', [
         'Proxy address', proxy.address
     ], [

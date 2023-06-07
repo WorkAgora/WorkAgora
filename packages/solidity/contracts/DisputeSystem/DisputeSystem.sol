@@ -2,16 +2,17 @@
 pragma solidity ^0.8.18;
 
 import '../JobContract/JobContract.sol';
-import '../UserSystem/UserManager/UserManager.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
+import '../UserManager/UserManager.sol';
+import '../Ownable/Ownable.sol';
 
+// Proxied
 contract DisputeSystem is Ownable {
     JobContract public jobContract;
     UserManager public userManager;
     uint256 public minReputationToVote;
     uint256 public juryVotesCount;
     uint256 public userVotesCount;
-    uint256 public disputeExpiryTime = 2 weeks;
+    uint256 public disputeExpiryTime;
 
     mapping(string => Dispute) public disputes;
     mapping(address => bool) public juryMembers;
@@ -38,13 +39,16 @@ contract DisputeSystem is Ownable {
         address[] calldata _juryMembers,
         uint256 _minReputationToVote,
         uint256 _juryVotesCount,
-        uint256 _userVotesCount
+        uint256 _userVotesCount,
+        uint256 _disputeExpiryTime // 2 weeks in JS: 1209600
     ) external onlyOwner {
+        require(address(jobContract) == address(0), 'Already initialized');
         jobContract = _contract;
         userManager = _userManager;
         minReputationToVote = _minReputationToVote;
         juryVotesCount = _juryVotesCount;
         userVotesCount = _userVotesCount;
+        disputeExpiryTime = _disputeExpiryTime;
 
         for (uint i = 0; i < _juryMembers.length; i++) {
             juryMembers[_juryMembers[i]] = true;

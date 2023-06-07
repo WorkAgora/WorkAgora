@@ -111,6 +111,22 @@ function owner() external view returns (address)
 |---|---|---|
 | _0 | address | undefined |
 
+### setOwner
+
+```solidity
+function setOwner(address _owner) external nonpayable
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _owner | address | undefined |
+
 ### setToken
 
 ```solidity

@@ -25,7 +25,7 @@ export async function getDeployConfig(chainId: number): Promise<DeployConfig> {
         return localConfig.deployMocksAndGetConfig();
     }
     if (chainId === testnet!.chainId) {
-        return testnetConfig.getConfig();
+        return testnetConfig.deployTokensAndGetConfig();
     }
     // TODO
     // if (chainId === mainnet!.chainId) {
