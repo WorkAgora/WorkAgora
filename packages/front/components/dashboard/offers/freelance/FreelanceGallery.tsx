@@ -67,7 +67,7 @@ const FreelanceGallery: FC<CompanyGalleryProps> = ({ scrollbarRef }) => {
             </Text>
           </Flex>
           <Flex flexDir="column" mt={4}>
-            <SimpleGrid columns={2} spacing={8} w="100%" position="relative">
+            <SimpleGrid columns={{base: 1, lg: 2}} spacing={8} w="100%" position="relative">
               {jobs.length > 0 &&
                 jobs.map((v, k) => (
                   <JobCard key={k} job={v} onClick={(id) => push(`/dashboard/offers/${id}`)} />
