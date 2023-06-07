@@ -165,7 +165,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
           </Flex>
         </Flex>
         <Divider borderColor="neutral.dsGray" />
-        <Flex flexDir="column" maxH={{base: "45vh", lg: "500px"}} minH={{base: '45vh', lg: "500px"}}>
+        <Flex flexDir="column" maxH={{base: "45vh", '2xl': "52.5vh"}} minH={{base: "45vh", '2xl': "52.5vh"}}>
           <PerfectScrollbar
             options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
             style={{
