@@ -82,17 +82,18 @@ const DashboardMenuContent: FC<DashboardMenuContentProps> = ({onCloseMenu}) => {
       {user && type === UserTypeEnum.Company && (
         <>
           {!company && (
-            <Box fontWeight={700} fontFamily="Comfortaa" textAlign="center" w="100%">
+            <Box fontWeight={700} fontFamily="Comfortaa" textAlign="center" w="100%" >
               Create company
             </Box>
           )}
           {company && (
             <>
-              <Box w="48px" h="48px">
+              <Box w="48px" h="48px" ml={{base: "auto", lg: 0}}>
                 <Avatar borderRadius="16px" />
               </Box>
               <Text
                 ml={2}
+                mr={{base: "auto", lg: 0}}
                 fontSize="14px"
                 fontWeight="700"
                 lineHeight="120%"
