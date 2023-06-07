@@ -19,7 +19,7 @@ const Footer: FC = () => {
   return (
     <Flex w="100%" flexDir="column">
       <Flex
-        height="100px"
+        height={{base: 'auto', md: "100px"}}
         mx="auto"
         width="80%"
         maxW="1340px"

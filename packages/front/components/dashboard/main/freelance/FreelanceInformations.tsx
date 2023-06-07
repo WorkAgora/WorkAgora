@@ -2,14 +2,18 @@ import { Box, Button, Flex } from '@chakra-ui/react';
 import DashboardCard from '../../../card/DashbordCard';
 import { FC } from 'react';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 const FreelanceInformations: FC = () => {
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
+
+  
   return (
     <Flex flexDir="column" gap={4}>
       <Box textStyle="h4" as="h3" color="neutral.black">
         Informations
       </Box>
-      <Flex w="100%" columnGap={4}>
+      <Flex w="100%" columnGap={4} flexDir={{base: 'column', md: 'row'}} rowGap={4}>
         <DashboardCard
           title="Complete your profile"
           subtitle="You'll be more attractive !"

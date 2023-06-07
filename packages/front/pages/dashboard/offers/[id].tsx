@@ -26,7 +26,7 @@ const OfferWithId: NextPage = () => {
         }}
         onScrollY={handleScroll}
       >
-        <Flex w="calc(100vw - 245px)" ml="auto">
+        <Flex w={{base: "100vw", lg: "calc(100vw - 245px)"}} ml="auto">
           <OfferDetail id={id as string} />
         </Flex>
         <Flex bgColor="neutral.white" mt={8}>

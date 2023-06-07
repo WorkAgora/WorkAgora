@@ -5,11 +5,13 @@ import { useSearchJob } from '@workagora/front/hooks/useSearchJob';
 import { useCurrentUser } from '@workagora/front-provider';
 import { useRecentJob } from '@workagora/front/hooks/useRecentJob';
 import JobCard from '@workagora/front/components/card/JobCard';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 const FreelanceOffers: FC = () => {
   const { push } = useRouter();
   const { user } = useCurrentUser();
   const { jobs, loading, handleSearch } = useSearchJob();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
   const [fetching, setFetching] = useState(false);
   const recentJob = useRecentJob({ limit: 2 });
 
@@ -52,7 +54,7 @@ const FreelanceOffers: FC = () => {
       )}
       {(!loading || !fetching) && (
         <Flex flexDir="column">
-          <SimpleGrid columns={2} spacing={8} w="100%">
+          <SimpleGrid columns={{base: 1, lg: 2}} spacing={8} w="100%">
             {jobs &&
               jobs?.length > 0 &&
               jobs.map((j, k) => <JobCard job={j} key={k} onClick={handleJobCardClick} />)}

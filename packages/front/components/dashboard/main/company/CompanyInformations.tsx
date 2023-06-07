@@ -9,7 +9,7 @@ const CompanyInformations: FC = () => {
       <Box textStyle="h4" as="h3" color="neutral.black">
         Informations
       </Box>
-      <Flex w="100%" columnGap={4}>
+      <Flex w="100%" columnGap={4} flexDir={{base: 'column', md: 'row'}} rowGap={4}>
         <DashboardCard
           title="Complete your profile"
           subtitle="You'll be more attractive !"

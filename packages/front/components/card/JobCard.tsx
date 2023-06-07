@@ -83,7 +83,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           {job.company?.location}
         </Text>
       </Flex>
-      <Flex mt={2} flexWrap='wrap' rowGap={4}>
+      <Flex mt={2} flexWrap='wrap' rowGap={2}>
         {job.location && (
           <Badge
             color="neutral.black"
@@ -152,7 +152,7 @@ const JobCard: FC<JobCardProps> = ({ job, blurred = false, onClick }: JobCardPro
           {job.jobMission.slice(0, 380)} {job.jobMission.length > 380 && '...'}
         </Text>
       </Flex>
-      <Flex mt={4} flexWrap="wrap" rowGap={4}>
+      <Flex mt={4} flexWrap="wrap" rowGap={2}>
         {Array.from({ length: 6 }).map((_, k) => {
           if (job.tags && job.tags[k]) {
             const skill = job.tags[k];

@@ -81,7 +81,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           {user.location}
         </Text>
       </Flex>
-      <Flex mt={2} flexWrap='wrap' rowGap={4}>
+      <Flex mt={2} flexWrap='wrap' rowGap={2}>
         {user.freelanceProfile?.situation && (
           <Badge
             color="neutral.black"
@@ -161,7 +161,7 @@ const FreelanceCard: FC<FreelanceCardProps> = ({
           {user.freelanceProfile?.longDesc}
         </Text>
       </Flex>
-      <Flex mt={4} flexWrap="wrap" rowGap={4}>
+      <Flex mt={4} flexWrap="wrap" rowGap={2}>
         {Array.from({ length: 6 }).map((_, k) => {
           if (user.freelanceProfile?.skills && user.freelanceProfile?.skills[k]) {
             const skill = user.freelanceProfile?.skills[k];

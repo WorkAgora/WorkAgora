@@ -1,33 +1,7 @@
-import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Spinner } from '@chakra-ui/react';
 import FreelanceInlineCard from '../../../card/FreelanceInlineCard';
-import { SearchBarFilter } from '../../../landing/product/SearchBar';
 import { useRecentFreelancer } from '../../../../hooks/useRecentFreelancer';
 import { FC } from 'react';
-
-const offers = [1, 2, 3, 4];
-
-const badges: SearchBarFilter[] = [
-  {
-    label: 'Product',
-    bgColor: 'badge.yellow',
-    color: 'neutral.black'
-  },
-  {
-    label: 'Design',
-    bgColor: 'badge.blue',
-    color: 'neutral.white'
-  },
-  {
-    label: 'UI/UX',
-    bgColor: 'badge.red',
-    color: 'neutral.white'
-  },
-  {
-    label: 'Figma',
-    bgColor: 'badge.purple',
-    color: 'neutral.white'
-  }
-];
 
 const CompanyOffers: FC = () => {
   const { freelancers, loading } = useRecentFreelancer({ limit: 4 });
@@ -55,10 +29,11 @@ const CompanyOffers: FC = () => {
       )}
       {!loading && (
         <Flex flexDir="column" gap={2}>
-          {' '}
-          {freelancers.map((v, k) => (
-            <FreelanceInlineCard key={k} user={v} />
-          ))}{' '}
+          <SimpleGrid columns={1} spacing={2} w="100%">
+            {freelancers.map((v, k) => (
+              <FreelanceInlineCard key={k} user={v} />
+            ))}
+          </SimpleGrid>
         </Flex>
       )}
     </Flex>
