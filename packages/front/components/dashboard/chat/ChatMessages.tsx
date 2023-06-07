@@ -24,6 +24,7 @@ import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
 import { updateRelatedJob } from '@workagora/front/services/chat';
 import { useRouter } from 'next/router';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface ChatMessagesProps {
   id: string;
@@ -42,6 +43,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
   const { loading, curMessages, setCurMessages } = useGetChatMessages(chat?.PK?.replace('INSTANCE#',''));
   const [ contractIsForm, setContractIsForm] = useState(false);
   const { query } = useRouter();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
 
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCurMessage(event.target.value);
@@ -116,16 +118,16 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
 
   return (
     <>
-      <Flex flexDir="column">
-        <Flex px={8} py={4}>
-          <Flex alignItems="center">
-            <Avatar w="64px" h="64px" borderRadius={getUserName(false).type === 'Company' ? '20px' : '50%' } />
-            <Flex flexDir="column" ml={8}>
-              <Text fontSize="24px" fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
+      <Flex flexDir="column" w={{base: "100%", lg: "initial"}}>
+        <Flex px={{base: 2, lg: 8}} py={4}  w={{base: "100%", lg: "initial"}}>
+          <Flex alignItems="center"  w={{base: "100%", lg: "initial"}}  px={{base: 2, lg: 0}}>
+            <Avatar w={{base: "32px", lg: "64px"}} h={{base: "32px", lg: "64px"}} borderRadius={{base: getUserName(false).type === 'Company' ? '10px' : '50%',lg: getUserName(false).type === 'Company' ? '20px' : '50%' }} />
+            <Flex flexDir="column" ml={{base: 2, lg: 4}}>
+              <Text fontSize={{base: "16px", lg: "20px"}} fontWeight="700" fontFamily="Comfortaa" lineHeight="133%">
                 {getUserName(false)?.name}
               </Text>
               <Text
-                fontSize="16px"
+                fontSize={{base: "14px", lg: "16px"}} 
                 lineHeight="120%"
                 fontFamily="Comfortaa"
                 fontWeight="700"
@@ -137,9 +139,9 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
             </Flex>
           </Flex>
           <Flex ml="auto" alignItems="center">
-            <Flex flexDir="column" mr={4}>
+            <Flex flexDir="column" mr={{base: 2, lg: 4}}>
               <Text
-                fontSize="20px"
+                fontSize={{base: "16px", lg: "20px"}} 
                 lineHeight="150%"
                 fontFamily="Montserrat"
                 fontWeight="400"
@@ -149,7 +151,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
                 {getUserName(true)?.name}
               </Text>
               <Text
-                fontSize="16px"
+                fontSize={{base: "14px", lg: "16px"}} 
                 lineHeight="120%"
                 fontFamily="Comfortaa"
                 fontWeight="700"
@@ -159,11 +161,11 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
                 {getUserName(true)?.title}
               </Text>
             </Flex>
-            <Avatar w="64px" h="64px" borderRadius={getUserName(true)?.type === 'User' ? '50%' : '20px' } />
+            <Avatar w={{base: "32px", lg: "64px"}} h={{base: "32px", lg: "64px"}} borderRadius={{base: getUserName(true)?.type === 'User' ? '50%' : '10px', lg: getUserName(true)?.type === 'User' ? '50%' : '20px' }} />
           </Flex>
         </Flex>
         <Divider borderColor="neutral.dsGray" />
-        <Flex flexDir="column" maxH="500px" minH="500px">
+        <Flex flexDir="column" maxH={{base: "45vh", lg: "500px"}} minH={{base: '45vh', lg: "500px"}}>
           <PerfectScrollbar
             options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
             style={{
@@ -204,7 +206,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
               </Flex>}
           </PerfectScrollbar>
         </Flex>
-        <Flex bgColor="neutral.lightGray" px={4} py={6} alignItems="center">
+        <Flex bgColor="neutral.lightGray" px={{base: 2, lg: 4}} py={{base: 2, lg: 6}} alignItems="center">
           <Textarea
             placeholder="Type your message"
             color="neutral.black"
@@ -237,7 +239,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({ id, chat, isNewChat = false, onNe
             </Text>
           </Flex>
         </Flex>
-        {getUserName(true)?.type === 'Company' && <Box ml="auto" mt={2}>
+        {getUserName(true)?.type === 'Company' && <Box ml="auto" mt={2} mb={{base: 2, lg: 0}} mr={{base: 4, lg: 0}}>
            <Button variant="outline" leftIcon={<FileIcon />} onClick={() => {
             setContractIsForm(true);
             onOpen();

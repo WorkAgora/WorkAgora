@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Flex } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { FC } from "react";
+import { FC, useState } from "react";
 import * as Yup from 'yup';
 import ContractRelatedJob from "./ContractRelatedJob";
 import ContractStartDate from "./ContractStartDate";

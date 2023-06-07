@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { useCurrentCompany, useCurrentUser, useLanding } from "@workagora/front-provider";
+import { useResponsive } from "@workagora/front/hooks/useResponsive";
 import { UserTypeEnum } from "@workagora/utils";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -9,20 +10,6 @@ interface MenuElement {
     label: string;
   }
   
-  const companyMenu: MenuElement[] = [
-    { view: '/dashboard', label: 'Dashboard' },
-    { view: '/dashboard/offers', label: 'Find profiles' },
-    { view: '/dashboard/jobs', label: 'My jobs' },
-    { view: '/dashboard/contracts', label: 'My Contracts' }
-  ];
-  
-  const freelanceMenu: MenuElement[] = [
-    { view: '/dashboard', label: 'Dashboard' },
-    { view: '/dashboard/offers', label: 'Find work' },
-    { view: '/dashboard/jobs', label: 'My Jobs' },
-    { view: '/dashboard/contracts', label: 'My Contracts' }
-  ];
-
 interface DashboardMenuContentProps {
     onCloseMenu?: () => void;
 }
@@ -32,6 +19,26 @@ const DashboardMenuContent: FC<DashboardMenuContentProps> = ({onCloseMenu}) => {
     const { pathname, push } = useRouter();
     const { user } = useCurrentUser();
     const { company } = useCurrentCompany();
+    const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
+
+    const companyMenu: MenuElement[] = [
+        { view: '/dashboard', label: 'Dashboard' },
+        { view: '/dashboard/offers', label: 'Find profiles' },
+        { view: '/dashboard/jobs', label: 'My jobs' },
+        { view: '/dashboard/contracts', label: 'My Contracts' }
+      ];
+      
+      const freelanceMenu: MenuElement[] = [
+        { view: '/dashboard', label: 'Dashboard' },
+        { view: '/dashboard/offers', label: 'Find work' },
+        { view: '/dashboard/jobs', label: 'My Jobs' },
+        { view: '/dashboard/contracts', label: 'My Contracts' }
+      ];
+
+    if (mobileDisplay || tabletDisplay) {
+        companyMenu.push({view: '/dashboard/chat', label: 'Chat'});
+        freelanceMenu.push({view: '/dashboard/chat', label: 'Chat'});
+    }
     
     let menuElement: MenuElement[] = [];
     if (type === UserTypeEnum.Freelancer) {
