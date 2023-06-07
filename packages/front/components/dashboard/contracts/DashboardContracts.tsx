@@ -40,7 +40,19 @@ const DashboardContracts: FC = () => {
                 <Box textStyle="h2" as="h1" w="100%" textAlign="left">
                   My Contracts
                 </Box>
-                <Flex flexDir="column" gap={6}></Flex>
+                <Flex flexDir="column" gap={6}>
+                <Box
+                    textStyle="body2"
+                    as="span"
+                    textAlign="center"
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                  >
+                    No contracts available | Feature coming soon
+                  </Box>
+                </Flex>
               </Flex>
             </MotionBox>
           )}
@@ -57,7 +69,19 @@ const DashboardContracts: FC = () => {
                 <Box textStyle="h2" as="h1" w="100%" textAlign="left">
                   My Contracts
                 </Box>
-                <Flex flexDir="column" gap={6}></Flex>
+                <Flex flexDir="column" gap={6}>
+                <Box
+                    textStyle="body2"
+                    as="span"
+                    textAlign="center"
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                  >
+                    No contracts available | Feature coming soon
+                  </Box>
+                </Flex>
               </Flex>
             </MotionBox>
           )}

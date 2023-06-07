@@ -44,7 +44,19 @@ const DashboardJobs: FC = () => {
                 <Box textStyle="h2" as="h1" w="100%" textAlign="left">
                   My Jobs
                 </Box>
-                <Flex flexDir="column" gap={6}></Flex>
+                <Flex flexDir="column" gap={6}>
+                    <Box
+                    textStyle="body2"
+                    as="span"
+                    textAlign="center"
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                  >
+                    No jobs available | Feature coming soon
+                  </Box>
+                </Flex>
               </Flex>
             </MotionBox>
           )}
