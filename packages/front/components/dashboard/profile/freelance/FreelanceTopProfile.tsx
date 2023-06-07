@@ -108,7 +108,7 @@ const FreelanceTopProfile: FC = () => {
                       <Box textStyle="h4" color="neutral.dsGray">
                         {user.description}
                       </Box>
-                      {desktopDisplay && <Box textStyle="h4" color="neutral.dsGray" mx={1}>
+                      {desktopDisplay && user.location && <Box textStyle="h4" color="neutral.dsGray" mx={1}>
                         |
                       </Box>}
                       <Box

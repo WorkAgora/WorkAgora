@@ -222,7 +222,7 @@ const DashboardJobCreate: FC = () => {
                         }}
                       >
                         <CreateJobTitle errors={errors} touched={touched} />
-                        <Flex gap={6} flexDir={{base: 'column', lg: 'row'}}>
+                        <Flex gap={6} flexDir={{base: 'column', xl: 'row'}}>
                           <CreateJobSelector
                             id="location"
                             label="Work location"
