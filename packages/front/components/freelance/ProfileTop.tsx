@@ -14,9 +14,9 @@ const ProfileTop: FC<ProfileTopProps> = ({ curUser }) => {
   const { push } = useRouter();
 
   return (
-    <Flex alignItems={'center'} p={6}>
-      <Avatar w="128px" h="128px" borderRadius="100%" />
-      <Flex flexDir="column" ml={8} justifyContent="center">
+    <Flex alignItems={'center'} p={6} flexDir={{base: 'column', lg: ' row'}}>
+      <Avatar w={{base: '64px', lg: "128px"}} h={{base: '64px', lg: "128px"}} borderRadius="100%" />
+      <Flex flexDir="column" ml={{base: 0, lg: 8}} mt={{base: 4, lg: 0}} justifyContent="center">
         <Box textStyle="h3">
           {curUser.firstname} {curUser.lastname}
         </Box>

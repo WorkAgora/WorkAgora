@@ -20,7 +20,6 @@ const FreelanceProfile: NextPage = () => {
 
   return (
     <DashboardLayout>
-      <DashboardMenu />
       <PerfectScrollbar
         options={{ suppressScrollX: true, maxScrollbarLength: 160 }}
         style={{

@@ -22,7 +22,7 @@ const ProfilePreferences: FC<ProfilePreferencesProps> = ({ curUser }) => {
       <Box textStyle="h4" as="span">
         Preferences
       </Box>
-      <Flex gap={2}>
+      <Flex gap={2} flexWrap="wrap">
         {curUser.freelanceProfile?.workLocation && (
           <Badge
             color="neutral.black"
