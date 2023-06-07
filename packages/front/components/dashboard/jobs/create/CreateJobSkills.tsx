@@ -132,7 +132,7 @@ const CreateJobSkills: FC = () => {
           {curSkills.length} / 10
         </Box>
       </Flex>
-      <Flex flexWrap="wrap" gap={2}>
+      <Flex flexWrap="wrap" gap={2} flexDir={{base: 'column', lg: 'row'}}>
         <Flex flexDir="column">
           <Box position="relative">
             <InputGroup>

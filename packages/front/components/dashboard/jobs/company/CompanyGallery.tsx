@@ -28,7 +28,7 @@ const CompanyGallery: FC = () => {
                 position="absolute"
                 top="50%"
                 left="50%"
-                transform="translate(-50%; -50%)"
+                transform="translate(-50%, -50%)"
               >
                 No jobs available
               </Box>

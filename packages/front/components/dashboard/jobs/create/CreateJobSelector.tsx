@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import ChevronDownIcon from '@workagora/front/components/icons/ChevronDownIcon';
 import { Field } from 'formik';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface SelectorProps extends FlexProps {
   id: string;
@@ -46,7 +47,10 @@ const CreateJobSelector: FC<SelectorProps> = ({
   error,
   touched,
   ...props
-}) => (
+}) => {
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
+  
+  return (
   <FormControl id={id} isRequired {...props}>
     <FormLabel>{label}</FormLabel>
     <Menu onOpen={handleOpen} onClose={handleClose}>
@@ -71,7 +75,7 @@ const CreateJobSelector: FC<SelectorProps> = ({
         }
         w="100%"
       >
-        {options[selectedOption] || `Select your ${label.toLowerCase()}`}
+        {options[selectedOption] || desktopDisplay ? `Select your ${label.toLowerCase()}` : label.toLowerCase()}
       </MenuButton>
       <MenuList
         mt={-2}
@@ -108,5 +112,6 @@ const CreateJobSelector: FC<SelectorProps> = ({
     {error && touched && <Text textStyle="errorMessage">{error}</Text>}
   </FormControl>
 );
+        }
 
 export default CreateJobSelector;

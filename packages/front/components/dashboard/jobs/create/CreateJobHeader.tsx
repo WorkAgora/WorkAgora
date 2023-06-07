@@ -7,7 +7,7 @@ const CreateJobHeader: FC = () => {
   const { push } = useRouter();
 
   return (
-    <Flex>
+    <Flex flexDir={{base: 'column', lg: 'row'}}>
       <Box textStyle="h2" as="h1" w="100%" textAlign="left">
         Create New Job
       </Box>
