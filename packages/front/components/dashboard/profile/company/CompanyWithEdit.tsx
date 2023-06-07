@@ -21,6 +21,7 @@ import CheckIcon from '@workagora/front/components/icons/CheckIcon';
 import WebsiteIcon from '@workagora/front/components/icons/WebsiteIcon';
 import { useUpdateCompany } from '@workagora/front/hooks/useUpdateCompany';
 import { locationRegex } from '@workagora/utils';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface FormData {
   name: string;
@@ -48,6 +49,7 @@ const CompanyWithEdit: FC = () => {
   const { user } = useCurrentUser();
   const { company } = useCurrentCompany();
   const { loading, updateMyCompany } = useUpdateCompany();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
 
   const onSubmit = async (values: FormData) => {
     if (user) {
@@ -85,9 +87,9 @@ const CompanyWithEdit: FC = () => {
     >
       {({ errors, touched, setFieldValue, isValid, resetForm }) => (
         <Form style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '24px' }}>
-          <Flex alignItems="center">
+          <Flex alignItems="center" flexDir={{base: titleEdit ? 'column' : 'row', lg: 'row'}}>
             <Flex flexDir="column" alignItems="center">
-              <Avatar w="128px" h="128px" borderRadius="16px" ml={titleEdit ? 0 : 8} />
+              <Avatar w={{base: '64px', lg: "128px"}} h={{base: '64px', lg: "128px"}} borderRadius="16px" ml={titleEdit ? 0 : 8} />
               {titleEdit && (
                 <>
                   <Box mt={2}>
@@ -165,7 +167,7 @@ const CompanyWithEdit: FC = () => {
               </Flex>
             )}
             {titleEdit && (
-              <Flex direction="column" ml={8} w="30%">
+              <Flex direction="column" ml={{base: 0, lg: 8}} mt={{base: 4, lg: 0}} w={{base: '100%', lg: "30%"}}>
                 <FormControl isRequired>
                   <FormLabel>Company Name</FormLabel>
                   <Field
@@ -210,7 +212,7 @@ const CompanyWithEdit: FC = () => {
               </Box>
             )}
             {titleEdit && (
-              <Flex ml="auto" mt={8} mr={6} alignItems="center" alignSelf="start">
+              <Flex ml="auto" mt={8} mr={{base: 'auto', lg: 6}} alignItems="center" alignSelf="start">
                 <Button
                   variant={!isValid ? 'outline' : 'primary'}
                   type="submit"
@@ -251,7 +253,7 @@ const CompanyWithEdit: FC = () => {
             w="100%"
             gap={4}
           >
-            <Flex alignItems="center">
+            <Flex alignItems="center" flexDir={{base: descEdit ? 'column' : 'row', lg: 'row'}}>
               <Box textStyle="h4" as="span">
                 Company description
               </Box>
@@ -271,7 +273,7 @@ const CompanyWithEdit: FC = () => {
                 </Box>
               )}
               {descEdit && (
-                <Flex ml="auto" alignItems="center" alignSelf="start">
+                <Flex ml="auto" mr={{base: 'auto', lg: 0}} mt={{base: 4, lg: 0}} alignItems="center" alignSelf="start">
                   <Button
                     variant={!isValid ? 'outline' : 'primary'}
                     type="submit"
@@ -310,8 +312,8 @@ const CompanyWithEdit: FC = () => {
                   as={Textarea}
                   isInvalid={errors.description && touched.description}
                   resize="vertical"
-                  minH="100px"
-                  maxH="300px"
+                  minH={{base: "300px", lg: '100px'}}
+                  maxH={{base: "500px", lg: '300px'}}
                   fontWeight="500"
                 />
                 <ErrorMessage name="description">
@@ -320,12 +322,12 @@ const CompanyWithEdit: FC = () => {
               </FormControl>
             )}
             {!descEdit && (
-              <Box textStyle="body2" color="neutral.dsDarkGray" pl={4} pr={16}>
+              <Box textStyle="body2" color="neutral.dsDarkGray" pl={4} pr={{base: 0, lg: 16}}>
                 {company?.description}
               </Box>
             )}
           </Flex>
-          <Flex>
+          <Flex flexDir={{base: 'column', lg: 'row'}} rowGap={4}>
             <Flex
               flexDir="column"
               justifyContent="center"
@@ -333,10 +335,10 @@ const CompanyWithEdit: FC = () => {
               borderRadius="32px"
               borderWidth="1px"
               borderColor="neutral.gray"
-              w="35%"
+              w={{base: '100%' , lg: "35%"}}
               gap={4}
             >
-              <Flex alignItems="center">
+              <Flex alignItems="center" flexDir={{base: linkEdit ? 'column' : 'row', lg: 'row'}} rowGap={{base: 4, lg: 0}}>
                 <Box textStyle="h4" as="span">
                   Company website
                 </Box>
@@ -345,6 +347,7 @@ const CompanyWithEdit: FC = () => {
                     color="neutral.dsGray"
                     p={2}
                     ml="auto"
+            
                     cursor="pointer"
                     borderRadius="8px"
                     transition="all ease-in-out 250ms"
@@ -356,7 +359,7 @@ const CompanyWithEdit: FC = () => {
                   </Box>
                 )}
                 {linkEdit && (
-                  <Flex ml="auto" alignItems="center" alignSelf="start">
+                  <Flex ml="auto" mr={{base: 'auto', lg: 0}} alignItems="center" alignSelf="start">
                     <Button
                       variant={!isValid ? 'outline' : 'primary'}
                       type="submit"
@@ -455,9 +458,9 @@ const CompanyWithEdit: FC = () => {
               borderWidth="1px"
               borderColor="neutral.gray"
               gap={4}
-              ml={4}
+              ml={{base:0,lg: 4}}
             >
-              <Flex alignItems="center">
+              <Flex alignItems="center" flexDir={{base: locationEdit ? 'column' : 'row', lg: 'row'}} rowGap={{base: 4, lg: 0}}>
                 <Box textStyle="h4" as="span">
                   Company location
                 </Box>
@@ -465,7 +468,8 @@ const CompanyWithEdit: FC = () => {
                   <Box
                     color="neutral.dsGray"
                     p={2}
-                    ml={4}
+                    ml={{base: 'auto', lg: 4}}
+                    mr={{base: 'auto', lg: 0}}
                     cursor="pointer"
                     borderRadius="8px"
                     transition="all ease-in-out 250ms"

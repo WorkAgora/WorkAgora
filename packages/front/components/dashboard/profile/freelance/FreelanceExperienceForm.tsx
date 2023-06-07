@@ -19,6 +19,7 @@ import TrashIcon from '@workagora/front/components/icons/TrashIcon';
 import ArrowRightIcon from '@workagora/front/components/icons/ArrowRightIcon';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
 import { useExperiences } from '@workagora/front/hooks/useExperiences';
+import { useResponsive } from '@workagora/front/hooks/useResponsive';
 
 interface FormData {
   company: string;
@@ -87,6 +88,8 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
   const { user } = useCurrentUser();
   const { loading, callAddExperience, callDeleteExperience, callUpdateExperience } =
     useExperiences();
+  const {mobileDisplay, tabletDisplay, desktopDisplay} = useResponsive();
+
 
   const onSubmit = async (values: FormData) => {
     if (user) {
@@ -168,7 +171,7 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
               <Form
                 style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '16px' }}
               >
-                <Flex gap={6}>
+                <Flex gap={6} flexDir={{base: 'column', lg: 'row'}}>
                   <FormControl id="company" isRequired flexBasis="50%">
                     <FormLabel>Company</FormLabel>
                     <Field
@@ -181,7 +184,7 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                       {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
                     </ErrorMessage>
                   </FormControl>
-                  <Flex flexBasis="50%" alignItems="center">
+                  <Flex flexBasis="50%" alignItems="center" flexDir={{base: 'column', lg: 'row'}} rowGap={2}>
                     <Avatar
                       w="76px"
                       h="76px"
@@ -189,7 +192,7 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                       icon={<></>}
                       bgColor="neutral.lightGray"
                     />
-                    <Box ml={6}>
+                    <Box ml={{base: 0, lg: 6}}>
                       <Button
                         variant="outline"
                         width="100%"
@@ -220,7 +223,7 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                     >
                       {'.jpg / .png < 1Mo'}
                     </Box>
-                    <Box
+                    {desktopDisplay && <Box
                       color="red.500"
                       p={2}
                       ml="auto"
@@ -233,10 +236,10 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                       }}
                     >
                       <CloseIcon />
-                    </Box>
+                    </Box>}
                   </Flex>
                 </Flex>
-                <Flex gap={6}>
+                <Flex gap={6} flexDir={{base: 'column', lg: 'row'}}>
                   <FormControl id="role" isRequired flexBasis="50%">
                     <FormLabel>Role</FormLabel>
                     <Field
@@ -249,7 +252,7 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                       {(msg) => <Text textStyle="errorMessage">{msg}</Text>}
                     </ErrorMessage>
                   </FormControl>
-                  <Flex flexBasis="50%" gap={4}>
+                  <Flex flexBasis="50%" gap={4} flexDir={{base: 'column', lg: 'row'}}>
                     <FormControl id="startDate" isRequired flexBasis="50%">
                       <FormLabel>Start date</FormLabel>
                       <Field name="startDate" isInvalid={errors.startDate && touched.startDate}>
@@ -359,6 +362,21 @@ const FreelanceExperienceForm: FC<FrelanceExperienceFormProps> = ({ experience, 
                       Save experience
                     </Button>
                   </Box>
+                  {(mobileDisplay || tabletDisplay) && <Box
+                      color="red.500"
+                      p={2}
+                      ml="auto"
+                      my="auto"
+                      cursor="pointer"
+                      borderRadius="8px"
+                      transition="all ease-in-out 250ms"
+                      _hover={{ bgColor: 'neutral.lightGray', color: 'red.700' }}
+                      onClick={() => {
+                        onClose();
+                      }}
+                    >
+                      <CloseIcon />
+                    </Box>}
                 </Flex>
               </Form>
             )}

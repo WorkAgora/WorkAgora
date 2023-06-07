@@ -68,9 +68,9 @@ const CompanyForm: FC = () => {
     >
       {({ errors, touched, setFieldValue, isValid }) => (
         <Form style={{ width: '100%', display: 'flex', flexDirection: 'column', rowGap: '24px' }}>
-          <Flex alignItems="center">
+          <Flex alignItems="center" flexDir={{base: 'column', lg: 'row'}}>
             <Flex flexDir="column" alignItems="center">
-              <Avatar w="128px" h="128px" borderRadius="16px" />
+              <Avatar w={{base: '64px', lg: "128px"}} h={{base: '64px', lg: "128px"}} borderRadius="16px" />
               <Box mt={2}>
                 <Button
                   variant="outline"
@@ -102,7 +102,7 @@ const CompanyForm: FC = () => {
                 {'.jpg / .png < 1Mo'}
               </Box>
             </Flex>
-            <Flex direction="column" ml={8} w="30%">
+            <Flex direction="column" ml={{base: 0, lg: 8}} w={{base: "100%", lg: "30%"}} mt={{base: 4, lg: 0}}>
               <FormControl isRequired>
                 <FormLabel>Company Name</FormLabel>
                 <Field
@@ -160,7 +160,7 @@ const CompanyForm: FC = () => {
               </ErrorMessage>
             </FormControl>
           </Flex>
-          <Flex>
+          <Flex flexDir={{base: 'column', lg: 'row'}}>
             <Flex
               flexDir="column"
               justifyContent="center"
@@ -168,7 +168,7 @@ const CompanyForm: FC = () => {
               borderRadius="32px"
               borderWidth="1px"
               borderColor="neutral.gray"
-              w="35%"
+              w={{base: "100%", lg: "35%"}}
               gap={4}
             >
               <Flex alignItems="center">
@@ -203,8 +203,9 @@ const CompanyForm: FC = () => {
               borderRadius="32px"
               borderWidth="1px"
               borderColor="neutral.gray"
-              w="35%"
-              ml={4}
+              w={{base: "100%", lg: "35%"}}
+              ml={{base: 0, lg: 4}}
+              mt={{base: 4, lg: 0}}
               gap={4}
             >
               <Flex alignItems="center">
@@ -224,7 +225,7 @@ const CompanyForm: FC = () => {
               </FormControl>
             </Flex>
           </Flex>
-          <Box mt={4}>
+          <Box mt={4} mb={{base: 4, lg: 0}} mx={{base: "auto", lg: 0}}>
             <Button
               variant={!isValid ? 'outline' : 'primary'}
               type="submit"
