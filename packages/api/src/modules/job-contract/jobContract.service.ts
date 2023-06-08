@@ -2,6 +2,7 @@ import { Injectable, UnprocessableEntityException, UploadedFile } from '@nestjs/
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
 import {
+  FinalizationParams,
   getJobContractKey,
   getJobFileKey,
   getJobProposalKey,
@@ -150,7 +151,7 @@ export class JobContractService {
           };
           await this.model.create(jobContract);
         }
-        return "done";
+        return 'done';
       }
 
       // Get Employer signature from request body, verify message -> store in JobContract as employerSignature
@@ -195,7 +196,7 @@ export class JobContractService {
           };
         }
       }
-      return 'lol';
+      throw new Error('The wallet is not valid.');
     } catch (error) {
       console.log('validateJobProposal: ' + error.message);
       throw new UnprocessableEntityException('validateJobProposal: ' + error.message);
@@ -242,12 +243,14 @@ export class JobContractService {
   }
 
   async uploadFileSubmission(wallet: string, jobContractId: string, @UploadedFile() file) {
-    const s3 = new S3({region: 'us-west-2'});
+    const s3 = new S3({ region: 'us-west-2' });
     const { originalname } = file;
     const extension = originalname.split('.').pop();
 
     const bucketName = 'wa-submission-files';
-    const fileName = `${uuidv4()}#${originalname.split('.')[0]}#${jobContractId}#${wallet}.${extension}`;
+    const fileName = `${uuidv4()}#${
+      originalname.split('.')[0]
+    }#${jobContractId}#${wallet}.${extension}`;
 
     // Calculate SHA-256 hash of file data
     const sha256 = createHash('sha256');
@@ -257,7 +260,7 @@ export class JobContractService {
     const uploadParams = {
       Bucket: bucketName,
       Key: fileName,
-      Body: file.buffer,
+      Body: file.buffer
     };
 
     try {
@@ -266,7 +269,7 @@ export class JobContractService {
       if (error.code === 'NoSuchBucket') {
         // The bucket does not exist, let's create it
         try {
-          await s3.createBucket({Bucket: bucketName}).promise();
+          await s3.createBucket({ Bucket: bucketName }).promise();
           console.log(`Bucket ${bucketName} created.`);
           // Now retry the upload
           await s3.upload(uploadParams).promise();
@@ -299,12 +302,9 @@ export class JobContractService {
 
   async getJobFile(jobContractId: string): Promise<string> {
     try {
-      const s3 = new S3({region: 'us-west-2'});
+      const s3 = new S3({ region: 'us-west-2' });
 
-      const query = await this.model
-        .query('PK')
-        .eq(getJobFileKey(jobContractId).PK)
-        .exec();
+      const query = await this.model.query('PK').eq(getJobFileKey(jobContractId).PK).exec();
 
       if (!query || query.length === 0) {
         throw new Error('Job file not found.');
@@ -313,13 +313,40 @@ export class JobContractService {
       const jobFile = query[0] as JobFile;
 
       // Generate a pre-signed URL
-      const params = {Bucket: 'wa-submission-files', Key: jobFile.fileUuid, Expires: 60 * 5}; // This link will expire in 5 minutes
+      const params = { Bucket: 'wa-submission-files', Key: jobFile.fileUuid, Expires: 60 * 5 }; // This link will expire in 5 minutes
       const url = s3.getSignedUrl('getObject', params);
 
       return url;
     } catch (error) {
       console.log('getJobFile: ' + error.message);
       throw new UnprocessableEntityException('getJobFile: ' + error.message);
+    }
+  }
+
+  /**
+   * Generate and sign the parameters for finalizing a job contract on the blockchain
+   * @param contractId The contract ID
+   * @param ipfsJfiHash The IPFS hash
+   * @returns The signed finalization parameters
+   * @throws UnprocessableEntityException
+   */
+  async generateAndSignFinalizationParams(
+    contractId: string,
+    ipfsJfiHash: string
+  ): Promise<{ params: FinalizationParams; signature: string }> {
+    try {
+      const params: FinalizationParams = {
+        contractId,
+        ipfsJfiHash
+      };
+
+      const signableMessage = createSignableMessage(params);
+      const signature = await mySignMessage(signableMessage);
+
+      return { params, signature };
+    } catch (error) {
+      console.log('generateAndSignFinalizationParams: ' + error.message);
+      throw new UnprocessableEntityException('generateAndSignFinalizationParams: ' + error.message);
     }
   }
 }

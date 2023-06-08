@@ -57,5 +57,5 @@ export const JobContractSchema = new Schema(
       required: false
     }
   },
-  {saveUnknown: true}
+  { saveUnknown: true }
 );

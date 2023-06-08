@@ -1,4 +1,4 @@
-import {SignedMessage} from '../../../../utils/src/index';
+import { SignedMessage } from '../../../../utils/src/index';
 
 export interface JobContractKey {
   PK: string;
@@ -52,22 +52,30 @@ export interface JobContract extends JobProposal {
 }
 
 // JEF
-interface JobContractCompanyFinalization {
-  contractId: string;
+export interface JobContractCompanyFinalization extends JobContractKey {
   fileSha512: string; // hash of contractor final submission file
   review: string; // employer review
 }
 
 // JCF
-interface JobContractFreelancerFinalization {
+export interface JobContractFreelancerFinalization extends JobContractKey {
   contractId: string;
   review: string; // contractor review
 }
 
+// JFI
+export interface JobContractFinalization extends JobContractKey {
+  contractId: string;
+  jef: JobContractCompanyFinalization;
+  jefSignature: string;
+  jcf: JobContractFreelancerFinalization;
+  jcfSignature: string;
+}
+
 // Used for .finalize() method - Blockchain
 export interface FinalizationParams {
-    contractId: string;
-    ipfsJfiHash: string;
+  contractId: string;
+  ipfsJfiHash: string;
 }
 
 export interface JobFile extends JobContractKey {
@@ -76,8 +84,12 @@ export interface JobFile extends JobContractKey {
   fileUuid: string;
 }
 
-
-export type JobContractDocument = JobContract | JobProposal | JobContractFreelancerFinalization | JobFile | JobContractCompanyFinalization;
+export type JobContractDocument =
+  | JobContract
+  | JobProposal
+  | JobContractFreelancerFinalization
+  | JobFile
+  | JobContractCompanyFinalization;
 
 /**
  * Get the DynamoDB key for a JobContract
@@ -91,8 +103,8 @@ export function getJobContractKey(uuid: string): JobContractKey {
   }
 
   return {
-    PK: "JobContract#" + uuid,
-    SK: "#METADATA"
+    PK: 'JobContract#' + uuid,
+    SK: '#METADATA'
   };
 }
 
@@ -103,8 +115,8 @@ export function getJobProposalKey(uuid: string): JobContractKey {
   }
 
   return {
-    PK: "JobProposal#" + uuid,
-    SK: "#METADATA"
+    PK: 'JobProposal#' + uuid,
+    SK: '#METADATA'
   };
 }
 
@@ -115,7 +127,7 @@ export function getJobFileKey(uuid: string): JobContractKey {
   }
 
   return {
-    PK: "JobFile#" + uuid,
-    SK: "#METADATA"
+    PK: 'JobFile#' + uuid,
+    SK: '#METADATA'
   };
 }
