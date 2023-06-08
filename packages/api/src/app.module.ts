@@ -8,6 +8,7 @@ import { JobModule } from './modules/job/job.module';
 import { CompanyModule } from './modules/company/company.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { JobContractModule } from "./modules/job-contract/jobContract.module";
 
 @Module({
   imports: [
@@ -27,7 +28,9 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     JobModule,
     CompanyModule,
     ChatModule,
-    NotificationsModule
+    NotificationsModule,
+    JobContractModule,
+    // BlockchainModule
   ],
   controllers: [],
   providers: []

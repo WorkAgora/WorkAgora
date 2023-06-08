@@ -52,6 +52,33 @@ Resources:
           KeyType: HASH
         - AttributeName: companyWallet
           KeyType: RANGE
+  JobContractTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    Properties:
+      TableName: ${self:service}-${self:provider.stage}-job-contract-table
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+        - AttributeName: open
+          AttributeType: 'N'
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: openIndex
+          KeySchema:
+            - AttributeName: open
+              KeyType: HASH
+            - AttributeName: SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
   JobTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Delete

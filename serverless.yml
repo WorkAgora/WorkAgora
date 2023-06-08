@@ -46,6 +46,8 @@ custom:
     external: ['swagger-ui-dist']
   serverlessPluginTypescript:
     tsConfigFileLocation: 'packages/api/tsconfig.app.json'
+  serverless-offline:
+    noPrependStageInUrl: true
 
 functions:
   main: # The name of the lambda function

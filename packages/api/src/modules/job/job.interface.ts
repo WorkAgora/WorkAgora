@@ -1,4 +1,4 @@
-import { CreateCompany, JobKey, Visibility, WorkAvailability, WorkDuration } from '../../../../utils/src/index';
+import { Company, JobKey, Visibility, WorkAvailability, WorkDuration } from '../../../../utils/src/index';
 
 export interface CreateJobBackend extends JobKey {
   title: string;
@@ -12,5 +12,5 @@ export interface CreateJobBackend extends JobKey {
   visibility: Visibility;
   createdAt: string;
   companyUuid: string;
-  company?: CreateCompany;
+  company?: Company;
 }

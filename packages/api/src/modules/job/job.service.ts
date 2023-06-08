@@ -106,68 +106,6 @@ export class JobService {
   }
 
   /**
-   * Confirm a new job contract
-   * @param job The job contract metadata
-   * @param contractorSignature The contractor's signature
-   * @param employerSignature The employer's signature
-   * @returns The JobContract Creation on-chain parameters and signatures
-   */
-  async confirmJob(
-    job: ConfirmJobContractDTO,
-    contractorSignature: string,
-    employerSignature: string
-  ): Promise<ConfirmJob> {
-    try {
-      // Check that the employer and contractor are not the same
-      if (job.employerWallet === job.contractorWallet) {
-        throw new Error('Employer and contractor cannot be the same');
-      }
-
-      // Create the job contract metadata (JM)
-      const JM = { ...job };
-
-      // Check that the signatures are valid and sign the JM
-      const messageHash = ethers.utils.hashMessage(JSON.stringify(JM));
-      const recoveredContractor = ethers.utils.verifyMessage(messageHash, contractorSignature);
-      if (recoveredContractor !== job.contractorWallet) {
-        throw new Error('Invalid contractor signature');
-      }
-      const recoveredEmployer = ethers.utils.verifyMessage(messageHash, employerSignature);
-      if (recoveredEmployer !== job.employerWallet) {
-        throw new Error('Invalid employer signature');
-      }
-
-      // Construct JobContract Metadata IPFS (JMI)
-      const JMI = {
-        ...JM,
-        contractorSignature: contractorSignature,
-        employerSignature: employerSignature
-      };
-
-      // Encode the JMI for IPFS
-      const cidStringified = await encodeJSONForIPFS(JMI);
-
-      // Construct JobContract Creation on-chain parameters (JCC)
-      const JCC = {
-        ...JM,
-        cid: cidStringified,
-        GUID: uuidv4()
-      };
-
-      // Save the contract in the database
-      // await this.model.create(JCC);
-
-      // Send the JCC and signatures to the user
-      return JCC;
-    } catch (error) {
-      throw new UnprocessableEntityException(
-        'Error while creating the job contract',
-        error.message
-      );
-    }
-  }
-
-  /**
    * Get recent jobs
    * @param page
    * @param limit Number of jobs to return

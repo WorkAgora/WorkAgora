@@ -15,7 +15,6 @@ import { CompleteJobContractDTO, CreateJobDTO } from '../../dtos/job/job.dto';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { JobService } from './job.service';
-import { CreateJob } from '../../../../utils/src/index'
 import { Request } from 'express';
 import { DeleteJobDTO } from '../../dtos/job/delete-job.dto';
 

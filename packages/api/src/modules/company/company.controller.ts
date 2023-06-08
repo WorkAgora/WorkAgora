@@ -14,7 +14,7 @@ import { CreateCompanyDTO } from '../../dtos/company/create-company.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CompanyService } from './company.service';
-import { CreateCompany } from '../../../../utils/src/index';
+import { Company } from '../../../../utils/src/index';
 import { Request } from 'express';
 import { DeleteCompanyDTO } from '../../dtos/company/delete-company.dto';
 
@@ -43,7 +43,7 @@ export class CompanyController {
   async createCompany(
     @Req() req: Request,
     @Body() createCompanyDTO: CreateCompanyDTO
-  ): Promise<CreateCompany> {
+  ): Promise<Company> {
     // @ts-ignore
     return this.companyService.createCompany(req.user.wallet, createCompanyDTO);
   }

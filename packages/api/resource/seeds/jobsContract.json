@@ -1,0 +1,98 @@
+[
+  {
+    "PK": "JobContract#1234",
+    "SK": "#METADATA",
+    "priceUsd": 1500,
+    "token": 10,
+    "initialDepositPct": 20,
+    "lockedAmountPct": 30,
+    "0x134302C1187aD506270D798c0044335b8ea5a4A8erredAmountPct": 50,
+    "description": "Design a logo",
+    "tags": [
+      "design",
+      "logo"
+    ],
+    "durationInDay": 7,
+    "creationExpiryTimestamp": "2023-06-30T23:59:59Z",
+    "freelancerWallet": "0x1343aD1682CB1E1042b522F813C1239d98Dbf5b2",
+    "companyWallet": "0x134302C1187aD506270D798c0044335b8ea5a4A8",
+    "freelancerValidated": false,
+    "companyValidated": false,
+    "createdAt": "2023-05-30T18:00:00Z",
+    "open": 0
+  },
+  {
+    "PK": "JobContract#5678",
+    "SK": "#METADATA",
+    "priceUsd": 3000,
+    "token": 20,
+    "initialDepositPct": 30,
+    "lockedAmountPct": 40,
+    "0x134302C1187aD506270D798c0044335b8ea5a4A8erredAmountPct": 30,
+    "description": "Develop a website",
+    "tags": [
+      "development",
+      "website"
+    ],
+    "durationInDay": 14,
+    "creationExpiryTimestamp": "2023-07-30T23:59:59Z",
+    "freelancerWallet": "0x1343aD1682CB1E1042b522F813C1239d98Dbf5b2",
+    "companyWallet": "0x134302C1187aD506270D798c0044335b8ea5a4A8",
+    "freelancerValidated": true,
+    "companyValidated": true,
+    "createdAt": "2023-05-31T18:00:00Z",
+    "open": 1
+  },
+  {
+    "PK": "JobProposal#9101",
+    "SK": "#METADATA",
+    "priceUsd": 500,
+    "token": 5,
+    "initialDepositPct": 10,
+    "lockedAmountPct": 20,
+    "0x134302C1187aD506270D798c0044335b8ea5a4A8erredAmountPct": 70,
+    "description": "Design a brochure",
+    "tags": [
+      "design",
+      "brochure"
+    ],
+    "durationInDay": 3,
+    "creationExpiryTimestamp": "2023-06-15T23:59:59Z",
+    "freelancerWallet": "0x1343aD1682CB1E1042b522F813C1239d98Dbf5b2",
+    "companyWallet": "0x134302C1187aD506270D798c0044335b8ea5a4A8"
+  },
+  {
+    "PK": "JobProposal#1112",
+    "SK": "#METADATA",
+    "priceUsd": 2000,
+    "token": 15,
+    "initialDepositPct": 30,
+    "lockedAmountPct": 20,
+    "0x134302C1187aD506270D798c0044335b8ea5a4A8erredAmountPct": 50,
+    "description": "Develop a mobile app",
+    "tags": [
+      "development",
+      "mobile app"
+    ],
+    "durationInDay": 21,
+    "creationExpiryTimestamp": "2023-07-01T23:59:59Z",
+    "freelancerWallet": "0x1343aD1682CB1E1042b522F813C1239d98Dbf5b2",
+    "companyWallet": "0x134302C1187aD506270D798c0044335b8ea5a4A8"
+  },
+  {
+    "PK": "JobContract#1234",
+    "SK": "#FINALIZATION",
+    "fileHash": "hash1",
+    "review": "Good job!",
+    "jobContractUuid": "1234",
+    "open": 4
+  },
+  {
+    "PK": "JobContract#5678",
+    "SK": "#FINALIZATION",
+    "fileHash": "hash2",
+    "review": "Great work, well done!",
+    "jobContractUuid": "5678",
+    "open": 0
+  }
+]

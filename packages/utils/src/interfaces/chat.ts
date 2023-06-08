@@ -1,4 +1,4 @@
-import { CreateCompany } from "./company";
+import { Company } from "./company";
 import { User } from "./user";
 
 export interface ChatItemKey {
@@ -25,7 +25,7 @@ export interface ChatInstance extends ChatItemKey {
   lastMessage?: ChatMessage;
   user1Type: ChatAuthorType;
   partnerUser?: User;
-  partnerCompany?: CreateCompany;
+  partnerCompany?: Company;
   visible: boolean;
   jobRelated?: string;
 }

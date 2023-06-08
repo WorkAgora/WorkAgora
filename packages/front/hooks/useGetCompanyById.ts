@@ -1,10 +1,10 @@
-import { CreateCompany } from '@workagora/utils';
+import { Company } from '@workagora/utils';
 import { useCallback, useState } from 'react';
 import { getCompanyByUUID } from '../services/company';
 
 export const useGetCompanyById = () => {
   const [loading, setLoading] = useState(false);
-  const [curCompany, setCurCompany] = useState<CreateCompany | null>(null);
+  const [curCompany, setCurCompany] = useState<Company | null>(null);
 
   const getCompanyById = useCallback(async (uuid: string) => {
     if (!loading) {

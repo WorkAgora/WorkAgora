@@ -8,3 +8,5 @@ user:
       sources: [./packages/api/resource/seeds/jobs.json]
     - table: work-agora-api-dev-notifications-table
       sources: [./packages/api/resource/seeds/notifications.json]
+    - table: work-agora-api-dev-job-contract-table
+      sources: [./packages/api/resource/seeds/jobsContract.json]
