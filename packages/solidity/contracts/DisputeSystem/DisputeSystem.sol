@@ -5,7 +5,7 @@ import '../JobContract/JobContract.sol';
 import '../UserManager/UserManager.sol';
 import '../Ownable/Ownable.sol';
 
-// Proxied
+// Proxied - WIP
 contract DisputeSystem is Ownable {
     JobContract public jobContract;
     UserManager public userManager;
@@ -57,9 +57,9 @@ contract DisputeSystem is Ownable {
     }
 
     function initiateDispute(string calldata _contractId) external {
-        JobContract.Contract memory record = jobContract.getContract(_contractId);
+        IJobContract.Contract memory record = jobContract.getContract(_contractId);
         require(userManager.isUserVerified(msg.sender), 'User not verified'); // check for ban
-        require(record.state == JobContract.State.Started, 'Contract not started');
+        require(record.state == IJobContract.State.Started, 'Contract not started');
         require(block.timestamp > record.endTimestamp, 'Too early to open a dispute');
         require(
             msg.sender == record.employerAddress || msg.sender == record.contractorAddress,
@@ -103,7 +103,7 @@ contract DisputeSystem is Ownable {
             'Not enough reputation to vote'
         );
 
-        JobContract.Contract memory record = jobContract.getContract(_contractId);
+        IJobContract.Contract memory record = jobContract.getContract(_contractId);
         require(
             msg.sender != record.employerAddress && msg.sender != record.contractorAddress,
             'Employers and contractors can not vote on their own disputes'

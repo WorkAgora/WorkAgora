@@ -1,5 +1,6 @@
 import * as localConfig from "../../configs/local";
 import * as testnetConfig from "../../configs/testnet";
+import * as mainnetConfig from "../../configs/mainnet";
 import hardhatConfig from "../../hardhat.config";
 import { DeployConfig } from "./types";
 
@@ -27,8 +28,8 @@ export async function getDeployConfig(chainId: number): Promise<DeployConfig> {
     if (chainId === testnet!.chainId) {
         return testnetConfig.deployTokensAndGetConfig();
     }
-    // TODO
-    // if (chainId === mainnet!.chainId) {
-    // }
+    if (chainId === mainnet!.chainId) {
+        return mainnetConfig.getConfig();
+    }
     throw new Error(`Unsupported chainId=${chainId}`);
 }

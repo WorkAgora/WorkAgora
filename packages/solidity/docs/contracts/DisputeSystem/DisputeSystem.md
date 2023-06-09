@@ -220,13 +220,13 @@ function setOwner(address _owner) external nonpayable
 
 
 
-
+*Method for setting the contract owner*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _owner | address | undefined |
+| _owner | address | The address of the new contract owner |
 
 ### userManager
 

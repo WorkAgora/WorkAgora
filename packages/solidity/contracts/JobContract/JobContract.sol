@@ -1,6 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import './IJobContract.sol';
 import '../DisputeSystem/DisputeSystem.sol';
 import '../UserManager/UserManager.sol';
 import '../Ownable/Ownable.sol';
@@ -9,49 +10,8 @@ import '@openzeppelin/contracts/utils/cryptography/ECDSA.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
 // Proxied
-contract JobContract is Ownable {
+contract JobContract is IJobContract, Ownable {
     using ECDSA for bytes32;
-
-    struct Contract {
-        State state;
-        uint128 totalAmountUsd;
-        uint256 totalAmountToken;
-        uint8 lockedAmountPct;
-        uint8 deferredAmountPct;
-        PaymentToken paymentToken;
-        uint256 endTimestamp;
-        address contractorAddress;
-        address employerAddress;
-        string ipfsJmiHash;
-        string ipfsJfiHash;
-    }
-
-    struct CreateParams {
-        string contractId;
-        uint128 totalAmountUsd;
-        PaymentToken paymentToken;
-        uint8 initialDepositPct;
-        uint8 lockedAmountPct;
-        uint8 deferredAmountPct;
-        uint256 durationDays;
-        uint256 creationExpiryTimestamp;
-        address contractorAddress;
-        address employerAddress;
-        string ipfsJmiHash;
-    }
-
-    struct FinalizationParams {
-        string contractId;
-        string ipfsJfiHash;
-    }
-
-    enum State {
-        None,
-        Started,
-        CompleteWithSuccess,
-        OngoingDispute,
-        CompleteWithDispute
-    }
 
     UserManager user;
     Employer employer;
@@ -65,7 +25,7 @@ contract JobContract is Ownable {
         require(msg.sender == address(disputeSystem), 'Caller is not dispute system');
         _;
     }
-    
+
     function initialize(
         UserManager _user,
         PriceController _priceController,
@@ -73,7 +33,7 @@ contract JobContract is Ownable {
         Contractor _contractor,
         DisputeSystem _disputeSystem,
         uint8 _feePct
-    ) external onlyOwner {
+    ) external override onlyOwner {
         require(address(user) == address(0), 'Already initialized');
         require(_feePct < 100, 'Invalid fee');
         user = _user;
@@ -84,7 +44,10 @@ contract JobContract is Ownable {
         disputeSystem = _disputeSystem;
     }
 
-    function create(CreateParams calldata _params, bytes calldata _signature) external payable {
+    function create(
+        CreateParams calldata _params,
+        bytes calldata _signature
+    ) external payable override {
         require(verifyCreationSignature(_params, _signature), 'Invalid signature');
         require(contracts[_params.contractId].state == State.None, 'ContractId already exists');
         require(_params.creationExpiryTimestamp >= block.timestamp, 'Creation timestamp expired');
@@ -142,7 +105,7 @@ contract JobContract is Ownable {
     function finalize(
         FinalizationParams calldata _params,
         bytes calldata _signature
-    ) external payable {
+    ) external payable override {
         Contract storage record = contracts[_params.contractId];
         require(verifyFinalizationSignature(_params, _signature), 'Invalid signature');
         require(record.state == State.Started, 'Invalid contract state');
@@ -279,21 +242,24 @@ contract JobContract is Ownable {
         return messagehash.toEthSignedMessageHash().recover(_signature) == user.sigAuthority();
     }
 
-    function getContract(string calldata _contractId) public view returns (Contract memory) {
+    function getContract(
+        string calldata _contractId
+    ) public view override returns (Contract memory) {
         return contracts[_contractId];
     }
 
-    // Disputes
-    function initiateDispute(string calldata _contractId) external onlyDisputeSystem {
+    // Disputes - WIP
+    function initiateDispute(string calldata _contractId) external override onlyDisputeSystem {
         Contract storage record = contracts[_contractId];
         record.state = State.OngoingDispute;
     }
 
+    // WIP
     function finalizeDispute(
         string calldata _contractId,
         uint256 contractorPct,
         uint256 employerPct
-    ) external onlyDisputeSystem {
+    ) external override onlyDisputeSystem {
         Contract storage record = contracts[_contractId];
         record.state = State.CompleteWithDispute;
     }

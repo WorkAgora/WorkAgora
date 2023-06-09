@@ -1,12 +1,12 @@
-# PriceController
+# IPriceController
 
 
 
+> IPriceController
 
 
-Network: Avax From: https://docs.chain.link/data-feeds/price-feeds/addresses?network=avalanche Aggregator: AVAX/USD      Address (mainnet): 0x0A77230d17318075983913bC2145DB16C7366156      Address (testnet): 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD Aggregator: LINK/USD      Address (mainnet): 0x49ccd9ca821EfEab2b98c60dC60F518E765EDe9a      Address (testnet): 0x34C4c526902d88a3Aa98DB8a9b802603EB1E3470 Aggregator: BTC/USD      Address (mainnet): 0x2779D32d5166BAaa2B2b658333bA7e6Ec0C65743      Address (testnet): 0x31CF013A08c6Ac228C94551d535d5BAfE19c602a Aggregator: USDT/USD      Address (mainnet): 0xEBE676ee90Fe1112671f19b6B7459bC678B67e8a      Address (testnet): 0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad
 
-
+*The IPriceController interface defines the functions for price controlling*
 
 ## Methods
 
@@ -94,39 +94,6 @@ function isTokenSet(enum IPriceController.PaymentToken _token) external view ret
 |---|---|---|
 | _0 | bool | bool Returns true if the token is set, false otherwise |
 
-### owner
-
-```solidity
-function owner() external view returns (address)
-```
-
-
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
-
-### setOwner
-
-```solidity
-function setOwner(address _owner) external nonpayable
-```
-
-
-
-*Method for setting the contract owner*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _owner | address | The address of the new contract owner |
-
 ### setToken
 
 ```solidity
@@ -144,29 +111,6 @@ function setToken(enum IPriceController.PaymentToken _token, contract Aggregator
 | _token | enum IPriceController.PaymentToken | The token to be set |
 | _aggregator | contract AggregatorV3Interface | The AggregatorV3Interface of the token/USD price feed |
 | _tokenAddress | contract IERC20 | The IERC20 address of the token |
-
-### tokens
-
-```solidity
-function tokens(enum IPriceController.PaymentToken) external view returns (contract PriceConsumer priceConsumer, contract IERC20 token)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | enum IPriceController.PaymentToken | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| priceConsumer | contract PriceConsumer | undefined |
-| token | contract IERC20 | undefined |
 
 
 

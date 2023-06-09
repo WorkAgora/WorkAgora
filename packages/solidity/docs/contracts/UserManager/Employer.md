@@ -40,19 +40,19 @@ function getReputation(uint256 _userId) external view returns (int256)
 
 
 
-
+*Retrieves the reputation score of a user*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _userId | uint256 | undefined |
+| _userId | uint256 | The user ID |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | int256 | undefined |
+| _0 | int256 | int256 The reputation score of the user |
 
 ### initialize
 
@@ -62,13 +62,13 @@ function initialize(contract JobContract _jobContract) external nonpayable
 
 
 
-
+*Initializes the contract with the job contract*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _jobContract | contract JobContract | undefined |
+| _jobContract | contract JobContract | The address of the job contract |
 
 ### owner
 
@@ -117,14 +117,14 @@ function setContract(uint256 _userId, string _contractId) external nonpayable
 
 
 
-
+*Sets the contract ID for a user*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _userId | uint256 | undefined |
-| _contractId | string | undefined |
+| _userId | uint256 | The user ID |
+| _contractId | string | The contract ID |
 
 ### setOwner
 
@@ -134,13 +134,13 @@ function setOwner(address _owner) external nonpayable
 
 
 
-
+*Method for setting the contract owner*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _owner | address | undefined |
+| _owner | address | The address of the new contract owner |
 
 ### updateReputation
 
@@ -150,14 +150,14 @@ function updateReputation(uint256 _userId, int256 _amount) external nonpayable
 
 
 
-
+*Updates the reputation score of a user*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _userId | uint256 | undefined |
-| _amount | int256 | undefined |
+| _userId | uint256 | The user ID |
+| _amount | int256 | The amount to add to the user&#39;s reputation score |
 
 
 

@@ -1,93 +1,22 @@
-<mxfile host="Electron" modified="2023-06-06T17:43:55.563Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="jh1AqVEd7xpA-q81tTP_" version="21.2.8" type="device">
+<mxfile host="Electron" modified="2023-06-08T06:42:13.651Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="ghKXDpRyNwY5Rd9A6iVL" version="21.2.8" type="device">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
-    <mxGraphModel dx="618" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1674" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-84" value="Smart Contracts" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-          <mxGeometry x="40" y="70" width="1045" height="740" as="geometry">
-            <mxRectangle x="40" y="70" width="140" height="30" as="alternateBounds" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-59" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Contract &lt;/span&gt;ReputationCardHolder&lt;br&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-84" vertex="1">
-          <mxGeometry x="84.99000000000001" y="40" width="400" height="360" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-60" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;IReputationCard private &lt;b&gt;reputationCard&lt;/b&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-59" vertex="1">
-          <mxGeometry y="26" width="400" height="24" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-61" value="&lt;b&gt;getReputationCard&lt;/b&gt;()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-59" vertex="1">
-          <mxGeometry y="50" width="400" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-83" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;Inherited contracts&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="3dfKuByAPZrPAyASHaDJ-59" vertex="1">
-          <mxGeometry y="80" width="400" height="280" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-48" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-size: 14px; font-weight: normal;&quot;&gt;Contract&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt; Employer &lt;/span&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;inherits&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;ReputationCardHolder&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="3dfKuByAPZrPAyASHaDJ-83" vertex="1">
-          <mxGeometry x="20" y="40" width="360" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-49" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-48" vertex="1">
-          <mxGeometry y="26" width="360" height="74" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-72" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-size: 14px; font-weight: normal;&quot;&gt;Contract&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt; Contractor&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;inherits&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;ReputationCardHolder&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="3dfKuByAPZrPAyASHaDJ-83" vertex="1">
-          <mxGeometry x="20" y="160" width="360" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-73" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-72" vertex="1">
-          <mxGeometry y="26" width="360" height="74" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-41" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Contract&lt;/span&gt; UserManager&lt;br&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-84" vertex="1">
-          <mxGeometry x="634.99" y="40" width="360.01" height="161.78" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-47" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;address public&amp;nbsp;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;kycSystem&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;mapping(address =&amp;gt; string) public&amp;nbsp;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;verifiedUsers&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;mapping(address =&amp;gt; address) public&amp;nbsp;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;Employers&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;mapping(address =&amp;gt; address) public&amp;nbsp;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;Contractors&lt;/b&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-41" vertex="1">
-          <mxGeometry y="26" width="360.01" height="74" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-44" value="&lt;b&gt;initialize&lt;/b&gt;(address _kycSystem)&lt;br&gt;&lt;b&gt;verifyUser&lt;/b&gt;(address _address, string _kycId, bytes _signature)&lt;br&gt;&lt;b&gt;isUserVerified&lt;/b&gt;(address _address)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-41" vertex="1">
-          <mxGeometry y="100" width="360.01" height="61.78" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-56" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Contract &lt;/span&gt;ReputationCard&lt;br&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-84" vertex="1">
-          <mxGeometry x="84.99000000000001" y="420" width="410" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-57" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;uint256 private &lt;b&gt;reputation&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;Review[] private &lt;b&gt;reviews&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;mapping(JobContract =&amp;gt; bool) private &lt;b&gt;reviewedContracts&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-56" vertex="1">
-          <mxGeometry y="26" width="410" height="64" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-58" value="&lt;div&gt;&lt;b&gt;updateReputation&lt;/b&gt;(int256 _amount)&lt;/div&gt;&lt;div&gt;&lt;b&gt;getReputation&lt;/b&gt;()&lt;/div&gt;&lt;div&gt;&lt;b&gt;addReview&lt;/b&gt;(&lt;span style=&quot;background-color: initial;&quot;&gt;uint256 _rating,&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;string _message,&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;JobContract _jobContract&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;getReview&lt;/b&gt;(uint256 _index)&lt;/div&gt;&lt;div&gt;&lt;b&gt;getReviewsCount&lt;/b&gt;()&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-56" vertex="1">
-          <mxGeometry y="90" width="410" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-63" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Struct&lt;/span&gt; Review&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="3dfKuByAPZrPAyASHaDJ-84" vertex="1">
-          <mxGeometry x="84.99000000000001" y="620" width="150" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-64" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;uint8&amp;nbsp;&lt;/span&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;rating&lt;/b&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;bytes32 &lt;b&gt;messageHash&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;JobContract &lt;b&gt;jobContract&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-63" vertex="1">
-          <mxGeometry y="26" width="150" height="74" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.998;exitY=0.12;exitDx=0;exitDy=0;entryX=-0.006;entryY=0.797;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;dashed=1;" parent="3dfKuByAPZrPAyASHaDJ-84" source="3dfKuByAPZrPAyASHaDJ-72" target="3dfKuByAPZrPAyASHaDJ-47" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="595" y="240" as="sourcePoint" />
-            <mxPoint x="595" y="524" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="525" y="292" />
-              <mxPoint x="525" y="125" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.998;exitY=0.055;exitDx=0;exitDy=0;entryX=-0.008;entryY=0.608;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;dashed=1;" parent="3dfKuByAPZrPAyASHaDJ-84" source="3dfKuByAPZrPAyASHaDJ-48" target="3dfKuByAPZrPAyASHaDJ-47" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="564" y="282" as="sourcePoint" />
-            <mxPoint x="643" y="175" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="505" y="165" />
-              <mxPoint x="505" y="111" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.067;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;strokeWidth=2;" parent="3dfKuByAPZrPAyASHaDJ-84" source="3dfKuByAPZrPAyASHaDJ-60" target="3dfKuByAPZrPAyASHaDJ-56" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.12;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;dashed=1;" parent="3dfKuByAPZrPAyASHaDJ-84" source="3dfKuByAPZrPAyASHaDJ-57" target="3dfKuByAPZrPAyASHaDJ-63" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-85" value="WorkAgora Solidity Design" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;labelBackgroundColor=none;labelBorderColor=none;" parent="1" vertex="1">
           <mxGeometry x="442.5" y="20" width="240" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-86" value="Flow: User verification" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-          <mxGeometry x="40" y="850" width="1045" height="270" as="geometry" />
+          <mxGeometry x="40.5" y="80" width="1045" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="_8DfmYT6XEqQFfu5_mUV-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.004;entryY=0.068;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-88" target="3dfKuByAPZrPAyASHaDJ-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_8DfmYT6XEqQFfu5_mUV-6" value="&amp;nbsp;signs user address + kycId&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="_8DfmYT6XEqQFfu5_mUV-5">
+          <mxGeometry x="-0.2057" y="1" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-88" value="Backend" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
           <mxGeometry x="239" y="70" width="80" height="80" as="geometry" />
@@ -103,96 +32,20 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-89" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
           <mxGeometry x="34" y="80" width="30" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-111" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-101" target="3dfKuByAPZrPAyASHaDJ-110" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-112" value="&lt;b&gt;&amp;nbsp; [3]&amp;nbsp;&amp;nbsp;&lt;/b&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="3dfKuByAPZrPAyASHaDJ-111" vertex="1" connectable="0">
-          <mxGeometry x="-0.3027" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-101" value="Frontend" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
-          <mxGeometry x="230.25" y="180" width="97.5" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-104" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-89" target="3dfKuByAPZrPAyASHaDJ-101" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="55.25" y="190" as="sourcePoint" />
-            <mxPoint x="230.25" y="190" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="79" y="110" />
-              <mxPoint x="79" y="210" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-105" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp; [2] Build tx&amp;nbsp;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=11;" parent="3dfKuByAPZrPAyASHaDJ-104" vertex="1" connectable="0">
-          <mxGeometry x="-0.216" y="2" relative="1" as="geometry">
-            <mxPoint x="77" y="11" as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-106" value="User" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
           <mxGeometry x="25" y="50" width="48" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-107" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-101" target="3dfKuByAPZrPAyASHaDJ-88" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="349" y="170" as="sourcePoint" />
-            <mxPoint x="399" y="120" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-108" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;UserManager (Blockchain contract)&lt;br&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
+          <mxGeometry x="559.5" y="80" width="260" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-108" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;UserManager&lt;br&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
-          <mxGeometry x="407.5" y="170" width="120" height="50" as="geometry" />
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-110" value="&lt;b&gt;verifyUser&lt;/b&gt;()&lt;br&gt;1. verify signature&lt;br&gt;2. set user as verified on chain" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-108" vertex="1">
+          <mxGeometry y="26" width="260" height="44" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-110" value="&lt;b&gt;verifyUser&lt;/b&gt;()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-108" vertex="1">
-          <mxGeometry y="26" width="120" height="24" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-126" value="new" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-113" target="3dfKuByAPZrPAyASHaDJ-124" edge="1">
-          <mxGeometry x="0.0769" y="15" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-113" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Employer&lt;/span&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
-          <mxGeometry x="630" y="160" width="145" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-127" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-115" target="3dfKuByAPZrPAyASHaDJ-125" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-128" value="new" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="3dfKuByAPZrPAyASHaDJ-127" vertex="1" connectable="0">
-          <mxGeometry x="0.0769" y="1" relative="1" as="geometry">
-            <mxPoint y="-14" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-115" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Contractor&lt;/span&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
-          <mxGeometry x="630" y="210" width="145" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-117" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-110" target="3dfKuByAPZrPAyASHaDJ-115" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="815" y="110" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="610" y="208" />
-              <mxPoint x="610" y="225" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-118" value="new" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="3dfKuByAPZrPAyASHaDJ-117" vertex="1" connectable="0">
-          <mxGeometry x="0.2821" relative="1" as="geometry">
-            <mxPoint x="-27" y="-13" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-120" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="3dfKuByAPZrPAyASHaDJ-86" source="3dfKuByAPZrPAyASHaDJ-110" target="3dfKuByAPZrPAyASHaDJ-113" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="610" y="208" />
-              <mxPoint x="610" y="175" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-124" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;ReputationCard&lt;/span&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
-          <mxGeometry x="840" y="160" width="145" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-125" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;ReputationCard&lt;/span&gt;&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="3dfKuByAPZrPAyASHaDJ-86" vertex="1">
-          <mxGeometry x="840" y="210" width="145" height="30" as="geometry" />
+        <mxCell id="_8DfmYT6XEqQFfu5_mUV-8" value="Only verified users can create contracts." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="3dfKuByAPZrPAyASHaDJ-86">
+          <mxGeometry x="22" y="220" width="240" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-155" value="JobContract Finalization" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="38" y="2500" width="1050" height="800" as="geometry" />
+          <mxGeometry x="35.5" y="1540" width="1050" height="800" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-278" value="Backend&lt;br&gt;&lt;br&gt;Verify signature" style="rounded=0;whiteSpace=wrap;html=1;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
           <mxGeometry x="280" y="190" width="123" height="60" as="geometry" />
@@ -288,7 +141,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-306" value="&lt;span style=&quot;font-size: 14px; font-weight: 400;&quot;&gt;JobContract&lt;br&gt;Finalization IPFS (JFI)&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
           <mxGeometry x="480" y="340" width="160" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-307" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;- contract GUID&lt;br&gt;- JEF + signature&lt;br&gt;- JCF + signature&lt;br&gt;- file hash&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-306" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-307" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;- JEF + signature&lt;br&gt;- JCF + signature&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-306" vertex="1">
           <mxGeometry y="40" width="160" height="70" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-308" value="&lt;span style=&quot;font-size: 14px; font-weight: 400;&quot;&gt;JobContract Finalization&lt;br&gt;on Chain parameters (JFC)&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
@@ -309,7 +162,7 @@
             <mxPoint x="320" y="510" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-318" value="send JFP&lt;br&gt;and signature" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="3dfKuByAPZrPAyASHaDJ-317" vertex="1" connectable="0">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-318" value="send JFC&lt;br&gt;and signature" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="3dfKuByAPZrPAyASHaDJ-317" vertex="1" connectable="0">
           <mxGeometry x="0.4099" y="-2" relative="1" as="geometry">
             <mxPoint x="18" y="1" as="offset" />
           </mxGeometry>
@@ -317,7 +170,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-322" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="3dfKuByAPZrPAyASHaDJ-155" source="3dfKuByAPZrPAyASHaDJ-319" target="3dfKuByAPZrPAyASHaDJ-321" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-319" value="Blockchain&lt;br&gt;&lt;br&gt;Complete contract on chain. Checks:&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- JFC signed by backend&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- GUID matches an open contract &lt;br&gt;with the contractor sending the tx&lt;/span&gt;&lt;/div&gt;" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-319" value="Blockchain&lt;br&gt;&lt;br&gt;Complete contract on chain. Checks:&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- JFC signed by backend&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- GUID matches a started contract &lt;br&gt;with the contractor sending the tx&lt;/span&gt;&lt;/div&gt;" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
           <mxGeometry x="170" y="610" width="260" height="106" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-320" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.472;entryY=0.006;entryDx=0;entryDy=0;entryPerimeter=0;" parent="3dfKuByAPZrPAyASHaDJ-155" target="3dfKuByAPZrPAyASHaDJ-319" edge="1">
@@ -326,11 +179,11 @@
             <mxPoint x="190" y="550" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-321" value="Blockchain&lt;br&gt;&lt;br&gt;Release funds to Contractor&lt;br&gt;Store the IPFS hash and complete the contract" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-321" value="Blockchain&lt;br&gt;&lt;br&gt;Release locked funds to Contractor&lt;br&gt;Store the IPFS hash and complete the contract" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
           <mxGeometry x="494" y="610" width="326" height="106" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-323" value="&lt;b&gt;Note&lt;/b&gt;: What if the employer is never happy with the delivery? After an expiry time X the contract can be automatically claimed by the contractor and funds will be release to them. &lt;b&gt;Employer will get a reputation hit if this happens&lt;/b&gt;.&lt;br&gt;X = contract start expiry date + contract duration + Y (could be two weeks?)&lt;br&gt;Y allows for an additional time for disputes to be opened by either parties" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
-          <mxGeometry x="20" y="750" width="841" height="30" as="geometry" />
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-323" value="&lt;b&gt;Note&lt;/b&gt;: What if the employer is never happy with the delivery? After the contract expiry date, if the contract is not finalized a dispute can be opened so third parties can intervene and resolve issues (namely a judge, lawyer and thirds parties). This system is handled by the DisputeSystem. &lt;b&gt;The party considered at fault&amp;nbsp;may get a reputation hit if this happens&lt;/b&gt;. &lt;b&gt;The locked amount repartition will then be decided by the judge, part of WorkAgora&#39;s legal team.&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
+          <mxGeometry x="20" y="750" width="1010" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-335" value="FE" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;size=70;" parent="3dfKuByAPZrPAyASHaDJ-155" vertex="1">
           <mxGeometry x="730" y="250" width="50" height="40" as="geometry" />
@@ -342,7 +195,7 @@
           <mxGeometry x="192" y="590" width="50" height="40" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-257" value="JobProposal creation" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="38" y="1140" width="1052" height="290" as="geometry">
+          <mxGeometry x="37.5" y="380" width="1052" height="290" as="geometry">
             <mxRectangle x="38" y="1140" width="170" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -352,7 +205,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-181" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;- contract price&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;- contract description&lt;br&gt;- contract tags&lt;br&gt;-&amp;nbsp;contract duration&lt;br&gt;- contract start expiry date&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;- ...&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-180" vertex="1">
           <mxGeometry y="50" width="150" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-234" value="Backend&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. validate parameters&lt;br&gt;E.g. duration is valid&lt;br&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. assign a&amp;nbsp;&lt;/span&gt;&lt;b style=&quot;background-color: initial; border-color: var(--border-color);&quot;&gt;GUID&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;to the proposal&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;spacingLeft=3;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-234" value="Backend&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. a&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;ssign a&amp;nbsp;&lt;/span&gt;&lt;b style=&quot;background-color: initial; border-color: var(--border-color);&quot;&gt;GUID&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;to the proposal&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;spacingLeft=3;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
           <mxGeometry x="370.25" y="137.5" width="189.75" height="120" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-207" value="Show job proposals" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
@@ -367,10 +220,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-190" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;- &lt;b&gt;GUID&lt;/b&gt;&lt;br&gt;- ...{&amp;nbsp;JobProposal Metadata Step 1 }&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;strokeWidth=1;rounded=0;absoluteArcSize=0;shadow=0;spacingTop=0;spacing=2;" parent="3dfKuByAPZrPAyASHaDJ-189" vertex="1">
           <mxGeometry y="50" width="220" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-166" value="Two categories:&lt;br&gt;1. looking for employers (created by contractors)&lt;br&gt;2. looking for contractors (created by employers)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
-          <mxGeometry x="572" y="207.5" width="270" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-130" value="Employer or Contractor" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-130" value="Employer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
           <mxGeometry x="22" y="137.5" width="48" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-129" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="3dfKuByAPZrPAyASHaDJ-257" vertex="1">
@@ -397,7 +247,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-276" value="JobContract Creation" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="40" y="1720" width="1052" height="740" as="geometry">
+          <mxGeometry x="37.5" y="760" width="1052" height="740" as="geometry">
             <mxRectangle x="40" y="1450" width="160" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -410,7 +260,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-191" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
           <mxGeometry x="34" y="182" width="30" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-192" value="&lt;font color=&quot;#ff0303&quot;&gt;&lt;b&gt;Employer&lt;/b&gt;&lt;/font&gt; or &lt;b style=&quot;&quot;&gt;&lt;font color=&quot;#4d9900&quot;&gt;Contractor&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-192" value="&lt;b style=&quot;&quot;&gt;&lt;font color=&quot;#4d9900&quot;&gt;Contractor&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
           <mxGeometry x="25" y="141" width="48" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-193" value="Frontend&lt;br&gt;&lt;br&gt;constructs the JobContract Metadata" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
@@ -430,7 +280,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-212" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
           <mxGeometry x="853" y="181" width="30" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="3dfKuByAPZrPAyASHaDJ-213" value="&lt;b style=&quot;color: rgb(77, 153, 0);&quot;&gt;Contractor&lt;/b&gt;&lt;br&gt;or&lt;br&gt;&lt;b style=&quot;border-color: var(--border-color); color: rgb(255, 3, 3);&quot;&gt;Employer&lt;/b&gt;&lt;b style=&quot;&quot;&gt;&lt;font color=&quot;#4d9900&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
+        <mxCell id="3dfKuByAPZrPAyASHaDJ-213" value="&lt;b style=&quot;border-color: var(--border-color); color: rgb(255, 3, 3);&quot;&gt;Employer&lt;/b&gt;&lt;b style=&quot;&quot;&gt;&lt;font color=&quot;#4d9900&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
           <mxGeometry x="844" y="140" width="48" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-214" value="Party #2&lt;br&gt;(creator of the job proposal)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
@@ -456,7 +306,7 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-228" value="Frontend&lt;br&gt;&lt;br&gt;Accept the proposal ?" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
           <mxGeometry x="717" y="295" width="104" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="oh2le3sbUQAFNMcyKTX_-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="3dfKuByAPZrPAyASHaDJ-276" source="3dfKuByAPZrPAyASHaDJ-231" target="3dfKuByAPZrPAyASHaDJ-247">
+        <mxCell id="oh2le3sbUQAFNMcyKTX_-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="3dfKuByAPZrPAyASHaDJ-276" source="3dfKuByAPZrPAyASHaDJ-231" target="3dfKuByAPZrPAyASHaDJ-247" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-231" value="Blockchain&lt;br&gt;&lt;br&gt;Party #2 signs JM" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
@@ -552,7 +402,7 @@
           <mxGeometry x="382.25" y="490" width="48" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-263" value="Blockchain&lt;br&gt;&lt;br&gt;Create contract on chain. Checks:&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- JCC signed by backend&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- price deposited must match JCC price (chainlink pricefeed)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- sender must be employer wallet&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- another contract with same GUID must not exist&lt;br&gt;- check current date is before expiry date&lt;/span&gt;&lt;/div&gt;" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
-          <mxGeometry x="499" y="500" width="376" height="120" as="geometry" />
+          <mxGeometry x="499" y="500" width="491" height="120" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-264" value="" style="endArrow=classic;html=1;rounded=0;" parent="3dfKuByAPZrPAyASHaDJ-276" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -600,11 +450,14 @@
         <mxCell id="3dfKuByAPZrPAyASHaDJ-334" value="FE" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;size=70;" parent="3dfKuByAPZrPAyASHaDJ-276" vertex="1">
           <mxGeometry x="520" y="480" width="50" height="40" as="geometry" />
         </mxCell>
+        <mxCell id="_8DfmYT6XEqQFfu5_mUV-7" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://www.captain-crypto.fr/wp-content/uploads/elementor/thumbs/logo-crypto-chainlink-p2ieq5y3mii4lqdligmqq6fefb8uoxsfyuqqqrlzp8.jpeg;" vertex="1" parent="3dfKuByAPZrPAyASHaDJ-276">
+          <mxGeometry x="910" y="541" width="50" height="50" as="geometry" />
+        </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-330" value="FE" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;size=70;" parent="1" vertex="1">
-          <mxGeometry x="40" y="1670" width="50" height="40" as="geometry" />
+          <mxGeometry x="37.5" y="710" width="50" height="40" as="geometry" />
         </mxCell>
         <mxCell id="3dfKuByAPZrPAyASHaDJ-333" value="This logo means Frontend will generate the blockchain or wallet interactions" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="100" y="1675" width="420" height="30" as="geometry" />
+          <mxGeometry x="97.5" y="715" width="420" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
