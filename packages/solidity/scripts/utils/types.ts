@@ -29,5 +29,6 @@ export enum PaymentToken {
     Avax = 0,
     // ERC20
     Link = 1,
-    Wbtc = 2
+    Wbtc = 2,
+    Usdt = 3,
 }

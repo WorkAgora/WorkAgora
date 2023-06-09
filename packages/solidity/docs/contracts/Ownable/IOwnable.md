@@ -1,12 +1,12 @@
-# Ownable
+# IOwnable
 
 
 
+> IOwnable
 
 
 
-
-
+*Interface for an Ownable contract. This interface includes the method signatures required, and should be implemented by any contract which needs to manage contract ownership.*
 
 ## Methods
 

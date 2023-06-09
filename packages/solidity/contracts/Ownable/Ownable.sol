@@ -1,8 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import './IOwnable.sol';
+
 // Inherited contracts can be proxied
-contract Ownable {
+contract Ownable is IOwnable {
     address public owner;
 
     modifier onlyOwner() {
@@ -10,7 +12,7 @@ contract Ownable {
         _;
     }
 
-    function setOwner(address _owner) external {
+    function setOwner(address _owner) external override {
         require(owner == address(0), 'Owner already set');
         owner = _owner;
     }

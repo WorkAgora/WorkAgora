@@ -1,5 +1,5 @@
 import { ethers, upgrades } from "hardhat";
-import { Contractor, DisputeSystem, Employer, JobContract, PriceController, UserManager } from "packages/solidity/typechain-types";
+import { Contractor, Employer, JobContract, PriceController, UserManager } from "packages/solidity/typechain-types";
 import { getDeployConfig } from "../utils/configs";
 import { logger } from "../utils/logger";
 import { ContractsType, PaymentToken } from "./types";

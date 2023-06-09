@@ -1,12 +1,12 @@
-# Reputable
+# IReputable
 
 
 
+> IReputable
 
 
 
-
-
+*The IReputable interface defines the functions for reputation management*
 
 ## Methods
 
@@ -31,28 +31,6 @@ function getReputation(uint256 _userId) external view returns (int256)
 | Name | Type | Description |
 |---|---|---|
 | _0 | int256 | int256 The reputation score of the user |
-
-### reputation
-
-```solidity
-function reputation(uint256) external view returns (int256)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | uint256 | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | int256 | undefined |
 
 ### updateReputation
 

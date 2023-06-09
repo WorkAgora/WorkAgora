@@ -1,46 +1,14 @@
-# JobContract
+# IJobContract
 
 
 
+> IJobContract
 
 
 
-
-
+*Interface for the JobContract contract. This interface includes the method signatures, and enums and structs required, and should be implemented by any contract which needs to manage jobs and related entities (like contracts, employers, contractors, etc.).*
 
 ## Methods
-
-### contracts
-
-```solidity
-function contracts(string) external view returns (enum IJobContract.State state, uint128 totalAmountUsd, uint256 totalAmountToken, uint8 lockedAmountPct, uint8 deferredAmountPct, enum IPriceController.PaymentToken paymentToken, uint256 endTimestamp, address contractorAddress, address employerAddress, string ipfsJmiHash, string ipfsJfiHash)
-```
-
-
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | string | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| state | enum IJobContract.State | undefined |
-| totalAmountUsd | uint128 | undefined |
-| totalAmountToken | uint256 | undefined |
-| lockedAmountPct | uint8 | undefined |
-| deferredAmountPct | uint8 | undefined |
-| paymentToken | enum IPriceController.PaymentToken | undefined |
-| endTimestamp | uint256 | undefined |
-| contractorAddress | address | undefined |
-| employerAddress | address | undefined |
-| ipfsJmiHash | string | undefined |
-| ipfsJfiHash | string | undefined |
 
 ### create
 
@@ -152,39 +120,6 @@ function initiateDispute(string _contractId) external nonpayable
 | Name | Type | Description |
 |---|---|---|
 | _contractId | string | Contract ID to initiate a dispute for |
-
-### owner
-
-```solidity
-function owner() external view returns (address)
-```
-
-
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | undefined |
-
-### setOwner
-
-```solidity
-function setOwner(address _owner) external nonpayable
-```
-
-
-
-*Method for setting the contract owner*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _owner | address | The address of the new contract owner |
 
 
 

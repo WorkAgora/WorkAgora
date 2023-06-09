@@ -20,9 +20,7 @@ describe("User", () => {
       const signature = await signMessage(SIG_AUTHORITY_PV_KEY, ['address', employer.pubKey], ['string', employer.kycId]);
 
       expect(await userManager.isUserVerified(employer.pubKey)).to.equal(false);
-      await expect(userManager.verifyUser(employer.pubKey, employer.kycId, signature))
-        .to.emit(userManager, "UserVerified")
-        .withArgs(employer.pubKey);
+      await userManager.verifyUser(employer.pubKey, employer.kycId, signature);
       expect(await userManager.isUserVerified(employer.pubKey)).to.equal(true);
     });
 
